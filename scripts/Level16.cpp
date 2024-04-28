@@ -30,7 +30,7 @@
 #include "osiris_common.h"
 #include "DallasFuncs.cpp"
 
-#include "module.h"
+#include <module/module.h>
 
 #ifdef __cplusplus
 extern "C" {

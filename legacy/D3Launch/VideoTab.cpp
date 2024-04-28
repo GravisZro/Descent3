@@ -195,7 +195,7 @@ void CVideoTab::OnVideocardDetect()
 
 	// Now that the window is gone, release the opengl dll (fixes crash)
 	if(opengl_dll_handle!=NULL) {
-		FreeLibrary(opengl_dll_handle);
+		module::unload(opengl_dll_handle);
 		opengl_dll_handle=NULL;
 	}
 
@@ -282,7 +282,7 @@ BOOL CVideoTab::OnInitDialog()
 
 		// Now that the window is gone, release the opengl dll (fixes crash)
 		if(opengl_dll_handle!=NULL) {
-			FreeLibrary(opengl_dll_handle);
+			module::unload(opengl_dll_handle);
 			opengl_dll_handle=NULL;
 		}
 

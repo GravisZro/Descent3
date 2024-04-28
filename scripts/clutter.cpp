@@ -25,7 +25,7 @@
 #include "osiris_common.h"
 #include "osiris_vector.h"
 
-#include "module.h"
+#include <module/module.h>
 
 #ifdef __cplusplus
 extern "C" {

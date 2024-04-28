@@ -272,7 +272,7 @@
 #include "player.h"
 #include "game.h"
 #include "pilot.h"
-#include "module.h"
+#include <module/module.h>
 #include "ddio_common.h"
 
 #include "inetgetfile.h"

@@ -49,8 +49,8 @@
 #include "ddio.h"
 #include "ddio_lnx.h"
 #include "application.h"
-#include "../lib/linux/dyna_xwin.h"
-#include "../lib/linux/dyna_xext.h"
+#include <module/load_xwin.h>
+#include <module/load_xext.h>
 
 // #include <X11/Xlib.h>
 // #include <X11/Xutil.h>

@@ -185,7 +185,7 @@
 #include "pstypes.h"
 #include "vecmat.h" //the vector/matrix library
 #include "grdefs.h"
-#include "float.h"
+#include <float.h>
 
 extern int g3d_interp_outline; // if on, polygon models outlined in white
 

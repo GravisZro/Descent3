@@ -33,7 +33,7 @@
 #include "soundload.h"
 #include "spew.h"
 #include "objinfo.h"
-#include "module.h"
+#include <module/module.h>
 #include "localization.h"
 #include "weapon.h"
 #include "voice.h"
@@ -73,7 +73,7 @@ extern int Camera_view_mode[NUM_CAMERA_VIEWS];
 //		This function initializes a Module Init Struct with all the needed data to get sent
 //	to the module during initialization.
 void Osiris_CreateModuleInitStruct(tOSIRISModuleInit *mi);
-module GameDLLHandle = {NULL};
+module::handle_t GameDLLHandle = nullptr;
 extern ddgr_color Player_colors[];
 typedef struct {
   int *objs;
@@ -563,20 +563,20 @@ void GetGameAPI(game_api *api) {
   Multi_d3m_osiris_funcs.script_identifier = Netgame.scriptname;
 }
 // Closes and deletes any tempfiles for the game module
-void CloseGameModule(module *mod) {
+void CloseGameModule(module::handle_t& mod) {
   // Clear out error queue
-  mod_GetLastError();
-  mod_FreeModule(mod);
+  module::last_error();
+  module::unload(mod);
   if (Multi_game_dll_name[0] != '\0') {
     // Try deleting the file now!
     if (!ddio_DeleteFile(Multi_game_dll_name)) {
       mprintf((0, "Couldn't delete the tmp dll"));
     }
   }
-  mod->handle = NULL;
+  mod = nullptr;
 }
 // this function will load up the DLL, but not get any symbols
-bool InitGameModule(char *name, module *mod) {
+bool InitGameModule(char *name, module::handle_t& mod) {
   char lib_name[_MAX_PATH * 2];
   char dll_name[_MAX_PATH * 2];
   char tmp_dll_name[_MAX_PATH * 2];
@@ -611,9 +611,9 @@ bool InitGameModule(char *name, module *mod) {
   strcpy(Multi_game_dll_name, tmp_dll_name);
 loaddll:
   // Clear out error queue
-  mod_GetLastError();
-  if (!mod_LoadModule(mod, tmp_dll_name)) {
-    int err = mod_GetLastError();
+  module::last_error();
+  if (!module::load(mod, tmp_dll_name)) {
+    int err = module::last_error();
     mprintf((0, "You are missing the DLL %s!\n", name));
     return false;
   }
@@ -621,12 +621,12 @@ loaddll:
 }
 // Frees the dll if its in memory
 void FreeGameDLL() {
-  if (!GameDLLHandle.handle)
+  if (GameDLLHandle == nullptr)
     return;
   if (DLLGameClose)
     DLLGameClose();
   Osiris_UnloadMissionModule();
-  CloseGameModule(&GameDLLHandle);
+  CloseGameModule(GameDLLHandle);
   DLLGameCall = NULL;
   DLLGameInit = NULL;
   DLLGameClose = NULL;
@@ -641,7 +641,7 @@ int LoadGameDLL(char *name, int num_teams_to_use) {
   // char dll_path_name[_MAX_PATH*2];
   // char fulldll[_MAX_PATH*2];
   // ddio_MakePath(fulldll,Base_directory,"netgames",name,NULL);
-  if (GameDLLHandle.handle)
+  if (GameDLLHandle)
     FreeGameDLL();
   if (num_teams_to_use == -1) {
     int mint, maxt;
@@ -654,44 +654,44 @@ int LoadGameDLL(char *name, int num_teams_to_use) {
     }
   }
   mprintf((0, "Loading '%s', setting up for %d teams\n", name, num_teams_to_use));
-  if (!InitGameModule(name, &GameDLLHandle))
+  if (!InitGameModule(name, GameDLLHandle))
     return 0;
 
   // Clear out error queue
-  mod_GetLastError();
-  DLLGameInit = (DLLGameInit_fp)mod_GetSymbol(&GameDLLHandle, "DLLGameInit", 12);
+  module::last_error();
+  module::load_symbol(DLLGameInit, GameDLLHandle, "DLLGameInit", 12);
   if (!DLLGameInit) {
-    int err = mod_GetLastError();
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLGameInit!\n"));
     Int3();
     FreeGameDLL();
     return 0;
   }
   // Clear out error queue
-  mod_GetLastError();
-  DLLGameCall = (DLLGameCall_fp)mod_GetSymbol(&GameDLLHandle, "DLLGameCall", 8);
+  module::last_error();
+  module::load_symbol(DLLGameCall, GameDLLHandle, "DLLGameCall", 8);
   if (!DLLGameCall) {
-    int err = mod_GetLastError();
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLGameCall!\n"));
     Int3();
     FreeGameDLL();
     return 0;
   }
   // Clear out error queue
-  mod_GetLastError();
-  DLLGameClose = (DLLGameClose_fp)mod_GetSymbol(&GameDLLHandle, "DLLGameClose", 0);
+  module::last_error();
+  module::load_symbol(DLLGameClose, GameDLLHandle, "DLLGameClose", 0);
   if (!DLLGameClose) {
-    int err = mod_GetLastError();
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLGameClose!\n"));
     Int3();
     FreeGameDLL();
     return 0;
   }
   // Clear out error queue
-  mod_GetLastError();
-  DLLGetGameInfo = (DLLGetGameInfo_fp)mod_GetSymbol(&GameDLLHandle, "DLLGetGameInfo", 4);
+  module::last_error();
+  module::load_symbol(DLLGetGameInfo, GameDLLHandle, "DLLGetGameInfo", 4);
   if (!DLLGetGameInfo) {
-    int err = mod_GetLastError();
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLGetGameInfo!\n"));
     Int3();
     FreeGameDLL();
@@ -716,7 +716,7 @@ int LoadGameDLL(char *name, int num_teams_to_use) {
     FreeGameDLL();
     return 0;
   }
-  Osiris_LoadMissionModule(&GameDLLHandle, name);
+  Osiris_LoadMissionModule(GameDLLHandle, name);
 
   return 1;
 }
@@ -732,7 +732,7 @@ void DLLFatalError(char *reason) {
 }
 // The chokepoint function to call the dll function
 void CallGameDLL(int eventnum, dllinfo *data) {
-  if (GameDLLHandle.handle && DLLGameCall) {
+  if (GameDLLHandle != nullptr && DLLGameCall != nullptr) {
     data->iRet = 0;
     DLLGameCall(eventnum, data);
   }
@@ -768,23 +768,23 @@ int GameDLLGetConnectingPlayersTeam(int slot) {
 }
 // Call this function to get information/options from a unloaded mod
 bool GetDLLGameInfo(char *name, tDLLOptions *options) {
-  module mod = {NULL};
+  module::handle_t mod = nullptr;
   memset(options, 0, sizeof(tDLLOptions));
   DLLGetGameInfo_fp modGetGameInfo;
-  if (!InitGameModule(name, &mod))
+  if (!InitGameModule(name, mod))
     return false;
   // Clear out error queue
-  mod_GetLastError();
-  modGetGameInfo = (DLLGetGameInfo_fp)mod_GetSymbol(&mod, "DLLGetGameInfo", 4);
+  module::last_error();
+  module::load_symbol(modGetGameInfo, mod, "DLLGetGameInfo", 4);
   if (!modGetGameInfo) {
-    int err = mod_GetLastError();
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLGetGameInfo!\n"));
     Int3();
-    CloseGameModule(&mod);
+    CloseGameModule(mod);
     return false;
   }
   modGetGameInfo(options);
-  CloseGameModule(&mod);
+  CloseGameModule(mod);
   return true;
 }
 // Call this function to get the list of requirements that the given module needs in order

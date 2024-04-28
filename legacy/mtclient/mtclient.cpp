@@ -421,7 +421,7 @@
 #include "gamefont.h"
 #include "mt_net.h"
 #include "mtgametrack.h"
-#include "module.h"
+#include <module/module.h>
 #include "inetgetfile.h"
 #include "chat_api.h"
 #include "mtstrings.h"
@@ -2611,7 +2611,7 @@ int MTVersionCheck(void)
 		CopyFile(szbakdll,szolddll,FALSE);
 		return 0;
 	}
-	DLLAVInit = (DLLAVInit_fp *)DLLmod_GetSymbol(&MTAVDLLHandle,"DLLAVInit",4);
+	DLLAVInit = (DLLAVInit_fp *)DLLmod_GetSymbol(MTAVDLLHandle,"DLLAVInit",4);
 	if(!DLLAVInit)
 	{
 		DLLmprintf ((0,"Unable to Find DLLAVInit() function in mtav.dll\n"));
@@ -2622,7 +2622,7 @@ int MTVersionCheck(void)
 		CopyFile(szbakdll,szolddll,FALSE);
 		return 0;
 	}
-	DLLAVGetVersion = (DLLAVGetVersion_fp *)DLLmod_GetSymbol(&MTAVDLLHandle,"DLLAVGetVersion",4);
+	DLLAVGetVersion = (DLLAVGetVersion_fp *)DLLmod_GetSymbol(MTAVDLLHandle,"DLLAVGetVersion",4);
 	if(!DLLAVGetVersion)
 	{
 		DLLmprintf ((0,"Unable to Find DLLAVGetVersion() function in mtav.dll\n"));
@@ -2633,7 +2633,7 @@ int MTVersionCheck(void)
 		CopyFile(szbakdll,szolddll,FALSE);
 		return 0;
 	}
-	DLLRunCheck = (DLLRunCheck_fp *)DLLmod_GetSymbol(&MTAVDLLHandle,"DLLRunCheck",4);
+	DLLRunCheck = (DLLRunCheck_fp *)DLLmod_GetSymbol(MTAVDLLHandle,"DLLRunCheck",4);
 	if(!DLLRunCheck)
 	{
 		DLLmprintf ((0,"Unable to Find DLLRunCheck() function in mtav.dll\n"));

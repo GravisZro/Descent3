@@ -30,7 +30,7 @@
 #include "d3d.h"
 #include "ddraw.h"
 #include "grdefs.h"
-#include "module.h"
+#include <module/module.h>
 #include "bumpmap.h"
 #include "mem.h"
 #include "rtperformance.h"

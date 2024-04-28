@@ -28,7 +28,7 @@
 
 #include "AIGame3_External.h"
 
-#include "module.h"
+#include <module/module.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -483,7 +483,7 @@ typedef struct {
   GetTriggerScriptID_fp GetTriggerScriptID;
   GetCOScriptList_fp GetCOScriptList;
   SaveRestoreState_fp SaveRestoreState;
-  module mod;
+  module::handle_t mod;
   char *module_name;
   char **string_table;
   int strings_loaded;
@@ -691,7 +691,7 @@ void Osiris_FreeModule(int id) {
       if (OSIRIS_loaded_modules[id].string_table != NULL) {
         DestroyStringTable(OSIRIS_loaded_modules[id].string_table, OSIRIS_loaded_modules[id].strings_loaded);
       }
-      mod_FreeModule(&OSIRIS_loaded_modules[id].mod);
+      module::unload(OSIRIS_loaded_modules[id].mod);
     }
 
     if (tOSIRISCurrentMission.mission_loaded && id == tOSIRISCurrentMission.dll_id) {
@@ -868,7 +868,7 @@ void Osiris_UnloadLevelModule(void) {
 
     if (OSIRIS_loaded_modules[j].flags & OSIMF_INUSE && OSIRIS_loaded_modules[j].flags & OSIMF_NOUNLOAD) {
       // unload this module
-      mprintf((0, "OSIRIS: Unloading static module (%s) due to level end\n", OSIRIS_loaded_modules[j].module_name));
+      mprintf((0, "OSIRIS: Unloading module (%s) due to level end\n", OSIRIS_loaded_modules[j].module_name));
       Osiris_FreeModule(j);
     }
 
@@ -913,7 +913,7 @@ int _get_full_path_to_module(char *module_name, char *fullpath, char *basename) 
   }
 
   // determine real name of script
-  mod_GetRealModuleName(adjusted_name, modfilename);
+  module::get_real_name(adjusted_name, modfilename);
 
   int exist = cfexist(modfilename);
   switch (exist) {
@@ -1013,7 +1013,7 @@ int Osiris_LoadLevelModule(char *module_name) {
   }
 
   // the module exists, now attempt to load it
-  if (!mod_LoadModule(&OSIRIS_loaded_modules[loaded_id].mod, fullpath)) {
+  if (!module::load(OSIRIS_loaded_modules[loaded_id].mod, fullpath)) {
     // there was an error trying to load the module
     mprintf((0, "OSIRIS: Osiris_LoadLevelModule(%s): Unable to load module\n", module_name));
     Int3();
@@ -1022,7 +1022,7 @@ int Osiris_LoadLevelModule(char *module_name) {
 
   // the module has loaded, attempt to import all the level functions
   tOSIRISModule *osm = &OSIRIS_loaded_modules[loaded_id];
-  module *mod = &osm->mod;
+  module::handle_t mod = &osm->mod;
 
   // there are 9 functions we need to import
   // InitializeDLL@4
@@ -1035,15 +1035,15 @@ int Osiris_LoadLevelModule(char *module_name) {
   // CallInstanceEvent@16
   // SaveRestoreState@8
 
-  osm->InitializeDLL = (InitializeDLL_fp)mod_GetSymbol(mod, "InitializeDLL", 4);
-  osm->ShutdownDLL = (ShutdownDLL_fp)mod_GetSymbol(mod, "ShutdownDLL", 0);
-  osm->GetGOScriptID = (GetGOScriptID_fp)mod_GetSymbol(mod, "GetGOScriptID", 8);
-  osm->GetTriggerScriptID = (GetTriggerScriptID_fp)mod_GetSymbol(mod, "GetTriggerScriptID", 8);
-  osm->GetCOScriptList = (GetCOScriptList_fp)mod_GetSymbol(mod, "GetCOScriptList", 8);
-  osm->CreateInstance = (CreateInstance_fp)mod_GetSymbol(mod, "CreateInstance", 4);
-  osm->DestroyInstance = (DestroyInstance_fp)mod_GetSymbol(mod, "DestroyInstance", 8);
-  osm->CallInstanceEvent = (CallInstanceEvent_fp)mod_GetSymbol(mod, "CallInstanceEvent", 16);
-  osm->SaveRestoreState = (SaveRestoreState_fp)mod_GetSymbol(mod, "SaveRestoreState", 8);
+  !module::load_symbol(osm->InitializeDLL, mod, "InitializeDLL", 4);
+  !module::load_symbol(osm->ShutdownDLL, mod, "ShutdownDLL", 0);
+  !module::load_symbol(osm->GetGOScriptID, mod, "GetGOScriptID", 8);
+  !module::load_symbol(osm->GetTriggerScriptID, mod, "GetTriggerScriptID", 8);
+  !module::load_symbol(osm->GetCOScriptList, mod, "GetCOScriptList", 8);
+  !module::load_symbol(osm->CreateInstance, mod, "CreateInstance", 4);
+  !module::load_symbol(osm->DestroyInstance, mod, "DestroyInstance", 8);
+  !module::load_symbol(osm->CallInstanceEvent, mod, "CallInstanceEvent", 16);
+  !module::load_symbol(osm->SaveRestoreState, mod, "SaveRestoreState", 8);
 
   osm->flags |= OSIMF_INUSE | OSIMF_LEVEL;
   osm->module_name = mem_strdup(basename);
@@ -1065,7 +1065,7 @@ int Osiris_LoadLevelModule(char *module_name) {
     if (osm->module_name)
       mem_free(osm->module_name);
     osm->module_name = NULL;
-    mod_FreeModule(mod);
+    module::unload(mod);
     return -3;
   }
 
@@ -1107,7 +1107,7 @@ int Osiris_LoadLevelModule(char *module_name) {
     osm->module_name = NULL;
     osm->string_table = NULL;
     osm->strings_loaded = 0;
-    mod_FreeModule(mod);
+    module::unload(mod);
     return -2;
   }
 
@@ -1207,7 +1207,7 @@ int Osiris_LoadGameModule(char *module_name) {
   }
 
   // the module exists, now attempt to load it
-  if (!mod_LoadModule(&OSIRIS_loaded_modules[loaded_id].mod, fullpath)) {
+  if (!module::load(OSIRIS_loaded_modules[loaded_id].mod, fullpath)) {
     // there was an error trying to load the module
     mprintf((0, "OSIRIS: Osiris_LoadGameModule(%s): Unable to load module\n", module_name));
     Int3();
@@ -1216,7 +1216,7 @@ int Osiris_LoadGameModule(char *module_name) {
 
   // the module has loaded, attempt to import all the level functions
   tOSIRISModule *osm = &OSIRIS_loaded_modules[loaded_id];
-  module *mod = &osm->mod;
+  module::handle_t mod = &osm->mod;
 
   // there are 7 functions we need to import
   // InitializeDLL@4
@@ -1227,15 +1227,15 @@ int Osiris_LoadGameModule(char *module_name) {
   // CallInstanceEvent@16
   // SaveRestoreState@8
 
-  osm->InitializeDLL = (InitializeDLL_fp)mod_GetSymbol(mod, "InitializeDLL", 4);
-  osm->ShutdownDLL = (ShutdownDLL_fp)mod_GetSymbol(mod, "ShutdownDLL", 0);
-  osm->GetGOScriptID = (GetGOScriptID_fp)mod_GetSymbol(mod, "GetGOScriptID", 8);
+  !module::load_symbol(osm->InitializeDLL, mod, "InitializeDLL", 4);
+  !module::load_symbol(osm->ShutdownDLL, mod, "ShutdownDLL", 0);
+  !module::load_symbol(osm->GetGOScriptID, mod, "GetGOScriptID", 8);
   osm->GetTriggerScriptID = NULL;
   osm->GetCOScriptList = NULL;
-  osm->CreateInstance = (CreateInstance_fp)mod_GetSymbol(mod, "CreateInstance", 4);
-  osm->DestroyInstance = (DestroyInstance_fp)mod_GetSymbol(mod, "DestroyInstance", 8);
-  osm->CallInstanceEvent = (CallInstanceEvent_fp)mod_GetSymbol(mod, "CallInstanceEvent", 16);
-  osm->SaveRestoreState = (SaveRestoreState_fp)mod_GetSymbol(mod, "SaveRestoreState", 8);
+  !module::load_symbol(osm->CreateInstance, mod, "CreateInstance", 4);
+  !module::load_symbol(osm->DestroyInstance, mod, "DestroyInstance", 8);
+  !module::load_symbol(osm->CallInstanceEvent, mod, "CallInstanceEvent", 16);
+  !module::load_symbol(osm->SaveRestoreState, mod, "SaveRestoreState", 8);
 
   osm->flags |= OSIMF_INUSE;
   osm->module_name = mem_strdup(basename);
@@ -1256,7 +1256,7 @@ int Osiris_LoadGameModule(char *module_name) {
     if (osm->module_name)
       mem_free(osm->module_name);
     osm->module_name = NULL;
-    mod_FreeModule(mod);
+    module::unload(mod);
     return -3;
   }
 
@@ -1297,7 +1297,7 @@ int Osiris_LoadGameModule(char *module_name) {
     if (osm->module_name)
       mem_free(osm->module_name);
     osm->module_name = NULL;
-    mod_FreeModule(mod);
+    module::unload(mod);
     return -2;
   }
 
@@ -1321,7 +1321,7 @@ int Osiris_LoadGameModule(char *module_name) {
 //	Returns -3 if the module is not a game module. Returns -4 if no module slots are available.
 //	This technically doesn't load a mission module, as it should already be loaded by
 //	Descent 3 prior.
-int Osiris_LoadMissionModule(module *module_handle, char *filename) {
+int Osiris_LoadMissionModule(module::handle_t& module_handle, char *filename) {
   if ((Game_mode & GM_MULTI) && (Netgame.local_role != LR_SERVER)) {
     // no scripts for a client!
     return -1;
@@ -1349,7 +1349,7 @@ int Osiris_LoadMissionModule(module *module_handle, char *filename) {
   }
 
   // make sure the module exists so we can load it
-  if (!module_handle->handle) {
+  if (module_handle != nullptr) {
     // the module does not exist
     mprintf((0, "OSIRIS: Osiris_LoadMissionModule(%s): Module doesn't exist\n", filename));
     // Int3();
@@ -1358,8 +1358,8 @@ int Osiris_LoadMissionModule(module *module_handle, char *filename) {
 
   // the module has loaded, attempt to import all the game functions
   tOSIRISModule *osm = &OSIRIS_loaded_modules[loaded_id];
-  memcpy(&osm->mod, module_handle, sizeof(module));
-  module *mod = &osm->mod;
+  memcpy(&osm->mod, module_handle, sizeof(module::handle_t));
+  module::handle_t mod = &osm->mod;
 
   // there are 5 functions we need to import
   // GetGOScriptID@4
@@ -1372,11 +1372,11 @@ int Osiris_LoadMissionModule(module *module_handle, char *filename) {
   osm->ShutdownDLL = NULL;
   osm->GetTriggerScriptID = NULL;
   osm->GetCOScriptList = NULL;
-  osm->GetGOScriptID = (GetGOScriptID_fp)mod_GetSymbol(mod, "GetGOScriptID", 8);
-  osm->CreateInstance = (CreateInstance_fp)mod_GetSymbol(mod, "CreateInstance", 4);
-  osm->DestroyInstance = (DestroyInstance_fp)mod_GetSymbol(mod, "DestroyInstance", 8);
-  osm->CallInstanceEvent = (CallInstanceEvent_fp)mod_GetSymbol(mod, "CallInstanceEvent", 16);
-  osm->SaveRestoreState = (SaveRestoreState_fp)mod_GetSymbol(mod, "SaveRestoreState", 8);
+  !module::load_symbol(osm->GetGOScriptID, mod, "GetGOScriptID", 8);
+  !module::load_symbol(osm->CreateInstance, mod, "CreateInstance", 4);
+  !module::load_symbol(osm->DestroyInstance, mod, "DestroyInstance", 8);
+  !module::load_symbol(osm->CallInstanceEvent, mod, "CallInstanceEvent", 16);
+  !module::load_symbol(osm->SaveRestoreState, mod, "SaveRestoreState", 8);
 
   osm->flags = OSIMF_INUSE | OSIMF_DLLELSEWHERE;
   osm->module_name = mem_strdup(filename);
@@ -1395,7 +1395,7 @@ int Osiris_LoadMissionModule(module *module_handle, char *filename) {
     osm->flags = 0;
     tOSIRISCurrentMission.mission_loaded = false;
     Int3();
-    // mod_FreeModule(mod);	//don't unload it! it's needed by the mission
+    // module::unload(mod);	//don't unload it! it's needed by the mission
     return -3;
   }
 

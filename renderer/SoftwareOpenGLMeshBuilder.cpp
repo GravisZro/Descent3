@@ -23,7 +23,7 @@
 #include <windows.h>
 #endif
 #include <gl/gl.h>
-#include "dyna_gl.h"
+#include <module/load_gl.h>
 
 #include "IMeshBuilder.h"
 #include "pserror.h"
@@ -131,43 +131,43 @@ void OpenGLMesh::Draw(void) {
 
   // positions
   if (ptr = m_arrayPositions.get()) {
-    dglEnableClientState(GL_VERTEX_ARRAY);
+    gl::EnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, ptr);
   } else {
-    dglDisableClientState(GL_VERTEX_ARRAY);
+    gl::DisableClientState(GL_VERTEX_ARRAY);
   }
 
   // colors
   if (ptr = m_arrayColors.get()) {
-    dglEnableClientState(GL_COLOR_ARRAY);
-    dglColorPointer(4, GL_FLOAT, 0, ptr);
+    gl::EnableClientState(GL_COLOR_ARRAY);
+    gl::ColorPointer(4, GL_FLOAT, 0, ptr);
   } else {
-    dglDisableClientState(GL_COLOR_ARRAY);
+    gl::DisableClientState(GL_COLOR_ARRAY);
   }
 
   // normals
   if (ptr = m_arrayNormals.get()) {
-    dglEnableClientState(GL_NORMAL_ARRAY);
-    dglNormalPointer(3, GL_FLOAT, 0, ptr);
+    gl::EnableClientState(GL_NORMAL_ARRAY);
+    gl::NormalPointer(3, GL_FLOAT, 0, ptr);
   } else {
-    dglDisableClientState(GL_NORMAL_ARRAY);
+    gl::DisableClientState(GL_NORMAL_ARRAY);
   }
 
   // texture
   if (ptr = m_arrayTexture1.get()) {
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 0);
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglTexCoordPointer(4, GL_FLOAT, 0, ptr);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::TexCoordPointer(4, GL_FLOAT, 0, ptr);
   } else {
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 0);
-    dglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::DisableClientState(GL_TEXTURE_COORD_ARRAY);
   }
 
   // draw all the primitives
   unsigned int i, indexOffset = 0, *indexList = m_arrayIndices.get();
   for (i = 0; i < m_numPrims; ++i) {
     unsigned int numVerts = m_arrayPrimSizes[i];
-    dglDrawElements(m_mode, numVerts, GL_UNSIGNED_INT, &indexList[indexOffset]);
+    gl::DrawElements(m_mode, numVerts, GL_UNSIGNED_INT, &indexList[indexOffset]);
     indexOffset += numVerts;
   }
 }

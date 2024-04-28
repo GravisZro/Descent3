@@ -60,11 +60,11 @@ void VIBE_DoLevelEnd(void) {}
 #else
 
 #include "intellivibe.h"
-#include "module.h"
+#include <module/module.h>
 #include "mono.h"
 #include "object_external_struct.h"
 
-static module IntelliVIBE_module = {NULL};
+static module::handle_t IntelliVIBE_module = {NULL};
 static d3_intellivibe IntelliVIBE_state; // our current state
 static IntelliVIBE_Initialize_fp IVIBE_Initialize = NULL;
 static IntelliVIBE_Shutdown_fp IVIBE_Shutdown = NULL;
@@ -74,23 +74,22 @@ static IntelliVIBE_DoQuaterFrame_fp IVIBE_DoQuaterFrame = NULL;
   {                                                                                                                    \
     if (!(x)) {                                                                                                        \
       mprintf((0, "IntelliVIBE unable to find: %s\n", #x));                                                            \
-      mod_FreeModule(&IntelliVIBE_module);                                                                             \
+      module::unload(IntelliVIBE_module);                                                                             \
       IntelliVIBE_module.handle = NULL;                                                                                \
       return;                                                                                                          \
     }                                                                                                                  \
   }
 void VIBE_Init(oeApplication *app) {
-  if (!mod_LoadModule(&IntelliVIBE_module, "ivibe_D3.dll")) {
+  if (!module::load(IntelliVIBE_module, "ivibe_D3.dll")) {
     mprintf((0, "Unable to load IntelliVIBE DLL\n"));
     IntelliVIBE_module.handle = NULL;
     return;
   }
 
   // resolve our functions
-  IVIBE_Initialize = (IntelliVIBE_Initialize_fp)mod_GetSymbol(&IntelliVIBE_module, "IntelliVIBE_Initialize", 4);
-  IVIBE_Shutdown = (IntelliVIBE_Shutdown_fp)mod_GetSymbol(&IntelliVIBE_module, "IntelliVIBE_Shutdown", 0);
-  IVIBE_DoQuaterFrame =
-      (IntelliVIBE_DoQuaterFrame_fp)mod_GetSymbol(&IntelliVIBE_module, "IntelliVIBE_DoQuaterFrame", 4);
+  module::load_symbol(IVIBE_Initialize, IntelliVIBE_module, "IntelliVIBE_Initialize", 4);
+  module::load_symbol(IVIBE_Shutdown, IntelliVIBE_module, "IntelliVIBE_Shutdown", 0);
+  module::load_symbol(IVIBE_DoQuaterFrame, IntelliVIBE_module, "IntelliVIBE_DoQuaterFrame", 4);
 
   // make sure everything went ok
   TEST_MODULE(IVIBE_Initialize);
@@ -104,7 +103,7 @@ void VIBE_Init(oeApplication *app) {
   ASSERT(IVIBE_Initialize != NULL);
   if (!IVIBE_Initialize(&info)) {
     mprintf((0, "IntelliVIBE_Initialize failed\n"));
-    mod_FreeModule(&IntelliVIBE_module);
+    module::unload(IntelliVIBE_module);
     IntelliVIBE_module.handle = NULL;
     return;
   }
@@ -121,7 +120,7 @@ void VIBE_Close(void) {
   ASSERT(IVIBE_Shutdown != NULL);
 
   IVIBE_Shutdown();
-  mod_FreeModule(&IntelliVIBE_module);
+  module::unload(IntelliVIBE_module);
   IntelliVIBE_module.handle = NULL;
 }
 

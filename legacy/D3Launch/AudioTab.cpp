@@ -565,7 +565,7 @@ void check_direct_sound()
 	}
 
 DSoundCleanup:
-	FreeLibrary(ds_dll_handle);
+	module::unload(ds_dll_handle);
 	return;
 }
 
@@ -603,7 +603,7 @@ int aureal_enabled()
 	if ( hinstance == NULL )	{
 		aureal_enabled = 0;
 	}
-	FreeLibrary(hinstance);
+	module::unload(hinstance);
 
 	// ensure a3d.dll exists
 	if ( aureal_enabled ) {
@@ -612,7 +612,7 @@ int aureal_enabled()
 		if ( !a3d_handle ) {
 			aureal_enabled = 0;
 		} else {
-			FreeLibrary(a3d_handle);
+			module::unload(a3d_handle);
 		}
 	}
 

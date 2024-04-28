@@ -2367,7 +2367,7 @@ bool IsScriptOutofDate(char *name)
 }
 
 
-#include "module.h"
+#include <module/module.h>
 #include "osiris_share.h"
 extern tOSIRISModuleInit Osiris_module_init;
 typedef char( DLLFUNCCALL *InitializeDLL_fp		)( tOSIRISModuleInit *function_list );
@@ -2397,10 +2397,9 @@ bool IsScriptOutofSync(char *name)
 	ddio_MakePath(path,LocalScriptDir,filename,NULL);
 	mprintf((0,"	Checking %s...",filename));
 
-	if(mod_LoadModule(&mod,path))
-	{
-		initdll = (InitializeDLL_fp)mod_GetSymbol(&mod,"InitializeDLL",4);
-		if(initdll)
+	if(module::load(mod,path))
+  {
+    if(module::load_symbol(initdll, mod,"InitializeDLL",4))
 		{
 			if(!initdll(&Osiris_module_init) )
 			{
@@ -2409,9 +2408,8 @@ bool IsScriptOutofSync(char *name)
 				mprintf((0,"OUT OF SYNC!\n"));
 			}else
 			{
-				mprintf((0,"Not Out of Sync\n"));
-				shutdowndll	= (ShutdownDLL_fp)mod_GetSymbol(&mod,"ShutdownDLL",0);
-				if(shutdowndll)
+        mprintf((0,"Not Out of Sync\n"));
+        if(module::load_symbol(shutdowndll, mod,"ShutdownDLL",0))
 				{
 					shutdowndll();
 				}
@@ -2422,7 +2420,7 @@ bool IsScriptOutofSync(char *name)
 			mprintf((0,"UNABLE TO GET INITIALIZEDLL\n"));
 		}
 
-		mod_FreeModule(&mod);
+		module::unload(mod);
 	}else{
 		mprintf((0,"MODULE NOT FOUND\n"));
 	}

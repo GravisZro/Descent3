@@ -283,7 +283,7 @@ static HINSTANCE hThisResourceModule = NULL;
 
 bool win32_SetResourceDLL(const char *libname) {
   if (hThisResourceModule) {
-    FreeLibrary(hThisResourceModule);
+    module::unload(hThisResourceModule);
     hThisResourceModule = NULL;
   }
 

@@ -309,7 +309,7 @@
 #include "spew.h"
 #include "DllWrappers.h"
 #include "appdatabase.h"
-#include "module.h"
+#include <module/module.h>
 #include "ship.h"
 #include "localization.h"
 #include "stringtable.h"
@@ -317,7 +317,7 @@
 #include "multi_save_settings.h"
 #include "multi_dll_mgr.h"
 #include "mission_download.h"
-#include "module.h"
+#include <module/module.h>
 #include "mem.h"
 #include "args.h"
 // #define USE_DIRECTPLAY
@@ -327,7 +327,7 @@
 #endif
 
 void *callback = NULL;
-module MultiDLLHandle = {NULL};
+module::handle_t MultiDLLHandle = nullptr;
 int SearchForLocalGamesTCP(unsigned int ask, ushort port);
 int SearchForGamesPXO(unsigned int ask, ushort port);
 int SearchForLocalGamesIPX(network_address *check_addr);
@@ -517,10 +517,10 @@ void GetMultiAPI(multi_api *api) {
   api->fp[96] = (int *)nw_RegisterCallback;
   api->fp[97] = (int *)msn_CheckGetMission;
   api->fp[98] = (int *)MultiGameOptionsMenu;
-  api->fp[99] = (int *)mod_FreeModule;
-  api->fp[100] = (int *)mod_GetLastError;
-  api->fp[101] = (int *)mod_GetSymbol;
-  api->fp[102] = (int *)mod_LoadModule;
+  api->fp[99] = (int *)module::unload;
+  api->fp[100] = (int *)module::last_error;
+  api->fp[101] = (int *)module::get_symbol;
+  api->fp[102] = (int *)module::load;
   api->fp[103] = (int *)dCurrentPilotName;
   api->fp[104] = (int *)UpdateAndPackGameList;
   api->fp[105] = (int *)MultiLevelSelection;
@@ -581,11 +581,11 @@ void GetMultiAPI(multi_api *api) {
 }
 // Frees the dll if its in memory
 void FreeMultiDLL() {
-  if (!MultiDLLHandle.handle)
+  if (MultiDLLHandle != nullptr)
     return;
   if (DLLMultiClose)
     DLLMultiClose();
-  mod_FreeModule(&MultiDLLHandle);
+  module::unload(MultiDLLHandle);
   // Try deleting the file now!
   if (!ddio_DeleteFile(Multi_conn_dll_name)) {
     mprintf((0, "Couldn't delete the tmp dll"));
@@ -604,7 +604,7 @@ int LoadMultiDLL(char *name) {
   MultiFlushAllIncomingBuffers();
 
   // Delete old dlls
-  if (MultiDLLHandle.handle)
+  if (MultiDLLHandle != nullptr)
     FreeMultiDLL();
 
   ddio_MakePath(dll_path_name, Base_directory, "online", "*.tmp", NULL);
@@ -641,31 +641,33 @@ int LoadMultiDLL(char *name) {
   strcpy(Multi_conn_dll_name, tmp_dll_name);
 loaddll:
 
-  if (!mod_LoadModule(&MultiDLLHandle, tmp_dll_name)) {
-    int err = mod_GetLastError();
+  if (!module::load(MultiDLLHandle, tmp_dll_name)) {
+    int err = module::last_error();
     mprintf((0, "You are missing the DLL %s!\n", name));
     return 0;
   }
 
-  DLLMultiInit = (DLLMultiInit_fp)mod_GetSymbol(&MultiDLLHandle, "DLLMultiInit", 4);
-  if (!DLLMultiInit) {
-    int err = mod_GetLastError();
+  if (!module::load_symbol(DLLMultiInit, MultiDLLHandle, "DLLMultiInit", 4))
+  {
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLMultiInit!\n"));
     Int3();
     FreeMultiDLL();
     return 0;
   }
-  DLLMultiCall = (DLLMultiCall_fp)mod_GetSymbol(&MultiDLLHandle, "DLLMultiCall", 4);
-  if (!DLLMultiCall) {
-    int err = mod_GetLastError();
+
+  if (!module::load_symbol(DLLMultiCall, MultiDLLHandle, "DLLMultiCall", 4))
+  {
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLMultiCall!\n"));
     Int3();
     FreeMultiDLL();
     return 0;
   }
-  DLLMultiClose = (DLLMultiClose_fp)mod_GetSymbol(&MultiDLLHandle, "DLLMultiClose", 0);
-  if (!DLLMultiClose) {
-    int err = mod_GetLastError();
+
+  if (!module::load_symbol(DLLMultiClose, MultiDLLHandle, "DLLMultiClose", 0))
+  {
+    int err = module::last_error();
     mprintf((0, "Couldn't get a handle to the dll function DLLMultiClose!\n"));
     Int3();
     FreeMultiDLL();
@@ -693,21 +695,19 @@ loaddll:
   }
   DLLMultiInit((int *)api_fp);
 
-  if (Supports_score_api) {
-    DLLMultiScoreCall = (DLLMultiScoreCall_fp)mod_GetSymbol(&MultiDLLHandle, "DLLMultiScoreEvent", 8);
-
-    if (!DLLMultiScoreCall) {
-      int err = mod_GetLastError();
-      mprintf((0, "Couldn't get a handle to the dll function DLLMultiScoreCall!\n"));
-      Int3();
-      Supports_score_api = false;
-    }
+  if (Supports_score_api &&
+      !module::load_symbol(DLLMultiScoreCall, MultiDLLHandle, "DLLMultiScoreEvent", 8))
+  {
+    int err = module::last_error();
+    mprintf((0, "Couldn't get a handle to the dll function DLLMultiScoreCall!\n"));
+    Int3();
+    Supports_score_api = false;
   }
   return 1;
 }
 // The chokepoint function to call the dll function
 void CallMultiDLL(int eventnum) {
-  if (MultiDLLHandle.handle && DLLMultiCall)
+  if (MultiDLLHandle != nullptr && DLLMultiCall != nullptr)
     DLLMultiCall(eventnum);
 }
 void SetUITextItemText(UITextItem *uit, char *newtext, unsigned int color) {
@@ -1023,7 +1023,7 @@ typedef struct player_score_matrix {
 } player_score_matrix;
 // The chokepoint function to call the dll function
 void CallMultiScoreDLL(int eventnum, void *data) {
-  if (MultiDLLHandle.handle && DLLMultiCall)
+  if (MultiDLLHandle != nullptr && DLLMultiCall != nullptr)
     DLLMultiScoreCall(eventnum, data);
 }
 // Determine if the Score API functions should run

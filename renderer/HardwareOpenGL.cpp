@@ -25,7 +25,7 @@
 #include "ddraw.h"
 #elif defined(__LINUX__)
 #include "linux/linux_fix.h"
-#include "linux/dyna_xext.h"
+#include <module/load_xext.h>
 #include "lnxscreenmode.h"
 #else
 #endif
@@ -48,13 +48,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include "HardwareInternal.h"
 #include "../Descent3/args.h"
 
-#define DECLARE_OPENGL
-#include "dyna_gl.h"
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+#include <module/load_gl.h>
 
 #if defined(WIN32)
 #include "win/arb_extensions.h"
@@ -192,7 +193,7 @@ tex_array GL_tex_coords[100];
 tex_array GL_tex_coords2[100];
 
 bool OpenGL_multitexture_state = false;
-module *OpenGLDLLHandle = NULL;
+module::handle_t OpenGLDLLHandle = NULL;
 int Already_loaded = 0;
 bool opengl_Blending_on = 0;
 
@@ -205,11 +206,11 @@ int checkForGLErrors( char *file, int line )
   int errors = 0 ;
   int counter = 0 ;
   static int errcnt = 0;
-  if(!dglGetError)
+  if(!glGetError)
     return 0;
   while ( counter < 1000 )
     {
-      GLenum x = dglGetError() ;
+      GLenum x = gl::GetError() ;
 
       if ( x == GL_NO_ERROR )
         return errors ;
@@ -225,7 +226,7 @@ int checkForGLErrors( char *file, int line )
 	return 1;
 }
 #endif
-
+/*
 // Sets up multi-texturing using ARB extensions
 void opengl_GetDLLFunctions(void) {
 #if defined(WIN32)
@@ -241,20 +242,19 @@ void opengl_GetDLLFunctions(void) {
   if (!oglMultiTexCoord4f)
     goto dll_error;
 #else
-#define mod_GetSymbol(x, funcStr, y) __SDL_mod_GetSymbol(funcStr)
+//#define module::get_symbol(x, funcStr, y) __SDL_modGetSymbol(funcStr)
 
-  oglActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)mod_GetSymbol(OpenGLDLLHandle, "glActiveTextureARB", 255);
-  oglClientActiveTextureARB =
-      (PFNGLCLIENTACTIVETEXTUREARBPROC)mod_GetSymbol(OpenGLDLLHandle, "glClientActiveTextureARB", 255);
-  oglMultiTexCoord4f = (PFNGLMULTITEXCOORD4FARBPROC)mod_GetSymbol(OpenGLDLLHandle, "glMultiTexCoord4f", 255);
+  module::load_symbol(oglActiveTextureARB, OpenGLDLLHandle, "glActiveTextureARB", 255);
+  module::load_symbol(oglClientActiveTextureARB, OpenGLDLLHandle, "glClientActiveTextureARB", 255);
+  module::load_symbol(oglMultiTexCoord4f, OpenGLDLLHandle, "glMultiTexCoord4f", 255);
   if (!oglMultiTexCoord4f) {
-    oglMultiTexCoord4f = (PFNGLMULTITEXCOORD4FARBPROC)mod_GetSymbol(OpenGLDLLHandle, "glMultiTexCoord4fARB", 255);
+    module::load_symbol(oglMultiTexCoord4f, OpenGLDLLHandle, "glMultiTexCoord4fARB", 255);
   }
   if (oglActiveTextureARB == NULL || oglClientActiveTextureARB == NULL || oglMultiTexCoord4f == NULL) {
     goto dll_error;
   }
 
-#undef mod_GetSymbol
+//#undef module::get_symbol
 #endif
 
   UseMultitexture = true;
@@ -266,10 +266,10 @@ dll_error:
   oglMultiTexCoord4f = NULL;
   UseMultitexture = false;
 }
-
+*/
 // returns true if the passed in extension name is supported
 bool opengl_CheckExtension(char *extName) {
-  char *p = (char *)dglGetString(GL_EXTENSIONS);
+  char *p = (char *)gl::GetString(GL_EXTENSIONS);
   int extNameLen = strlen(extName);
   char *end = p + strlen(p);
 
@@ -286,15 +286,15 @@ bool opengl_CheckExtension(char *extName) {
 
 // Gets some specific information about this particular flavor of opengl
 void opengl_GetInformation() {
-  mprintf((0, "OpenGL Vendor: %s\n", dglGetString(GL_VENDOR)));
-  mprintf((0, "OpenGL Renderer: %s\n", dglGetString(GL_RENDERER)));
-  mprintf((0, "OpenGL Version: %s\n", dglGetString(GL_VERSION)));
-  mprintf((0, "OpenGL Extensions: %s\n", dglGetString(GL_EXTENSIONS)));
+  mprintf((0, "OpenGL Vendor: %s\n", gl::GetString(GL_VENDOR)));
+  mprintf((0, "OpenGL Renderer: %s\n", gl::GetString(GL_RENDERER)));
+  mprintf((0, "OpenGL Version: %s\n", gl::GetString(GL_VERSION)));
+  mprintf((0, "OpenGL Extensions: %s\n", gl::GetString(GL_EXTENSIONS)));
 
   /*
   #ifndef RELEASE
   // If this is the microsoft driver, then make stuff go faster
-  const ubyte *renderer=dglGetString(GL_RENDERER);
+  const ubyte *renderer=glGetString(GL_RENDERER);
   if (!(strnicmp ((const char *)renderer,"GDI",3)))
           Fast_test_render=1;
   else
@@ -308,23 +308,22 @@ int opengl_MakeTextureObject(int tn) {
 
   Cur_texture_object_num++;
 
-  if (UseMultitexture && Last_texel_unit_set != tn) {
-#if (defined(_USE_OGL_ACTIVE_TEXTURES))
-    oglActiveTextureARB(GL_TEXTURE0_ARB + tn);
+  if (UseMultitexture && Last_texel_unit_set != tn)
+  {
+    gl::ActiveTexture(GL_TEXTURE0_ARB + tn);
     Last_texel_unit_set = tn;
-#endif
   }
 
-  dglBindTexture(GL_TEXTURE_2D, num);
-  dglPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+  gl::BindTexture(GL_TEXTURE_2D, num);
+  gl::PixelStorei(GL_UNPACK_ALIGNMENT, 2);
 
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-  // glTexEnvf (GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+  // gl::TexEnvf (GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
 
   CHECK_ERROR(2)
 
@@ -359,12 +358,12 @@ int opengl_InitCache(void) {
     GameLightmaps[i].flags |= LF_CHANGED | LF_BRAND_NEW;
   }
 
-  dglTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  gl::TexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
   if (UseMultitexture) {
 #if (defined(_USE_OGL_ACTIVE_TEXTURES))
     oglActiveTextureARB(GL_TEXTURE0_ARB + 1);
-    dglTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    gl::TexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 0);
 #endif
   }
@@ -389,15 +388,15 @@ void opengl_SetDefaults() {
   OpenGL_state.cur_alpha_type = AT_TEXTURE;
 
   // Enable some states
-  dglAlphaFunc(GL_GREATER, 0);
-  dglEnable(GL_ALPHA_TEST);
-  dglEnable(GL_BLEND);
-  dglEnable(GL_DITHER);
+  gl::AlphaFunc(GL_GREATER, 0);
+  gl::Enable(GL_ALPHA_TEST);
+  gl::Enable(GL_BLEND);
+  gl::Enable(GL_DITHER);
   opengl_Blending_on = true;
 
 #ifndef RELEASE
   if (Fast_test_render) {
-    dglDisable(GL_DITHER);
+    gl::Disable(GL_DITHER);
   }
 #endif
 
@@ -415,38 +414,38 @@ void opengl_SetDefaults() {
   Last_texel_unit_set = -1;
   OpenGL_multitexture_state = false;
 
-  dglEnableClientState(GL_VERTEX_ARRAY);
-  dglEnableClientState(GL_COLOR_ARRAY);
-  dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  gl::EnableClientState(GL_VERTEX_ARRAY);
+  gl::EnableClientState(GL_COLOR_ARRAY);
+  gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  dglVertexPointer(3, GL_FLOAT, 0, GL_verts);
-  dglColorPointer(4, GL_FLOAT, 0, GL_colors);
-  dglTexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords);
+  gl::VertexPointer(3, GL_FLOAT, 0, GL_verts);
+  gl::ColorPointer(4, GL_FLOAT, 0, GL_colors);
+  gl::TexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords);
 
-  dglHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-  dglHint(GL_FOG_HINT, GL_NICEST);
-  dglEnable(GL_SCISSOR_TEST);
-  dglScissor(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height);
-  dglDisable(GL_SCISSOR_TEST);
-  dglDepthRange(0.0f, 1.0f);
+  gl::Hint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+  gl::Hint(GL_FOG_HINT, GL_NICEST);
+  gl::Enable(GL_SCISSOR_TEST);
+  gl::Scissor(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height);
+  gl::Disable(GL_SCISSOR_TEST);
+  gl::DepthRange(0.0f, 1.0f);
 
   if (UseMultitexture) {
 #if (defined(_USE_OGL_ACTIVE_TEXTURES))
     oglActiveTextureARB(GL_TEXTURE0_ARB + 1);
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 1);
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglTexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords2);
-    dglHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    dglHint(GL_FOG_HINT, GL_NICEST);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::TexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords2);
+    gl::Hint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    gl::Hint(GL_FOG_HINT, GL_NICEST);
 
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 0);
 
-    dglDisable(GL_TEXTURE_2D);
-    dglAlphaFunc(GL_GREATER, 0);
-    dglEnable(GL_ALPHA_TEST);
-    dglEnable(GL_BLEND);
-    dglEnable(GL_DITHER);
-    dglBlendFunc(GL_DST_COLOR, GL_ZERO);
+    gl::Disable(GL_TEXTURE_2D);
+    gl::AlphaFunc(GL_GREATER, 0);
+    gl::Enable(GL_ALPHA_TEST);
+    gl::Enable(GL_BLEND);
+    gl::Enable(GL_DITHER);
+    gl::BlendFunc(GL_DST_COLOR, GL_ZERO);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 0);
 #endif
   }
@@ -500,7 +499,7 @@ int opengl_Setup(HDC glhdc) {
   pf = ChoosePixelFormat(glhdc, &pfd);
   if (pf == 0) {
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
@@ -510,7 +509,7 @@ int opengl_Setup(HDC glhdc) {
   if (SetPixelFormat(glhdc, pf, &pfd) == FALSE) {
     DWORD ret = GetLastError();
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
@@ -519,14 +518,14 @@ int opengl_Setup(HDC glhdc) {
   // Get a copy of the newly set PFD
   if (DescribePixelFormat(glhdc, pf, sizeof(PIXELFORMATDESCRIPTOR), &pfd_copy) == 0) {
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
   // Check the returned PFD to see if it is hardware accelerated
   if ((pfd_copy.dwFlags & PFD_GENERIC_ACCELERATED) == 0 && (pfd_copy.dwFlags & PFD_GENERIC_FORMAT) != 0) {
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
@@ -534,7 +533,7 @@ int opengl_Setup(HDC glhdc) {
   ResourceContext = dwglCreateContext((HDC)glhdc);
   if (ResourceContext == NULL) {
     DWORD ret = GetLastError();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     Int3();
     return NULL;
   }
@@ -644,13 +643,16 @@ int opengl_Setup(oeApplication *app, int *width, int *height) {
     // ryan's adds. 04/18/2000...SDL stuff on 04/25/2000
     bool success = true;
 
-    OpenGLDLLHandle = LoadOpenGLDLL(gl_library);
-    if (!(OpenGLDLLHandle)) {
+    //OpenGLDLLHandle = LoadOpenGLDLL(gl_library);
+    if (!gl::load()) {
+      success = false;
+      /*
       // rcg07072000 last ditch effort...
       OpenGLDLLHandle = LoadOpenGLDLL("libGL.so.1");
       if (!(OpenGLDLLHandle)) {
         success = false;
       }
+      */
     } // if
 
     if (success == false) {
@@ -879,16 +881,9 @@ int opengl_Init(oeApplication *app, renderer_preferred_state *pref_state) {
   }
 
   if (FindArg("-NoMultitexture")) {
-    supportsMultiTexture = false;
-  }
-
-  if (supportsMultiTexture) {
-    // attempt to grab Multitexture functions
-    opengl_GetDLLFunctions();
-  } else {
-    // No multitexture at all
     UseMultitexture = false;
   }
+
 
   // Do we have packed pixel formats?
   OpenGL_packed_pixels = opengl_CheckExtension("GL_EXT_packed_pixels");
@@ -1038,7 +1033,7 @@ void opengl_Close() {
     delete_list[i] = i;
 
   if (Cur_texture_object_num > 1)
-    dglDeleteTextures(Cur_texture_object_num, (const uint *)delete_list);
+    gl::DeleteTextures(Cur_texture_object_num, (const uint *)delete_list);
 
   mem_free(delete_list);
 
@@ -1104,7 +1099,7 @@ void opengl_Close() {
 #else
 
 #endif
-  // mod_FreeModule (OpenGLDLLHandle);
+  module::unload(OpenGLDLLHandle);
   OpenGL_state.initted = 0;
 }
 
@@ -1144,7 +1139,7 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
   }
 
   if (OpenGL_last_bound[tn] != texnum) {
-    dglBindTexture(GL_TEXTURE_2D, texnum);
+    gl::BindTexture(GL_TEXTURE_2D, texnum);
     OpenGL_sets_this_frame[0]++;
     OpenGL_last_bound[tn] = texnum;
   }
@@ -1164,10 +1159,10 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
       }
 
       if (replace) {
-        dglTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
+        gl::TexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
                          opengl_packed_Upload_data);
       } else {
-        dglTexImage2D(GL_TEXTURE_2D, 0, GL_RGB5_A1, size, size, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
+        gl::TexImage2D(GL_TEXTURE_2D, 0, GL_RGB5_A1, size, size, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
                       opengl_packed_Upload_data);
       }
     } else {
@@ -1207,10 +1202,10 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
           }
 
           if (replace) {
-            dglTexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4,
+            gl::TexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4,
                              opengl_packed_Upload_data);
           } else {
-            dglTexImage2D(GL_TEXTURE_2D, m, GL_RGBA4, w, h, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4,
+            gl::TexImage2D(GL_TEXTURE_2D, m, GL_RGBA4, w, h, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4,
                           opengl_packed_Upload_data);
           }
         } else {
@@ -1220,10 +1215,10 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
           }
 
           if (replace) {
-            dglTexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
+            gl::TexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
                              opengl_packed_Upload_data);
           } else {
-            dglTexImage2D(GL_TEXTURE_2D, m, GL_RGB5_A1, w, h, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
+            gl::TexImage2D(GL_TEXTURE_2D, m, GL_RGB5_A1, w, h, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1,
                           opengl_packed_Upload_data);
           }
         }
@@ -1242,9 +1237,9 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
       }
       if (size > 0) {
         if (replace) {
-          dglTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+          gl::TexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
         } else {
-          dglTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+          gl::TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
         }
       }
     } else {
@@ -1281,9 +1276,9 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
         // rcg06262000 my if wrapper.
         if ((w > 0) && (h > 0)) {
           if (replace) {
-            dglTexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+            gl::TexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
           } else {
-            dglTexImage2D(GL_TEXTURE_2D, m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+            gl::TexImage2D(GL_TEXTURE_2D, m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
           }
         }
       }
@@ -1360,7 +1355,7 @@ int opengl_MakeBitmapCurrent(int handle, int map_type, int tn) {
 #endif
     }
 
-    dglBindTexture(GL_TEXTURE_2D, texnum);
+    gl::BindTexture(GL_TEXTURE_2D, texnum);
     OpenGL_last_bound[tn] = texnum;
     OpenGL_sets_this_frame[0]++;
   }
@@ -1397,15 +1392,15 @@ void opengl_MakeWrapTypeCurrent(int handle, int map_type, int tn) {
   OpenGL_sets_this_frame[1]++;
 
   if (OpenGL_state.cur_wrap_type == WT_CLAMP) {
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
   } else if (OpenGL_state.cur_wrap_type == WT_WRAP_V) {
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   } else {
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   }
 
   if (map_type == MAP_TYPE_LIGHTMAP) {
@@ -1445,20 +1440,20 @@ void opengl_MakeFilterTypeCurrent(int handle, int map_type, int tn) {
 
   if (dest_state) {
     if (map_type == MAP_TYPE_BITMAP && bm_mipped(handle)) {
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
     } else {
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
   } else {
     if (map_type == MAP_TYPE_BITMAP && bm_mipped(handle)) {
-      // dglTexParameteri (GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_NEAREST);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+      // gl::TexParameteri (GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
     } else {
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     }
   }
 
@@ -1518,8 +1513,8 @@ void opengl_SetMultitextureBlendMode(bool state) {
 
     oglActiveTextureARB(GL_TEXTURE1_ARB);
     oglClientActiveTextureARB(GL_TEXTURE1_ARB);
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglEnable(GL_TEXTURE_2D);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::Enable(GL_TEXTURE_2D);
 
     oglActiveTextureARB(GL_TEXTURE0_ARB);
     oglClientActiveTextureARB(GL_TEXTURE0_ARB);
@@ -1529,8 +1524,8 @@ void opengl_SetMultitextureBlendMode(bool state) {
 
     oglActiveTextureARB(GL_TEXTURE1_ARB);
     oglClientActiveTextureARB(GL_TEXTURE1_ARB);
-    dglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglDisable(GL_TEXTURE_2D);
+    gl::DisableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::Disable(GL_TEXTURE_2D);
 
     oglActiveTextureARB(GL_TEXTURE0_ARB);
     oglClientActiveTextureARB(GL_TEXTURE0_ARB);
@@ -1642,7 +1637,7 @@ void opengl_DrawMultitexturePolygon3D(int handle, g3Point **p, int nv, int map_t
   opengl_SetMultitextureBlendMode(true);
 
   // And draw!
-  dglDrawArrays(GL_POLYGON, 0, nv);
+  gl::DrawArrays(GL_POLYGON, 0, nv);
   OpenGL_polys_drawn++;
   OpenGL_verts_processed += nv;
 
@@ -1667,7 +1662,7 @@ void opengl_DrawFlatPolygon3D(g3Point **p, int nv) {
   fb /= 255.0;
 
   // And draw!
-  dglBegin(GL_POLYGON);
+  gl::Begin(GL_POLYGON);
   for (i = 0; i < nv; i++) {
     g3Point *pnt = p[i];
     ASSERT(pnt->p3_flags & PF_ORIGPOINT);
@@ -1679,24 +1674,24 @@ void opengl_DrawFlatPolygon3D(g3Point **p, int nv) {
     if (OpenGL_state.cur_light_state != LS_NONE) {
       // Do lighting based on intesity (MONO) or colored (RGB)
       if (OpenGL_state.cur_color_model == CM_MONO)
-        dglColor4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
+        gl::Color4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
       else {
-        dglColor4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
+        gl::Color4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
       }
 
     } else {
-      dglColor4f(fr, fg, fb, alpha);
+      gl::Color4f(fr, fg, fb, alpha);
     }
 
     /*
     // Finally, specify a vertex
     float z = std::max(0,std::min(1.0,1.0-(1.0/(pnt->p3_z+Z_bias))));
-    dglVertex3f (pnt->p3_sx+x_add,pnt->p3_sy+y_add,-z);
+    gl::Vertex3f (pnt->p3_sx+x_add,pnt->p3_sy+y_add,-z);
     */
-    dglVertex3f(pnt->p3_vecPreRot.x, pnt->p3_vecPreRot.y, pnt->p3_vecPreRot.z);
+    gl::Vertex3f(pnt->p3_vecPreRot.x, pnt->p3_vecPreRot.y, pnt->p3_vecPreRot.z);
   }
 
-  dglEnd();
+  gl::End();
   CHECK_ERROR(11)
   OpenGL_polys_drawn++;
   OpenGL_verts_processed += nv;
@@ -2075,7 +2070,7 @@ void rend_DrawPolygon3D(int handle, g3Point **p, int nv, int map_type) {
   }
 
   // And draw!
-  dglDrawArrays(GL_POLYGON, 0, nv);
+  gl::DrawArrays(GL_POLYGON, 0, nv);
   OpenGL_polys_drawn++;
   OpenGL_verts_processed += nv;
 
@@ -2174,15 +2169,15 @@ void rend_DrawPolygon2D(int handle, g3Point **p, int nv) {
   // And draw!
   if (OpenGL_state.cur_texture_quality == 0) {
     // force disable textures
-    dglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::DisableClientState(GL_TEXTURE_COORD_ARRAY);
   }
 
   // draw the data in the arrays
-  dglDrawArrays(GL_POLYGON, 0, nv);
+  gl::DrawArrays(GL_POLYGON, 0, nv);
 
   if (OpenGL_state.cur_texture_quality == 0) {
     // re-enable textures
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
   }
 
   OpenGL_polys_drawn++;
@@ -2202,9 +2197,9 @@ void rend_SetFogState(sbyte state) {
 
   OpenGL_state.cur_fog_state = state;
   if (state == 1) {
-    dglEnable(GL_FOG);
+    gl::Enable(GL_FOG);
   } else {
-    dglDisable(GL_FOG);
+    gl::Disable(GL_FOG);
   }
 }
 
@@ -2217,9 +2212,9 @@ void rend_SetFogBorders(float nearz, float farz) {
   OpenGL_state.cur_fog_start = fogStart;
   OpenGL_state.cur_fog_end = fogEnd;
 
-  dglFogi(GL_FOG_MODE, GL_LINEAR);
-  dglFogf(GL_FOG_START, fogStart);
-  dglFogf(GL_FOG_END, fogEnd);
+  gl::Fogi(GL_FOG_MODE, GL_LINEAR);
+  gl::Fogf(GL_FOG_START, fogStart);
+  gl::Fogf(GL_FOG_END, fogEnd);
 }
 
 void rend_SetRendererType(renderer_type state) {
@@ -2241,16 +2236,16 @@ void rend_SetLighting(light_state state) {
 
   switch (state) {
   case LS_NONE:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_NONE;
     break;
   case LS_FLAT_GOURAUD:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_FLAT_GOURAUD;
     break;
   case LS_GOURAUD:
   case LS_PHONG:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_GOURAUD;
     break;
   default:
@@ -2288,14 +2283,14 @@ void rend_SetTextureType(texture_type state) {
 
   switch (state) {
   case TT_FLAT:
-    dglDisable(GL_TEXTURE_2D);
+    gl::Disable(GL_TEXTURE_2D);
     OpenGL_state.cur_texture_quality = 0;
     break;
   case TT_LINEAR:
   case TT_LINEAR_SPECIAL:
   case TT_PERSPECTIVE:
   case TT_PERSPECTIVE_SPECIAL:
-    dglEnable(GL_TEXTURE_2D);
+    gl::Enable(GL_TEXTURE_2D);
     OpenGL_state.cur_texture_quality = 2;
     break;
   default:
@@ -2309,7 +2304,7 @@ void rend_SetTextureType(texture_type state) {
 
 void rend_StartFrame(int x1, int y1, int x2, int y2, int clear_flags) {
   if (clear_flags & RF_CLEAR_ZBUFFER) {
-    dglClear(GL_DEPTH_BUFFER_BIT);
+    gl::Clear(GL_DEPTH_BUFFER_BIT);
   }
   OpenGL_state.clip_x1 = x1;
   OpenGL_state.clip_y1 = y1;
@@ -2484,10 +2479,10 @@ void rend_SetZBufferState(sbyte state) {
   //	mprintf ((0,"OPENGL: Setting zbuffer state to %d.\n",state));
 
   if (state) {
-    dglEnable(GL_DEPTH_TEST);
-    dglDepthFunc(GL_LEQUAL);
+    gl::Enable(GL_DEPTH_TEST);
+    gl::DepthFunc(GL_LEQUAL);
   } else {
-    dglDisable(GL_DEPTH_TEST);
+    gl::Disable(GL_DEPTH_TEST);
   }
 
   CHECK_ERROR(14)
@@ -2499,9 +2494,9 @@ void rend_SetZValues(float nearz, float farz) {
   OpenGL_state.cur_far_z = farz;
   //	mprintf ((0,"OPENGL:Setting depth range to %f - %f\n",nearz,farz));
 
-  // JEFF: glDepthRange must take parameters [0,1]
+  // JEFF: gl::DepthRange must take parameters [0,1]
   // It is set in init
-  //@@dglDepthRange (0,farz);
+  //@@glDepthRange (0,farz);
 }
 
 // Sets a bitmap as a overlay map to rendered on top of the next texture map
@@ -2516,13 +2511,13 @@ void rend_ClearScreen(ddgr_color color) {
   int g = (color >> 8 & 0xFF);
   int b = (color & 0xFF);
 
-  dglClearColor((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, 0);
+  gl::ClearColor((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, 0);
 
-  dglClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  gl::Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 // Clears the zbuffer for the screen
-void rend_ClearZBuffer(void) { dglClear(GL_DEPTH_BUFFER_BIT); }
+void rend_ClearZBuffer(void) { gl::Clear(GL_DEPTH_BUFFER_BIT); }
 
 // Clears the zbuffer for the screen
 void rend_ResetCache(void) {
@@ -2542,16 +2537,16 @@ void rend_FillRect(ddgr_color color, int x1, int y1, int x2, int y2) {
   x1 += OpenGL_state.clip_x1;
   y1 += OpenGL_state.clip_y1;
 
-  dglEnable(GL_SCISSOR_TEST);
-  dglScissor(x1, OpenGL_state.screen_height - (height + y1), width, height);
-  dglClearColor((float)r / 255.0, (float)g / 255.0, (float)b / 255.0, 0);
-  dglClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  gl::Enable(GL_SCISSOR_TEST);
+  gl::Scissor(x1, OpenGL_state.screen_height - (height + y1), width, height);
+  gl::ClearColor((float)r / 255.0, (float)g / 255.0, (float)b / 255.0, 0);
+  gl::Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   width = OpenGL_state.clip_x2 - OpenGL_state.clip_x1;
   height = OpenGL_state.clip_y2 - OpenGL_state.clip_y1;
 
-  dglScissor(OpenGL_state.clip_x1, OpenGL_state.screen_height - (OpenGL_state.clip_y1 + height), width, height);
-  dglDisable(GL_SCISSOR_TEST);
+  gl::Scissor(OpenGL_state.clip_x1, OpenGL_state.screen_height - (OpenGL_state.clip_y1 + height), width, height);
+  gl::Disable(GL_SCISSOR_TEST);
 }
 
 // Sets a pixel on the display
@@ -2562,17 +2557,17 @@ void rend_SetPixel(ddgr_color color, int x, int y) {
 
   g3_RefreshTransforms(true);
 
-  dglColor3ub(r, g, b);
+  gl::Color3ub(r, g, b);
 
-  dglBegin(GL_POINTS);
-  dglVertex2i(x, y);
-  dglEnd();
+  gl::Begin(GL_POINTS);
+  gl::Vertex2i(x, y);
+  gl::End();
 }
 
 // Sets a pixel on the display
 ddgr_color rend_GetPixel(int x, int y) {
   ddgr_color color[4];
-  dglReadPixels(x, (OpenGL_state.screen_height - 1) - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *)color);
+  gl::ReadPixels(x, (OpenGL_state.screen_height - 1) - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *)color);
   return color[0];
 }
 
@@ -2629,12 +2624,12 @@ void rend_DrawLine(int x1, int y1, int x2, int y2) {
   rend_SetLighting(LS_NONE);
   rend_SetTextureType(TT_FLAT);
 
-  dglBegin(GL_LINES);
-  dglColor4ub(r, g, b, 255);
-  dglVertex2i(x1 + OpenGL_state.clip_x1, y1 + OpenGL_state.clip_y1);
-  dglColor4ub(r, g, b, 255);
-  dglVertex2i(x2 + OpenGL_state.clip_x1, y2 + OpenGL_state.clip_y1);
-  dglEnd();
+  gl::Begin(GL_LINES);
+  gl::Color4ub(r, g, b, 255);
+  gl::Vertex2i(x1 + OpenGL_state.clip_x1, y1 + OpenGL_state.clip_y1);
+  gl::Color4ub(r, g, b, 255);
+  gl::Vertex2i(x2 + OpenGL_state.clip_x1, y2 + OpenGL_state.clip_y1);
+  gl::End();
 
   rend_SetAlphaType(atype);
   rend_SetLighting(ltype);
@@ -2676,7 +2671,7 @@ void rend_SetFogColor(ddgr_color color) {
   fc[1] /= 255.0f;
   fc[2] /= 255.0f;
 
-  dglFogfv(GL_FOG_COLOR, fc);
+  gl::Fogfv(GL_FOG_COLOR, fc);
 }
 
 // Sets the lighting state of opengl
@@ -2695,16 +2690,16 @@ void rend_SetLightingState(light_state state) {
 
   switch (state) {
   case LS_NONE:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_NONE;
     break;
   case LS_FLAT_GOURAUD:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_FLAT_GOURAUD;
     break;
   case LS_GOURAUD:
   case LS_PHONG:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_GOURAUD;
     break;
   default:
@@ -2728,12 +2723,12 @@ void rend_SetAlphaType(sbyte atype) {
 
   if (atype == AT_ALWAYS) {
     if (opengl_Blending_on) {
-      dglDisable(GL_BLEND);
+      gl::Disable(GL_BLEND);
       opengl_Blending_on = false;
     }
   } else {
     if (!opengl_Blending_on) {
-      dglEnable(GL_BLEND);
+      gl::Enable(GL_BLEND);
       opengl_Blending_on = true;
     }
   }
@@ -2741,43 +2736,43 @@ void rend_SetAlphaType(sbyte atype) {
   switch (atype) {
   case AT_ALWAYS:
     rend_SetAlphaValue(255);
-    dglBlendFunc(GL_ONE, GL_ZERO);
+    gl::BlendFunc(GL_ONE, GL_ZERO);
     break;
   case AT_CONSTANT:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_TEXTURE:
     rend_SetAlphaValue(255);
-    dglBlendFunc(GL_ONE, GL_ZERO);
+    gl::BlendFunc(GL_ONE, GL_ZERO);
     break;
   case AT_CONSTANT_TEXTURE:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_CONSTANT_TEXTURE_VERTEX:
   case AT_CONSTANT_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_TEXTURE_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_LIGHTMAP_BLEND:
-    dglBlendFunc(GL_DST_COLOR, GL_ZERO);
+    gl::BlendFunc(GL_DST_COLOR, GL_ZERO);
     break;
   case AT_SATURATE_TEXTURE:
   case AT_LIGHTMAP_BLEND_SATURATE:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SATURATE_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SATURATE_CONSTANT_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SATURATE_TEXTURE_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SPECULAR:
     break;
@@ -2832,7 +2827,7 @@ void rend_DrawSpecialLine(g3Point *p0, g3Point *p1) {
   alpha = Alpha_multiplier * OpenGL_Alpha_factor;
 
   // And draw!
-  dglBegin(GL_LINES);
+  gl::Begin(GL_LINES);
   for (i = 0; i < 2; i++) {
     g3Point *pnt = p0;
 
@@ -2845,25 +2840,25 @@ void rend_DrawSpecialLine(g3Point *p0, g3Point *p1) {
     // If we have a lighting model, apply the correct lighting!
     if (OpenGL_state.cur_light_state != LS_NONE) {
       if (OpenGL_state.cur_light_state == LS_FLAT_GOURAUD) {
-        dglColor4f(fr, fg, fb, alpha);
+        gl::Color4f(fr, fg, fb, alpha);
       } else {
         // Do lighting based on intesity (MONO) or colored (RGB)
         if (OpenGL_state.cur_color_model == CM_MONO)
-          dglColor4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
+          gl::Color4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
         else {
-          dglColor4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
+          gl::Color4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
         }
       }
     } else {
-      dglColor4f(fr, fg, fb, alpha);
+      gl::Color4f(fr, fg, fb, alpha);
     }
 
     // Finally, specify a vertex
     float z = std::max<double>(0, std::min(1.0, 1.0 - (1.0 / (pnt->p3_z + Z_bias))));
-    dglVertex3f(pnt->p3_sx + x_add, pnt->p3_sy + y_add, -z);
+    gl::Vertex3f(pnt->p3_sx + x_add, pnt->p3_sy + y_add, -z);
   }
 
-  dglEnd();
+  gl::End();
 }
 
 // Takes a screenshot of the current frame and puts it into the handle passed
@@ -2884,7 +2879,7 @@ void rend_Screenshot(int bm_handle) {
 
   dest_data = bm_data(bm_handle, 0);
 
-  dglReadPixels(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height, GL_RGBA, GL_UNSIGNED_BYTE,
+  gl::ReadPixels(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height, GL_RGBA, GL_UNSIGNED_BYTE,
                 (GLvoid *)temp_data);
 
   for (i = 0; i < h; i++) {
@@ -2917,9 +2912,9 @@ void rend_SetZBias(float z_bias) {
 void rend_SetZBufferWriteMask(int state) {
   OpenGL_sets_this_frame[5]++;
   if (state) {
-    dglDepthMask(GL_TRUE);
+    gl::DepthMask(GL_TRUE);
   } else {
-    dglDepthMask(GL_FALSE);
+    gl::DepthMask(GL_FALSE);
   }
 }
 
@@ -3030,7 +3025,7 @@ void rend_DrawScaledChunkedBitmap(chunked_bitmap *chunk, int x, int y, int neww,
   rend_SetZBufferState(1);
 }
 
-// Sets some global preferences for the renderer
+// Sets some gl::obal preferences for the renderer
 int rend_SetPreferredState(renderer_preferred_state *pref_state) {
   int retval = 1;
   renderer_preferred_state old_state = OpenGL_preferred_state;
@@ -3131,10 +3126,10 @@ void rend_CloseOpenGLWindow(void) {
 // This helps reduce z buffer artifacts
 void rend_SetCoplanarPolygonOffset(float factor) {
   if (factor == 0.0f) {
-    dglDisable(GL_POLYGON_OFFSET_FILL);
+    gl::Disable(GL_POLYGON_OFFSET_FILL);
   } else {
-    dglEnable(GL_POLYGON_OFFSET_FILL);
-    dglPolygonOffset(-1.0f, -1.0f);
+    gl::Enable(GL_POLYGON_OFFSET_FILL);
+    gl::PolygonOffset(-1.0f, -1.0f);
   }
 }
 
@@ -3185,30 +3180,30 @@ void rend_TransformSetToPassthru(void) {
   int height = OpenGL_state.screen_height;
 
   // Projection
-  dglMatrixMode(GL_PROJECTION);
-  dglLoadIdentity();
-  dglOrtho((GLfloat)0.0f, (GLfloat)(width), (GLfloat)(height), (GLfloat)0.0f, 0.0f, 1.0f);
+  gl::MatrixMode(GL_PROJECTION);
+  gl::LoadIdentity();
+  gl::Ortho((GLfloat)0.0f, (GLfloat)(width), (GLfloat)(height), (GLfloat)0.0f, 0.0f, 1.0f);
 
   // Viewport
-  dglViewport(0, 0, width, height);
+  gl::Viewport(0, 0, width, height);
 
   // ModelView
-  dglMatrixMode(GL_MODELVIEW);
-  dglLoadIdentity();
+  gl::MatrixMode(GL_MODELVIEW);
+  gl::LoadIdentity();
 }
 
 void rend_TransformSetViewport(int lx, int ty, int width, int height) {
-  dglViewport(lx, OpenGL_state.screen_height - (ty + height - 1), width, height);
+  gl::Viewport(lx, OpenGL_state.screen_height - (ty + height - 1), width, height);
 }
 
 void rend_TransformSetProjection(float trans[4][4]) {
-  dglMatrixMode(GL_PROJECTION);
-  dglLoadMatrixf(&trans[0][0]);
+  gl::MatrixMode(GL_PROJECTION);
+  gl::LoadMatrixf(&trans[0][0]);
 }
 
 void rend_TransformSetModelView(float trans[4][4]) {
-  dglMatrixMode(GL_MODELVIEW);
-  dglLoadMatrixf(&trans[0][0]);
+  gl::MatrixMode(GL_MODELVIEW);
+  gl::LoadMatrixf(&trans[0][0]);
 }
 
 #endif

@@ -481,7 +481,7 @@ int di_dll_load()
 void di_dll_free()
 {
 	if (Di_dll_loaded) {
-		FreeLibrary(Di_dll_handle);
+		module::unload(Di_dll_handle);
 		Di_dll_handle = NULL;
 		Di_dll_loaded = 0;
 	}

@@ -351,7 +351,7 @@ bool Use_DirectPlay = false;
 #include "OTTCPWillDial.h"
 #endif
 
-#include "module.h" //for some nice defines to use below
+#include <module/module.h> //for some nice defines to use below
 
 #define MAX_CONNECT_TRIES 50
 #define MAX_RECEIVE_BUFSIZE 32768
@@ -2233,19 +2233,19 @@ unsigned int psnet_ras_status() {
   pRasEnumConnections =
       (DWORD(__stdcall *)(LPRASCONN, LPDWORD, LPDWORD))GetProcAddress(ras_handle, "RasEnumConnectionsA");
   if (!pRasEnumConnections) {
-    FreeLibrary(ras_handle);
+    module::unload(ras_handle);
     return INADDR_ANY;
   }
   pRasGetConnectStatus =
       (DWORD(__stdcall *)(HRASCONN, LPRASCONNSTATUS))GetProcAddress(ras_handle, "RasGetConnectStatusA");
   if (!pRasGetConnectStatus) {
-    FreeLibrary(ras_handle);
+    module::unload(ras_handle);
     return INADDR_ANY;
   }
   pRasGetProjectionInfo =
       (DWORD(__stdcall *)(HRASCONN, RASPROJECTION, LPVOID, LPDWORD))GetProcAddress(ras_handle, "RasGetProjectionInfoA");
   if (!pRasGetProjectionInfo) {
-    FreeLibrary(ras_handle);
+    module::unload(ras_handle);
     return INADDR_ANY;
   }
 
@@ -2254,7 +2254,7 @@ unsigned int psnet_ras_status() {
 
   rval = pRasEnumConnections(rasbuffer, &size, &num_connections);
   if (rval) {
-    FreeLibrary(ras_handle);
+    module::unload(ras_handle);
     return INADDR_ANY;
   }
 
@@ -2262,7 +2262,7 @@ unsigned int psnet_ras_status() {
   // so just exit
   if (num_connections < 1) {
     mprintf((0, "Found no RAS connections\n"));
-    FreeLibrary(ras_handle);
+    module::unload(ras_handle);
     return INADDR_ANY;
   }
 
@@ -2281,7 +2281,7 @@ unsigned int psnet_ras_status() {
     status.dwSize = sizeof(RASCONNSTATUS);
     rval = pRasGetConnectStatus(rasbuffer[i].hrasconn, &status);
     if (rval != 0) {
-      FreeLibrary(ras_handle);
+      module::unload(ras_handle);
       return INADDR_ANY;
     }
 
@@ -2292,7 +2292,7 @@ unsigned int psnet_ras_status() {
     projection.dwSize = size;
     rval = pRasGetProjectionInfo(rasbuffer[i].hrasconn, RASP_PppIp, &projection, &size);
     if (rval != 0) {
-      FreeLibrary(ras_handle);
+      module::unload(ras_handle);
       return INADDR_ANY;
     }
 
@@ -2301,7 +2301,7 @@ unsigned int psnet_ras_status() {
 
   Ras_connected = 1;
 
-  FreeLibrary(ras_handle);
+  module::unload(ras_handle);
   rasip = inet_addr(projection.szIpAddress);
   if (rasip == INADDR_NONE)
     return INADDR_ANY;

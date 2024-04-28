@@ -77,8 +77,8 @@
 #define DYNAHEADER_CREATE_STORAGE
 
 #include "stdafx.h"
-#include "dyna_glide.h"
-#include "module.h"
+#include <module/load_glide.h>
+#include <module/module.h>
 
 #include "pserror.h"
 #include "PsTypes.h"
@@ -271,7 +271,7 @@ D3DError:
 void check_glide()
 {
 	static GrHwConfiguration hwconfig;
-	module *GlideDLLHandle;
+	module::handle_t GlideDLLHandle;
 
 	if ( !(GlideDLLHandle=LoadGlideDLL()) ) 	{
 		//mprintf(( "Glide DLL not found!\n" ));
@@ -338,7 +338,7 @@ void check_glide()
 void shutdown_glide(void) 
 {
 	if(GlideInited) {
-		module *GlideDLLHandle;
+		module::handle_t GlideDLLHandle;
 
 		if ( (GlideDLLHandle=LoadGlideDLL()) ) 	{
 			grGlideShutdown();

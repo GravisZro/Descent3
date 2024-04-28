@@ -23,7 +23,7 @@
 #include "spew.h"
 #include "gamefont.h"
 #include "hud.h"
-#include "module.h" //for DMFCDLLOUT, etc.
+#include <module/module.h> //for DMFCDLLOUT, etc.
 #include "renderer.h"
 #include "findintersection.h"
 

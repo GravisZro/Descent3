@@ -1275,7 +1275,7 @@ bool CD3LaunchDlg::SetLanguageDLL(int lang_type)
 {
 	// If a DLL is currently loaded, free it
 	if(theApp.m_hResInst!=NULL) {
-		FreeLibrary(theApp.m_hResInst);
+		module::unload(theApp.m_hResInst);
 		theApp.m_hResInst=NULL;
 	}
 
@@ -1369,7 +1369,7 @@ BOOL CD3LaunchDlg::DestroyWindow()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	if (Dd_dll_handle!=NULL) {
-		FreeLibrary(Dd_dll_handle);
+		module::unload(Dd_dll_handle);
 		Dd_dll_handle=NULL;
 	}
 
@@ -1637,7 +1637,7 @@ void CD3LaunchDlg::InstallDirectX()
 		msg.Format(IDS_D3LAUNCHDLG_DSETUP_ERR_MSG2);
 		title.Format(IDS_D3LAUNCHDLG_DSETUP_ERR_TITLE);
 		MessageBox(msg,title);
-		FreeLibrary(dsetup_dll_handle);
+		module::unload(dsetup_dll_handle);
 		dsetup_dll_handle=NULL;
 		SetCurrentDirectory(original_path);
 		return;
@@ -1706,7 +1706,7 @@ void CD3LaunchDlg::InstallDirectX()
 		break;
 	};
 
-	FreeLibrary(dsetup_dll_handle);
+	module::unload(dsetup_dll_handle);
 	dsetup_dll_handle=NULL;
 
 	SetCurrentDirectory(original_path);

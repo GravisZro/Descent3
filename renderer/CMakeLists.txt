@@ -1,5 +1,4 @@
 set(HEADERS
-  dyna_gl.h
   HardwareInternal.h
   RendererConfig.h
   SoftwareInternal.h)

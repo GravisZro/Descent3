@@ -21,7 +21,7 @@
 #include "ddraw.h"
 #elif defined(__LINUX__)
 #include "linux/linux_fix.h"
-#include "linux/dyna_xext.h"
+#include <module/load_xext.h>
 #include "lnxscreenmode.h"
 #include <X11/Xatom.h>
 #else
@@ -42,7 +42,7 @@
 #include <gl/glu.h>
 #include "mem.h"
 #include "rtperformance.h"
-#include "dyna_gl.h"
+#include <module/load_gl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,7 +68,7 @@ extern int WindowGL;
 #ifndef NDEBUG
         GLenum GL_error_code;
         const ubyte *GL_error_string;
-        #define CHECK_ERROR(x)	{	GL_error_code=dglGetError ();\
+        #define CHECK_ERROR(x)	{	GL_error_code=gl::GetError ();\
                                                                         if (GL_error_code!=GL_NO_ERROR)\
                                                                         {\
                                                                                 GL_error_string=gluErrorString
@@ -101,12 +101,12 @@ static oeLnxApplication *OpenGL_LinuxApp = NULL;
 // void CreateFullScreenWindow(Display *dpy,Window rootwin,Window window,int DisplayScreen,int DisplayWidth,int
 // DisplayHeight);
 
-#define glXQueryExtension dglXQueryExtension
-#define glXCreateContext dglXCreateContext
-#define glXMakeCurrent dglXMakeCurrent
-#define glXSwapBuffers dglXSwapBuffers
-#define glXDestroyContext dglXDestroyContext
-#define glXWaitGL dglXWaitGL
+#define glXQueryExtension glX::QueryExtension
+#define glXCreateContext glX::CreateContext
+#define glXMakeCurrent glX::MakeCurrent
+#define glXSwapBuffers glX::SwapBuffers
+#define glXDestroyContext glX::DestroyContext
+#define glXWaitGL glX::WaitGL
 #else
 #endif
 
@@ -183,7 +183,7 @@ tex_array GL_tex_coords[100];
 tex_array GL_tex_coords2[100];
 
 bool OpenGL_multitexture_state = false;
-module *OpenGLDLLHandle = NULL;
+module::handle_t OpenGLDLLHandle = nullptr;
 int Already_loaded = 0;
 bool opengl_Blending_on = 0;
 
@@ -194,7 +194,7 @@ PFNGLACTIVETEXTUREARBPROC oglActiveTextureARB;
 PFNGLCLIENTACTIVETEXTUREARBPROC oglClientActiveTextureARB;
 PFNGLMULTITEXCOORD4FARBPROC oglMultiTexCoord4f;
 #endif
-
+/*
 // Sets up multitexturing using ARB extensions
 void opengl_GetDLLFunctions() {
 #if defined(WIN32)
@@ -216,10 +216,11 @@ dll_error:
 #endif
   OpenGL_multitexture = 0;
 }
+*/
 
 // returns true if the passed in extension name is supported
 int opengl_CheckExtension(char *extName) {
-  char *p = (char *)dglGetString(GL_EXTENSIONS);
+  char *p = (char *)gl::GetString(GL_EXTENSIONS);
   char *end;
   int extNameLen;
 
@@ -238,14 +239,14 @@ int opengl_CheckExtension(char *extName) {
 
 // Gets some specific information about this particular flavor of opengl
 void opengl_GetInformation() {
-  mprintf((0, "OpenGL Vendor: %s\n", dglGetString(GL_VENDOR)));
-  mprintf((0, "OpenGL Renderer: %s\n", dglGetString(GL_RENDERER)));
-  mprintf((0, "OpenGL Version: %s\n", dglGetString(GL_VERSION)));
-  mprintf((0, "OpenGL Extensions: %s\n", dglGetString(GL_EXTENSIONS)));
+  mprintf((0, "OpenGL Vendor: %s\n", gl::GetString(GL_VENDOR)));
+  mprintf((0, "OpenGL Renderer: %s\n", gl::GetString(GL_RENDERER)));
+  mprintf((0, "OpenGL Version: %s\n", gl::GetString(GL_VERSION)));
+  mprintf((0, "OpenGL Extensions: %s\n", gl::GetString(GL_EXTENSIONS)));
 
   /*	#ifndef RELEASE
                   // If this is the microsoft driver, then make stuff go faster
-                  const ubyte *renderer=dglGetString(GL_RENDERER);
+                  const ubyte *renderer=gl::GetString(GL_RENDERER);
                   if (!(strnicmp ((const char *)renderer,"GDI",3)))
                           Fast_test_render=1;
                   else
@@ -265,16 +266,16 @@ int opengl_MakeTextureObject(int tn) {
 #endif
   }
 
-  dglBindTexture(GL_TEXTURE_2D, num);
-  dglPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+  gl::BindTexture(GL_TEXTURE_2D, num);
+  gl::PixelStorei(GL_UNPACK_ALIGNMENT, 2);
 
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-  // glTexEnvf (GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+  // gl::TexEnvf (GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
 
   CHECK_ERROR(2)
 
@@ -306,12 +307,12 @@ int opengl_InitCache() {
     GameLightmaps[i].flags |= LF_CHANGED | LF_BRAND_NEW;
   }
 
-  dglTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  gl::TexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
   if (OpenGL_multitexture) {
 #if defined(WIN32)
     oglActiveTextureARB(GL_TEXTURE0_ARB + 1);
-    dglTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    gl::TexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 0);
 #endif
   }
@@ -336,15 +337,15 @@ void opengl_SetDefaults() {
   OpenGL_state.cur_alpha_type = AT_TEXTURE;
 
   // Enable some states
-  dglAlphaFunc(GL_GREATER, 0);
-  dglEnable(GL_ALPHA_TEST);
-  dglEnable(GL_BLEND);
-  dglEnable(GL_DITHER);
+  gl::AlphaFunc(GL_GREATER, 0);
+  gl::Enable(GL_ALPHA_TEST);
+  gl::Enable(GL_BLEND);
+  gl::Enable(GL_DITHER);
   opengl_Blending_on = true;
 
 #ifndef RELEASE
   if (Fast_test_render)
-    dglDisable(GL_DITHER);
+    gl::Disable(GL_DITHER);
 #endif
 
   opengl_SetAlphaType(AT_ALWAYS);
@@ -365,41 +366,41 @@ void opengl_SetDefaults() {
   OpenGL_UseLists = (FindArg("-gllists")) ? true : false;
   if (OpenGL_UseLists) {
 #endif
-    dglEnableClientState(GL_VERTEX_ARRAY);
-    dglEnableClientState(GL_COLOR_ARRAY);
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::EnableClientState(GL_VERTEX_ARRAY);
+    gl::EnableClientState(GL_COLOR_ARRAY);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    dglVertexPointer(3, GL_FLOAT, 0, GL_verts);
-    dglColorPointer(4, GL_FLOAT, 0, GL_colors);
-    dglTexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords);
+    gl::VertexPointer(3, GL_FLOAT, 0, GL_verts);
+    gl::ColorPointer(4, GL_FLOAT, 0, GL_colors);
+    gl::TexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords);
 #ifdef __LINUX__
   }
 #endif
 
-  dglHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-  dglHint(GL_FOG_HINT, GL_FASTEST);
-  dglEnable(GL_SCISSOR_TEST);
-  dglScissor(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height);
-  dglDisable(GL_SCISSOR_TEST);
-  dglDepthRange(0.0f, 1.0f);
+  gl::Hint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+  gl::Hint(GL_FOG_HINT, GL_FASTEST);
+  gl::Enable(GL_SCISSOR_TEST);
+  gl::Scissor(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height);
+  gl::Disable(GL_SCISSOR_TEST);
+  gl::DepthRange(0.0f, 1.0f);
 
   if (OpenGL_multitexture) {
 #if defined(WIN32)
     oglActiveTextureARB(GL_TEXTURE0_ARB + 1);
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 1);
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglTexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords2);
-    dglHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    dglHint(GL_FOG_HINT, GL_FASTEST);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::TexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords2);
+    gl::Hint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    gl::Hint(GL_FOG_HINT, GL_FASTEST);
 
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 0);
 
-    dglDisable(GL_TEXTURE_2D);
-    dglAlphaFunc(GL_GREATER, 0);
-    dglEnable(GL_ALPHA_TEST);
-    dglEnable(GL_BLEND);
-    dglEnable(GL_DITHER);
-    dglBlendFunc(GL_DST_COLOR, GL_ZERO);
+    gl::Disable(GL_TEXTURE_2D);
+    gl::AlphaFunc(GL_GREATER, 0);
+    gl::Enable(GL_ALPHA_TEST);
+    gl::Enable(GL_BLEND);
+    gl::Enable(GL_DITHER);
+    gl::BlendFunc(GL_DST_COLOR, GL_ZERO);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 0);
 #endif
   }
@@ -409,7 +410,9 @@ void opengl_SetDefaults() {
 // Check for OpenGL support,
 int opengl_Setup(HDC glhdc) {
   if (!Already_loaded) {
-    if (!(OpenGLDLLHandle = LoadOpenGLDLL("opengl32.dll"))) {
+    if(!gl::load())
+    {
+    //if (!(OpenGLDLLHandle = LoadOpenGLDLL("opengl32.dll"))) {
       rend_SetErrorMessage("Failed to load opengl dll!\n");
       Int3();
       return 0;
@@ -453,7 +456,7 @@ int opengl_Setup(HDC glhdc) {
   pf = ChoosePixelFormat(glhdc, &pfd);
   if (pf == 0) {
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
@@ -463,7 +466,7 @@ int opengl_Setup(HDC glhdc) {
   if (SetPixelFormat(glhdc, pf, &pfd) == FALSE) {
     DWORD ret = GetLastError();
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
@@ -472,14 +475,14 @@ int opengl_Setup(HDC glhdc) {
   // Get a copy of the newly set PFD
   if (DescribePixelFormat(glhdc, pf, sizeof(PIXELFORMATDESCRIPTOR), &pfd_copy) == 0) {
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
   // Check the returned PFD to see if it is hardware accelerated
   if ((pfd_copy.dwFlags & PFD_GENERIC_ACCELERATED) == 0 && (pfd_copy.dwFlags & PFD_GENERIC_FORMAT) != 0) {
     Int3();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     return NULL;
   }
 
@@ -487,7 +490,7 @@ int opengl_Setup(HDC glhdc) {
   ResourceContext = dwglCreateContext((HDC)glhdc);
   if (ResourceContext == NULL) {
     DWORD ret = GetLastError();
-    // FreeLibrary(opengl_dll_handle);
+    // module::unload(opengl_dll_handle);
     Int3();
     return NULL;
   }
@@ -504,7 +507,7 @@ int opengl_Setup(HDC glhdc) {
 bool opengl_GetXConfig(Display *dpy, XVisualInfo *vis, int attrib, int *value) {
   int res;
 
-  res = dglXGetConfig(dpy, vis, attrib, value);
+  res = glX::GetConfig(dpy, vis, attrib, value);
 
   if (res == 0)
     return true;
@@ -545,7 +548,9 @@ int opengl_Setup(oeApplication *app, int *width, int *height) {
     } else {
       strcpy(gl_library, "libGL.so");
     }
-    if (!(OpenGLDLLHandle = LoadOpenGLDLL(gl_library))) {
+    if(!gl::load())
+    {
+    //if (!(OpenGLDLLHandle = LoadOpenGLDLL(gl_library))) {
       char buffer[512];
       sprintf(buffer, "Failed to load %s!\n", gl_library);
       fprintf(stderr, buffer);
@@ -595,7 +600,7 @@ int opengl_Setup(oeApplication *app, int *width, int *height) {
   int screen_num = DefaultScreen(OpenGL_Display);
   int vis_attrib[] = {GLX_RGBA, GLX_RED_SIZE,   1,  GLX_GREEN_SIZE,   1,   GLX_BLUE_SIZE,
                       1,        GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
-  XVisualInfo *new_vis = dglXChooseVisual(OpenGL_Display, screen_num, vis_attrib);
+  XVisualInfo *new_vis = glX::ChooseVisual(OpenGL_Display, screen_num, vis_attrib);
   if (!new_vis) {
     fprintf(stdout, "OpenGL: glXChooseVisual returned NULL\n");
     Int3();
@@ -813,12 +818,12 @@ int opengl_Init(oeApplication *app, renderer_preferred_state *pref_state) {
 
   mprintf((0, "Setting up projection matrix\n"));
 
-  dglMatrixMode(GL_PROJECTION);
-  dglLoadIdentity();
-  dglOrtho((GLfloat)0.0f, (GLfloat)(width), (GLfloat)(height), (GLfloat)0.0f, 0.0f, 1.0f);
-  dglViewport(0, 0, width, height);
-  dglMatrixMode(GL_MODELVIEW);
-  dglLoadIdentity();
+  gl::MatrixMode(GL_PROJECTION);
+  gl::LoadIdentity();
+  gl::Ortho((GLfloat)0.0f, (GLfloat)(width), (GLfloat)(height), (GLfloat)0.0f, 0.0f, 1.0f);
+  gl::Viewport(0, 0, width, height);
+  gl::MatrixMode(GL_MODELVIEW);
+  gl::LoadIdentity();
 
   opengl_InitCache();
 
@@ -829,7 +834,7 @@ int opengl_Init(oeApplication *app, renderer_preferred_state *pref_state) {
 
   OpenGL_packed_pixels = opengl_CheckExtension("GL_EXT_packed_pixels");
 
-  opengl_GetDLLFunctions();
+  //opengl_GetDLLFunctions();
 
   if (FindArg("-NoMultitexture"))
     OpenGL_multitexture = false;
@@ -977,7 +982,7 @@ void opengl_Close() {
     delete_list[i] = i;
 
   if (Cur_texture_object_num > 1)
-    dglDeleteTextures(Cur_texture_object_num, (const uint *)delete_list);
+    gl::DeleteTextures(Cur_texture_object_num, (const uint *)delete_list);
 
   mem_free(delete_list);
 
@@ -996,9 +1001,9 @@ void opengl_Close() {
   LinuxVideoMode.Lock(false);
   LinuxVideoMode.RestoreVideoMode();
   if (OpenGL_Display) {
-    if (dglXMakeCurrent)
+    if (glX::MakeCurrent)
       glXMakeCurrent(OpenGL_Display, OpenGL_Window, NULL);
-    if (dglXDestroyContext)
+    if (glX::DestroyContext)
       glXDestroyContext(OpenGL_Display, OpenGL_Context);
   }
 #else
@@ -1045,7 +1050,7 @@ void opengl_Close() {
 #else
 
 #endif
-  // mod_FreeModule (OpenGLDLLHandle);
+  module::unload(OpenGLDLLHandle);
 
   OpenGL_state.initted = 0;
 }
@@ -1086,7 +1091,7 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
   }
 
   if (OpenGL_last_bound[tn] != texnum) {
-    dglBindTexture(GL_TEXTURE_2D, texnum);
+    gl::BindTexture(GL_TEXTURE_2D, texnum);
     OpenGL_sets_this_frame[0]++;
     OpenGL_last_bound[tn] = texnum;
   }
@@ -1106,10 +1111,10 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
       }
 
       if (replace) {
-        dglTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
+        gl::TexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
                          opengl_packed_Upload_data);
       } else
-        dglTexImage2D(GL_TEXTURE_2D, 0, GL_RGB5_A1, size, size, 0, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
+        gl::TexImage2D(GL_TEXTURE_2D, 0, GL_RGB5_A1, size, size, 0, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
                       opengl_packed_Upload_data);
     } else {
       int limit = 0;
@@ -1148,10 +1153,10 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
           }
 
           if (replace)
-            dglTexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, UNSIGNED_SHORT_4_4_4_4_EXT,
+            gl::TexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, UNSIGNED_SHORT_4_4_4_4_EXT,
                              opengl_packed_Upload_data);
           else
-            dglTexImage2D(GL_TEXTURE_2D, m, GL_RGBA4, w, h, 0, GL_RGBA, UNSIGNED_SHORT_4_4_4_4_EXT,
+            gl::TexImage2D(GL_TEXTURE_2D, m, GL_RGBA4, w, h, 0, GL_RGBA, UNSIGNED_SHORT_4_4_4_4_EXT,
                           opengl_packed_Upload_data);
         } else {
           // Do 1555
@@ -1159,10 +1164,10 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
             opengl_packed_Upload_data[i] = opengl_packed_Translate_table[bm_ptr[i]];
 
           if (replace)
-            dglTexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
+            gl::TexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
                              opengl_packed_Upload_data);
           else
-            dglTexImage2D(GL_TEXTURE_2D, m, GL_RGB5_A1, w, h, 0, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
+            gl::TexImage2D(GL_TEXTURE_2D, m, GL_RGB5_A1, w, h, 0, GL_RGBA, UNSIGNED_SHORT_5_5_5_1_EXT,
                           opengl_packed_Upload_data);
         }
       }
@@ -1181,9 +1186,9 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
       }
 
       if (replace)
-        dglTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+        gl::TexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
       else
-        dglTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+        gl::TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
     } else {
       int limit = 0;
 
@@ -1215,9 +1220,9 @@ void opengl_TranslateBitmapToOpenGL(int texnum, int bm_handle, int map_type, int
         }
 
         if (replace)
-          dglTexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+          gl::TexSubImage2D(GL_TEXTURE_2D, m, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
         else
-          dglTexImage2D(GL_TEXTURE_2D, m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
+          gl::TexImage2D(GL_TEXTURE_2D, m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, opengl_Upload_data);
       }
     }
   }
@@ -1288,7 +1293,7 @@ int opengl_MakeBitmapCurrent(int handle, int map_type, int tn) {
 #endif
     }
 
-    dglBindTexture(GL_TEXTURE_2D, texnum);
+    gl::BindTexture(GL_TEXTURE_2D, texnum);
     OpenGL_last_bound[tn] = texnum;
     OpenGL_sets_this_frame[0]++;
   }
@@ -1325,15 +1330,15 @@ void opengl_MakeWrapTypeCurrent(int handle, int map_type, int tn) {
   OpenGL_sets_this_frame[1]++;
 
   if (OpenGL_state.cur_wrap_type == WT_CLAMP) {
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
   } else if (OpenGL_state.cur_wrap_type == WT_WRAP_V) {
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   } else {
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   }
 
   if (map_type == MAP_TYPE_LIGHTMAP) {
@@ -1374,20 +1379,20 @@ void opengl_MakeFilterTypeCurrent(int handle, int map_type, int tn) {
 
   if (dest_state) {
     if (map_type == MAP_TYPE_BITMAP && bm_mipped(handle)) {
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
     } else {
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
   } else {
     if (map_type == MAP_TYPE_BITMAP && bm_mipped(handle)) {
-      // dglTexParameteri (GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_NEAREST);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+      // gl::TexParameteri (GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
     } else {
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      gl::TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     }
   }
 
@@ -1451,8 +1456,8 @@ void opengl_SetMultitextureBlendMode(bool state) {
 #if defined(WIN32)
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 1);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 1);
-    dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglEnable(GL_TEXTURE_2D);
+    gl::EnableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::Enable(GL_TEXTURE_2D);
 
     /*if (Overlay_type==OT_BLEND_SATURATE)
             glBlendFunc (GL_SRC_ALPHA,GL_ONE);
@@ -1466,8 +1471,8 @@ void opengl_SetMultitextureBlendMode(bool state) {
 #if defined(WIN32)
     oglClientActiveTextureARB(GL_TEXTURE0_ARB + 1);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 1);
-    dglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    dglDisable(GL_TEXTURE_2D);
+    gl::DisableClientState(GL_TEXTURE_COORD_ARRAY);
+    gl::Disable(GL_TEXTURE_2D);
     oglActiveTextureARB(GL_TEXTURE0_ARB + 0);
     Last_texel_unit_set = 0;
 #endif
@@ -1570,16 +1575,16 @@ void opengl_DrawMultitexturePolygon(int handle, g3Point **p, int nv, int map_typ
 #ifdef __LINUX__
   if (OpenGL_UseLists) {
 #endif
-    dglDrawArrays(GL_POLYGON, 0, nv);
+    gl::DrawArrays(GL_POLYGON, 0, nv);
 #ifdef __LINUX__
   } else {
-    dglBegin(GL_POLYGON);
+    gl::Begin(GL_POLYGON);
     for (i = 0; i < nv; i++) {
-      dglTexCoord4fv((GLfloat *)&GL_tex_coords[i]);
-      dglColor4fv((GLfloat *)&GL_colors[i]);
-      dglVertex3fv((GLfloat *)&GL_verts[i]);
+      gl::TexCoord4fv((GLfloat *)&GL_tex_coords[i]);
+      gl::Color4fv((GLfloat *)&GL_colors[i]);
+      gl::Vertex3fv((GLfloat *)&GL_verts[i]);
     }
-    dglEnd();
+    gl::End();
   }
 #endif
 
@@ -1608,7 +1613,7 @@ void opengl_DrawFlatPolygon(g3Point **p, int nv) {
   fb /= 255.0;
 
   // And draw!
-  dglBegin(GL_POLYGON);
+  gl::Begin(GL_POLYGON);
   for (i = 0; i < nv; i++) {
     g3Point *pnt = p[i];
 
@@ -1619,21 +1624,21 @@ void opengl_DrawFlatPolygon(g3Point **p, int nv) {
     if (OpenGL_state.cur_light_state != LS_NONE) {
       // Do lighting based on intesity (MONO) or colored (RGB)
       if (OpenGL_state.cur_color_model == CM_MONO)
-        dglColor4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
+        gl::Color4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
       else {
-        dglColor4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
+        gl::Color4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
       }
 
     } else
-      dglColor4f(fr, fg, fb, alpha);
+      gl::Color4f(fr, fg, fb, alpha);
 
     // Finally, specify a vertex
-    //@@dglVertex3f (pnt->p3_sx+x_add,pnt->p3_sy+y_add,-(pnt->p3_z/OpenGL_state.cur_far_z));
+    //@@gl::Vertex3f (pnt->p3_sx+x_add,pnt->p3_sy+y_add,-(pnt->p3_z/OpenGL_state.cur_far_z));
     float z = std::max(0, std::min(1.0, 1.0 - (1.0 / (pnt->p3_z + Z_bias))));
-    dglVertex3f(pnt->p3_sx + x_add, pnt->p3_sy + y_add, -z);
+    gl::Vertex3f(pnt->p3_sx + x_add, pnt->p3_sy + y_add, -z);
   }
 
-  dglEnd();
+  gl::End();
   CHECK_ERROR(11)
   OpenGL_polys_drawn++;
   OpenGL_verts_processed += nv;
@@ -1787,16 +1792,16 @@ void opengl_DrawPolygon(int handle, g3Point **p, int nv, int map_type) {
 #ifdef __LINUX__
   if (OpenGL_UseLists) {
 #endif
-    dglDrawArrays(GL_POLYGON, 0, nv);
+    gl::DrawArrays(GL_POLYGON, 0, nv);
 #ifdef __LINUX__
   } else {
-    dglBegin(GL_POLYGON);
+    gl::Begin(GL_POLYGON);
     for (i = 0; i < nv; i++) {
-      dglTexCoord4fv((GLfloat *)&GL_tex_coords[i]);
-      dglColor4fv((GLfloat *)&GL_colors[i]);
-      dglVertex3fv((GLfloat *)&GL_verts[i]);
+      gl::TexCoord4fv((GLfloat *)&GL_tex_coords[i]);
+      gl::Color4fv((GLfloat *)&GL_colors[i]);
+      gl::Vertex3fv((GLfloat *)&GL_verts[i]);
     }
-    dglEnd();
+    gl::End();
   }
 #endif
   OpenGL_polys_drawn++;
@@ -1813,7 +1818,7 @@ void opengl_DrawPolygon(int handle, g3Point **p, int nv, int map_type) {
 
 void opengl_BeginFrame(int x1, int y1, int x2, int y2, int clear_flags) {
   if (clear_flags & RF_CLEAR_ZBUFFER)
-    dglClear(GL_DEPTH_BUFFER_BIT);
+    gl::Clear(GL_DEPTH_BUFFER_BIT);
 
   OpenGL_state.clip_x1 = x1;
   OpenGL_state.clip_y1 = y1;
@@ -1841,7 +1846,7 @@ void opengl_Screenshot(int bm_handle) {
 
   dest_data = bm_data(bm_handle, 0);
 
-  dglReadPixels(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height, GL_RGBA, GL_UNSIGNED_BYTE,
+  gl::ReadPixels(0, 0, OpenGL_state.screen_width, OpenGL_state.screen_height, GL_RGBA, GL_UNSIGNED_BYTE,
                 (GLvoid *)temp_data);
 
   for (i = 0; i < h; i++) {
@@ -1907,14 +1912,14 @@ void opengl_SetTextureType(texture_type state) {
 
   switch (state) {
   case TT_FLAT:
-    dglDisable(GL_TEXTURE_2D);
+    gl::Disable(GL_TEXTURE_2D);
     OpenGL_state.cur_texture_quality = 0;
     break;
   case TT_LINEAR:
   case TT_LINEAR_SPECIAL:
   case TT_PERSPECTIVE:
   case TT_PERSPECTIVE_SPECIAL:
-    dglEnable(GL_TEXTURE_2D);
+    gl::Enable(GL_TEXTURE_2D);
     OpenGL_state.cur_texture_quality = 2;
     break;
   default:
@@ -1942,16 +1947,16 @@ void opengl_SetLightingState(light_state state) {
 
   switch (state) {
   case LS_NONE:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_NONE;
     break;
   case LS_FLAT_GOURAUD:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_FLAT_GOURAUD;
     break;
   case LS_GOURAUD:
   case LS_PHONG:
-    dglShadeModel(GL_SMOOTH);
+    gl::ShadeModel(GL_SMOOTH);
     OpenGL_state.cur_light_state = LS_GOURAUD;
     break;
   default:
@@ -2003,10 +2008,10 @@ void opengl_SetZBufferState(sbyte state) {
   // mprintf ((0,"OPENGL: Setting zbuffer state to %d.\n",state));
 
   if (state) {
-    dglEnable(GL_DEPTH_TEST);
-    dglDepthFunc(GL_LEQUAL);
+    gl::Enable(GL_DEPTH_TEST);
+    gl::DepthFunc(GL_LEQUAL);
   } else
-    dglDisable(GL_DEPTH_TEST);
+    gl::Disable(GL_DEPTH_TEST);
 
   CHECK_ERROR(14)
 }
@@ -2019,7 +2024,7 @@ void opengl_SetZValues(float nearz, float farz) {
 
   // JEFF: glDepthRange must take parameters [0,1]
   // It is set in init
-  //@@dglDepthRange (0,farz);
+  //@@gl::DepthRange (0,farz);
 }
 
 // Clears the display to a specified color
@@ -2028,13 +2033,13 @@ void opengl_ClearScreen(ddgr_color color) {
   int g = (color >> 8 & 0xFF);
   int b = (color & 0xFF);
 
-  dglClearColor((float)r / 255.0, (float)g / 255.0, (float)b / 255.0, 0);
+  gl::ClearColor((float)r / 255.0, (float)g / 255.0, (float)b / 255.0, 0);
 
-  dglClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  gl::Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 // Clears the zbuffer
-void opengl_ClearZBuffer() { dglClear(GL_DEPTH_BUFFER_BIT); }
+void opengl_ClearZBuffer() { gl::Clear(GL_DEPTH_BUFFER_BIT); }
 
 // Fills a rectangle on the display
 void opengl_FillRect(ddgr_color color, int x1, int y1, int x2, int y2) {
@@ -2048,16 +2053,16 @@ void opengl_FillRect(ddgr_color color, int x1, int y1, int x2, int y2) {
   x1 += OpenGL_state.clip_x1;
   y1 += OpenGL_state.clip_y1;
 
-  dglEnable(GL_SCISSOR_TEST);
-  dglScissor(x1, OpenGL_state.screen_height - (height + y1), width, height);
-  dglClearColor((float)r / 255.0, (float)g / 255.0, (float)b / 255.0, 0);
-  dglClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  gl::Enable(GL_SCISSOR_TEST);
+  gl::Scissor(x1, OpenGL_state.screen_height - (height + y1), width, height);
+  gl::ClearColor((float)r / 255.0, (float)g / 255.0, (float)b / 255.0, 0);
+  gl::Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   width = OpenGL_state.clip_x2 - OpenGL_state.clip_x1;
   height = OpenGL_state.clip_y2 - OpenGL_state.clip_y1;
 
-  dglScissor(OpenGL_state.clip_x1, OpenGL_state.screen_height - (OpenGL_state.clip_y1 + height), width, height);
-  dglDisable(GL_SCISSOR_TEST);
+  gl::Scissor(OpenGL_state.clip_x1, OpenGL_state.screen_height - (OpenGL_state.clip_y1 + height), width, height);
+  gl::Disable(GL_SCISSOR_TEST);
 }
 
 // Sets a pixel on the display
@@ -2066,18 +2071,18 @@ void opengl_SetPixel(ddgr_color color, int x, int y) {
   int g = (color >> 8 & 0xFF);
   int b = (color & 0xFF);
 
-  dglColor3ub(r, g, b);
+  gl::Color3ub(r, g, b);
 
-  dglBegin(GL_POINTS);
-  dglVertex2i(x, y);
-  dglEnd();
+  gl::Begin(GL_POINTS);
+  gl::Vertex2i(x, y);
+  gl::End();
 }
 
 // Returns the pixel color at x,y
 ddgr_color opengl_GetPixel(int x, int y) {
   ddgr_color color[4];
 
-  dglReadPixels(x, (OpenGL_state.screen_height - 1) - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *)color);
+  gl::ReadPixels(x, (OpenGL_state.screen_height - 1) - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *)color);
 
   return color[0];
 }
@@ -2097,7 +2102,7 @@ void opengl_SetFogColor(ddgr_color color) {
   fc[1] /= 255.0;
   fc[2] /= 255.0;
 
-  dglFogfv(GL_FOG_COLOR, fc);
+  gl::Fogfv(GL_FOG_COLOR, fc);
 }
 
 // Sets the near and far plane of fog
@@ -2111,9 +2116,9 @@ void opengl_SetFogBorders(float nearz, float farz) {
   OpenGL_state.cur_fog_start = fog_start;
   OpenGL_state.cur_fog_end = fog_end;
 
-  dglFogi(GL_FOG_MODE, GL_LINEAR);
-  dglFogf(GL_FOG_START, fog_start);
-  dglFogf(GL_FOG_END, fog_end);
+  gl::Fogi(GL_FOG_MODE, GL_LINEAR);
+  gl::Fogf(GL_FOG_START, fog_start);
+  gl::Fogf(GL_FOG_END, fog_end);
 }
 
 // Sets the fog state to on or off
@@ -2124,9 +2129,9 @@ void opengl_SetFogState(sbyte state) {
   OpenGL_state.cur_fog_state = state;
 
   if (state == 1) {
-    dglEnable(GL_FOG);
+    gl::Enable(GL_FOG);
   } else {
-    dglDisable(GL_FOG);
+    gl::Disable(GL_FOG);
   }
 }
 
@@ -2165,12 +2170,12 @@ void opengl_SetAlphaType(sbyte atype) {
 
   if (atype == AT_ALWAYS) {
     if (opengl_Blending_on) {
-      dglDisable(GL_BLEND);
+      gl::Disable(GL_BLEND);
       opengl_Blending_on = false;
     }
   } else {
     if (!opengl_Blending_on) {
-      dglEnable(GL_BLEND);
+      gl::Enable(GL_BLEND);
       opengl_Blending_on = true;
     }
   }
@@ -2178,44 +2183,44 @@ void opengl_SetAlphaType(sbyte atype) {
   switch (atype) {
   case AT_ALWAYS:
     opengl_SetAlphaValue(255);
-    dglBlendFunc(GL_ONE, GL_ZERO);
+    gl::BlendFunc(GL_ONE, GL_ZERO);
     break;
   case AT_CONSTANT:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_TEXTURE:
     opengl_SetAlphaValue(255);
-    dglBlendFunc(GL_ONE, GL_ZERO);
+    gl::BlendFunc(GL_ONE, GL_ZERO);
     break;
   case AT_CONSTANT_TEXTURE:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_CONSTANT_TEXTURE_VERTEX:
   case AT_CONSTANT_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_TEXTURE_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     break;
   case AT_LIGHTMAP_BLEND:
-    dglBlendFunc(GL_DST_COLOR, GL_ZERO);
+    gl::BlendFunc(GL_DST_COLOR, GL_ZERO);
     break;
   case AT_SATURATE_TEXTURE:
   case AT_LIGHTMAP_BLEND_SATURATE:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
 
     break;
   case AT_SATURATE_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SATURATE_CONSTANT_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SATURATE_TEXTURE_VERTEX:
-    dglBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    gl::BlendFunc(GL_SRC_ALPHA, GL_ONE);
     break;
   case AT_SPECULAR:
     break;
@@ -2235,9 +2240,9 @@ void opengl_SetWrapType(wrap_type val) { OpenGL_state.cur_wrap_type = val; }
 void opengl_SetZBufferWriteMask(int state) {
   OpenGL_sets_this_frame[5]++;
   if (state) {
-    dglDepthMask(GL_TRUE);
+    gl::DepthMask(GL_TRUE);
   } else {
-    dglDepthMask(GL_FALSE);
+    gl::DepthMask(GL_FALSE);
   }
 }
 
@@ -2278,12 +2283,12 @@ void opengl_DrawLine(int x1, int y1, int x2, int y2) {
   rend_SetLighting(LS_NONE);
   rend_SetTextureType(TT_FLAT);
 
-  dglBegin(GL_LINES);
-  dglColor4ub(r, g, b, 255);
-  dglVertex2i(x1 + OpenGL_state.clip_x1, y1 + OpenGL_state.clip_y1);
-  dglColor4ub(r, g, b, 255);
-  dglVertex2i(x2 + OpenGL_state.clip_x1, y2 + OpenGL_state.clip_y1);
-  dglEnd();
+  gl::Begin(GL_LINES);
+  gl::Color4ub(r, g, b, 255);
+  gl::Vertex2i(x1 + OpenGL_state.clip_x1, y1 + OpenGL_state.clip_y1);
+  gl::Color4ub(r, g, b, 255);
+  gl::Vertex2i(x2 + OpenGL_state.clip_x1, y2 + OpenGL_state.clip_y1);
+  gl::End();
 
   rend_SetAlphaType(atype);
   rend_SetLighting(ltype);
@@ -2308,7 +2313,7 @@ void opengl_DrawSpecialLine(g3Point *p0, g3Point *p1) {
   alpha = Alpha_multiplier * OpenGL_Alpha_factor;
 
   // And draw!
-  dglBegin(GL_LINES);
+  gl::Begin(GL_LINES);
   for (i = 0; i < 2; i++) {
     g3Point *pnt = p0;
 
@@ -2321,36 +2326,36 @@ void opengl_DrawSpecialLine(g3Point *p0, g3Point *p1) {
     // If we have a lighting model, apply the correct lighting!
     if (OpenGL_state.cur_light_state != LS_NONE) {
       if (OpenGL_state.cur_light_state == LS_FLAT_GOURAUD) {
-        dglColor4f(fr, fg, fb, alpha);
+        gl::Color4f(fr, fg, fb, alpha);
       } else {
         // Do lighting based on intesity (MONO) or colored (RGB)
         if (OpenGL_state.cur_color_model == CM_MONO)
-          dglColor4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
+          gl::Color4f(pnt->p3_l, pnt->p3_l, pnt->p3_l, alpha);
         else {
-          dglColor4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
+          gl::Color4f(pnt->p3_r, pnt->p3_g, pnt->p3_b, alpha);
         }
       }
     } else {
-      dglColor4f(fr, fg, fb, alpha);
+      gl::Color4f(fr, fg, fb, alpha);
     }
 
     // Finally, specify a vertex
     //@@float z=(pnt->p3_z+Z_bias)/OpenGL_state.cur_far_z;
     float z = std::max(0, std::min(1.0, 1.0 - (1.0 / (pnt->p3_z + Z_bias))));
-    dglVertex3f(pnt->p3_sx + x_add, pnt->p3_sy + y_add, -z);
+    gl::Vertex3f(pnt->p3_sx + x_add, pnt->p3_sy + y_add, -z);
   }
 
-  dglEnd();
+  gl::End();
 }
 
 // Sets the coplanar z bias for rendered polygons
 void opengl_SetCoplanarPolygonOffset(float factor) {
 
   if (factor == 0) {
-    dglDisable(GL_POLYGON_OFFSET_FILL);
+    gl::Disable(GL_POLYGON_OFFSET_FILL);
   } else {
-    dglEnable(GL_POLYGON_OFFSET_FILL);
-    dglPolygonOffset(-1.0, -1.0);
+    gl::Enable(GL_POLYGON_OFFSET_FILL);
+    gl::PolygonOffset(-1.0, -1.0);
   }
 }
 

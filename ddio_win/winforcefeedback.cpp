@@ -1255,7 +1255,7 @@ void ddio_LoadImmersionDLL(void)
 void ddio_FreeImmersionDLL(void)
 {
 	if(ImmersionHandle){
-		FreeLibrary(ImmersionHandle);
+		module::unload(ImmersionHandle);
 		ImmersionHandle = NULL;
 		d_IFLoadProjectFile = NULL;
 		d_IFReleaseProject = NULL;

@@ -33,7 +33,7 @@
 #include "game.h"
 #include "args.h"
 #include "pstring.h"
-#include "module.h" //for some nice defines to use below
+#include <module/module.h> //for some nice defines to use below
 #ifndef WIN32
 bool Use_DirectPlay = false;
 #endif

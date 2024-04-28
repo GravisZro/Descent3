@@ -53,7 +53,7 @@
 #define __LNXVIDEOMODE_H__
 
 #include "linux/linux_fix.h"
-// #include "linux/dyna_xwin.h"
+// #include <module/load_xwin.h>
 // #include <X11/extensions/xf86vmode.h>
 #include <SDL.h>
 

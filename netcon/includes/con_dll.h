@@ -410,7 +410,7 @@ DedicatedServerPrintf_fp DLLPrintDedicatedMessage;
 typedef int( *ValidateUser_fp) (validate_id_request *valid_id, char *trackerid);
 ValidateUser_fp DLLValidateUser;
 
-typedef void( *PollPTrackNet_fp) ();
+typedef void ( *PollPTrackNet_fp) ();
 PollPTrackNet_fp DLLPollPTrackNet;
 */
 typedef void *(*NewUIGameWindowCreate_fp)(int x, int y, int w, int h, int flags);
@@ -455,7 +455,7 @@ ddio_FindFileClose_fp DLLddio_FindFileClose;
 typedef bool (*ddio_FindNextFile_fp)(char *namebuf);
 ddio_FindNextFile_fp DLLddio_FindNextFile;
 
-// typedef void( *MultiStartServer_fp) (int playing,char *scriptname,int dedicated_num_teams=-1);
+// typedef void ( *MultiStartServer_fp) (int playing,char *scriptname,int dedicated_num_teams=-1);
 typedef void (*MultiStartServer_fp)(int playing, char *scriptname, int dedicated_num_teams);
 MultiStartServer_fp DLLMultiStartServerFP;
 inline void DLLMultiStartServer(int playing, char *scriptname, int dedicated_num_teams = -1) {
@@ -660,19 +660,19 @@ MultiGameOptionsMenu_fp DLLMultiGameOptionsMenu;
 
 // Loads a dynamic module into memory for use.
 // Returns true on success, false otherwise
-// typedef bool (*mod_LoadModule_fp)(module *handle,char *modfilename,int flags=MODF_NOW);
-typedef bool (*mod_LoadModule_fp)(module *handle, char *modfilename, int flags);
+// typedef bool (*mod_LoadModule_fp)(module::handle_t handle,char *modfilename,int flags=MODF_NOW);
+typedef bool (*mod_LoadModule_fp)(module::handle_t handle, char *modfilename, int flags);
 mod_LoadModule_fp DLLmod_LoadModule;
 
 // Frees a previously loaded module from memory, it can no longer be used
 // Returns true on success, false otherwise
-typedef bool (*mod_FreeModule_fp)(module *handle);
+typedef bool (*mod_FreeModule_fp)(module::handle_t handle);
 mod_FreeModule_fp DLLmod_FreeModule;
 
 // Returns a pointer to a function within a loaded module.  If it returns NULL there was an error.  Check
 // mod_GetLastError to see if there was an error symstr is the name of the function you want to get the symbol for (Do
 // NOT give any pre/suffix to this name) parmbytes is the size (in bytes) of the parameter list the function should have
-typedef MODPROCADDRESS (*mod_GetSymbol_fp)(module *handle, char *symstr, unsigned char parmbytes);
+typedef module::symbol_address_t (*mod_GetSymbol_fp)(module::handle_t handle, char *symstr, unsigned char parmbytes);
 mod_GetSymbol_fp DLLmod_GetSymbol;
 
 // Returns an error code to what the last error was.  When this function is called the last error is cleared, so by
@@ -817,14 +817,14 @@ char *DLLAuto_login_port;
 
 bool Use_netgame_flags;
 
-module MTAVDLLHandle = {NULL};
+module::handle_t MTAVDLLHandle = nullptr;
 
 #if defined(WIN32)
-typedef void(DLLFUNCCALL DLLAVInit_fp)(int *ptr);
-typedef void(DLLFUNCCALL DLLAVCall_fp)(int eventnum);
-typedef void(DLLFUNCCALL DLLAVClose_fp)();
-typedef void(DLLFUNCCALL DLLAVGetVersion_fp)(int *version);
-typedef void(DLLFUNCCALL DLLRunCheck_fp)(char *d3_path);
+typedef void (DLLFUNCCALL DLLAVInit_fp)(int *ptr);
+typedef void (DLLFUNCCALL DLLAVCall_fp)(int eventnum);
+typedef void (DLLFUNCCALL DLLAVClose_fp)();
+typedef void (DLLFUNCCALL DLLAVGetVersion_fp)(int *version);
+typedef void (DLLFUNCCALL DLLRunCheck_fp)(char *d3_path);
 #elif defined(__LINUX__)
 typedef void DLLFUNCCALL(DLLAVInit_fp)(int *ptr);
 typedef void DLLFUNCCALL(DLLAVCall_fp)(int eventnum);

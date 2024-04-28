@@ -975,19 +975,19 @@ BOOL CUpdateDlg::ApplyPatch()
 		dlg = this;
 		StatusBar(IDS_UPDATEDLG_BEG_PATCH);
 		if (!(RTPatchApply32(patch_cmd_line, CallBack, TRUE))) {
-			FreeLibrary(patchlib);
+			module::unload(patchlib);
 			StatusBar(IDS_UPDATEDLG_PATCH_COMPLETE);
 			patching=FALSE;
 			return TRUE;
 		} else {
-			FreeLibrary(patchlib);
+			module::unload(patchlib);
 			StatusBar(IDS_UPDATEDLG_PATCH_FAILED);
 			patching=FALSE;
 			return FALSE;
 		}
 	}
 
-	FreeLibrary(patchlib);
+	module::unload(patchlib);
 	patching=FALSE;
 	return FALSE;
 }

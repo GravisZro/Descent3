@@ -142,7 +142,7 @@ void EAX_Destroy() {
     EAX.m_lpds = NULL;
   }
   if (EAX.m_dll) {
-    FreeLibrary(EAX.m_dll);
+    module::unload(EAX.m_dll);
     EAX.m_dll = NULL;
     DLLEAXDirectSoundCreate = NULL;
   }

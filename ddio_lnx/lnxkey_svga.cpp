@@ -66,7 +66,7 @@ Don't use this code.
 //SVGALib Interface Functions
 //##########################################################
 #define DECLARE_POINTERS
-#include "linux/dyna_svga.h"
+#include <module/load_svgalib.h>
 #undef DECLARE_POINTERS
 
 void ddio_SVGA_EmergencyQuit(int id);

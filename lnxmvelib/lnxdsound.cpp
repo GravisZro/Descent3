@@ -27,7 +27,7 @@
 #include <string.h>
 #include <math.h>
 #include <memory.h>
-// #include "dyna_pthread.h"//threads
+// #include <module/load_pthread.h>//threads
 #include "linux/lnxdsound.h"
 
 #include "SDL.h"

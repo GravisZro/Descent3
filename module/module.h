@@ -92,42 +92,21 @@
 # define DLLFUNCCALLPTR STDCALLPTR
 
 #ifdef WIN32
-//=========================Windows Definition============================
 #include "windows.h"
-
-#define MODPROCADDRESS FARPROC
 #define DLLFUNCEXPORT __declspec(dllexport)
 #define DLLFUNCIMPORT __declspec(dllimport)
 #define DLLEXPORT CPPEXTERN DLLFUNCEXPORT
-typedef struct {
-  HINSTANCE handle; // handle to the DLL
-} module;
-//=======================================================================
-#elif defined(__LINUX__)
-//==========================Linux Definitions============================
-#include <dlfcn.h>
 
-#define MODPROCADDRESS void *
+#elif defined(__unix__)
+#include <dlfcn.h>
 #define DLLFUNCEXPORT
 #define DLLFUNCIMPORT
 #define DLLEXPORT CPPEXTERN
 
-typedef struct {
-  void *handle; // handle to the DLL
-} module;
-//=======================================================================
 #elif defined(MACINTOSH)
-//==========================Mac Definitions============================
-#define MODPROCADDRESS void *
 #define DLLFUNCEXPORT
 #define DLLFUNCIMPORT
 #define DLLEXPORT
-
-typedef struct {
-  void *handle; // handle to the DLL
-} module;
-//=======================================================================
-
 #endif
 
 // Mod error codes
@@ -136,7 +115,7 @@ typedef struct {
 #define MODERR_MODNOTFOUND 2   // The module couldn't be found
 #define MODERR_MODINITFAIL 3   // The module initialization routine failed
 #define MODERR_NOMOD 4         // The value you past in for the module isn't a module, or nothing has been loaded
-#define MODERR_INVALIDHANDLE 5 // The module handle passed in is NULL
+#define MODERR_INVALIDHANDLE 5 // The module handle passed in is nullptr
 #define MODERR_OTHER 255       // Some other error occured
 
 // Flags
@@ -144,28 +123,44 @@ typedef struct {
 #define MODF_NOW 0x002    // Resolve all symbols before returning
 #define MODF_GLOBAL 0x200 //
 
-//	Returns the real name of the module.  If a given file has an extension, it will
-//	just return that filename.  If the given file has no given extension, the
-//	system specific extension is concatted and returned.
-void mod_GetRealModuleName(const char *modfilename, char *realmodfilename);
+namespace module
+{
+#ifdef WIN32
+  typedef FARPROC symbol_address_t;
+  typedef HINSTANCE handle_t;
+#else
+  typedef void* symbol_address_t;
+  typedef void* handle_t;
+#endif
 
-// Loads a dynamic module into memory for use.  If no extension is given, the default
-//	system specific extension is used.
-// Returns true on success, false otherwise
-bool mod_LoadModule(module *handle, char *modfilename, int flags = MODF_LAZY);
+  //	Returns the real name of the module.  If a given file has an extension, it will
+  //	just return that filename.  If the given file has no given extension, the
+  //	system specific extension is concatted and returned.
+  void get_real_name(const char* modfilename, char* realmodfilename);
 
-// Frees a previously loaded module from memory, it can no longer be used
-// Returns true on success, false otherwise
-bool mod_FreeModule(module *handle);
+  // Loads a dynamic module into memory for use.  If no extension is given, the default
+  //	system specific extension is used.
+  // Returns true on success, false otherwise
+  bool load(handle_t& handle, const char* modfilename, int flags = MODF_LAZY);
 
-// Returns a pointer to a function within a loaded module.  If it returns NULL there was an error.  Check
-// mod_GetLastError to see if there was an error symstr is the name of the function you want to get the symbol for (Do
-// NOT give any pre/suffix to this name) parmbytes is the size (in bytes) of the parameter list the function should have
-MODPROCADDRESS mod_GetSymbol(module *handle, char *symstr, unsigned char parmbytes);
+  // Frees a previously loaded module from memory, it can no longer be used
+  // Returns true on success, false otherwise
+  bool unload(handle_t& handle);
 
-// Returns an error code to what the last error was.  When this function is called the last error is cleared, so by
-// calling this function it not only returns the last error, but it removes it, so if you were to call this function
-// again, it would return no error
-int mod_GetLastError(void);
+  // Returns a pointer to a function within a loaded module.  If it returns nullptr there was an error.  Check
+  // module::last_error to see if there was an error symstr is the name of the function you want to get the symbol for (Do
+  // NOT give any pre/suffix to this name) parmbytes is the size (in bytes) of the parameter list the function should have
+  symbol_address_t get_symbol(handle_t& handle, const char* const symstr, unsigned char parmbytes);
+
+  template<typename RType>
+  inline bool load_symbol(RType& value, handle_t& handle, const char* const symstr, unsigned char parmbytes = 0)
+    { return (value = reinterpret_cast<RType>(get_symbol(handle, symstr, parmbytes))) != nullptr; }
+
+  // Returns an error code to what the last error was.  When this function is called the last error is cleared, so by
+  // calling this function it not only returns the last error, but it removes it, so if you were to call this function
+  // again, it would return no error
+  int last_error(void);
+
+}
 
 #endif

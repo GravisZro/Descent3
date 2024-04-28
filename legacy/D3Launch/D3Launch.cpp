@@ -411,18 +411,18 @@ int CD3LaunchApp::ExitInstance()
 	//shutdown_glide();  // don't need this now (it shuts it down in 3D_detect)
 	
 	if(m_hResInst!=NULL) {
-		FreeLibrary(m_hResInst);
+		module::unload(m_hResInst);
 		m_hResInst=NULL;
 	}
 
 	if(opengl_dll_handle!=NULL) {
-		FreeLibrary(opengl_dll_handle);
+		module::unload(opengl_dll_handle);
 		opengl_dll_handle=NULL;
 	}
 
 	// Just in case, make sure the DDraw DLL has been freed
 	if (Dd_dll_handle!=NULL) {
-		FreeLibrary(Dd_dll_handle);
+		module::unload(Dd_dll_handle);
 		Dd_dll_handle=NULL;
 	}
 
@@ -688,7 +688,7 @@ bool ProcessGlu32DLL(void)
 	HINSTANCE dll_handle;
 	dll_handle=LoadLibrary("Glu32.dll");
 	if(dll_handle!=NULL) {
-		FreeLibrary(dll_handle);
+		module::unload(dll_handle);
 		DeleteFile("Glu32.xyz");
 		return FALSE;
 	}
@@ -859,14 +859,14 @@ bool GetDirectXVersionViaDLL(DWORD *version, DWORD *revision)
 	// Get the DirectXSetup function
 	pfn_DirectXSetupGetVersion = (LPFN_DIRECTXSETUPGETVERSION)GetProcAddress(dsetup_dll_handle,"DirectXSetupGetVersionA");
 	if(pfn_DirectXSetupGetVersion==NULL) {
-		FreeLibrary(dsetup_dll_handle);
+		module::unload(dsetup_dll_handle);
 		dsetup_dll_handle=NULL;
 		return FALSE;
 	}
 
 	int rc=pfn_DirectXSetupGetVersion(version,revision);
 
-	FreeLibrary(dsetup_dll_handle);
+	module::unload(dsetup_dll_handle);
 	dsetup_dll_handle=NULL;
 
 	if(rc==0) return FALSE;

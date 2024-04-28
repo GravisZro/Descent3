@@ -71,7 +71,7 @@
 #include <ctype.h>
 
 #define DECLARE_POINTERS
-#include "linux/dyna_curses.h"
+#include <module/load_curses.h>
 #undef DECLARE_POINTERS
 
 #include <algorithm>
@@ -139,22 +139,22 @@ void con_Update(int windows) {
   }
 
   if (windows & CON_MAINWND) // update the main window
-    wnoutrefresh(Con_main_wnd_ptr);
+    curses::wnoutrefresh(Con_main_wnd_ptr);
   if (windows & CON_INPUTWND) { // update the input data window
     // clear the line
-    wclear(Con_input_wnd_ptr);
+    curses::wclear(Con_input_wnd_ptr);
 
-    mvwprintw(Con_input_wnd_ptr, 0, 0, "%s", Con_inp_buf);
-    touchwin(Con_input_wnd_ptr);
-    wnoutrefresh(Con_input_wnd_ptr);
-    leaveok(Con_input_wnd_ptr, false);
+    curses::mvwprintw(Con_input_wnd_ptr, 0, 0, "%s", Con_inp_buf);
+    curses::wtouchln(Con_input_wnd_ptr, 0, curses::getmaxy(Con_input_wnd_ptr), 1);
+    curses::wnoutrefresh(Con_input_wnd_ptr);
+    curses::leaveok(Con_input_wnd_ptr, false);
   }
   // update the screen
-  doupdate();
+  curses::doupdate();
 
   int len = strlen(Con_inp_buf);
-  mvwin(Con_input_wnd_ptr, Con_rows, len);
-  move(Con_rows, len);
+  curses::mvwin(Con_input_wnd_ptr, Con_rows, len);
+  curses::move(Con_rows, len);
 }
 
 void con_Printf(const char *fmt, ...) {
@@ -279,7 +279,7 @@ bool con_Create(int flags) {
     return Con_init;
   }
 
-  if (!LoadCursesLib(true)) {
+  if (!curses::load()) {
     fprintf(stderr, "LoadLib: Unable to load ncurses lib\n");
     exit(-1);
   } else {
@@ -287,14 +287,14 @@ bool con_Create(int flags) {
   }
 
   // start up the curses library
-  initscr();
+  curses::initscr();
 
-  Con_cols = COLS;
-  Con_rows = LINES - 1; // one less, since the bottom window takes up one row
+  Con_cols = *curses::COLS;
+  Con_rows = *curses::LINES - 1; // one less, since the bottom window takes up one row
 
   // create the sub windows
-  Con_main_wnd_ptr = newwin(Con_rows, Con_cols, 0, 0);
-  Con_input_wnd_ptr = newwin(1, Con_cols, Con_rows, 0);
+  Con_main_wnd_ptr = curses::newwin(Con_rows, Con_cols, 0, 0);
+  Con_input_wnd_ptr = curses::newwin(1, Con_cols, Con_rows, 0);
 
   if (!Con_main_wnd_ptr || !Con_input_wnd_ptr) {
     // error creating subdirectories.
@@ -302,13 +302,13 @@ bool con_Create(int flags) {
   }
 
   // clear the subwindows to make them nice
-  wclear(Con_main_wnd_ptr);
-  wclear(Con_input_wnd_ptr);
-  wrefresh(Con_main_wnd_ptr);
-  wrefresh(Con_input_wnd_ptr);
-  scrollok(Con_main_wnd_ptr, true);
-  leaveok(Con_input_wnd_ptr, true);
-  leaveok(Con_main_wnd_ptr, true);
+  curses::wclear(Con_main_wnd_ptr);
+  curses::wclear(Con_input_wnd_ptr);
+  curses::wrefresh(Con_main_wnd_ptr);
+  curses::wrefresh(Con_input_wnd_ptr);
+  curses::scrollok(Con_main_wnd_ptr, true);
+  curses::leaveok(Con_input_wnd_ptr, true);
+  curses::leaveok(Con_main_wnd_ptr, true);
 
   // allocate any memory needed for buffers
   Con_inp_buf = (char *)mem_malloc(sizeof(char) * (Con_cols + 4));
@@ -331,7 +331,7 @@ bool con_Create(int flags) {
   Con_inp_pos = 0;
   Con_init = true;
 
-  move(0, 0);
+  curses::move(0, 0);
   con_Update(CON_INPUTWND);
   con_Update(CON_MAINWND);
 
@@ -354,10 +354,10 @@ void con_Destroy(void) {
 
   // delete the sub windows
   if (Con_main_wnd_ptr)
-    delwin(Con_main_wnd_ptr);
+    curses::delwin(Con_main_wnd_ptr);
   Con_main_wnd_ptr = NULL;
   if (Con_input_wnd_ptr)
-    delwin(Con_input_wnd_ptr);
+    curses::delwin(Con_input_wnd_ptr);
   Con_input_wnd_ptr = NULL;
 
   // free any allocated memory
@@ -373,9 +373,9 @@ void con_Destroy(void) {
   Con_cols = Con_rows = 0;
 
   // shutdown curses
-  endwin();
+  curses::endwin();
 
-  LoadCursesLib(false);
+  curses::unload();
 }
 
 // put some data up on the screen
@@ -396,7 +396,7 @@ void con_Puts(int window, const char *str) {
   if (window & CON_MAINWND) {
     // add the string to the main window
     if (Con_main_wnd_ptr) {
-      wprintw(Con_main_wnd_ptr, str);
+      curses::wprintw(Con_main_wnd_ptr, str);
     }
   }
 
@@ -405,7 +405,7 @@ void con_Puts(int window, const char *str) {
 
     // fill in the buffer
     if (Con_input_wnd_ptr)
-      wprintw(Con_input_wnd_ptr, str);
+      curses::wprintw(Con_input_wnd_ptr, str);
   }
 
   con_Update(window);

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)  # For using CMAKE_<LANG>_BYTE_ORDER
 
+list(APPEND CMAKE_MODULE_PATH "CMakeModules")
+
 project(Descent3 VERSION 1.5.500)
 
 if(NOT MSVC) # GCC/clang or compatible, hopefully
@@ -12,6 +14,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+
+foreach(out ${LINK_DIRECTORIES})
+  message(NOTICE "suffix: ${out}")
+endforeach()
+
+message(NOTICE "ll: ${CMAKE_CXX_LINK_LIBRARY_USING_default}")
+foreach(out ${CMAKE_CXX_LIBRARY_ARCHITECTURE})
+  message(NOTICE "item: ${out}")
+endforeach()
+
 
 if(CMAKE_CXX_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   message(STATUS "Big Endian system detected.")
@@ -64,6 +77,8 @@ if(UNIX)
   find_package(Curses REQUIRED)
   find_package(OpenGL REQUIRED)
   message("SDL Include Dir is " ${SDL_INCLUDE_DIR})
+
+#  find_package(Svgalib REQUIRED)
 endif()
 
 if(UNIX AND NOT APPLE)
@@ -122,6 +137,7 @@ if(LOGGER)
 endif()
 
 include_directories(
+  ${CMAKE_SOURCE_DIR}
   "cfile"   # TODO: Remove after untying all modules
   "lib"     # TODO: Remove after untying all modules
   "Descent3"
