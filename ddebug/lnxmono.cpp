@@ -43,6 +43,7 @@
  *
  * $NoKeywords: $
  */
+
 #include "mono.h"
 
 #include <cassert>
@@ -52,12 +53,12 @@
 #include <cerrno>
 #include <csignal>
 
-#include "debug.h"
-
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <memory.h>
+
+#include "debug.h"
 
 // -------- Start TCP/IP Mono Logging Section
 #include <sys/socket.h>
