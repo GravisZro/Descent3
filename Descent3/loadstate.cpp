@@ -540,6 +540,7 @@ extern uint8_t AutomapVisMap[MAX_ROOMS];
 
 //	initializes rooms
 int LGSRooms(CFILE *fp) {
+  START_VERIFY_SAVEFILE(fp);
   int retval = LGS_OK;
   int16_t i, p, highest_index;
 
@@ -611,6 +612,7 @@ int LGSRooms(CFILE *fp) {
 
   // Rebuild the active doorway list
   // DoorwayRebuildActiveList();
+  END_VERIFY_SAVEFILE(fp, "LGSRooms loaded");
 
   return retval;
 }
@@ -628,6 +630,7 @@ int LGSEvents(CFILE *fp) {
 
 //	loads in and sets these triggers
 int LGSTriggers(CFILE *fp) {
+  START_VERIFY_SAVEFILE(fp);
   int16_t i, n_trigs = 0;
 
   gs_ReadShort(fp, n_trigs);
@@ -657,6 +660,7 @@ int LGSTriggers(CFILE *fp) {
     //@@		script.set_parms(0, NULL);
   }
 
+  END_VERIFY_SAVEFILE(fp, "LGSTriggers loaded");
   return LGS_OK;
 }
 
@@ -733,6 +737,7 @@ void CopyVisStruct(vis_effect *vis, old_vis_effect *old_vis) {
 
 // save viseffects
 int LGSVisEffects(CFILE *fp) {
+  START_VERIFY_SAVEFILE(fp);
   int16_t i, count = 0;
 
   gs_ReadShort(fp, count);
@@ -771,6 +776,7 @@ int LGSVisEffects(CFILE *fp) {
       VisEffectLink(v, roomnum);
     }
   }
+  END_VERIFY_SAVEFILE(fp, "LGSVisEffects loaded");
 
   return LGS_OK;
 }
@@ -819,14 +825,19 @@ extern int PhysicsLinkList[MAX_OBJECTS];
 
 int inreadobj = 0;
 
-void VerifySaveGame(CFILE *fp) {
-  int testint;
-  testint = cf_ReadInt(fp);
-  ASSERT(testint == 0xF00D4B0B);
-}
 
-#define VERIFY_SAVEFILE
-// VerifySaveGame(fp)
+
+#define VERIFY_SAVEFILE \
+      mprintf(0, "VERIFY_SAVEFILE test - file offset: %08x\n", cftell(fp));
+/*
+#define VERIFY_SAVEFILE \
+  { \
+    int testint; \
+    mprintf(0, "VERIFY_SAVEFILE test - file offset: %08x\n", cftell(fp)); \
+    testint = cf_ReadInt(fp); \
+    ASSERT(testint == 0xF00D4B0B); \
+  }
+*/
 extern char MarkerMessages[MAX_PLAYERS * 2][MAX_MARKER_MESSAGE_LENGTH];
 extern int Marker_message;
 //	loads in and sets these objects

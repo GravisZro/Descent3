@@ -16,17 +16,21 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "loki_utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <string.h>
+#include <libgen.h>
+#include <limits.h>
+
 #if defined(MACOSX)
 #include <sys/mount.h>
 #endif
 
 #include "SDL.h"
-
-#include "loki_utils.h"
 
 #define BAIL_IF_MACRO(x, y, z)                                                                                         \
   if (x)                                                                                                               \
@@ -178,7 +182,20 @@ const char *loki_getdatapath(void) { return basepath; }
 const char *loki_getprefpath(void) { return prefpath; }
 
 void loki_initialize(int argc, char **argv, char *desc) {
-  basepath = SDL_GetBasePath();
+  basepath = SDL_GetBasePath(); // relies on /proc
+
+  if (basepath == NULL) { // no /proc? no problem!
+    // this works by appending argv[0] to PWD, normalizing it, and then extracting the dir name
+    static char absolute_path[PATH_MAX]; // where the final path will be stored
+    char* composed_path = malloc(PATH_MAX);
+    getcwd(composed_path, PATH_MAX);
+    strncat(composed_path, argv[0], PATH_MAX);
+    realpath(composed_path, absolute_path);
+    free(composed_path);
+    composed_path = NULL;
+    basepath = dirname(absolute_path); // get only the directory
+  }
+
   if (basepath == NULL) {
     fprintf(stderr, "ERROR: Couldn't find game directory!\n");
     exit(43);
