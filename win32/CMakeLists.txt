@@ -7,8 +7,8 @@ set(CPPS
 )
 
 add_library(win32 STATIC ${CPPS})
-add_dependencies(win32 get_git_hash)
-target_include_directories(win32 PRIVATE ${PROJECT_BINARY_DIR}/lib)
+add_dependencies(win32)
+target_include_directories(win32 PRIVATE ${PROJECT_SOURCE_DIR}/lib)
 target_link_libraries(win32 PRIVATE
   ddio
 )
