@@ -272,6 +272,11 @@ set(CPPS
   WeaponFire.cpp
   weather.cpp)
 
+if(DEBUG_DEMO_LOADER)
+  set(CPPS ${CPPS} structdumper.cpp)
+  add_compile_definitions(DEBUG_DEMO_LOADER)
+endif()
+
 if(WIN32)
   set(PLATFORM_LIBS dd_grwin32 win32 wsock32.lib winmm.lib
     ${DSOUND_LIBRARY} ${DINPUT_LIBRARY} ${DXGUID_LIBRARY} ${DDRAW_LIBRARY})

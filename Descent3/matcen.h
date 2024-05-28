@@ -54,6 +54,9 @@ extern char *MatcenEffectStrings[NUM_MATCEN_EFFECTS];
 
 class matcen {
 private:
+#ifdef DEBUG_DEMO_LOADER
+public:
+#endif
   // Static data -- only changes by OSIRIS
   char m_name[MAX_MATCEN_NAME_LEN];
 

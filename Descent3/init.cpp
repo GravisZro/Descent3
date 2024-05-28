@@ -987,6 +987,10 @@
 #include "debuggraph.h"
 #include "vibeinterface.h"
 
+#ifdef DEBUG_DEMO_LOADER
+#include "demofile.h"
+#endif
+
 // Uncomment this to allow all languages
 #define ALLOW_ALL_LANG 1
 
@@ -2022,6 +2026,15 @@ void InitD3Systems2(bool editor) {
   // initialize localized text for controller system.
   extern void Localize_ctl_bindings();
   Localize_ctl_bindings();
+
+#ifdef DEBUG_DEMO_LOADER
+  SetGameMode(GM_NORMAL);
+  SetFunctionMode(LOADDEMO_MODE);
+
+  strncpy(Demo_fname, Base_directory, sizeof(Demo_fname) - 1);
+  strncat(Demo_fname, "/demo/Secret2.dem", sizeof(Demo_fname) - 1);
+  DemoPlaybackFile(Demo_fname);
+#endif
 }
 
 void SetupTempDirectory(void) {

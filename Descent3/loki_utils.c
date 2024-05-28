@@ -173,7 +173,9 @@ int loki_getmountpoint(const char *device, char *mountpoint, int max_size) {
 }
 #endif
 
-
+#ifdef DEBUG_DEMO_LOADER
+extern void dump_struct_sizes(void);
+#endif
 static char *basepath = NULL;
 static char *prefpath = NULL;
 
@@ -206,7 +208,9 @@ void loki_initialize(int argc, char **argv, char *desc) {
     fprintf(stderr, "ERROR: Couldn't find preference directory!\n");
     exit(43);
   }
-
+#ifdef DEBUG_DEMO_LOADER
+  dump_struct_sizes();
+#endif
   // printf("base path: %s\n", basepath);
   // printf("pref path: %s\n", prefpath);
 

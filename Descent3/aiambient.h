@@ -36,6 +36,9 @@
 #define CHECK_INTERVAL_MAX 10.0f
 
 class ambient_life {
+#ifdef DEBUG_DEMO_LOADER
+public:
+#endif
   // Editor settable values
   int m_type[MAX_AL_TYPES];
   uint8_t m_total[MAX_AL_TYPES];

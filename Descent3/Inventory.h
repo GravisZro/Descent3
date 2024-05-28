@@ -320,6 +320,9 @@ public:
   int GetInventoryItemList(tInvenList *list, int max_amount, int *cur_sel);
 
 private:
+#ifdef DEBUG_DEMO_LOADER
+public:
+#endif
   // adds an item to the inventory (returns true on success)
   bool AddObjectItem(int otype, int oid, int oauxt, int oauxi, int flags, const char *description = NULL);
   void RemoveNode(inven_item *node);

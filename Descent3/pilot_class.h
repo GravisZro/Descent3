@@ -272,6 +272,9 @@ private:
   void read_guidebot_name(CFILE *file, bool skip);
 
 private:
+#ifdef DEBUG_DEMO_LOADER
+public:
+#endif
   //--- Pilot data				---//
   //--- Try to preserve alignment	---//
   char *filename;      // filename location of this pilot
