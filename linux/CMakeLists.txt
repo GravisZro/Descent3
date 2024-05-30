@@ -16,7 +16,11 @@ target_include_directories(linux PUBLIC
   $<BUILD_INTERFACE:
   ${PROJECT_SOURCE_DIR}/linux
   >
+  $<BUILD_INTERFACE:
+  ${PROJECT_SOURCE_DIR}/libload
+  >
 )
 target_link_libraries(linux PRIVATE
   ddio
+  libload
 )

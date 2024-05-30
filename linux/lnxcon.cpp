@@ -69,7 +69,10 @@
 #include "pstring.h"
 #include <unistd.h>
 
-#include "linux/dyna_curses.h"
+//#include "linux/dyna_curses.h"
+#include "stub_curses.h"
+
+using namespace curses;
 
 //////////////////////////////////////////////////
 // Defines
@@ -274,7 +277,7 @@ bool con_Create(int flags) {
     return Con_init;
   }
 
-  if (!LoadCursesLib(true)) {
+  if (!curses::load()) {
     fprintf(stderr, "LoadLib: Unable to load ncurses lib\n");
     exit(-1);
   } else {
@@ -284,8 +287,8 @@ bool con_Create(int flags) {
   // start up the curses library
   initscr();
 
-  Con_cols = COLS;
-  Con_rows = LINES - 1; // one less, since the bottom window takes up one row
+  Con_cols = *COLS;
+  Con_rows = *LINES - 1; // one less, since the bottom window takes up one row
 
   // create the sub windows
   Con_main_wnd_ptr = newwin(Con_rows, Con_cols, 0, 0);
@@ -370,7 +373,7 @@ void con_Destroy(void) {
   // shutdown curses
   endwin();
 
-  LoadCursesLib(false);
+  curses::unload();
 }
 
 // put some data up on the screen
