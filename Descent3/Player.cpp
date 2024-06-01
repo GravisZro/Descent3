@@ -1137,7 +1137,7 @@
 
 #include <algorithm>
 
-player Players[MAX_PLAYERS];
+std::array<player, MAX_PLAYERS> Players;
 int Player_num;
 
 int Num_teams = 0;
@@ -1145,7 +1145,7 @@ int Team_game = 0;
 int Default_ship_permission = 0x01;
 float HudNameTan = -1;
 
-team Teams[MAX_TEAMS];
+std::array<team, MAX_TEAMS> Teams;
 
 static int Highest_player_start = 0;
 
