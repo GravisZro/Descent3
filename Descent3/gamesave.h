@@ -102,13 +102,13 @@
 #define GAMESAVE_DESCLEN 31 // gamesave description maximum length.
 
 struct gs_tables {
-  int16_t model_handles[MAX_POLY_MODELS];
-  int16_t obji_indices[MAX_OBJECT_IDS];
-  int16_t bm_handles[MAX_BITMAPS];
-  int16_t tex_handles[MAX_TEXTURES];
-  int16_t door_handles[MAX_DOORS];
-  int16_t ship_handles[MAX_SHIPS];
-  int16_t wpn_handles[MAX_WEAPONS];
+  std::array<int16_t, MAX_POLY_MODELS> model_handles;
+  std::array<int16_t, MAX_OBJECT_IDS> obji_indices;
+  std::array<int16_t, MAX_BITMAPS> bm_handles;
+  std::array<int16_t, MAX_TEXTURES> tex_handles;
+  std::array<int16_t, MAX_DOORS> door_handles;
+  std::array<int16_t, MAX_SHIPS> ship_handles;
+  std::array<int16_t, MAX_WEAPONS> wpn_handles;
 };
 
 //	savegame version info.

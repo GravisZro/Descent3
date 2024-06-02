@@ -1153,7 +1153,7 @@ void SaveGameSettings() {
   snprintf(tempbuffer, sizeof(tempbuffer), "%f", Detail_settings.Pixel_error);
   Database->write("RS_pixelerror", tempbuffer, strlen(tempbuffer) + 1);
 
-  snprintf(tempbuffer, sizeof(tempbuffer), "%f", Detail_settings.Terrain_render_distance / ((float)TERRAIN_SIZE));
+  snprintf(tempbuffer, sizeof(tempbuffer), "%f", Detail_settings.Terrain_render_distance / TERRAIN_SIZE);
   Database->write("RS_terraindist", tempbuffer, strlen(tempbuffer) + 1);
 
   Database->write("Dynamic_Lighting", Detail_settings.Dynamic_lighting);

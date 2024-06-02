@@ -447,28 +447,37 @@ savesg_error:
 }
 
 //////////////////////////////////////////////////////////////////////////////
-#define BUILD_XLATE_TABLE(_table, _maxtable, _fn)                                                                      \
-  do {                                                                                                                 \
-    gs_ReadShort(fp, num);                                                                                             \
-    for (i = 0; i < num; i++) {                                                                                        \
-      cf_ReadString(name, sizeof(name), fp);                                                                           \
-      index = _fn(name);                                                                                               \
-      _table[i] = (index == -1) ? 0 : index;                                                                           \
-    }                                                                                                                  \
-    for (; i < _maxtable; i++)                                                                                         \
-      _table[i] = 0;                                                                                                   \
-  } while (0)
+template<size_t sz>
+void build_translation_table(CFILE *fp, std::array<int16_t, sz>& table, int (*find_function)(const char*))
+{
+  table.fill(0);
+  int16_t count = 0;
+  char name[64];
+  gs_ReadShort(fp, count);
+  for (int16_t i = 0; i < count; i++) {
+    cf_ReadString(name, sizeof(name), fp);
+    if(int index = find_function(name);
+        index != -1) {
+      table[i] = index;
+    }
+  }
+}
 
-#define BUILD_MINI_XLATE_TABLE(_table, _fn)                                                                            \
-  memset(_table, 0, sizeof(_table));                                                                                   \
-  do {                                                                                                                 \
-    gs_ReadShort(fp, i);                                                                                               \
-    cf_ReadString(name, sizeof(name), fp);                                                                             \
-    if (i == -1 && name[0] == 0)                                                                                       \
-      break;                                                                                                           \
-    index = _fn(name);                                                                                                 \
-    _table[i] = (index == -1) ? 0 : index;                                                                             \
-  } while (1)
+template<size_t sz>
+void build_small_translation_table(CFILE *fp, std::array<int16_t, sz>& table, int (*find_function)(const char*))
+{
+  table.fill(0);
+  int16_t count = 0;
+  char name[64];
+  while (gs_ReadShort(fp, count),
+         cf_ReadString(name, sizeof(name), fp),
+        count != -1 || name[0] != '\0') {
+    if(int index = find_function(name);
+        index != -1) {
+      table[count] = index;
+    }
+  }
+}
 
 //	reads in translation tables
 int LGSXlateTables(CFILE *fp) {
@@ -478,25 +487,25 @@ int LGSXlateTables(CFILE *fp) {
   char name[64];
 
   //	load object info translation table
-  BUILD_XLATE_TABLE(gs_Xlates->obji_indices, MAX_OBJECT_IDS, FindObjectIDName);
+  build_translation_table(fp, gs_Xlates->obji_indices, FindObjectIDName);
 
   //	load polymodel translation list.
-  BUILD_XLATE_TABLE(gs_Xlates->model_handles, MAX_POLY_MODELS, FindPolyModelName);
+  build_translation_table(fp, gs_Xlates->model_handles, FindPolyModelName);
 
   // load doar translation list.
-  BUILD_XLATE_TABLE(gs_Xlates->door_handles, MAX_DOORS, FindDoorName);
+  build_translation_table(fp, gs_Xlates->door_handles, FindDoorName);
 
   // load ship translation list.
-  BUILD_XLATE_TABLE(gs_Xlates->ship_handles, MAX_SHIPS, FindShipName);
+  build_translation_table(fp, gs_Xlates->ship_handles, FindShipName);
 
   // build weapon translation list
-  BUILD_XLATE_TABLE(gs_Xlates->wpn_handles, MAX_WEAPONS, FindWeaponName);
+  build_translation_table(fp, gs_Xlates->wpn_handles, FindWeaponName);
 
   // read in limited texture name list.
-  BUILD_XLATE_TABLE(gs_Xlates->tex_handles, MAX_TEXTURES, FindTextureName);
+  build_translation_table(fp, gs_Xlates->tex_handles, FindTextureName);
 
   // read in limited bitmap name list.  this is a slightly diff format than above to save space
-  BUILD_MINI_XLATE_TABLE(gs_Xlates->bm_handles, bm_FindBitmapName);
+  build_small_translation_table(fp, gs_Xlates->bm_handles, bm_FindBitmapName);
 
   END_VERIFY_SAVEFILE(fp, "Xlate load");
   return retval;
@@ -1297,7 +1306,7 @@ int LGSObjects(CFILE *fp, int version) {
         mprintf(0, "*Object %d has %d attach points.\n", i, pm->n_attach);
       }
 
-      polyobj_info *p_info = &op->rtype.pobj_info;
+      multi_turret& multi_turret_info = op->rtype.pobj_info.multi_turret_info;
       int num_wbs = pm->num_wbs;
       int count = 0;
       for (int j = 0; j < num_wbs; j++) {
@@ -1305,15 +1314,15 @@ int LGSObjects(CFILE *fp, int version) {
         count += pm->poly_wb[j].num_turrets;
       }
 
-      p_info->multi_turret_info.num_turrets = count;
+      multi_turret_info.num_turrets = count;
 
-      if ((count > 0) && (p_info->multi_turret_info.keyframes == NULL)) {
+      if (count > 0 && multi_turret_info.keyframes == nullptr) {
         int cur = 0;
 
-        p_info->multi_turret_info.time = 0;
-        p_info->multi_turret_info.keyframes = (float *)mem_malloc(sizeof(float) * count);
-        p_info->multi_turret_info.last_keyframes = (float *)mem_malloc(sizeof(float) * count);
-        p_info->multi_turret_info.flags = 0;
+        multi_turret_info.time = 0;
+        multi_turret_info.keyframes = (float *)mem_malloc(sizeof(float) * count);
+        multi_turret_info.last_keyframes = (float *)mem_malloc(sizeof(float) * count);
+        multi_turret_info.flags = 0;
       }
       // Do Animation stuff
       custom_anim multi_anim_info;
@@ -1392,35 +1401,35 @@ int LGSObjects(CFILE *fp, int version) {
   // CreateRoomObjects();
 
   for (i = 0; i <= Highest_object_index; i++) {
-    object *op = &Objects[i];
+    object& op = Objects[i];
     if (Objects[i].type != OBJ_NONE) {
-      int newroom = op->roomnum;
-      op->roomnum = -1;
-      ObjLink(OBJNUM(op), newroom);
-      ObjSetOrient(op, &objmat[i]);
-      if (op->type == OBJ_ROOM) {
+      int newroom = op.roomnum;
+      op.roomnum = -1;
+      ObjLink(i, newroom);
+      ObjSetOrient(&op, &objmat[i]);
+      if (op.type == OBJ_ROOM) {
         mprintf(0, "Object %d is a room and Is%s a big object. Size=%f\n", i, (op->flags & OF_BIG_OBJECT) ? "" : "n't", op->size);
-        if ((op->size >= ((TERRAIN_SIZE * (float)1))) && !(op->flags & OF_BIG_OBJECT)) {
+        if (op.size >= TERRAIN_SIZE && !(op.flags & OF_BIG_OBJECT)) {
           BigObjAdd(i);
         }
 
-        ObjSetAABB(op);
+        ObjSetAABB(&op);
       }
     }
 /*
-    if ((op->attach_ultimate_handle) && (OBJECT_HANDLE_NONE != op->attach_ultimate_handle)) {
+    if ((op.attach_ultimate_handle) && (OBJECT_HANDLE_NONE != op.attach_ultimate_handle)) {
       mprintf(0, "Object %d has an ultimate parent of %d (%d)\n",
               i,
-              OBJNUM(ObjGet(op->attach_ultimate_handle)),
-              op->attach_parent_handle);
-      ASSERT(op->flags & OF_ATTACHED);
+              OBJNUM(ObjGet(op.attach_ultimate_handle)),
+              op.attach_parent_handle);
+      ASSERT(op.flags & OF_ATTACHED);
     }
-    if ((op->attach_ultimate_handle) && (OBJECT_HANDLE_NONE != op->attach_parent_handle)) {
+    if ((op.attach_ultimate_handle) && (OBJECT_HANDLE_NONE != op.attach_parent_handle)) {
       mprintf(0, "Object %d has a parent of %d (%d)\n",
               i,
-              OBJNUM(ObjGet(op->attach_parent_handle)),
-              op->attach_parent_handle);
-      ASSERT(op->flags & OF_ATTACHED);
+              OBJNUM(ObjGet(op.attach_parent_handle)),
+              op.attach_parent_handle);
+      ASSERT(op.flags & OF_ATTACHED);
     }
     */
   }

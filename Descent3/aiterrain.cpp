@@ -125,8 +125,8 @@ static void ai_check_terrain_node(int cur_node, int f_check_local_nodes) {
   if (f_check_local_nodes) {
     int next_y_delta;
     // Check worst-case collisions.  This includes all nodes within a radius edge of the current node
-    check_x = ai_rad / TERRAIN_SIZE + 1;
-    check_y = ai_rad / TERRAIN_SIZE + 1;
+    check_x = ai_rad / TERRAIN_SIZE + 1.0f;
+    check_y = ai_rad / TERRAIN_SIZE + 1.0f;
 
     xstart = cur_node % TERRAIN_WIDTH - check_x;
     xend = cur_node % TERRAIN_WIDTH + check_x;

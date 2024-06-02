@@ -30,7 +30,7 @@
 
 #define TERRAIN_WIDTH 256 // How many cells across
 #define TERRAIN_DEPTH 256 // How many cells down
-#define TERRAIN_SIZE 16.0 // The size of each segment, must be a power of 2
+#define TERRAIN_SIZE 16.0f // The size of each segment, must be a power of 2
 #define TERRAIN_TEX_WIDTH 32
 #define TERRAIN_TEX_DEPTH 32
 

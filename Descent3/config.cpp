@@ -1208,16 +1208,16 @@ struct details_menu {
 
     // toggles
     sheet->NewGroup(TXT_TOGGLES, 0, 87);
-    specmap = sheet->AddLongCheckBox(TXT_SPECMAPPING, Detail_settings.Specular_lighting);
-    headlight = sheet->AddLongCheckBox(TXT_FASTHEADLIGHT, Detail_settings.Fast_headlight_on);
-    mirror = sheet->AddLongCheckBox(TXT_MIRRORSURF, Detail_settings.Mirrored_surfaces);
-    dynamic = sheet->AddLongCheckBox(TXT_DYNLIGHTING, Detail_settings.Dynamic_lighting);
-    fog = sheet->AddLongCheckBox(TXT_CFG_ENABLEFOG, Detail_settings.Fog_enabled);
-    coronas = sheet->AddLongCheckBox(TXT_CFG_ENABLELIGHTCORONA, Detail_settings.Coronas_enabled);
-    procedurals = sheet->AddLongCheckBox(TXT_CFG_PROCEDURALS, Detail_settings.Procedurals_enabled);
-    powerup_halo = sheet->AddLongCheckBox(TXT_CFG_POWERUPHALOS, Detail_settings.Powerup_halos);
-    scorches = sheet->AddLongCheckBox(TXT_CFG_SCORCHMARKS, Detail_settings.Scorches_enabled);
-    weapon_coronas = sheet->AddLongCheckBox(TXT_CFG_WEAPONEFFECTS, Detail_settings.Weapon_coronas_enabled);
+    specmap         = sheet->AddLongCheckBox(TXT_SPECMAPPING,           Detail_settings.Specular_lighting);
+    headlight       = sheet->AddLongCheckBox(TXT_FASTHEADLIGHT,         Detail_settings.Fast_headlight_on);
+    mirror          = sheet->AddLongCheckBox(TXT_MIRRORSURF,            Detail_settings.Mirrored_surfaces);
+    dynamic         = sheet->AddLongCheckBox(TXT_DYNLIGHTING,           Detail_settings.Dynamic_lighting);
+    fog             = sheet->AddLongCheckBox(TXT_CFG_ENABLEFOG,         Detail_settings.Fog_enabled);
+    coronas         = sheet->AddLongCheckBox(TXT_CFG_ENABLELIGHTCORONA, Detail_settings.Coronas_enabled);
+    procedurals     = sheet->AddLongCheckBox(TXT_CFG_PROCEDURALS,       Detail_settings.Procedurals_enabled);
+    powerup_halo    = sheet->AddLongCheckBox(TXT_CFG_POWERUPHALOS,      Detail_settings.Powerup_halos);
+    scorches        = sheet->AddLongCheckBox(TXT_CFG_SCORCHMARKS,       Detail_settings.Scorches_enabled);
+    weapon_coronas  = sheet->AddLongCheckBox(TXT_CFG_WEAPONEFFECTS,     Detail_settings.Weapon_coronas_enabled);
 
     // sliders
     tSliderSettings slider_set;
@@ -1233,7 +1233,7 @@ struct details_menu {
     slider_set.min_val.i = MINIMUM_RENDER_DIST / 2;
     slider_set.max_val.i = MAXIMUM_RENDER_DIST / 2;
     slider_set.type = SLIDER_UNITS_INT;
-    iTemp = (int)(Detail_settings.Terrain_render_distance / ((float)TERRAIN_SIZE)) - MINIMUM_RENDER_DIST;
+    iTemp = (int)(Detail_settings.Terrain_render_distance / TERRAIN_SIZE) - MINIMUM_RENDER_DIST;
     if (iTemp < 0)
       iTemp = 0;
     rend_dist = sheet->AddSlider(TXT_RENDDIST, (MAXIMUM_RENDER_DIST - MINIMUM_RENDER_DIST) / 2, iTemp / 2, &slider_set);
@@ -1261,7 +1261,7 @@ struct details_menu {
     Detail_settings.Procedurals_enabled = *procedurals;
     Detail_settings.Scorches_enabled = *scorches;
     Detail_settings.Specular_lighting = *specmap;
-    Detail_settings.Terrain_render_distance = (((*rend_dist) * 2) + MINIMUM_RENDER_DIST) * ((float)TERRAIN_SIZE);
+    Detail_settings.Terrain_render_distance = (((*rend_dist) * 2) + MINIMUM_RENDER_DIST) * TERRAIN_SIZE;
     Detail_settings.Weapon_coronas_enabled = *weapon_coronas;
 
     Default_detail_level = *detail_level;
@@ -1324,7 +1324,7 @@ void details_menu::set_preset_details(int setting) {
   if (iTemp < 0)
     iTemp = 0;
   *pixel_err = (int16_t)(iTemp);
-  iTemp = (int)((ds.Terrain_render_distance / ((float)TERRAIN_SIZE)) - MINIMUM_RENDER_DIST);
+  iTemp = (int)((ds.Terrain_render_distance / TERRAIN_SIZE) - MINIMUM_RENDER_DIST);
   if (iTemp < 0)
     iTemp = 0;
   iTemp = iTemp / 2;
