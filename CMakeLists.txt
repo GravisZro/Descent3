@@ -86,18 +86,12 @@ add_custom_target(get_git_hash ALL
 if(UNIX)
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-Wno-multichar;${BITS};${EXTRA_CXX_FLAGS}>")
   add_compile_options("$<$<COMPILE_LANGUAGE:C>:${BITS}>")
-
   find_package(SDL2 REQUIRED)
   find_package(Curses REQUIRED)
   # Some versions of the SDL2 find_package set SDL2_INCLUDE_DIR and some set a plural SDL2_INCLUDE_DIRS. Check both.
-  message("SDL2 Include Dir is ${SDL2_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS}")
 endif()
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  message("Building for Linux")
-  add_compile_definitions(__unix__ _USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-linux.hog\")
-  set(PLATFORM_INCLUDES "lib/linux" ${SDL2_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   message("Building for MAC OSX")
   add_compile_definitions(__unix__ MACOSX=1 _USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-osx.hog\")
   set(PLATFORM_INCLUDES "lib/linux" ${SDL2_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
@@ -140,7 +134,13 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   endif()
 
   add_compile_options("/MP")  # so msbuild builds with multiple processes
+else()
+  message("Building for POSIX")
+  add_compile_definitions(_USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-posix.hog\")
+  set(PLATFORM_INCLUDES "lib/linux" ${SDL2_INCLUDE_DIR})
 endif()
+
+message("Platform include directories: ${PLATFORM_INCLUDES}")
 
 add_compile_definitions($<$<CONFIG:Release>:RELEASE>)
 add_compile_definitions($<$<CONFIG:Debug>:_DEBUG>)
@@ -152,7 +152,7 @@ if(ENABLE_LOGGER)
   add_compile_definitions(LOGGER)
 endif()
 
-include_directories(${PROJECT_SOURCE_DIR} third_party)
+include_directories(${PROJECT_SOURCE_DIR} third_party ${PLATFORM_INCLUDES})
 
 add_subdirectory(third_party)
 

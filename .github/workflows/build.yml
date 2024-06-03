@@ -16,62 +16,79 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os.runner }}, ${{ matrix.os.cxx }}, ${{ matrix.build_type }}
+    name: ${{ matrix.os.osname }}-${{ matrix.os.arch }}-${{ matrix.os.compiler }}, ${{ matrix.build_type }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os:
           - runner: windows-latest
             preset: win32
             cc: cl
             cxx: cl
-            name: Windows-x86
+            osname: Windows
+            arch: x86
+            compiler: MSVC
           - runner: windows-latest
             preset: win64
             cc: cl
             cxx: cl
-            name: Windows-x64
+            osname: Windows
+            arch: x86_64
+            compiler: MSVC
           - runner: macos-12 # This is supposed to be Intel for now, and what macos-latest is defaulting to for some reason (as of 04/2024)
             preset: mac
             cc: cc
             cxx: c++
-            name: macOS-Intel
+            osname: MacOS
+            arch: x86_64
+            compiler: Clang
           - runner: macos-14 # This is supposed to be M1
             preset: mac
             cc: cc
             cxx: c++
-            name: macOS-ARM
+            osname: MacOS
+            arch: ARM64
+            compiler: Clang
           - runner: ubuntu-latest
-            preset: linux
+            preset: linux-gcc
             cc: gcc
             cxx: g++
-            name: Linux-x64
+            osname: Linux
+            arch: x86_64
+            compiler: GCC
           - runner: ubuntu-latest
-            preset: linux
+            preset: linux-clang
             cc: clang
             cxx: clang++
-            name: Linux-x64-clang
-        build_type:
-          - Debug
-          - Release
+            osname: Linux
+            arch: x86_64
+
 
     runs-on: ${{ matrix.os.runner }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install macOS dependencies
+      - name: Install dependencies
         if: ${{ matrix.os.preset == 'mac' }}
         run: |
           # Install packages from Homebrew
           brew bundle install
 
-      - name: Install Linux dependencies
-        if: ${{ matrix.os.preset == 'linux' }}
+      - name: Install Linux GCC dependencies
+        if: ${{ matrix.os.preset == 'linux-gcc' }}
         run: |
           sudo apt update
           sudo apt install -y --no-install-recommends \
-            ninja-build cmake g++ libgtest-dev libsdl2-dev libncurses-dev zlib1g-dev libspdlog-dev
+            ninja-build cmake g++ libgtest-dev libsdl2-dev libncurses-dev zlib1g-dev
+
+      - name: Install Linux Clang dependencies
+        if: ${{ matrix.os.preset == 'linux-clang' }}
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends \
+            ninja-build cmake clang libgtest-dev libsdl2-dev libncurses-dev zlib1g-dev
+
 
       - name: Configure CMake
         env:
@@ -80,7 +97,7 @@ jobs:
           VCPKG_ROOT: C:/vcpkg
         run: cmake --preset ${{ matrix.os.preset }} -DBUILD_TESTING=ON -DENABLE_LOGGER=ON -DFORCE_PORTABLE_INSTALL=ON
 
-      - name: Build ${{ matrix.build_type }}
+      - name: Build ${{ matrix.build_type }} ${{ matrix.os.osname }}-${{ matrix.os.arch }}-${{ matrix.os.compiler }}
         run: cmake --build --preset ${{ matrix.os.preset }} --config ${{ matrix.build_type }} --verbose
 
       - name: Run ${{ matrix.build_type }} Unittests
@@ -93,5 +110,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Descent3_${{ matrix.build_type }}_${{ matrix.os.name }}
-          path: ${{ github.workspace }}/builds/${{ matrix.os.preset }}/installed/
+          name: Descent3_${{ matrix.build_type }}_${{ matrix.os.osname }}-${{ matrix.os.arch }}-${{ matrix.os.compiler }}
+          path: ${{ github.workspace }}/builds/${{ matrix.os.osname }}/installed/
