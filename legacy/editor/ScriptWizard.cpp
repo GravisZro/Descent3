@@ -92,16 +92,16 @@
 #include "editor.h"
 #include "ScriptWizard.h"
 #include "ObjCScript.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "EditLineDialog.h"
 #include "ScriptEditorDlg.h"
-#include "gamefile.h"
+#include <Descent3/gamefile.h>
 #include "manage\gamefilepage.h"
 #include "ScriptStudio.h"
 #include "AddScriptDialog.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

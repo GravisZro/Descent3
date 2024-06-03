@@ -62,7 +62,7 @@
 #ifndef NEWUI_CORE_H
 #define NEWUI_CORE_H
 
-#include "ui.h"
+#include <ui/ui.h>
 
 #define N_NEWUI_BMPS 32  // number of ui bitmaps.
 #define N_NEWUI_SHEETS 8 // number of sheets allowed in a menu.

@@ -154,20 +154,20 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "pstypes.h"
-#include "pserror.h"
-#include "bitmap.h"
+#include <cstdlib>
+#include <cstring>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <bitmap/bitmap.h>
 #include "vclip.h"
-#include "cfile.h"
-#include "mono.h"
-#include "ddio.h"
+#include <cfile/cfile.h>
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
 #include "gametexture.h"
-#include "texture.h"
-#include <string.h>
+//#include "texture.h"
+#include <cstring>
 #include "ctype.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "game.h"
 
 vclip GameVClips[MAX_VCLIPS];

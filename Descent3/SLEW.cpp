@@ -199,16 +199,16 @@
 #include "editor\d3edit.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "descent.h"
 #include "slew.h"
-#include "vecmat.h"
-#include "ddio.h"
+#include <vecmat/vecmat.h>
+#include <ddio/ddio.h>
 #include "object.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "game.h"
-#include "joystick.h"
-#include "findintersection.h"
+#include <ddio/joystick.h>
+#include <physics/findintersection.h>
 #include "room.h"
 
 // variables for slew system

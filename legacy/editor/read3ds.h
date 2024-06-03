@@ -33,8 +33,8 @@
 #define READ3DS_H
 
 
-#include "cfile.h"
-#include "room.h"
+#include <cfile/cfile.h>
+#include <Descent3/room.h>
 
 // Opens and reads a 3dsmax file for our rooms.  Reads this file into the passed room 
 // structure

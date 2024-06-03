@@ -77,26 +77,24 @@
  * $NoKeywords: $
  */
 
-#include "mono.h"
-#include "pstypes.h"
-#include "ddio.h"
-#include "grtext.h"
-#include "renderer.h"
+#include <ddebug/mono.h>
+#include <misc/pstypes.h>
+#include <ddio/ddio.h>
+#include <grtext/grtext.h>
+#include <renderer/renderer.h>
 #include "gamefont.h"
 #include "game.h"
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 #include "descent.h"
-#include "mem.h"
-#include "3d.h"
-#include "musicapi.h"
-#include "hlsoundlib.h"
-#include <string.h>
+#include <mem/mem.h>
+#include <renderer/3d.h>
+#include <d3music/musicapi.h>
+#include <sndlib/hlsoundlib.h>
+#include <cstring>
 #include <math.h>
-#include "psrand.h"
+#include <misc/psrand.h>
 
-#if defined(__LINUX__)
-#include "linux_fix.h"
-#endif
+#include <linux/linux_fix.h>
 
 /*
 $$TABLE_GAMEFILE "GameCredits.txt"

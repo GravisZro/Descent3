@@ -113,11 +113,11 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "gamefont.h"
 #include "game.h"
-#include "grtext.h"
-#include "pserror.h"
+#include <grtext/grtext.h>
+#include <misc/pserror.h>
 #include "stringtable.h"
 
 int Game_fonts[NUM_FONTS] = {

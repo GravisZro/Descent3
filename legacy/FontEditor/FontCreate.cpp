@@ -41,15 +41,15 @@
 #include <cstdio>
 
 #include "FontEditor.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "bitmap.h"
-#include "renderer.h"
-#include "grtext.h"
-#include "ddio.h"
-#include "mem.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <bitmap/bitmap.h>
+#include <renderer/renderer.h>
+#include <grtext/grtext.h>
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 
-#include <string.h>
+#include <cstring>
 
 //	Font File stuff
 

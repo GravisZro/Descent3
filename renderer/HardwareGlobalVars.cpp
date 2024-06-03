@@ -16,7 +16,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "3d.h"
+#include <renderer/3d.h>
 #include "HardwareInternal.h"
 #include <float.h>
 

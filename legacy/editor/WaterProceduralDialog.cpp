@@ -21,12 +21,12 @@
 
 #include "stdafx.h"
 #include "editor.h"
-#include "game.h"
-#include "manage.h"
+#include <Descent3/game.h>
+#include <manage/manage.h>
 #include "texpage.h"
 
 #include "WaterProceduralDialog.h"
-//#include "procedurals.h"
+//#include <Descent3/procedurals.h>
 
 
 #ifdef _DEBUG

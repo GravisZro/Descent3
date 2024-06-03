@@ -83,8 +83,8 @@
 #ifndef GAUGES_H
 #define GAUGES_H
 
-#include "pstypes.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
 #include "hud.h"
 
 // Hack vars for turning off the monitors

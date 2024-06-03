@@ -18,7 +18,7 @@
 
 #include <gtest/gtest.h>
 
-#include "byteswap.h"
+#include <lib/byteswap.h>
 
 // This code taken from original byteswap.h for testing float conversion
 // It cannot convert negative float numbers in 64-bit systems, so testing only non-negative numbers

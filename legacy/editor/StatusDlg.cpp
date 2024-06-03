@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "StatusDlg.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

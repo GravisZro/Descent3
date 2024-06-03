@@ -23,14 +23,14 @@
 #include "editor.h"
 #include "matcenkeypad.h"
 #include "matcen.h"
-#include "pserror.h"
-#include "objinfo.h"
-#include "room.h"
-#include "object.h"
-#include "terrain.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "sounds.h"
+#include <misc/pserror.h>
+#include <Descent3/object_info.h>
+#include <Descent3/room.h>
+#include <Descent3/object.h>
+#include <Descent3/terrain.h>
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <Descent3/sounds.h>
 #include "boa.h"
 
 #ifdef _DEBUG

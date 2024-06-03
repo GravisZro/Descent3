@@ -86,7 +86,7 @@
 
 // At the end of this file is an example of usage
 
-#if defined(__LINUX__)
+#if defined(__unix__)
 #include <ctype.h>
 #include <errno.h>
 #include <netinet/in.h>
@@ -97,7 +97,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#include "linux_fix.h"
+#include <linux/linux_fix.h>
 
 // Linux includes/defines
 #if !MACOSX
@@ -190,7 +190,7 @@ protected:
 
 /*
 
-#include <stdio.h>
+#include <cstdio>
 #include <windows.h>
 #include <conio.h>
 #include <time.h>

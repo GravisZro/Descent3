@@ -46,17 +46,17 @@
 #include "stdafx.h"
 
 #include "FontEditor.h"
-#include "application.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "renderer.h"
-#include "grtext.h"
-#include "bitmap.h"
-#include "mem.h"
-#include "args.h"
-#include "cfile.h"
+#include <ddio/application.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <renderer/renderer.h>
+#include <grtext/grtext.h>
+#include <bitmap/bitmap.h>
+#include <mem/mem.h>
+#include <Descent3/args.h>
+#include <cfile/cfile.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #define APPNAME "Font Kerner"
 

@@ -165,13 +165,13 @@
  *
  * $NoKeywords: $
  */
-#include "UIlib.h"
-#include "application.h"
-#include "bitmap.h"
-#include "ddvid.h"
-#include "renderer.h"
-#include "psclass.h"
-#include "Macros.h"
+#include <ui/uilib.h>
+#include <ddio/application.h>
+#include <bitmap/bitmap.h>
+#include <dd_video/ddvid.h>
+#include <renderer/renderer.h>
+#include <misc/psclass.h>
+#include <misc/macros.h>
 #define UI_MOUSE_HOTX 2
 #define UI_MOUSE_HOTY 2
 #define UI_FRAMETIME 0.05

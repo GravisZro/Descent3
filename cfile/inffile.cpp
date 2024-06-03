@@ -20,13 +20,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "inffile.h"
+#include <cfile/inffile.h>
 
-#include "cfile.h"
-#include "pstring.h"
-#include "pserror.h"
+#include <cfile/cfile.h>
+#include <misc/pstring.h>
+#include <misc/pserror.h>
 
-#include <string.h>
+#include <cstring>
 
 #define INFFILE_NULL (-1024)
 

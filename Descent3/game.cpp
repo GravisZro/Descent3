@@ -656,9 +656,9 @@
  */
 
 #include "game.h"
-#include "ddvid.h"
-#include "ddio.h"
-#include "pserror.h"
+#include <dd_video/ddvid.h>
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
 #include "program.h"
 #include "descent.h"
 #include "object.h"
@@ -666,7 +666,7 @@
 #include "player.h"
 #include "slew.h"
 #include "controls.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 #include "doorway.h"
 #include "hud.h"
 #include "multi.h"
@@ -675,8 +675,8 @@
 #include "gamesequence.h"
 #include "cinematics.h"
 #include "SmallViews.h"
-#include "Mission.h"
-#include "cfile.h"
+#include "mission.h"
+#include <cfile/cfile.h>
 #include "gameloop.h"
 #include "cockpit.h"
 #include "game2dll.h"
@@ -689,12 +689,12 @@
 #include "AIGoal.h"
 #include "aipath.h"
 #include "dedicated_server.h"
-#include "objinfo.h"
-#include <string.h>
+#include <Descent3/object_info.h>
+#include <cstring>
 #include "osiris_share.h"
 #include "demofile.h"
 
-#include <NewBitmap.h>
+#include <bitmap/NewBitmap.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 //	Variables

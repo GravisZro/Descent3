@@ -39,7 +39,7 @@
 #ifdef SOAR_ENABLED
 
 #include "object.h"
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "controls.h"
 #include "weapon.h"
 #include "room.h"

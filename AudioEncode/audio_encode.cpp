@@ -17,12 +17,12 @@
 */
 
 #include <cstdint>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "audio_encode.h"
-#include "mono.h"
-#include "aencode.h"
+#include <ddebug/mono.h>
+#include <libacm/aencode.h>
 
 int32_t aenc_ReadSamp(void *data) {
   FILE *f = (FILE *)data;

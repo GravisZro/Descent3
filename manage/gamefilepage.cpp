@@ -16,16 +16,16 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "cfile.h"
-#include "manage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "gamefile.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <Descent3/gamefile.h>
 #include "gamefilepage.h"
-#include "args.h"
+#include <Descent3/args.h>
 
-#include <string.h>
+#include <cstring>
 
 // gamefilepage commands that are read/written
 // A command is followed by a byte count describing how many bytes

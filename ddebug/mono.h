@@ -63,7 +63,7 @@
  */
 #ifndef _MONO_H
 #define _MONO_H
-#include "debug.h"
+#include <ddebug/debug.h>
 bool nw_InitTCPLogging(char *ip, uint16_t port);
 void nw_TCPPrintf(int n, char *format, ...);
 #if (!defined(RELEASE)) && defined(LOGGER)

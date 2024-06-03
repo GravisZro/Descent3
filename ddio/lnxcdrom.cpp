@@ -93,11 +93,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "mono.h"
-#include "ddio.h"
-#include "debug.h"
-#include "pserror.h"
-#include "loki_utils.h"
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
+#include <ddebug/debug.h>
+#include <misc/pserror.h>
+#include <Descent3/loki_utils.h>
 
 #define VD_LSN 16         // first logical sector of volume descriptor table
 #define CDROM_LSECSZ 2048 // initial logical sector size of a CDROM

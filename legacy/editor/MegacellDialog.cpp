@@ -24,14 +24,14 @@
 #include "MegacellDialog.h"
 #include "WorldTexturesDialog.h"
 #include "megapage.h"
-#include "megacell.h"
-#include "manage.h"
-#include "gametexture.h"
-#include "vclip.h"
+#include <Descent3/megacell.h>
+#include <manage/manage.h>
+#include <Descent3/gametexture.h>
+#include <Descent3/vclip.h>
 #include "texpage.h"
-#include "bitmap.h"
-#include "ddio.h"
-#include "mem.h"
+#include <bitmap/bitmap.h>
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 #include "EditLineDialog.h"
 
 #ifdef _DEBUG

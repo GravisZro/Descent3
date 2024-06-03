@@ -28,7 +28,7 @@
 #endif
 
 #include "RoomListCombo.h"
-#include "room.h"
+#include <Descent3/room.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

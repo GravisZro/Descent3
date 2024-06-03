@@ -156,16 +156,16 @@
  */
 
 #include "levelgoal.h"
-#include "mem.h"
-#include "string.h"
+#include <mem/mem.h>
+#include <cstring>
 #include "hud.h"
 #include "game.h"
 #include "gamesequence.h"
 #include "stringtable.h"
 #include <stdarg.h>
-#include "pstring.h"
-#include "hlsoundlib.h"
-#include "sounds.h"
+#include <misc/pstring.h>
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
 #include "osiris_dll.h"
 #include "room.h"
 #include "object.h"

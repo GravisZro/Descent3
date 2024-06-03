@@ -445,28 +445,28 @@
 // High level sound object.  This code is 100% machine independant and
 // completely encapsulates the lowel-level machine-dependant sound code.
 
-#include <cstring>
-
 #include "hlsoundlib.h"
-#include "ssl_lib.h"
-#include "mono.h"
-#include "pserror.h"
-#include "vecmat.h"
-#include "args.h"
-#include "sounds.h"
-#include "game.h"
-#include "room.h"
-#include "BOA.h"
-#include "streamaudio.h"
-#include "doorway.h"
-#include "dedicated_server.h"
+
+#include <cstring>
+#include <sndlib/ssl_lib.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <vecmat/vecmat.h>
+#include <Descent3/args.h>
+#include <Descent3/sounds.h>
+#include <Descent3/game.h>
+#include <Descent3/room.h>
+#include <Descent3/BOA.h>
+#include <stream_audio/streamaudio.h>
+#include <Descent3/doorway.h>
+#include <Descent3/dedicated_server.h>
 #include "sndrender.h"
-#include "voice.h"
-#include "descent.h"
+#include <Descent3/voice.h>
+#include <Descent3/descent.h>
 
 #if defined(WIN32)
 #include "ds3dlib.h"
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 #include "sdlsound.h"
 #endif
 
@@ -530,7 +530,7 @@ int hlsSystem::InitSoundLib(oeApplication *sos, char mixer_type, char quality, b
   if (m_ll_sound_ptr == NULL)
 #if defined(WIN32)
     m_ll_sound_ptr = new win_llsSystem;
-#elif defined(__LINUX__)
+#elif defined(__unix__)
     m_ll_sound_ptr = new lnxsound;
 #endif
   ASSERT(m_ll_sound_ptr);
@@ -641,7 +641,7 @@ void hlsSystem::StopAllSounds() {
 // compute echo / reverb
 // indirect/direct path sounds
 
-#include "findintersection.h"
+#include <physics/findintersection.h>
 
 void hlsSystem::BeginSoundFrame(bool f_in_game) {
   bool hwsound_support;   // if this is true, sound_render_system is being used

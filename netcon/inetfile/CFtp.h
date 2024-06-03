@@ -81,7 +81,7 @@
 typedef UINT_PTR SOCKET;
 #endif
 
-#ifdef __LINUX__
+#ifdef __unix__
 extern int FTPObjThread(void *obj);
 #else
 extern void FTPObjThread(void *obj);

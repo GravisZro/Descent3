@@ -22,6 +22,6 @@
 // include this file for access to the structs, types and defines shared by
 // the osiris modules
 #define INCLUDED_FROM_D3
-#include "../scripts/osiris_common.h"
+#include <scripts/osiris_common.h>
 
 #endif

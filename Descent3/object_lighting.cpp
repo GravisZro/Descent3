@@ -89,20 +89,20 @@
 #include "object_lighting.h"
 #include "object.h"
 #include "lighting.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "weapon.h"
 #include "descent.h"
 #include "game.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "renderobject.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include "lightmap_info.h"
 #include "fireball.h"
 #include "player.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "config.h"
-#include "findintersection.h"
-#include "psrand.h"
+#include <physics/findintersection.h>
+#include <misc/psrand.h>
 
 // How far the headlight casts light
 #define HEADLIGHT_DISTANCE 150.0f
@@ -568,8 +568,8 @@ void SetupObjectLightmapMemory(object *obj) {
 }
 
 // SHOULDN'T THE FOLLOWING TWO FUNCTIONS REALLY BE IN OBJECT.CPP?
-#include "hlsoundlib.h"
-#include "soundload.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
 #include "hud.h"
 #include "stringtable.h"
 //	makes the an object cloaked

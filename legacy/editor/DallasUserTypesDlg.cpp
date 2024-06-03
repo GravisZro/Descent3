@@ -20,7 +20,7 @@
 //
 
 #include "stdafx.h"
-#include "cfile.h"
+#include <cfile/cfile.h>
 
 #ifdef NEWEDITOR
 #include "NewEditor.h"

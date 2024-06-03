@@ -20,19 +20,19 @@
 #include "windows.h"
 #endif
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <memory.h>
-#include "ui.h"
-#include "newui.h"
-#include "grdefs.h"
-#include "player.h"
-#include "game.h"
-#include "pilot.h"
-#include "ddio_common.h"
-#include "networking.h"
+#include <ui/ui.h>
+#include <Descent3/newui.h>
+#include <2dlib/grdefs.h>
+#include <Descent3/player.h>
+#include <Descent3/game.h>
+#include <Descent3/pilot.h>
+#include <ddio/ddio_common.h>
+#include <networking/networking.h>
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include <sys/time.h>
 #include <unistd.h>
 #endif
@@ -229,7 +229,7 @@ int ConnectToChatServer(char *serveraddr,char *nickname,char *trackerid)
 		if(SOCKET_ERROR == connect(Chatsock,(SOCKADDR *)&Chataddr,sizeof(SOCKADDR_IN)))
 		{
 			int ret = WSAGetLastError();
-#ifndef __LINUX__
+#ifndef __unix__
 			if(WSAEWOULDBLOCK == WSAGetLastError())
 #else
 			if(WSAEWOULDBLOCK == ret || 0 == ret)
@@ -522,7 +522,7 @@ const char *ChatGetString(void)
 		if(bytesread==SOCKET_ERROR)
 		{
 			uint32_t lerror = WSAGetLastError();
-#ifndef __LINUX__
+#ifndef __unix__
 			if(WSAEWOULDBLOCK != lerror)
 #else
 			if(WSAEWOULDBLOCK != lerror && 0 != lerror)

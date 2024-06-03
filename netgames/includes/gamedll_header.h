@@ -19,30 +19,30 @@
 #ifndef GAMEDLL_HEADER_H
 #define GAMEDLL_HEADER_H
 
-#include "spew.h"
-#include "gamefont.h"
-#include "hud.h"
-#include "module.h" //for DMFCDLLOUT, etc.
-#include "renderer.h"
-#include "findintersection.h"
+#include <Descent3/spew.h>
+#include <Descent3/gamefont.h>
+#include <Descent3/hud.h>
+#include <module/module.h> //for DMFCDLLOUT, etc.
+#include <renderer/renderer.h>
+#include <physics/findintersection.h>
 
 //////////////////////////////////////////
-#include "pstypes.h"
-#include "vecmat_external.h"
-#include "object_external_struct.h"
-#include "object_external.h"
-#include "player_external.h"
-#include "room_external.h"
-#include "multi_external.h"
-#include "multi_world_state.h"
-#include "viseffect_external.h"
-#include "osiris_share.h"
-#include "3d.h"
-#include "terrain.h"
-#include "gametexture.h"
-#include "args.h"
-#include "bitmap.h"
-#include "Inventory.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat_external.h>
+#include <Descent3/object_external_struct.h>
+#include <Descent3/object_external.h>
+#include <Descent3/player_external.h>
+#include <Descent3/room_external.h>
+#include <Descent3/multi_external.h>
+#include <Descent3/multi_world_state.h>
+#include <Descent3/viseffect_external.h>
+#include <Descent3/osiris_share.h>
+#include <renderer/3d.h>
+#include <Descent3/terrain.h>
+#include <Descent3/gametexture.h>
+#include <Descent3/args.h>
+#include <bitmap/bitmap.h>
+#include <Descent3/inventory.h>
 
 #ifdef __cplusplus
 #define CEXTERN(a)                                                                                                     \
@@ -56,7 +56,7 @@
 // From ssl_lib.h
 #define MAX_GAME_VOLUME 1.0f
 
-#if defined(__LINUX__)
+#if defined(__unix__)
 #define DMFCDLLOUT(x) extern "C" x
 #else
 #if defined(DMFC_DLL)

@@ -138,9 +138,9 @@
 #include "multi_client.h"
 #include "game.h"
 #include "player.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "pilot.h"
-#include "Mission.h"
+#include "mission.h"
 #include "stringtable.h"
 #include "d3serial.h"
 #include "ship.h"

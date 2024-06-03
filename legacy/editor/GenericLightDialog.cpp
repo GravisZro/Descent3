@@ -22,8 +22,8 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "GenericLightDialog.h"
-#include "objinfo.h"
-#include "object.h"
+#include <Descent3/object_info.h>
+#include <Descent3/object.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

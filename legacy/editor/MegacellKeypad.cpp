@@ -22,8 +22,8 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "MegacellKeypad.h"
-#include "megacell.h"
-#include "terrain.h"
+#include <Descent3/megacell.h>
+#include <Descent3/terrain.h>
 #include "terraindialog.h"
 
 

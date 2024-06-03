@@ -492,36 +492,36 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <stdarg.h>
-#include "mono.h"
-#include "renderer.h"
+#include <ddebug/mono.h>
+#include <renderer/renderer.h>
 #include "render.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "descent.h"
 #include "game.h"
-#include "cfile.h"
-#include "application.h"
+#include <cfile/cfile.h>
+#include <ddio/application.h>
 #include "TelCom.h"
 #include "TelComEffects.h"
 #include "Briefing.h"
 #include "TelComAutoMap.h"
 #include "TelComCargo.h"
 #include "TelComGoals.h"
-#include "mem.h"
-#include "Mission.h"
+#include <mem/mem.h>
+#include "mission.h"
 #include "stringtable.h"
 #include "multi.h"
 #include "ship.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "localization.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "textaux.h"
-#include "psrand.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <grtext/textaux.h>
+#include <misc/psrand.h>
 #include "controls.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 
 #define FRAME_RATE 30.0f
 #define TCPE_TIME 0.5f

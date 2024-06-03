@@ -119,7 +119,7 @@
 #include "mainfrm.h"
 #include "HView.h"
 #include "d3edit.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include "erooms.h"
 #include "editor.h"
 

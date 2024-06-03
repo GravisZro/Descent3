@@ -126,19 +126,19 @@
  */
 
 #include "help.h"
-#include "mono.h"
-#include "renderer.h"
+#include <ddebug/mono.h>
+#include <renderer/renderer.h>
 #include "render.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "descent.h"
 #include "game.h"
-#include "cfile.h"
-#include "application.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cfile/cfile.h>
+#include <ddio/application.h>
+#include <cstdlib>
+#include <cstring>
 #include <stdarg.h>
 #include "newui.h"
-#include "grtext.h"
+#include <grtext/grtext.h>
 #include "gamefont.h"
 #include "stringtable.h"
 

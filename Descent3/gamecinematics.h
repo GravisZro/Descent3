@@ -56,7 +56,7 @@
 #ifndef __INGAME_CINEMATICS_H_
 #define __INGAME_CINEMATICS_H_
 
-#include "vecmat_external.h"
+#include <vecmat/vecmat_external.h>
 #include "gamecinematics_external.h"
 #include "hud.h"
 

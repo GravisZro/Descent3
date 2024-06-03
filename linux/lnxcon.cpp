@@ -62,14 +62,14 @@
 #include <cctype>
 #include <algorithm>
 
-#include "application.h"
-#include "appconsole.h"
-#include "TaskSystem.h"
-#include "mono.h"
-#include "pstring.h"
+#include "lnxapp.h"
+#include <ddio/appconsole.h>
+// #include "TaskSystem.h"
+#include <ddebug/mono.h>
+#include <misc/pstring.h>
 #include <unistd.h>
 
-#include "linux/dyna_curses.h"
+#include <lib/linux/dyna_curses.h>
 
 //////////////////////////////////////////////////
 // Defines

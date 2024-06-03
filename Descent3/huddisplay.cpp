@@ -224,10 +224,10 @@
 #include <cstdio>
 
 #include "hud.h"
-#include "grtext.h"
+#include <grtext/grtext.h>
 #include "gamefont.h"
-#include "renderer.h"
-#include "pserror.h"
+#include <renderer/renderer.h>
+#include <misc/pserror.h>
 #include "player.h"
 #include "game.h"
 #include "weapon.h"

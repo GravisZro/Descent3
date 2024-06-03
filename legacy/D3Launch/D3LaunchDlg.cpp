@@ -289,7 +289,7 @@
 
 #include "dsetup.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <time.h>
 #include <direct.h>
 #include <io.h>

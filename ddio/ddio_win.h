@@ -73,7 +73,7 @@
 
 #include <cstdint>
 #include <windows.h>
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "win/DirectX/dinput.h"
 
 class oeWin32Application;

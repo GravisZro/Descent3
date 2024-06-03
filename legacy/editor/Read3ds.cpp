@@ -101,16 +101,16 @@
  */
 
 #include "read3ds.h"
-#include "cfile.h"
-#include "room.h"
+#include <cfile/cfile.h>
+#include <Descent3/room.h>
 #include "erooms.h"
-#include "gametexture.h"
-#include "ddio.h"
-#include "pserror.h"
-#include <string.h>
-#include <stdlib.h>
-#include "mem.h"
-#include "vecmat.h"
+#include <Descent3/gametexture.h>
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
+#include <cstring>
+#include <cstdlib>
+#include <mem/mem.h>
+#include <vecmat/vecmat.h>
 
 
 // 3ds MAX id's

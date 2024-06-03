@@ -96,7 +96,7 @@
  */
 
 #include "gamedll_header.h" //included by all mods, it includes all needed headers, etc.
-#include <string.h>
+#include <cstring>
 #include "idmfc.h" //dmfc! (required)
 #include "Entropy.h"
 #include "Entropystr.h" //our string table for Entropy

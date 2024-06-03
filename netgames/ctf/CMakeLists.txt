@@ -8,19 +8,4 @@ set_target_properties(${NETGAME_MODULE} PROPERTIES CXX_VISIBILITY_PRESET "hidden
 set_target_properties(${NETGAME_MODULE} PROPERTIES PREFIX "")
 set_target_properties(${NETGAME_MODULE} PROPERTIES SUFFIX ".d3m")
 
-target_link_libraries(${NETGAME_MODULE}
-  dmfc
-  grtext
-  dd_video
-  2dlib
-  module
-  renderer
-  physics
-  model
-  manage
-  bitmap
-  networking
-  ddio
-)
-
 install(TARGETS "${NETGAME_MODULE}" DESTINATION ${CMAKE_INSTALL_LIBDIR}/netgames)

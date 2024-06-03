@@ -53,7 +53,7 @@
 #include "d3edit.h"
 #include "selectedroom.h"
 #include "erooms.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 
 void RotateRooms(angle p,angle h,angle b)

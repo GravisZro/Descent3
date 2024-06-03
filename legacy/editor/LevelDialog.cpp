@@ -25,9 +25,9 @@
 #include "LevelDialog.h"
 
 
-#include "room.h"
+#include <Descent3/room.h>
 #include "ambient.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 
 
 #ifdef _DEBUG

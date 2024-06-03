@@ -24,8 +24,8 @@
 #include "PropertyAIDlg.h"
 #include "PropertyPhysicsDlg.h"
 #include "ObjectPropertiesDialog.h"
-#include "pserror.h"
-#include "ddio.h"
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

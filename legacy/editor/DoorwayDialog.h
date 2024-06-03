@@ -21,7 +21,7 @@
 
 #include "KeypadDialog.h"
 #include "gr.h"
-#include "doorway.h"
+#include <Descent3/doorway.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CDoorwayDialog dialog

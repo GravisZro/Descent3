@@ -76,7 +76,7 @@
 #ifndef __SPEW_H_
 #define __SPEW_H_
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 #define SF_FORCEUPDATE 0x01     // this spew needs to do an update no matter what next time it spews (gunpoint)
 #define SF_UPDATEDFORFRAME 0x02 // thie spew has already updated it's position for this frame, no need to do it again

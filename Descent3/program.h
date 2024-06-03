@@ -157,7 +157,7 @@
 #define PROGRAM_H
 
 #include "d3_version.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #define DEVELOPMENT_VERSION 0x1 // without editor: with debug, no beta
 #define RELEASE_VERSION 0x2     // final release candidate: no debug, beta, editor

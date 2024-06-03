@@ -24,8 +24,8 @@ The following #includes are used to 'import' OSIRIS support
 so if wanted to have OSIRIS scripts in this mod, We can use
 OSIRIS functions to control them.
 */
-#include "osiris_share.h"
-#include "d3events.h"
+#include <Descent3/osiris_share.h>
+#include <Descent3/d3events.h>
 
 /*
 =====================================================================

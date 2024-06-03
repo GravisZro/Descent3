@@ -88,15 +88,15 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "forcefeedback.h"
+#include <ddio/forcefeedback.h>
 #include "D3ForceFeedback.h"
-#include "pserror.h"
-#include "mono.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
 #include "weapon.h"
-#include "ddio.h"
-#include "psrand.h"
+#include <ddio/ddio.h>
+#include <misc/psrand.h>
 
 extern float Gametime;
 

@@ -411,17 +411,17 @@
 * $NoKeywords: $
 */
 
-#include "ui.h"
-#include "newui.h"
-#include "grdefs.h"
-#include "player.h"
-#include "game.h"
-#include "pilot.h"
-#include "ddio_common.h"
-#include "gamefont.h"
+#include <ui/ui.h>
+#include <Descent3/newui.h>
+#include <2dlib/grdefs.h>
+#include <Descent3/player.h>
+#include <Descent3/game.h>
+#include <Descent3/pilot.h>
+#include <ddio/ddio_common.h>
+#include <Descent3/gamefont.h>
 #include "mt_net.h"
 #include "mtgametrack.h"
-#include "module.h"
+#include <module/module.h>
 #include "inetgetfile.h"
 #include "chat_api.h"
 #include "mtstrings.h"

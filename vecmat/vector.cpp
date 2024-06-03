@@ -146,14 +146,14 @@
  * $NoKeywords: $
  */
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <math.h>
 
-#include "vecmat.h"
-#include "mono.h"
-#include "pserror.h"
-#include "psrand.h"
+#include <vecmat/vecmat.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <misc/psrand.h>
 
 const vector Zero_vector = {0.0, 0.0, 0.0};
 const matrix Identity_matrix = IDENTITY_MATRIX;

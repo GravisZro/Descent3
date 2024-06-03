@@ -37,7 +37,7 @@
  *
  */
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 // Called when a new level is started to reset the data
 void ResetScorches();

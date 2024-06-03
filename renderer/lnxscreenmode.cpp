@@ -57,12 +57,12 @@
  * $NoKeywords: $
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "lnxscreenmode.h"
-#include "pserror.h"
-#include "args.h"
+#include <misc/pserror.h>
+#include <Descent3/args.h>
 
 CLnxVideoModes LinuxVideoMode;
 

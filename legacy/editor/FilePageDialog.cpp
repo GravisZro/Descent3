@@ -21,13 +21,13 @@
 
 #include "stdafx.h"
 #include "editor.h"
-#include "ddio.h"
-#include "gamefile.h"
+#include <ddio/ddio.h>
+#include <Descent3/gamefile.h>
 #include "gamefilepage.h"
 #include "FilePageDialog.h"
 #include "EditLineDialog.h"
-#include "pserror.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <mem/mem.h>
 #include "FilePageAddDlg.h"
 
 #ifdef _DEBUG

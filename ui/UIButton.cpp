@@ -121,11 +121,11 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
+#include <ui/uilib.h>
 
-#include <string.h>
+#include <cstring>
 
-#ifdef __LINUX__
+#ifdef __unix__
 int UIButton::m_ButtonFont;
 #endif
 

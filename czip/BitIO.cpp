@@ -43,7 +43,7 @@
 
 #include <sys/stat.h>
 #include <errno.h>
-#include <Macros.h>
+#include <misc/macros.h>
 #include "CZip.h"
 
 BITFILE *CZip::OpenInputBitFile(char *filename) {

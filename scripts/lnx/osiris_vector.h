@@ -22,7 +22,7 @@
 #include <math.h>
 #include <time.h>
 
-#include "../../Main/lib/vecmat_external.h"
+#include <scripts/lib/vecmat_external.h>
 
 const vector Zero_vector = {0.0f, 0.0f, 0.0f};
 

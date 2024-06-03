@@ -16,13 +16,13 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include "bumpmap.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "mono.h"
-#include "mem.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <mem/mem.h>
 
 static int Num_of_bumpmaps = 0;
 static uint16_t Free_bumpmap_list[MAX_BUMPMAPS];

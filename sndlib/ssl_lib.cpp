@@ -41,7 +41,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include "ssl_lib.h"
+#include <sndlib/ssl_lib.h>
 
 llsSystem::llsSystem() {
   m_lib_error_code = SSL_OK;

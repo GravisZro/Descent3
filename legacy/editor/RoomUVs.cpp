@@ -65,7 +65,7 @@
 #include "..\neweditor\globals.h"
 #endif
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 //returns the magnatude of the 2d vector <a,b>
 static float zhypot(float a,float b)

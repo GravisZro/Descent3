@@ -64,8 +64,8 @@
 #ifndef COCKPIT_H
 #define COCKPIT_H
 
-#include "pstypes.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
 
 struct poly_model;
 struct bsp_info;

@@ -19,10 +19,10 @@
 #include <cstdlib>
 #include <memory.h>
 
-#include "mono.h"
-#include "ssl_lib.h"
+#include <ddebug/mono.h>
+#include <sndlib/ssl_lib.h>
 #include "mixer.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #define MIN_SOUND_MIX_VOLUME 0.0f
 #define MAX_WRITE_AHEAD 0.04f // Seconds to write ahead of the play position (in seconds)

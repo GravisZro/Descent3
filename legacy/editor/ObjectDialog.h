@@ -128,7 +128,7 @@
 
 #include "KeypadDialog.h"
 #include "GrListBox.h"
-#include "object.h"
+#include <Descent3/object.h>
 
 class CObjectDialog;
 

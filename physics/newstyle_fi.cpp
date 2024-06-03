@@ -16,17 +16,17 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "pserror.h"
-#include "pstypes.h"
-#include "vecmat.h"
-#include "polymodel.h"
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
+#include <model/polymodel.h>
 #include "findintersection.h"
-#include "game.h"
+#include <Descent3/game.h>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #ifndef NED_PHYSICS
-#include "multi.h"
+#include <Descent3/multi.h>
 #endif
 
 extern matrix View_matrix;

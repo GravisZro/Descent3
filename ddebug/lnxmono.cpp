@@ -43,7 +43,7 @@
  *
  * $NoKeywords: $
  */
-#include "mono.h"
+#include <ddebug/mono.h>
 
 #include <cassert>
 #include <cstdarg>
@@ -52,7 +52,7 @@
 #include <cerrno>
 #include <csignal>
 
-#include "debug.h"
+#include <ddebug/debug.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>

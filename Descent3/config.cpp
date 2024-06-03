@@ -279,46 +279,46 @@
  * $NoKeywords: $
  */
 
-#include "ConfigItem.h"
+#include "configitem.h"
 #include "player.h"
 #include "config.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "newui.h"
-#include "3d.h"
-#include "polymodel.h"
-#include "application.h"
+#include <renderer/3d.h>
+#include <model/polymodel.h>
+#include <ddio/application.h>
 #include "descent.h"
-#include "mono.h"
-#include "Mission.h"
-#include "ddio.h"
+#include <ddebug/mono.h>
+#include "mission.h"
+#include <ddio/ddio.h>
 #include "gamefont.h"
 #include "multi_ui.h"
 #include "cinematics.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "terrain.h"
-#include "cfile.h"
-#include "mem.h"
+#include <cfile/cfile.h>
+#include <mem/mem.h>
 #include "lighting.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "pilot.h"
 #include "hud.h"
 #include "voice.h"
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 #include "game.h"
 #include "render.h"
 #include "stringtable.h"
 #include "SmallViews.h"
 #include "D3ForceFeedback.h"
 #include "descent.h"
-#include "appdatabase.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "sounds.h"
+#include <ddio/appdatabase.h>
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <Descent3/sounds.h>
 #include "ctlconfig.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <stdarg.h>
 
 #define STAT_SCORE STAT_TIMER
@@ -679,7 +679,7 @@ struct video_menu {
     sheet->AddLongRadioButton("1600x1200");
     *resolution = iTemp;
 
-#if !defined(__LINUX__)
+#if !defined(__unix__)
     // renderer bit depth
     switch (Render_preferred_bitdepth) {
     case 16:
@@ -708,7 +708,7 @@ struct video_menu {
 
     sheet->NewGroup(TXT_MONITOR, 0, 180);
     vsync = sheet->AddLongCheckBox(TXT_CFG_VSYNCENABLED, (Render_preferred_state.vsync_on != 0));
-#ifndef __LINUX__
+#ifndef __unix__
     sheet->AddText("");
     sheet->AddLongButton(TXT_AUTO_GAMMA, IDV_AUTOGAMMA);
 #endif
@@ -723,7 +723,7 @@ struct video_menu {
       Render_preferred_state.mipping = (*mipmapping) ? 1 : 0;
     if (vsync)
       Render_preferred_state.vsync_on = (*vsync) ? 1 : 0;
-#if !defined(__LINUX__)
+#if !defined(__unix__)
     if (bitdepth)
       Render_preferred_bitdepth = (*bitdepth) == 1 ? 32 : 16;
 #endif
@@ -753,7 +753,7 @@ struct video_menu {
 
   // process
   void process(int res) {
-#ifndef __LINUX__
+#ifndef __unix__
     switch (res) {
     case IDV_AUTOGAMMA:
       config_gamma();
@@ -1350,7 +1350,7 @@ void details_menu::set_preset_details(int setting) {
 //	new Options menu
 //
 
-#include "init.h"
+#include <Descent3/init.h>
 
 void OptionsMenu() {
   newuiMenu menu;

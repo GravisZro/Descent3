@@ -112,11 +112,11 @@
 #ifndef __OSIRIS_H_
 #define __OSIRIS_H_
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "object_external_struct.h"
 #include "osiris_share.h"
-#include "module.h"
-#include "cfile.h"
+#include <module/module.h>
+#include <cfile/cfile.h>
 
 extern uint32_t Osiris_game_checksum;
 extern tOSIRISModuleInit Osiris_module_init;

@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "editor.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 #include "DallasTextureDlg.h"
 
 #ifdef _DEBUG

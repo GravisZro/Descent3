@@ -61,7 +61,7 @@
  */
 
 #include "gamedll_header.h"
-#include <string.h>
+#include <cstring>
 #include "idmfc.h"
 #include "hoardstr.h"
 #include "hoardaux.h"

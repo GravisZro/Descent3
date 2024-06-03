@@ -196,7 +196,7 @@
 #endif
 
 #include "selectedroom.h"
-#include "room.h"
+#include <Descent3/room.h>
 #include "hroom.h"
 #include "erooms.h"
 #include "loadlevel.h"
@@ -205,12 +205,12 @@
 #include "moveworld.h"
 #endif
 
-#include "object.h"
+#include <Descent3/object.h>
 #include "trigger.h"
-#include "pserror.h"
-#include "doorway.h"
-#include "mem.h"
-#include <string.h>
+#include <misc/pserror.h>
+#include <Descent3/doorway.h>
+#include <mem/mem.h>
+#include <cstring>
 #include "door.h"
 
 //Free a group.
@@ -430,7 +430,7 @@ void PlaceGroup(room *destroomp,int destface,group *g)
 	State_changed = 1;
 }
 
-#include "terrain.h"
+#include <Descent3/terrain.h>
 
 //Place the given group at the specified terrain cell
 //The function merely causes the group to be drawn in the editor, allowing the user to line it up

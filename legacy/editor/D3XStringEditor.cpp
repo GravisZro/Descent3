@@ -38,9 +38,9 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "D3XStringEditor.h"
-#include "pserror.h"
-#include "manage.h"
-#include "cfile.h"
+#include <misc/pserror.h>
+#include <manage/manage.h>
+#include <cfile/cfile.h>
 #include "d3x.h"
 
 #ifdef _DEBUG

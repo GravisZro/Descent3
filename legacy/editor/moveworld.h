@@ -24,7 +24,7 @@
 #ifndef _MOVEWORLD_H
 #define _MOVEWORLD_H
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 //Read the mouse and move the wireframe view
 void MoveWorld();

@@ -92,25 +92,24 @@
  * $NoKeywords: $
  */
 #include "module.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "ddio.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include <dlfcn.h>
 
 static bool mod_FindRealFileNameCaseInsenstive(const char *directory, const char *filename, char *new_filename);
 #endif
 
 #include "module.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include <stdio.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <cstdio>
 #include <stdarg.h>
-#include <string.h>
-#if defined(__LINUX__)
-#include "linux_fix.h"
-#endif
+#include <cstring>
+#include <linux/linux_fix.h>
+
 #if defined(WIN32) // INSTEAD OF MAKING MODULE HAVE DEPENDENCIES, PUT THE 2 DDIO FUNCTIONS I NEED HERE
 // Split a pathname into its component parts
 static void dd_SplitPath(const char *srcPath, char *path, char *filename, char *ext) {
@@ -158,7 +157,7 @@ static void dd_MakePath(char *newPath, const char *absolutePathHeader, const cha
   }
   va_end(args);
 }
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 // Split a pathname into its component parts
 static void dd_SplitPath(const char *srcPath, char *path, char *filename, char *ext) {
   int pathStart = -1;
@@ -281,7 +280,7 @@ void mod_GetRealModuleName(const char *modfilename, char *realmodfilename) {
   if (*extension == '\0')
 #if defined(WIN32)
     strcat(filename, ".dll");
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 #if defined(MACOSX)
     strcat(filename, ".dylib");
 #else
@@ -294,12 +293,12 @@ void mod_GetRealModuleName(const char *modfilename, char *realmodfilename) {
       strcat(filename, ".dll");
     else
       strcat(filename, extension);
-#elif defined(__LINUX__) && !defined(MACOSX)
+#elif defined(__unix__) && !defined(MACOSX)
     if (!stricmp(extension, ".dll") || !stricmp(extension, "msl") || !stricmp(extension, "dylib"))
       strcat(filename, ".so");
     else
       strcat(filename, extension);
-#elif defined(__LINUX__) && defined(MACOSX)
+#elif defined(__unix__) && defined(MACOSX)
       if (!stricmp(extension, ".dll") || !stricmp(extension, "msl") || !stricmp(extension, "so"))
         strcat(filename, ".dylib");
       else
@@ -348,7 +347,7 @@ bool mod_LoadModule(module *handle, const char *imodfilename, int flags) {
     }
     return false;
   }
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   int f = 0;
   if (flags & MODF_LAZY)
     f |= RTLD_LAZY;
@@ -398,7 +397,7 @@ bool mod_FreeModule(module *handle) {
   }
 #if defined(WIN32)
   ret = (FreeLibrary(handle->handle) != 0);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   dlclose(handle->handle); // dlclose() returns an int, but no docs say what values!!!
 #endif
   handle->handle = NULL;
@@ -460,7 +459,7 @@ MODPROCADDRESS mod_GetSymbol(module *handle, const char *symstr, uint8_t parmbyt
     }
     return NULL;
   }
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   sym = dlsym(handle->handle, symstr);
   if (!sym) {
     ModLastError = MODERR_OTHER;
@@ -476,7 +475,7 @@ int mod_GetLastError(void) {
   // Clear out the errors
 #if defined(WIN32)
   SetLastError(0);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   dlerror();
 #endif
   int ret = ModLastError;
@@ -484,7 +483,7 @@ int mod_GetLastError(void) {
   return ret;
 }
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include <assert.h>
 #include <stdarg.h>
 #include <sys/stat.h>
@@ -493,7 +492,7 @@ int mod_GetLastError(void) {
 #include <unistd.h>
 #include <utime.h>
 #include <glob.h>
-#include <string.h>
+#include <cstring>
 #include <errno.h>
 #include <ctype.h>
 

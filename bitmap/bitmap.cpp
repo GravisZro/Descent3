@@ -297,23 +297,24 @@
  *
  * $NoKeywords: $
  */
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
-#include "cfile.h"
-#include "texture.h"
-#include "bitmap.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "mono.h"
+#include <cfile/cfile.h>
+#include <2dlib/grdefs.h>
+//#include "texture.h"
+#include <bitmap/bitmap.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
 #include "iff.h"
-#include "ddio.h"
-#include "lightmap.h"
+#include <ddio/ddio.h>
+#include <bitmap/lightmap.h>
 #include "bumpmap.h"
-#include "mem.h"
-#include "psrand.h"
+#include <mem/mem.h>
+#include <misc/psrand.h>
 
-#include "Macros.h"
+#include <misc/macros.h>
 
 #include <algorithm>
 

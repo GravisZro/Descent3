@@ -114,15 +114,15 @@
 #include "program.h"
 #include "descent.h"
 #include "cinematics.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "musicapi.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <d3music/musicapi.h>
 
-#include "ddio.h"
+#include <ddio/ddio.h>
 // #include <malloc.h>
-#include "mem.h"
+#include <mem/mem.h>
 
-#include <string.h>
+#include <cstring>
 
 // externed from newui.cpp
 extern int UI_frame_result;

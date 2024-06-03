@@ -16,12 +16,12 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdlib.h>
-#include <string.h>
-#include "3d.h"
-#include "pserror.h"
+#include <cstdlib>
+#include <cstring>
+#include <renderer/3d.h>
+#include <misc/pserror.h>
 #include "HardwareInternal.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 
 // User-specified aspect ratio, stored as w/h
 static float sAspect = 0.0f;

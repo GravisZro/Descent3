@@ -165,7 +165,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "3d.h"
+#include <renderer/3d.h>
 
 // Variables for debug/test
 #if (defined(_DEBUG) || defined(NEWEDITOR))

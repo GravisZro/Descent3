@@ -70,11 +70,11 @@
 
 #include "lib2d.h"
 
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 
-#include <string.h>
-#include <stdlib.h>
-#include "mem.h"
+#include <cstring>
+#include <cstdlib>
+#include <mem/mem.h>
 
 //	----------------------------------------------------------------------------
 //	constructor and destructor

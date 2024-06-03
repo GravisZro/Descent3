@@ -23,7 +23,7 @@
 #include <cstdint>
 
 #include "SystemInterfaces.h"
-#if defined(__LINUX__)
+#if defined(__unix__)
 #include "lnxdsound.h"
 #endif
 // Call this function to provide hooks into your memory management.

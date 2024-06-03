@@ -47,12 +47,12 @@
 
 #include <algorithm>
 
-#include "application.h"
-#include "appconsole.h"
-#include "TaskSystem.h"
-#include "mono.h"
+#include <ddio/application.h>
+#include <ddio/appconsole.h>
+// #include "TaskSystem.h"
+#include <ddebug/mono.h>
 // #include "local_malloc.h"
-#include "pstring.h"
+#include <misc/pstring.h>
 #include <unistd.h>
 
 static char *Con_raw_read_buf = NULL;                     // The next buffer of text from user input

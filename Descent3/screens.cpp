@@ -188,21 +188,21 @@
 #include "screens.h"
 #include "newui.h"
 #include "game.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "descent.h"
-#include "application.h"
+#include <ddio/application.h>
 #include "gamefont.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
 #include "player.h"
-#include "Mission.h"
+#include "mission.h"
 #include "game2dll.h"
 #include "stringtable.h"
 #include "dedicated_server.h"
 #include "levelgoal.h"
-#include "sounds.h"
+#include <Descent3/sounds.h>
 #include "pilot.h"
-#include "joystick.h"
+#include <ddio/joystick.h>
 
 #define LVLRES_FADEIN_TIME 0.50f
 #define TEXT_REDRAW_COUNT 6.0f

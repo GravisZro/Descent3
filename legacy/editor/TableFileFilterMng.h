@@ -19,8 +19,8 @@
 #ifndef _TABLE_FILE_FILTER_MNG_H_
 #define _TABLE_FILE_FILTER_MNG_H_
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 
 #define SOURCE_TABLE_FILENAME		"F:\\Descent3\\data\\tables\\table.gam"
 

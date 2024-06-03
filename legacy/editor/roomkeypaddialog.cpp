@@ -254,19 +254,19 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "RoomKeypadDialog.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "erooms.h"
 #include "mainfrm.h"
 #include "rotateroom.h"
 #include "boa.h"
 #include "HRoom.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "HView.h"
 #include "ambient.h"
-#include "render.h"
+#include <Descent3/render.h>
 #include "EditLineDialog.h"
-#include "hlsoundlib.h"
-#include "mem.h"
+#include <sndlib/hlsoundlib.h>
+#include <mem/mem.h>
 #include "damage_external.h"
 #include "boa.h"
 

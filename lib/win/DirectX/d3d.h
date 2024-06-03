@@ -18,7 +18,7 @@
 #if(DIRECT3D_VERSION < 0x0800)
 
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #define COM_NO_WINDOWS_H
 #include <objbase.h>

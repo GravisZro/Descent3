@@ -147,24 +147,24 @@
  */
 
 #include "TelComAutoMap.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
 
-#include "cfile.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "bitmap.h"
+#include <cfile/cfile.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <bitmap/bitmap.h>
 #include "room.h"
 
 #include "TelCom.h"
 #include "TelComEffects.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 #include "game.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "stringtable.h"
 #include "lightmap_info.h"
-#include "lightmap.h"
+#include <bitmap/lightmap.h>
 #include "controls.h"
 #include "terrain.h"
 #include "config.h"
@@ -172,11 +172,11 @@
 #include "multi.h"
 #include "fireball.h"
 #include "gamesequence.h"
-#include "Mission.h"
-#include "polymodel.h"
+#include "mission.h"
+#include <model/polymodel.h>
 #include "player.h"
 #include "marker.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 
 // Variables needed for automap
 static vector AM_view_pos = {0, 0, 0};

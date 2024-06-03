@@ -227,22 +227,22 @@
  * $NoKeywords: $
  */
 
-#include <cstring>
-
-#include "pserror.h"
-#include "ssl_lib.h"
-#include "object.h"
-#include "ddio.h"
 #include "soundload.h"
-#include "weapon.h"
-#include "ship.h"
-#include "door.h"
-#include "room.h"
-#include "doorway.h"
 
-#if defined(WIN32) || defined(__LINUX__)
-#include "../manage/soundpage.h"
-#include "../Descent3/sounds.h"
+#include <cstring>
+#include <misc/pserror.h>
+#include <sndlib/ssl_lib.h>
+#include <Descent3/object.h>
+#include <ddio/ddio.h>
+#include <Descent3/weapon.h>
+#include <Descent3/ship.h>
+#include <Descent3/door.h>
+#include <Descent3/room.h>
+#include <Descent3/doorway.h>
+
+#if defined(WIN32) || defined(__unix__)
+#include <manage/soundpage.h>
+#include <Descent3/sounds.h>
 #endif
 
 int Num_sounds = 0;

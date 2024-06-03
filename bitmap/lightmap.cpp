@@ -16,16 +16,16 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdlib.h>
-#include <string.h>
-#include "lightmap.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "bitmap.h"
-#include "mono.h"
-#include "mem.h"
-#ifndef __LINUX__
-#include "Macros.h"
+#include <cstdlib>
+#include <cstring>
+#include <bitmap/lightmap.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <bitmap/bitmap.h>
+#include <ddebug/mono.h>
+#include <mem/mem.h>
+#ifndef __unix__
+#include <misc/macros.h>
 #endif
 
 #include <algorithm>

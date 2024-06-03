@@ -204,20 +204,20 @@
 
 #include "Briefing.h"
 #include "BriefingParse.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
 #include "game.h"
-#include "mem.h"
-#include "hlsoundlib.h"
+#include <mem/mem.h>
+#include <sndlib/hlsoundlib.h>
 #include "voice.h"
-#include "streamaudio.h"
-#include "pserror.h"
-#include "ddio.h"
+#include <stream_audio/streamaudio.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
 #include "descent.h"
 #include "TelCom.h"
 #include "TelComEffects.h"
-#include "Mission.h"
+#include "mission.h"
 
 struct tBriefingTag {
   const char *name;

@@ -25,7 +25,7 @@
 // BriefScreenEdit.h : header file
 //
 #include "gr.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 /////////////////////////////////////////////////////////////////////////////
 // CBriefScreenEdit dialog
 

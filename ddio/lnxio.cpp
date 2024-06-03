@@ -62,9 +62,10 @@
 #include <mach-o/dyld.h>
 #endif
 
-#include "application.h"
-#include "ddio.h"
-#include "pserror.h"
+#include <linux/lnxapp.h>
+#include <ddio/application.h>
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
 
 bool DDIO_init = false;
 oeLnxApplication *Lnx_app_obj = NULL;

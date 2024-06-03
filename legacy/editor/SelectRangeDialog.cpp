@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "SelectRangeDialog.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

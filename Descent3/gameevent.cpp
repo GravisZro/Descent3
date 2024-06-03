@@ -68,9 +68,9 @@
 #include "descent.h"
 #include "gameloop.h"
 #include "spew.h"
-#include <string.h>
+#include <cstring>
 // #include <malloc.h>
-#include "mem.h"
+#include <mem/mem.h>
 #include "player.h"
 
 int Num_events = 0;

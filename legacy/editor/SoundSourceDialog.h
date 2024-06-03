@@ -26,7 +26,7 @@
 //
 
 #include "SoundListCombo.h"
-#include "object.h"
+#include <Descent3/object.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CSoundSourceDialog dialog

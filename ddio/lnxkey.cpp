@@ -49,9 +49,10 @@
 // ----------------------------------------------------------------------------
 //	Keyboard Interface
 // ----------------------------------------------------------------------------
-#include "application.h"
-#include "ddio.h"
-#include "mono.h"
+#include <linux/lnxapp.h>
+#include <ddio/application.h>
+#include <ddio/ddio.h>
+#include <ddebug/mono.h>
 
 volatile struct tLnxKeys {
   union {

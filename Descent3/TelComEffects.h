@@ -118,13 +118,13 @@
 #ifndef __TELCOM_EFFECTS_H_
 #define __TELCOM_EFFECTS_H_
 
-#include "pstypes.h"
-#include "renderer.h"
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <renderer/renderer.h>
+#include <2dlib/grdefs.h>
 #include "cinematics.h"
 #include "TelComEfxStructs.h"
 #include "TelCom.h"
-#include "vecmat_external.h"
+#include <vecmat/vecmat_external.h>
 
 /*
 ***************************************************************************************

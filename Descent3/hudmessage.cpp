@@ -325,13 +325,13 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
-#include "grdefs.h"
+#include <2dlib/grdefs.h>
 #include "hud.h"
 #include "game.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "gamefont.h"
 #include "newui.h"
 #include "multi.h"
@@ -339,16 +339,16 @@
 #include "game2dll.h"
 #include "stringtable.h"
 #include "dedicated_server.h"
-#include "appconsole.h"
+#include <ddio/appconsole.h>
 #include "demofile.h"
-#include "mem.h"
-#include "textaux.h"
-#include "3d.h"
+#include <mem/mem.h>
+#include <grtext/textaux.h>
+#include <renderer/3d.h>
 #include "marker.h"
 #include "controls.h"
-#include "Mission.h"
-#include "sounds.h"
-#include "hlsoundlib.h"
+#include "mission.h"
+#include <Descent3/sounds.h>
+#include <sndlib/hlsoundlib.h>
 #include "args.h"
 
 #define HUD_MESSAGE_NORMAL 0

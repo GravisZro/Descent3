@@ -60,8 +60,8 @@
 #ifndef __DMFC_APP_H_
 #define __DMFC_APP_H_
 
-#include "osiris_share.h"
-#include "d3events.h"
+#include <Descent3/osiris_share.h>
+#include <Descent3/d3events.h>
 
 void OnHUDInterval(void);
 void OnInterval(void);

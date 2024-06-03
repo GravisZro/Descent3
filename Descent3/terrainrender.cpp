@@ -792,22 +792,22 @@ void RenderMine(int viewer_roomnum, int flag_automap, int called_from_terrain, b
                 prim *prim);
 #endif
 #include "terrain.h"
-#include "grdefs.h"
-#include "3d.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "renderer.h"
+#include <2dlib/grdefs.h>
+#include <renderer/3d.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
 #include "gametexture.h"
 #include "descent.h"
 #include "render.h"
 #include "game.h"
-#include "texture.h"
-#include "ddio.h"
-#include "polymodel.h"
+//#include "texture.h"
+#include <ddio/ddio.h>
+#include <model/polymodel.h>
 #include "lighting.h"
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "renderobject.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "weapon.h"
 #include "weather.h"
 #include "viseffect.h"
@@ -815,13 +815,13 @@ void RenderMine(int viewer_roomnum, int flag_automap, int called_from_terrain, b
 #include "editor\d3edit.h"
 #endif
 #include "fireball.h"
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include "config.h"
 #include "gameloop.h"
 #include "postrender.h"
-#include "Macros.h"
-#include "psrand.h"
+#include <misc/macros.h>
+#include <misc/psrand.h>
 #include "player.h"
 
 #include <algorithm>
@@ -2717,7 +2717,7 @@ static g3Point *slist[256];
 // Draws the 2 triangles of the Terrainlist[index] (software)
 int DrawTerrainTrianglesSoftware(int index, int bm_handle, int upper_left, int lower_right) {
   /*
-  #ifndef __LINUX__
+  #ifndef __unix__
           int i,tlist[4],close=0,lit=0;
           float closest_z=9999;
           int color;
@@ -2894,7 +2894,7 @@ int DrawTerrainTrianglesSoftware(int index, int bm_handle, int upper_left, int l
                           }
                   }
           #endif
-  #endif//__LINUX__
+  #endif//__unix__
           */
   return 0;
 }

@@ -26,11 +26,11 @@
 
 #include "hogfile.h"
 #include "HogDialog.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <malloc.h>
-#include <string.h>
+#include <cstring>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

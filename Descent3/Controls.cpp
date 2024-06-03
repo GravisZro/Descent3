@@ -407,15 +407,15 @@
 #include "controls.h"
 
 #include "object.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "game.h"
-#include "ddio.h"
-#include "joystick.h"
+#include <ddio/ddio.h>
+#include <ddio/joystick.h>
 #include "descent.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "weapon.h"
-#include "controller.h"
-#include "Macros.h"
+#include <ddio/controller.h>
+#include <misc/macros.h>
 #include "gamesequence.h"
 #include "pilot.h"
 #include "hud.h"
@@ -426,11 +426,11 @@
 
 #include "player.h"
 
-#include "hlsoundlib.h"
-#include "sounds.h"
-#include "soundload.h"
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
+#include <sndlib/soundload.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory.h>
 
 float Key_ramp_speed = 0.5f;

@@ -99,8 +99,8 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "PreferencesDialog.h"
-#include "game.h"
-#include "pilot.h"
+#include <Descent3/game.h>
+#include <Descent3/pilot.h>
 #include "slew.h"
 
 #ifdef _DEBUG

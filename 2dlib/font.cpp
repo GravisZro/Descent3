@@ -116,16 +116,16 @@
  * $NoKeywords: $
  */
 
-#include "pserror.h"
-#include "renderer.h"
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
 #include "gr.h"
-#include "mono.h"
-#include "cfile.h"
-#include "bitmap.h"
-#include "mem.h"
+#include <ddebug/mono.h>
+#include <cfile/cfile.h>
+#include <bitmap/bitmap.h>
+#include <mem/mem.h>
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #define FT_COLOR 1
 #define FT_PROPORTIONAL 2

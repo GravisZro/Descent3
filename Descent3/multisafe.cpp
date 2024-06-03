@@ -651,13 +651,13 @@
 #include "AIGoal.h"
 #include "weapon.h"
 #include "spew.h"
-#include "hlsoundlib.h"
-#include "sounds.h"
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
 #include "ship.h"
 #include "player.h"
 #include "object_lighting.h"
-#include "soundload.h"
-#include "streamaudio.h"
+#include <sndlib/soundload.h>
+#include <stream_audio/streamaudio.h>
 #include "gamesequence.h"
 #include "gameevent.h"
 #include "SmallViews.h"
@@ -665,7 +665,7 @@
 #include "door.h"
 #include "demofile.h"
 #include "stringtable.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 #include "multi_world_state.h"
 #include "osiris_predefs.h"
 #include "viseffect.h"

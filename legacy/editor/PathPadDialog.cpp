@@ -24,12 +24,12 @@
 #include "PathPadDialog.h"
 #include "EditLineDialog.h"
 #include "epath.h"
-#include "object.h"
-#include "room.h"
+#include <Descent3/object.h>
+#include <Descent3/room.h>
 #include "FindIntersection.h"
 #include "ebnode.h"
 #include "boa.h"
-#include "object.h"
+#include <Descent3/object.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

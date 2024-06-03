@@ -78,9 +78,9 @@
 
 #include "stdafx.h"
 #include "dyna_glide.h"
-#include "module.h"
+#include <module/module.h>
 
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "PsTypes.h"
 #include "3d_detect.h"
 #include "gl.h"

@@ -19,9 +19,9 @@
 #ifndef POWERPAGE_H
 #define POWERPAGE_H
 
-#include "manage.h"
-#include "cfile.h"
-#include "pstypes.h"
+#include <manage/manage.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
 #include "powerup.h"
 
 struct mngs_power_page {

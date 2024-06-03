@@ -196,7 +196,7 @@
 #include "..\neweditor\ned_GameTexture.h"
 #else
 
-#include "manage.h"
+#include <manage/manage.h>
 
 #define TF_VOLATILE 1
 #define TF_WATER (1 << 1)

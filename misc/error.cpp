@@ -67,13 +67,13 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
-#include "mono.h"
-#include "pserror.h"
-#include "debug.h"
-#include "application.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <ddebug/debug.h>
+#include <ddio/application.h>
 
 #define MAX_MSG_LEN 2000
 

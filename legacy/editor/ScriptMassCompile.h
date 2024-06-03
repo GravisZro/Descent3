@@ -66,7 +66,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CScriptMassCompile dialog
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 uint8_t DetermineScriptType(char *filename);
 

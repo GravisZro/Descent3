@@ -295,21 +295,21 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "WorldWeaponsDialog.h"
-#include "manage.h"
-#include "vclip.h"
-#include "bitmap.h"
+#include <manage/manage.h>
+#include <Descent3/vclip.h>
+#include <bitmap/bitmap.h>
 #include "weaponpage.h"
-#include "weapon.h"
-#include "polymodel.h"
+#include <Descent3/weapon.h>
+#include <model/polymodel.h>
 #include "soundpage.h"
-#include "soundload.h"
-#include "object.h"
-#include "gametexture.h"
+#include <sndlib/soundload.h>
+#include <Descent3/object.h>
+#include <Descent3/gametexture.h>
 #include "PhysicsDlg.h"
 #include "EditLineDialog.h"
 #include "GenericLightDialog.h"
-#include "ddio.h"
-#include "mem.h"
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

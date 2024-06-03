@@ -85,7 +85,7 @@
 * $NoKeywords: $
 */
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #ifndef _GAMETRACK_HEADER_DEFINED
 #define _GAMETRACK_HEADER_DEFINED

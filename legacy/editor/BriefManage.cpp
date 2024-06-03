@@ -22,11 +22,11 @@
 #include "stdafx.h"
 #include "BriefManage.h"
 #include "editor.h"
-#include "ddio.h"
-#include "manage.h"
-#include "pserror.h"
-#include "pstypes.h"
-#include "gamefile.h"
+#include <ddio/ddio.h>
+#include <manage/manage.h>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <Descent3/gamefile.h>
 #include "soundpage.h"
 #include "editlinedialog.h"
 

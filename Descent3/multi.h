@@ -492,15 +492,13 @@
 #ifndef MULTI_H
 #define MULTI_H
 
-#include "pstypes.h"
-#include "vecmat_external.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat_external.h>
 #include "object_external_struct.h"
 #include "object_external.h"
 #include "player_external.h"
 
-#if defined(__LINUX__)
-#include "linux_fix.h"
-#endif
+#include <linux/linux_fix.h>
 
 #include "multi_external.h" //defines and structs are in here
 

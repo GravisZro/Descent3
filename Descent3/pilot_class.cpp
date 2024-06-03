@@ -132,18 +132,18 @@
  */
 
 #include "pilot_class.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "hud.h"
-#include "mem.h"
-#include "pserror.h"
-#include "mono.h"
+#include <mem/mem.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
 #include "config.h"
 #include "ship.h"
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
-#include "application.h"
-#include "appdatabase.h"
+#include <ddio/application.h>
+#include <ddio/appdatabase.h>
 
 #include "stringtable.h"
 

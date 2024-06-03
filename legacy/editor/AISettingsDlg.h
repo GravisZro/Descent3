@@ -25,7 +25,7 @@
 // AISettingsDlg.h : header file
 //
 
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CAISettingsDlg dialog
@@ -137,7 +137,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 //Copy data from ai_info struct to CAISettingsDlg class
 void CopyAIData(CAISettingsDlg *dlg,ai_frame *ai_info);

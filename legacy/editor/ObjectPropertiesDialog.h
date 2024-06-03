@@ -28,7 +28,7 @@
 #ifndef _OBJ_PROP_DLG_H_
 #define _OBJ_PROP_DLG_H_
 
-#include "objscript.h"
+#include <Descent3/object_script.h>
 
 
 class CPropertyAIDlg;

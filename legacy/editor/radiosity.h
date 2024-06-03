@@ -65,9 +65,9 @@
 #ifndef RADIOSITY_H
 #define RADIOSITY_H
 
-#include "pserror.h"
-#include "pstypes.h"
-#include "3d.h"
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <renderer/3d.h>
 #include "gr.h"
 
 // Shooting methods

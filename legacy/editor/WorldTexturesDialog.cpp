@@ -240,22 +240,22 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "WorldTexturesDialog.h"
-#include "bitmap.h"
-#include "gametexture.h"
-#include "manage.h"
+#include <bitmap/bitmap.h>
+#include <Descent3/gametexture.h>
+#include <manage/manage.h>
 #include "texpage.h"
-#include "pserror.h"
-#include "mono.h"
-#include "vclip.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <Descent3/vclip.h>
 #include "macros.h"
 #include "texture.h"
 #include "EditLineDialog.h"
-#include "ddio.h"
-#include "polymodel.h"
-#include "bumpmap.h"
+#include <ddio/ddio.h>
+#include <model/polymodel.h>
+#include <bitmap/bumpmap.h>
 #include "ProceduralDialog.h"
 #include "WaterProceduralDialog.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "ManageCheckin.h"
 
 #ifdef _DEBUG
@@ -2896,7 +2896,7 @@ void CWorldTexturesDialog::OnSmoothSpecCheck()
 	
 }
 
-#include "soundload.h"
+#include <sndlib/soundload.h>
 #include "DallasSoundDlg.h"
 
 void CWorldTexturesDialog::OnAmbientSoundSelect() 

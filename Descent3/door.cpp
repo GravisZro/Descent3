@@ -117,11 +117,11 @@
  * $NoKeywords: $
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "door.h"
-#include "pserror.h"
-#include "polymodel.h"
+#include <misc/pserror.h>
+#include <model/polymodel.h>
 #include "game.h"
 #include "doorway.h"
 

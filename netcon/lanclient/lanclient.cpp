@@ -263,16 +263,16 @@
  * $NoKeywords: $
  */
 
-#include "ui.h"
-#include "newui.h"
-#include "grdefs.h"
-#include "player.h"
-#include "game.h"
-#include "pilot.h"
-#include "module.h"
-#include "ddio_common.h"
+#include <ui/ui.h>
+#include <Descent3/newui.h>
+#include <2dlib/grdefs.h>
+#include <Descent3/player.h>
+#include <Descent3/game.h>
+#include <Descent3/pilot.h>
+#include <module/module.h>
+#include <ddio/ddio_common.h>
 
-#include "inetgetfile.h"
+#include <netcon/inetfile/inetgetfile.h>
 
 #ifdef __STATIC_NETWORK_CLIENTS
 #define DLLMultiCall DLLMultiCall_LAN

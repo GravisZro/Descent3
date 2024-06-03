@@ -43,7 +43,7 @@
  */
 
 #include "gamedll_header.h"
-#include <string.h>
+#include <cstring>
 #include "idmfc.h"
 #include "Entropystr.h"
 #include "EntropyAux.h"

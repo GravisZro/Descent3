@@ -45,7 +45,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "OrphanRemoveDlg.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "doorpage.h"
 #include "gamefilepage.h"
 #include "genericpage.h"
@@ -53,8 +53,8 @@
 #include "soundpage.h"
 #include "texpage.h"
 #include "weaponpage.h"
-#include "ddio.h"
-#include "mem.h"
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

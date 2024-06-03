@@ -16,11 +16,11 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "3d.h"
-#include "pserror.h"
+#include <renderer/3d.h>
+#include <misc/pserror.h>
 #include "HardwareInternal.h"
-#include "renderer.h"
-#include <string.h>
+#include <renderer/renderer.h>
+#include <cstring>
 
 // Whether or not to use T&L transforms or the pass-thru ones
 static int sUseTransformPassthru = -1;

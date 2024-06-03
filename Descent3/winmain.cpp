@@ -17,20 +17,20 @@
 */
 
 #include <windows.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include "mono.h"
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
+#include <ddebug/mono.h>
 #include "descent.h"
-#include "texture.h"
-#include "application.h"
-#include "appdatabase.h"
-#include "pserror.h"
+//#include "texture.h"
+#include <ddio/application.h>
+#include <ddio/appdatabase.h>
+#include <misc/pserror.h>
 #include "args.h"
-#include "init.h"
+#include <Descent3/init.h>
 #include "dedicated_server.h"
 #include "resource.h"
-#include "log.h"
+#include <misc/log.h>
 
 const char *English_strings[] = {"Descent 3 under Windows NT requires version 4.0 or greater of NT to run.",
                                  "Descent 3 requires  Windows 9x, NT 4.0 or greater to run.",

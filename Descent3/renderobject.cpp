@@ -579,15 +579,15 @@
  */
 #include "object.h"
 #include "object_lighting.h"
-#include "3d.h"
-#include "polymodel.h"
-#include "renderer.h"
+#include <renderer/3d.h>
+#include <model/polymodel.h>
+#include <renderer/renderer.h>
 #include "weapon.h"
 #include "fireball.h"
 #include "descent.h"
 #include "renderobject.h"
 #include "AIMain.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "splinter.h"
 #include "fireball.h"
 #include "descent.h"
@@ -597,17 +597,17 @@
 #include "player.h"
 #include "damage.h"
 #include "gameloop.h"
-#include "findintersection.h"
-#include "grtext.h"
+#include <physics/findintersection.h>
+#include <grtext/grtext.h>
 #include "gamefont.h"
 #include "config.h"
 #include "viseffect.h"
 #include "game2dll.h"
 #include "marker.h"
 #include "ship.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 
-#include <string.h>
+#include <cstring>
 #ifdef EDITOR
 #include "editor\d3edit.h"
 #endif

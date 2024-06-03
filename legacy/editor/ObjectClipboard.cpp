@@ -27,21 +27,21 @@
 #include "TextureGrWnd.h"
 
 #include "editor.h"
-#include "render.h"
-#include "manage.h"
+#include <Descent3/render.h>
+#include <manage/manage.h>
 #include "gr.h"	   
 #include "gameloop.h"
-#include "descent.h"
-#include "terrain.h"
+#include <Descent3/descent.h>
+#include <Descent3/terrain.h>
 #include "HTexture.h"
 #include "terraindialog.h"
-#include "room.h"
-#include <string.h>
+#include <Descent3/room.h>
+#include <cstring>
 
 #include <assert.h>
 
-#include "mono.h"
-#include "3d.h"
+#include <ddebug/mono.h>
+#include <renderer/3d.h>
 #include "gr.h"
 #include "gamepath.h"
 #include "ObjectClipboard.h"

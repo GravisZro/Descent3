@@ -64,10 +64,10 @@
 #ifndef _PHYSICS_H
 #define _PHYSICS_H
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "findintersection.h"
-#include "object.h"
-#include "viseffect.h"
+#include <Descent3/object.h>
+#include <Descent3/viseffect.h>
 
 extern int Physics_normal_counter;
 extern int Physics_normal_looping_counter;

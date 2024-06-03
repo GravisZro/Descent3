@@ -27,8 +27,8 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "pstypes.h"
-#include "psclass.h"
+#include <misc/pstypes.h>
+#include <misc/psclass.h>
 
 struct CFILE;
 

@@ -34,7 +34,7 @@
  * $NoKeywords: $
  */
 
-#include "psrand.h"
+#include <misc/psrand.h>
 
 static int32_t ps_holdrand = 1L;
 

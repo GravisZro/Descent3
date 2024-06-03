@@ -24,7 +24,7 @@
 #endif // _MSC_VER > 1000
 // BriefMissionFlagsDlg.h : header file
 //
-#include "pstypes.h"
+#include <misc/pstypes.h>
 /////////////////////////////////////////////////////////////////////////////
 // CBriefMissionFlagsDlg dialog
 

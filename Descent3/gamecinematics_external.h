@@ -83,8 +83,8 @@
 
 #include <cstdint>
 
-#include "vecmat_external.h"
-#include "manage_external.h"
+#include <vecmat/vecmat_external.h>
+#include <manage/manage_external.h>
 
 /*
 ==========================================================

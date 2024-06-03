@@ -76,7 +76,7 @@
 #define M_TEXTUREGRWND_H
 
 #include "GrWnd.h"
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CTextureGrWnd window

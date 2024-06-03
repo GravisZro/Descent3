@@ -19,10 +19,10 @@
 #ifndef SOUNDPAGE_H
 #define SOUNDPAGE_H
 
-#include "manage.h"
-#include "soundload.h"
-#include "cfile.h"
-#include "pstypes.h"
+#include <manage/manage.h>
+#include <sndlib/soundload.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
 
 struct mngs_sound_page {
   sound_info sound_struct;

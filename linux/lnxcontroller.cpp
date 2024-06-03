@@ -42,20 +42,20 @@
  */
 
 #include <cstring>
-#include "controller.h"
-#include "ddio.h"
-#include "pserror.h"
-#include "joystick.h"
-#include "inffile.h"
+#include <ddio/controller.h>
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
+#include <ddio/joystick.h>
+#include <cfile/inffile.h>
 #include "lnxcontroller.h"
 
 // Sorry! This is needed for the semi-hacky mouselook support
-#include "descent.h"
-#include "player.h"
-#include "object.h"
-#include "pilot.h"
-#include "multi.h"
-#include "game.h"
+#include <Descent3/descent.h>
+#include <Descent3/player.h>
+#include <Descent3/object.h>
+#include <Descent3/pilot.h>
+#include <Descent3/multi.h>
+#include <Descent3/game.h>
 // End of hacky includes
 
 #define JOY_DEADZONE 0.20f

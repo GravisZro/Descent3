@@ -41,7 +41,7 @@
 #ifndef __SCRIPTCOMPILERAPI_H_
 #define __SCRIPTCOMPILERAPI_H_
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #define ST_LEVEL	0
 #define ST_GAME		1

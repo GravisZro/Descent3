@@ -24,21 +24,20 @@
 #include <cctype>
 #include <memory>
 #include <vector>
-#ifndef __LINUX__
+#ifndef __unix__
 // Non-Linux Build Includes
 #include <io.h>
-#else
-// Linux Build Includes
-#include "linux_fix.h"
 #endif
 
-#include "byteswap.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "psglob.h"
-#include "cfile.h"
+#include <linux/linux_fix.h>
+
+#include <lib/byteswap.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <misc/psglob.h>
+#include <cfile/cfile.h>
 #include "hogfile.h" //info about library file
-#include "mem.h"
+#include <mem/mem.h>
 
 // Library structures
 struct library_entry {
@@ -113,7 +112,7 @@ int cf_OpenLibrary(const char *libname) {
 
   // allocation library structure
   std::shared_ptr<library> lib = std::make_shared<library>();
-#ifdef __LINUX__
+#ifdef __unix__
   // resolve library name
   char t_dir[_MAX_PATH];
   char t_file[_MAX_PATH];
@@ -394,7 +393,7 @@ CFILE *open_file_in_lib(const char *filename) {
   return nullptr;
 }
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include <glob.h>
 
 static int globerrfn(const char *path, int err) {
@@ -641,7 +640,7 @@ CFILE *open_file_in_directory(const char *filename, const char *mode, const char
   // try to open file
   fp = fopen(path, tmode);
 
-#ifdef __LINUX__
+#ifdef __unix__
   // for Filesystems with case sensitive files we'll check for different versions of the filename
   // with different case's.
   if (fp) {

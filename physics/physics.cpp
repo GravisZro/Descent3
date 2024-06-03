@@ -16,33 +16,33 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory.h>
 
 #include <limits>
 
-#include "object.h"
+#include <Descent3/object.h>
 #include "physics.h"
 #include "collide.h"
 #include "findintersection.h"
-#include "vecmat.h"
-#include "game.h"
-#include "terrain.h"
-#include "descent.h"
-#include "weapon.h"
-#include "polymodel.h"
-#include "fireball.h"
-#include "damage.h"
-#include "gameevent.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "viseffect.h"
-#include "multi.h"
-#include "attach.h"
-#include "D3ForceFeedback.h"
-#include "player.h"
-#include "demofile.h"
-#include "vibeinterface.h"
+#include <vecmat/vecmat.h>
+#include <Descent3/game.h>
+#include <Descent3/terrain.h>
+#include <Descent3/descent.h>
+#include <Descent3/weapon.h>
+#include <model/polymodel.h>
+#include <Descent3/fireball.h>
+#include <Descent3/damage.h>
+#include <Descent3/gameevent.h>
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+
+#include <Descent3/multi.h>
+#include <Descent3/attach.h>
+#include <Descent3/D3ForceFeedback.h>
+#include <Descent3/player.h>
+#include <Descent3/demofile.h>
+#include <Descent3/vibeinterface.h>
 
 // Global variables for physics system
 uint8_t Default_player_terrain_leveling = 0;

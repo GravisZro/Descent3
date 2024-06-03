@@ -363,8 +363,8 @@
 #ifndef _ROOM_H
 #define _ROOM_H
 
-#include "pstypes.h"
-#include "vecmat_external.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat_external.h>
 #include "gametexture.h"
 
 #ifdef NEWEDITOR

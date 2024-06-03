@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "editor.h"
-#include "cfile.h"
+#include <cfile/cfile.h>
 #include "DallasMainDlg.h"
 #include "DallasUtilities.h"
 #include "DallasImportDlg.h"

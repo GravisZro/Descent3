@@ -1129,45 +1129,45 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <string.h> // for memset
-#include <stdio.h>
+#include <cstdlib>
+#include <cstring> // for memset
+#include <cstdio>
 
 #include "object.h"
 
-#include "pserror.h"
-#include "vecmat.h"
-#include "mono.h"
+#include <misc/pserror.h>
+#include <vecmat/vecmat.h>
+#include <ddebug/mono.h>
 
 #include "descent.h"
 #include "player.h"
 #include "slew.h"
 #include "game.h"
 #include "trigger.h"
-#include "physics.h"
-#include "collide.h"
+#include <physics/physics.h>
+#include <physics/collide.h>
 #include "door.h"
 #include "controls.h"
 #include "terrain.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "gametexture.h"
 #include "ship.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 #include "weapon.h"
-#include "objinit.h"
+#include "object_init.h"
 #include "fireball.h"
-#include "hlsoundlib.h"
-#include "sounds.h"
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
 #include "AIMain.h"
 #include "room.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "lighting.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "lightmap_info.h"
 #include "object_lighting.h"
 #include "soar.h"
 #include "splinter.h"
-#include "ObjScript.h"
+#include "object_script.h"
 #include "viseffect.h"
 #include "multi.h"
 #include "game2dll.h"
@@ -1177,13 +1177,13 @@
 #include "dedicated_server.h"
 #include "hud.h"
 #include "demofile.h"
-#include "rtperformance.h"
+#include <rtperformance/rtperformance.h>
 #include "osiris_dll.h"
 #include "gameloop.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "stringtable.h"
 #include "levelgoal.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "vibeinterface.h"
 
 #ifdef EDITOR

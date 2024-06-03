@@ -60,8 +60,8 @@
 #ifndef __D3FORCEFEEDBACK_H_
 #define __D3FORCEFEEDBACK_H_
 
-#include "forcefeedback.h"
-#include "vecmat.h"
+#include <ddio/forcefeedback.h>
+#include <vecmat/vecmat.h>
 #include "object.h"
 
 // D3Use_force_feedback

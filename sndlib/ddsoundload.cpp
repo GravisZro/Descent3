@@ -91,18 +91,18 @@
 #if defined(WIN32)
 #include "windows.h"
 #include "winbase.h"
-#elif defined(__LINUX__)
-#include "linux_fix.h"
 #endif
 
-#include "ssl_lib.h"
+#include <linux/linux_fix.h>
+
+#include <sndlib/ssl_lib.h>
 #include <cstdlib>
-#include "cfile.h"
-#include "mem.h"
-#include "pserror.h"
-#include <string.h>
-#include "byteswap.h"
-#include "gamesequence.h"
+#include <cfile/cfile.h>
+#include <mem/mem.h>
+#include <misc/pserror.h>
+#include <cstring>
+#include <lib/byteswap.h>
+#include <Descent3/gamesequence.h>
 
 sound_info Sounds[MAX_SOUNDS];
 sound_file_info SoundFiles[MAX_SOUND_FILES];

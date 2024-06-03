@@ -55,7 +55,7 @@
   } while (0)
 
 // ANSI Headers
-#include <string.h>
+#include <cstring>
 
 // Macintosh Headers
 #include <Files.h>

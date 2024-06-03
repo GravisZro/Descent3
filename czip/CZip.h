@@ -21,9 +21,7 @@
 
 #include <cstdio>
 #include <cstdint>
-#ifdef __LINUX__
-#include "linux_fix.h"
-#endif
+#include <linux/linux_fix.h>
 
 #define OCF_VERSION 0x01
 

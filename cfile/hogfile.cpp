@@ -89,7 +89,7 @@
 
 #include <cstring>
 
-#include "byteswap.h"
+#include <lib/byteswap.h>
 #include "hogfile.h"
 
 /*

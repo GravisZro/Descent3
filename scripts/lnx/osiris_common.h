@@ -334,21 +334,21 @@
 #ifndef __OSIRIS_COMMON_H_
 #define __OSIRIS_COMMON_H_
 
-#include "../../Main/lib/vecmat_external.h"
+#include <vecmat/vecmat_external.h>
 
-#include "../../Main/aistruct_external.h"
-#include "../../Main/object_external.h"
-#include "../../Main/matcen_external.h"
-#include "../../Main/robotfirestruct_external.h"
-#include "../../Main/lib/findintersection_external.h"
-#include "../../Main/weapon_external.h"
-#include "../../Main/damage_external.h"
-#include "../../Main/fireball_external.h"
-#include "../../Main/levelgoal_external.h"
-#include "../../Main/deathinfo_external.h"
-#include "../../Main/difficulty_external.h"
-#include "../../Main/gamecinematics_external.h"
-#include "../../Main/player_external.h"
+#include <Descent3/aistruct_external.h>
+#include <Descent3/object_external.h>
+#include <Descent3/matcen_external.h>
+#include <Descent3/robotfirestruct_external.h>
+#include <physics/findintersection_external.h>
+#include <Descent3/weapon_external.h>
+#include <Descent3/damage_external.h>
+#include <Descent3/fireball_external.h>
+#include <Descent3/levelgoal_external.h>
+#include <Descent3/deathinfo_external.h>
+#include <Descent3/difficulty_external.h>
+#include <Descent3/gamecinematics_external.h>
+#include <Descent3/player_external.h>
 
 // =======================================================================
 // Event return values (OR these if needed)

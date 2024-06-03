@@ -55,10 +55,10 @@
 #include "ddgrWin32.h"
 #include "ddgrWin32GDI.h"
 #include "ddgrWin32DX.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 /*	DDGR_WIN32 Library
                 v2.0			enhancements = concept of graphic subsystem when initializing.

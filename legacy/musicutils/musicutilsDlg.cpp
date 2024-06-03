@@ -30,13 +30,13 @@
 
 #include "musicplay.h"
 
-#include "pserror.h"
-#include "application.h"
-#include "streamaudio.h"
-#include "ddio.h"
+#include <misc/pserror.h>
+#include <ddio/application.h>
+#include <stream_audio/streamaudio.h>
+#include <ddio/ddio.h>
 #include "macros.h"
-#include "inffile.h"
-#include "mem.h"
+#include <cfile/inffile.h>
+#include <mem/mem.h>
 
 #include <io.h>
 

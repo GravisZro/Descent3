@@ -20,7 +20,7 @@
 #define ROBOTFIRE_H_
 
 #include "robotfirestruct.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "object.h"
 #include "ship.h"
 

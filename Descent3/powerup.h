@@ -19,8 +19,8 @@
 #ifndef POWERUP_H
 #define POWERUP_H
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 #include "object.h"
 
 #define MAX_POWERUPS 100

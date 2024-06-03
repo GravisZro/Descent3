@@ -265,23 +265,23 @@
  * $NoKeywords: $
  */
 
-#include "grdefs.h"
-#include "pstypes.h"
+#include <2dlib/grdefs.h>
+#include <misc/pstypes.h>
 #include "gametexture.h"
-#include "mono.h"
-#include "bitmap.h"
-#include "pserror.h"
+#include <ddebug/mono.h>
+#include <bitmap/bitmap.h>
+#include <misc/pserror.h>
 #include "vclip.h"
-#include "texture.h"
+//#include "texture.h"
 #include "game.h"
-#include "bumpmap.h"
-#include <stdlib.h>
-#include <string.h>
+#include <bitmap/bumpmap.h>
+#include <cstdlib>
+#include <cstring>
 #include "procedurals.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "config.h"
 #include "args.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 // TODO: MTS: this is only used in this file.
 int Num_textures = 0;

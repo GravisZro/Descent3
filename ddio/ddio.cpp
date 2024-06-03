@@ -87,10 +87,10 @@
  *
  * $NoKeywords: $
  */
-#include "ddio.h"
-#include "joystick.h"
-#include "pserror.h"
-#include <stdlib.h>
+#include <ddio/ddio.h>
+#include <ddio/joystick.h>
+#include <misc/pserror.h>
+#include <cstdlib>
 static bool DDIO_initialized = false;
 // ----------------------------------------------------------------------------
 //	Common initialization

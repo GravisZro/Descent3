@@ -151,12 +151,12 @@
 
 #include "grtextlib.h"
 
-#include "renderer.h"
-#include "pserror.h"
-#include "mem.h"
+#include <renderer/renderer.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <ctype.h>
 
 #define CLIP_LEFT Grtext_left

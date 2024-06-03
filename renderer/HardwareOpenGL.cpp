@@ -16,32 +16,33 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "byteswap.h"
+#include <lib/byteswap.h>
 #if defined(WIN32)
 #include <windows.h>
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 #include "lnxscreenmode.h"
+#include <linux/lnxapp.h>
 #else
 #endif
 
-#include "pserror.h"
-#include "mono.h"
-#include "3d.h"
-#include "renderer.h"
-#include "application.h"
-#include "bitmap.h"
-#include "lightmap.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <renderer/3d.h>
+#include <renderer/renderer.h>
+#include <ddio/application.h>
+#include <bitmap/bitmap.h>
+#include <bitmap/lightmap.h>
 #include "rend_opengl.h"
-#include "grdefs.h"
-#include "mem.h"
-#include "rtperformance.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <2dlib/grdefs.h>
+#include <mem/mem.h>
+#include <rtperformance/rtperformance.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include "HardwareInternal.h"
-#include "../Descent3/args.h"
+#include <Descent3/args.h>
 
-#include <NewBitmap.h>
+#include <bitmap/NewBitmap.h>
 
 #define DECLARE_OPENGL
 #include "dyna_gl.h"
@@ -87,7 +88,7 @@ static HWND hOpenGLWnd = NULL;
 static HDC hOpenGLDC = NULL;
 HGLRC ResourceContext;
 static WORD Saved_gamma_values[256 * 3];
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 SDL_Window *GSDLWindow = NULL;
 SDL_GLContext GSDLGLContext = NULL;
 char loadedLibrary[_MAX_PATH];
@@ -483,7 +484,7 @@ int opengl_Setup(HDC glhdc) {
 
   return 1;
 }
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 
 extern bool linux_permit_gamma;
 extern renderer_preferred_state Render_preferred_state;
@@ -737,7 +738,7 @@ int opengl_Init(oeApplication *app, renderer_preferred_state *pref_state) {
   // Save gamma values for later
   GetDeviceGammaRamp(hOpenGLDC, (LPVOID)Saved_gamma_values);
 
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   /***********************************************************
    *               LINUX OPENGL
    ***********************************************************
@@ -946,7 +947,7 @@ void opengl_Close() {
     ChangeDisplaySettings(NULL, 0);
 #endif
   }
-#elif defined(__LINUX__)
+#elif defined(__unix__)
     if (GSDLGLContext) {
         SDL_GL_MakeCurrent(NULL, NULL);
         SDL_GL_DeleteContext(GSDLGLContext);
@@ -999,7 +1000,7 @@ void opengl_Close() {
   SetDeviceGammaRamp(hOpenGLDC, (LPVOID)Saved_gamma_values);
   //	I'm freeing the DC here - samir
   ReleaseDC(hOpenGLWnd, hOpenGLDC);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 
 #else
 
@@ -1843,7 +1844,7 @@ void rend_Flip(void) {
 
 #if defined(WIN32)
   SwapBuffers((HDC)hOpenGLDC);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   SDL_GL_SwapWindow(GSDLWindow);
 #endif
 

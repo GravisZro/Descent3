@@ -19,7 +19,7 @@
 #if !defined(AFX_GENERICLIGHTDIALOG_H__913198E1_25DA_11D1_9798_006097D5770E__INCLUDED_)
 #define AFX_GENERICLIGHTDIALOG_H__913198E1_25DA_11D1_9798_006097D5770E__INCLUDED_
 
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 #if _MSC_VER >= 1000
 #pragma once

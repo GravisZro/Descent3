@@ -85,8 +85,8 @@
 #include "gamedll_header.h"
 #include "DMFC.h"
 #include "dmfcinternal.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 player_record Player_records[MAX_PLAYER_RECORDS];
 int Pnum_to_PRec[DLLMAX_PLAYERS];

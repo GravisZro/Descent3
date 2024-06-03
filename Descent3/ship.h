@@ -113,8 +113,8 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 #include "object.h"
 #include "robotfirestruct.h"
 #include "player.h"

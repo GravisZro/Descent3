@@ -18,14 +18,14 @@
 
 // clutter.cpp
 // 0.1
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "osiris_import.h"
 #include "osiris_common.h"
 #include "osiris_vector.h"
 
-#include "module.h"
+#include <module/module.h>
 
 #ifdef __cplusplus
 extern "C" {

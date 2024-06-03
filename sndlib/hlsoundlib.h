@@ -207,8 +207,8 @@
 #ifndef __HLSOUNDLIB_H__
 #define __HLSOUNDLIB_H__
 
-#include "ssl_lib.h"
-#include "object.h"
+#include <sndlib/ssl_lib.h>
+#include <Descent3/object.h>
 
 //////////////////////////////////////////////////////////////////////////
 

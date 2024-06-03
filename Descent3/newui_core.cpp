@@ -186,21 +186,21 @@
 #include <cstdio>
 
 #include "newui_core.h"
-#include "bitmap.h"
-#include "mem.h"
-#include "pserror.h"
+#include <bitmap/bitmap.h>
+#include <mem/mem.h>
+#include <misc/pserror.h>
 #include "game.h"
-#include "ddio.h"
-#include "renderer.h"
+#include <ddio/ddio.h>
+#include <renderer/renderer.h>
 #include "descent.h"
-#include "application.h"
+#include <ddio/application.h>
 #include "stringtable.h"
 #include "gamefont.h"
-#include "textaux.h"
-#include "musicapi.h"
-#include "hlsoundlib.h"
+#include <grtext/textaux.h>
+#include <d3music/musicapi.h>
+#include <sndlib/hlsoundlib.h>
 
-#include <string.h>
+#include <cstring>
 
 extern void ui_DoCursor();
 

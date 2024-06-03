@@ -31,9 +31,9 @@
  * 
  */
 
-#include "args.h"
-#include "mono.h"
-#include <string.h>
+#include <Descent3/args.h>
+#include <ddebug/mono.h>
+#include <cstring>
 
 static int TotalArgs=0;
 char GameArgs[MAX_ARGS][MAX_CHARS_PER_ARG];

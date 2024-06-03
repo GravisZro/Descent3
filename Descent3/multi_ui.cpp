@@ -100,7 +100,7 @@
  *
  * 82    4/16/99 11:56a Matt
  * Changed directplay code to be "ifdef _WIN32" instead of "ifndef
- * __LINUX__" so it will work on the Mac.
+ * __unix__" so it will work on the Mac.
  *
  * 81    4/15/99 3:36p Kevin
  * Added mouselook UI stuff to the multiplayer options menu
@@ -310,7 +310,7 @@
  */
 
 #include "args.h"
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
 #include "game.h"
 #include "gamefont.h"
@@ -319,16 +319,16 @@
 #include "multi_ui.h"
 #include "multi_server.h"
 #include "multi_client.h"
-#include "networking.h"
+#include <networking/networking.h>
 #include "player.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "pilot.h"
-#include <stdlib.h>
-#include "ddio.h"
-#include "objinfo.h"
+#include <cstdlib>
+#include <ddio/ddio.h>
+#include <Descent3/object_info.h>
 #include "stringtable.h"
-#include "ConfigItem.h"
-#include "appdatabase.h"
+#include "configitem.h"
+#include <ddio/appdatabase.h>
 
 // #define USE_DIRECTPLAY
 
@@ -339,7 +339,7 @@
 #include "ship.h"
 
 #include "multi_dll_mgr.h"
-#include "Mission.h"
+#include "mission.h"
 #include "menu.h"
 
 #include "multi_save_settings.h"
@@ -786,7 +786,7 @@ int AutoConnectHeat() {
   return MultiDLLGameStarting;
 }
 
-#include "mem.h"
+#include <mem/mem.h>
 
 void DoMultiAllowed(void) {
   rendering_state rs;

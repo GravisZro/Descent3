@@ -136,10 +136,10 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "UIlib.h"
-#include "grtext.h"
-#include "Macros.h"
-#include "mem.h"
+#include <ui/uilib.h>
+#include <grtext/grtext.h>
+#include <misc/macros.h>
+#include <mem/mem.h>
 
 
 static UIEdit *UI_current_editbox = NULL;

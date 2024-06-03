@@ -74,17 +74,17 @@
 #include <ras.h>
 #include <objbase.h>
 
-#include "descent.h"
-#include "player.h"
-#include "appdatabase.h"
+#include <Descent3/descent.h>
+#include <Descent3/player.h>
+#include <ddio/appdatabase.h>
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "mono.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
 #include "networking.h"
-#include "ddio.h"
-#include "mem.h"
-#include "multi.h"
+#include <ddio/ddio.h>
+#include <mem/mem.h>
+#include <Descent3/multi.h>
 
 #include "directplay.h"
 

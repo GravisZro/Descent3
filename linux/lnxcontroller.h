@@ -19,8 +19,8 @@
 #ifndef __LNXCONTROLLER_H_
 #define __LNXCONTROLLER_H_
 
-#include "controller.h"
-#include "joystick.h"
+#include <ddio/controller.h>
+#include <ddio/joystick.h>
 
 #define NULL_LNXCONTROLLER ((int8_t)NULL_CONTROLLER)
 

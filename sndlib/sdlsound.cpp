@@ -21,16 +21,16 @@
 #include <cstdlib>
 #include <cstdarg>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
-#include "pserror.h"
-#include "mono.h"
-#include "ssl_lib.h"
-#include "application.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <sndlib/ssl_lib.h>
+#include <ddio/application.h>
 #include "sdlsound.h"
 #include "mixer.h"
-#include "ddio.h"
-#include "args.h"
+#include <ddio/ddio.h>
+#include <Descent3/args.h>
 
 #define SOUNDLIB_SAMPLE_RATE 22050
 #define SOUNDLIB_SAMPLE_SIZE 16

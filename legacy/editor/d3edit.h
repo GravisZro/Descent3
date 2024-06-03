@@ -294,11 +294,11 @@
 #ifndef _D3EDIT_H
 #define _D3EDIT_H
 
-#include "pstypes.h"
-#include "descent.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <Descent3/descent.h>
+#include <vecmat/vecmat.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 //For putting up editor messageboxes in the main body (& should be in the editor code too, probably)
 #ifdef EDITOR

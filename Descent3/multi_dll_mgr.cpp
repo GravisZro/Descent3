@@ -90,7 +90,7 @@
  *
  * 61    4/16/99 11:56a Matt
  * Changed directplay code to be "ifdef _WIN32" instead of "ifndef
- * __LINUX__" so it will work on the Mac.
+ * __unix__" so it will work on the Mac.
  *
  * 60    4/16/99 12:15a Jeff
  * linux wants stdcall modifiers before parens, unlike windows
@@ -276,40 +276,40 @@
  *
  * $NoKeywords: $
  */
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
 #include "game.h"
 #include "gamefont.h"
 #include "multi.h"
 #include "multi_client.h"
-#include "manage.h"
-#include "Mission.h"
+#include <manage/manage.h>
+#include "mission.h"
 #include "pilot.h"
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 #include "descent.h"
 #include "room.h"
 #include "object.h"
 #include "terrain.h"
 #include "player.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "hud.h"
-#include "Inventory.h"
+#include "inventory.h"
 #include "multi_server.h"
 #include "multi_ui.h"
 #include "ship.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 #include "spew.h"
 #include "DllWrappers.h"
-#include "appdatabase.h"
-#include "module.h"
+#include <ddio/appdatabase.h>
+#include <module/module.h>
 #include "localization.h"
 #include "stringtable.h"
 #include "dedicated_server.h"
 #include "multi_save_settings.h"
 #include "multi_dll_mgr.h"
 #include "mission_download.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "args.h"
 // #define USE_DIRECTPLAY
 
@@ -328,7 +328,7 @@ extern bool Multi_Gamelist_changed;
 int CheckMissionForScript(char *mission, char *script, int dedicated_server_num_teams);
 void ShowNetgameInfo(network_game *game);
 // The exported DLL function call prototypes
-#if defined(__LINUX__)
+#if defined(__unix__)
 typedef void DLLFUNCCALL (*DLLMultiCall_fp)(int eventnum);
 typedef void DLLFUNCCALL (*DLLMultiScoreCall_fp)(int eventnum, void *data);
 typedef void DLLFUNCCALL (*DLLMultiInit_fp)(int *api_fp);

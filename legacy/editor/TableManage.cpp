@@ -21,11 +21,11 @@
 #include "TableFileEdit.h"
 
 #include "PsTypes.h"
-//#include "descent.h"
+//#include <Descent3/descent.h>
 #include "TableManage.h"
-#include "manage.h"
-//#include "pserror.h"
-//#include "gametexture.h"
+#include <manage/manage.h>
+//#include <misc/pserror.h>
+//#include <Descent3/gametexture.h>
 //#include "texpage.h"
 //#include "doorpage.h"
 //#include "soundpage.h"
@@ -33,13 +33,13 @@
 //#include "shippage.h"
 //#include "weaponpage.h"
 //#include "gamefilepage.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "genericpage.h"
-//#include "object.h"
-//#include "ddio.h"
-#include "cfile.h"
+//#include <Descent3/object.h>
+//#include <ddio/ddio.h>
+#include <cfile/cfile.h>
 //#include "AppDatabase.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 ////////////////////////////////////////////////////////////////
 // GenericPageNode Class Members

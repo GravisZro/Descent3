@@ -93,10 +93,10 @@
 
 #include <cstdint>
 
-#include "vecmat_external.h"
+#include <vecmat/vecmat_external.h>
 #include "robotfirestruct.h"
 
-#include "polymodel_external.h"
+#include <model/polymodel_external.h>
 
 #include "aistruct.h" //Not to be included for multiplayer game sdk
 

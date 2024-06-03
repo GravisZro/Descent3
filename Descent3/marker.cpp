@@ -18,7 +18,7 @@
 
 #include "object.h"
 #include "marker.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "player.h"
 #include "multi.h"
 #include "game.h"

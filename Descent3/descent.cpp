@@ -380,27 +380,27 @@
  *
  * $NoKeywords: $
  */
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "pserror.h"
-#include "grdefs.h"
-#include "mono.h"
-#include "cfile.h"
+#include <misc/pserror.h>
+#include <2dlib/grdefs.h>
+#include <ddebug/mono.h>
+#include <cfile/cfile.h>
 
-#include "init.h"
+#include <Descent3/init.h>
 #include "game.h"
 #include "program.h"
 #include "descent.h"
 #include "menu.h"
-#include "Mission.h"
-#include "ddio.h"
+#include "mission.h"
+#include <ddio/ddio.h>
 #include "controls.h"
-#include "controller.h"
+#include <ddio/controller.h>
 #include "gamesequence.h"
 #include "stringtable.h"
 #include "dedicated_server.h"
-#include "networking.h"
-#include "hlsoundlib.h"
+#include <networking/networking.h>
+#include <sndlib/hlsoundlib.h>
 #include "player.h"
 #include "pilot.h"
 #include "newui.h"
@@ -409,7 +409,7 @@
 #include "args.h"
 #include "multi_dll_mgr.h"
 #include "localization.h"
-#include "mem.h"
+#include <mem/mem.h>
 //	---------------------------------------------------------------------------
 //	Variables
 //	---------------------------------------------------------------------------
@@ -729,8 +729,8 @@ void D3DeferHandler(bool is_active) {
 //	this is called when you hit a debug break!
 //	---------------------------------------------------------------------------
 #ifndef RELEASE
-#include "debug.h"
-#include "renderer.h"
+#include <ddebug/debug.h>
+#include <renderer/renderer.h>
 extern int rend_initted; // from game.cpp
 
 void D3DebugStopHandler() {

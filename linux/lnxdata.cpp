@@ -41,19 +41,18 @@
  * $NoKeywords: $
  */
 
-#include <string.h>
+#include <cstring>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #include <pwd.h>
 #include <sys/types.h>
 
-#include "appdatabase.h"
-#include "lnxdatabase.h"
-#include "pserror.h"
-#include "mono.h"
-#include "pserror.h"
+#include <linux/lnxdatabase.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
 #include "registry.h"
-#include "loki_utils.h"
+#include <Descent3/loki_utils.h>
 
 #define REGISTRY_FILENAME ".Descent3Registry"
 

@@ -67,10 +67,10 @@
  * $NoKeywords: $
  */
 
-#include <stdio.h>
-#include "cfile.h"
+#include <cstdio>
+#include <cfile/cfile.h>
 #include "multi.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "ship.h"
 #include "multi_save_settings.h"
 

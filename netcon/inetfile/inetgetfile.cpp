@@ -70,9 +70,9 @@
 #include <windows.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 
 // include inetgetfile.h before CFtp.h and Chttpget.h because it has some winsock defines
@@ -84,7 +84,7 @@
 extern char *Proxy_server;
 extern int16_t Proxy_port;
 
-#ifdef __LINUX__
+#ifdef __unix__
 /*  ryan sez: use SDL.
 pthread_create_fp df_pthread_create = NULL;
 pthread_exit_fp df_pthread_exit = NULL;

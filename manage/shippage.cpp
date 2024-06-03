@@ -197,22 +197,22 @@
  *
  * $NoKeywords: $
  */
-#include "cfile.h"
-#include "manage.h"
-#include "ship.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <Descent3/ship.h>
 #include "shippage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "polymodel.h"
-#include "ddio.h"
-#include "robotfire.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <model/polymodel.h>
+#include <ddio/ddio.h>
+#include <Descent3/robotfire.h>
 #include "weaponpage.h"
-#include <string.h>
-#include "soundload.h"
-#include "sounds.h"
+#include <cstring>
+#include <sndlib/soundload.h>
+#include <Descent3/sounds.h>
 #include "soundpage.h"
 #include "genericpage.h"
-#include "args.h"
+#include <Descent3/args.h>
 
 // shippage commands that are read/written
 // A command is followed by a byte count describing how many bytes

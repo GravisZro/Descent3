@@ -97,20 +97,20 @@
  * $NoKeywords: $
  */
 
-#include "joystick.h"
+#include <ddio/joystick.h>
 #include "forcefeedback.h"
-#include "pserror.h"
-#include "pstypes.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <mem/mem.h>
 #include "ddio_win.h"
-#include "Macros.h"
-#include "logfile.h"
+#include <misc/macros.h>
+#include <misc/logfile.h>
 
 #include <windows.h>
 #include <mmsystem.h>
 #include <regstr.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #define loword(_v) ((_v) & 0x0000ffff)
 

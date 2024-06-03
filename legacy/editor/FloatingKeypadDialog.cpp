@@ -92,7 +92,7 @@
 #include "MegacellKeypad.h"
 #include "FloatingKeypadDialog.h"
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

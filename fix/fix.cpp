@@ -66,7 +66,7 @@
 
 #include <cmath>
 
-#include "fix.h"
+#include <fix/fix.h>
 
 // Tables for trig functions
 float sincos_table[321]; // 256 entries + 64 sin-only + 1 for interpolation

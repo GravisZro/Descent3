@@ -52,9 +52,9 @@
 #include "WorldObjectsRobotDialog.h"
 #include "AnimStatesDialog.h"
 #include "robotpage.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "robot.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "PhysicsDlg.h"
 #include "AISettingsDlg.h"
 

@@ -22,14 +22,14 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "levelkeypad.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "levelgoal.h"
 #include "boa.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include "aiambient.h"
-#include "objinfo.h"
-#include "game.h"
-#include "soundload.h"
+#include <Descent3/object_info.h>
+#include <Descent3/game.h>
+#include <sndlib/soundload.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

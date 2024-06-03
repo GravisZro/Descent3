@@ -87,10 +87,10 @@
 #ifndef __PILOT_CLASS_H_
 #define __PILOT_CLASS_H_
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "controls.h"
-#include "controller.h"
-#include "cfile.h"
+#include <ddio/controller.h>
+#include <cfile/cfile.h>
 #include "weapon.h"
 #include "config.h"
 

@@ -16,25 +16,26 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <string.h>
-#include <stdlib.h>
-
-#include "mono.h"
-#include "debug.h"
-#include "pserror.h"
-#include "pstypes.h"
 #include "audiotaunts.h"
-#include "cfile.h"
-#include "audio_encode.h"
-#include "byteswap.h"
-#include "mem.h"
-#include "ddio.h"
-#include "manage.h"
-#include "streamaudio.h"
+
+#include <cstring>
+#include <cstdlib>
+
+#include <ddebug/mono.h>
+#include <ddebug/debug.h>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <cfile/cfile.h>
+#include <AudioEncode/audio_encode.h>
+#include <lib/byteswap.h>
+#include <mem/mem.h>
+#include <ddio/ddio.h>
+#include <manage/manage.h>
+#include <stream_audio/streamaudio.h>
 #include "multi.h"
 #include "game.h"
 #include "stringtable.h"
-#include "game2dll.h"
+#include <Descent3/game2dll.h>
 #include "player.h"
 
 struct tWaveFile {

@@ -18,16 +18,16 @@
 
 // TODO: This is missing a good way of overriding base behavior (like, you know, method overrides...)
 
-#include "pserror.h"
-#include "mono.h"
-#include "3d.h"
-#include "renderer.h"
-#include "bitmap.h"
-#include "grdefs.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <renderer/3d.h>
+#include <renderer/renderer.h>
+#include <bitmap/bitmap.h>
+#include <2dlib/grdefs.h>
 #include <cstring>
 
 #include "HardwareInternal.h"
-#include "lightmap.h"
+#include <bitmap/lightmap.h>
 
 // FIXME: Unused
 // The font characteristics

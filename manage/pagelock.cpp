@@ -175,17 +175,17 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <errno.h>
-#include "cfile.h"
-#include "manage.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "mono.h"
-#include "string.h"
-#include "mem.h"
-#include "ddio.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <cstring>
+#include <mem/mem.h>
+#include <ddio/ddio.h>
 
 #ifndef RELEASE
 #include <time.h>

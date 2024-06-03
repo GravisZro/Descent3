@@ -16,8 +16,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "pserror.h"
-#include "3d.h"
+#include <misc/pserror.h>
+#include <renderer/3d.h>
 #include "HardwareInternal.h"
 
 static int free_point_num = -1;

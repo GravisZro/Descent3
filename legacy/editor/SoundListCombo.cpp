@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "SoundListCombo.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -89,7 +89,7 @@ int CSoundListCombo::GetSelected()
 	return (int) GetItemData(GetCurSel());
 }
 
-#include "mono.h"
+#include <ddebug/mono.h>
 
 void CSoundListCombo::OnSetfocus() 
 {

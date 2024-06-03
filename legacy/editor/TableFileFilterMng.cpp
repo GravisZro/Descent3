@@ -172,11 +172,11 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "TableFileFilterMng.h"
-#include "manage.h"
-#include "mono.h"
+#include <manage/manage.h>
+#include <ddebug/mono.h>
 #include "LoadLevel.h"
-#include "object.h"
-#include "objinfo.h"
+#include <Descent3/object.h>
+#include <Descent3/object_info.h>
 //@@#include "d3x.h"
 
 #include "texpage.h"
@@ -187,16 +187,16 @@
 #include "weaponpage.h"
 #include "gamefilepage.h"
 #include "genericpage.h"
-#include "sounds.h"
-#include "gametexture.h"
-#include "terrain.h"
-#include "fireball.h"
-#include "mem.h"
-#include "polymodel.h"
-#include "ddio.h"
+#include <Descent3/sounds.h>
+#include <Descent3/gametexture.h>
+#include <Descent3/terrain.h>
+#include <Descent3/fireball.h>
+#include <mem/mem.h>
+#include <model/polymodel.h>
+#include <ddio/ddio.h>
 #include "DallasUtilities.h"
 #include "matcen.h"
-#include "game.h"
+#include <Descent3/game.h>
 
 #define TITLE_NAME	"Table File Filter v1.0"
 

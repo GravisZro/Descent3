@@ -214,19 +214,19 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "TerrainDialog.h"
-#include "terrain.h"
-#include "gametexture.h"
-#include "bitmap.h"
+#include <Descent3/terrain.h>
+#include <Descent3/gametexture.h>
+#include <bitmap/bitmap.h>
 #include "texture.h"
 #include "group.h"
 #include "editor/d3edit.h"
-#include "room.h"
+#include <Descent3/room.h>
 #include "erooms.h"
 #include "roomuvs.h"
 #include "SelectRangeDialog.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "config.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "gr.h"
 
 #ifdef _DEBUG

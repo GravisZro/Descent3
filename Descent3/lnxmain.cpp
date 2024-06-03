@@ -28,20 +28,20 @@
 #include <csignal>
 #include <unistd.h>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "program.h"
 #include "descent.h"
-#include "application.h"
-#include "appdatabase.h"
+#include <linux/lnxapp.h>
+#include <linux/lnxdatabase.h>
 #include "args.h"
-#include "init.h"
+#include <Descent3/init.h>
 
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "osiris_dll.h"
 #include "loki_utils.h"
 
-#include "log.h"
+#include <misc/log.h>
 
 extern bool ddio_mouseGrabbed;
 int no_debug_dialog = 0;

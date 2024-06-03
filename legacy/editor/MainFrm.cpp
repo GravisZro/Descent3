@@ -805,20 +805,20 @@
 #include "EditLineDialog.h"
 
 // D3 EDITOR HEADERS
-#include "pserror.h"
-#include "application.h"
+#include <misc/pserror.h>
+#include <ddio/application.h>
 #include "AppDatabase.h"
 #include "program.h"
 #include "gr.h"
-#include "init.h"
-#include "mono.h"
+#include <Descent3/init.h>
+#include <ddebug/mono.h>
 #include "ds3dlib.h"
-#include "ddio.h"
-#include "descent.h"
-#include "bitmap.h"
-#include "gametexture.h"
-#include "manage.h"
-#include "vclip.h"
+#include <ddio/ddio.h>
+#include <Descent3/descent.h>
+#include <bitmap/bitmap.h>
+#include <Descent3/gametexture.h>
+#include <manage/manage.h>
+#include <Descent3/vclip.h>
 #include "erooms.h"
 #include "HTexture.h"
 #include "HView.h"
@@ -828,12 +828,12 @@
 #include "moveworld.h"
 #include "Osiris.h"
 #include "worldobjectsgenericdialog.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "HFile.h"
 #include "hroom.h"
 #include "texture.h"
 #include "read3ds.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include "HObject.h"
 #include "hotspotmap.h"
 #include "TableFileEdit.h"
@@ -841,8 +841,8 @@
 #include "TableFileFilter.h"
 #include "DallasMainDlg.h"
 #include "ViewerPropDlg.h"
-#include "mem.h"
-#include "findintersection.h"
+#include <mem/mem.h>
+#include <physics/findintersection.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2596,9 +2596,9 @@ void DeleteAllFacesWithTexture1(room *rp)
 
 extern float Room_multiplier[];
 
-#include "lightmap_info.h"
-#include "lightmap.h"
-#include "polymodel.h"
+#include <Descent3/lightmap_info.h>
+#include <bitmap/lightmap.h>
+#include <model/polymodel.h>
 
 int IsNonRenderableSubmodel(poly_model *pm,int submodelnum);
 
@@ -3676,7 +3676,7 @@ void CMainFrame::OnObjectSelectByNumber()
 	}
 }
 
-#include "manage.h"
+#include <manage/manage.h>
 #define MAX_LOCKLIST_ELEMENTS	1000
 extern const char *PageNames[];
 extern void dump_text_to_clipboard(char *text);
@@ -3742,7 +3742,7 @@ void CMainFrame::OnOrphanhunter()
 	dlg.DoModal();	
 }
 
-#include "player.h"
+#include <Descent3/player.h>
 
 void CMainFrame::OnObjectPlaceWaypointAtViewer() 
 {

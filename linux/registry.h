@@ -49,7 +49,7 @@
 #define REGT_STRING 0
 #define REGT_DWORD 1
 
-#include <stdio.h>
+#include <cstdio>
 
 struct tRecord {
   char name[MAX_RECORD_NAME];

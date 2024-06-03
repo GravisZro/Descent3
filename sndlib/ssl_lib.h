@@ -252,10 +252,10 @@
 #ifndef __SSL_LIB_H__
 #define __SSL_LIB_H__
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 #ifndef NEWEDITOR
-#include "manage.h"
+#include <manage/manage.h>
 #else
 #include "..\neweditor\ned_TableFile.h"
 #endif

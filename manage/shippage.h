@@ -19,10 +19,10 @@
 #ifndef SHIPPAGE_H
 #define SHIPPAGE_H
 
-#include "manage.h"
-#include "ship.h"
-#include "cfile.h"
-#include "pstypes.h"
+#include <manage/manage.h>
+#include <Descent3/ship.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
 
 struct mngs_ship_page {
   ship ship_struct;

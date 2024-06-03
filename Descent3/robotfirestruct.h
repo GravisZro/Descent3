@@ -19,8 +19,8 @@
 #ifndef ROBOTFIRESTRUCT_H_
 #define ROBOTFIRESTRUCT_H_
 
-#include "pstypes.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
 #include "robotfirestruct_external.h"
 
 // NOTE: CHANGE gunbattery.h (IN POFGEN PROJECT) if constants are changed

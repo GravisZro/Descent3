@@ -128,8 +128,8 @@
 
 //	Handles keyboard queue management
 
-#include "ddio.h"
-#include "pserror.h"
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
 
 #define KEY_QUEUE_SIZE 16
 

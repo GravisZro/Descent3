@@ -89,7 +89,7 @@
 #ifndef DOORWAY_H
 #define DOORWAY_H
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 // IMPORTANT!!!!!!!!!!!
 // "Doors" refers to a predefined door that is in memory

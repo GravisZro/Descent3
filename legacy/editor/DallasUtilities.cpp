@@ -47,16 +47,16 @@
 
 #include "stdafx.h"
 
-#include <string.h>
+#include <cstring>
 #include <ctype.h>
 
-#include "pserror.h"
-#include "cfile.h"
-#include "mem.h"
-#include "mono.h"
-#include "psglob.h"
-#include "manage.h"
-#include "gamefile.h"
+#include <misc/pserror.h>
+#include <cfile/cfile.h>
+#include <mem/mem.h>
+#include <ddebug/mono.h>
+#include <misc/psglob.h>
+#include <manage/manage.h>
+#include <Descent3/gamefile.h>
 
 #include "DallasUtilities.h"
 

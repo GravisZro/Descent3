@@ -17,12 +17,12 @@
 */
 
 #include <time.h>
-#include "3d.h"
+#include <renderer/3d.h>
 #include "texture.h"
-#include "object.h"
+#include <Descent3/object.h>
 #include "vector.h"
-#include "hlsoundlib.h"
-#include "mono.h"
+#include <sndlib/hlsoundlib.h>
+#include <ddebug/mono.h>
 #include "d3edit.h"
 
 vms_vertex square_data[50]={-5.0,5.0,-5, 5.0,5.0,-5, 5.0,-5.0,-5, -5.0,-5.0,-5,

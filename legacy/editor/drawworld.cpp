@@ -205,18 +205,18 @@
 
 #include "drawworld.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "3d.h"
+#include <renderer/3d.h>
 
-#include "descent.h"
+#include <Descent3/descent.h>
 #include "d3edit.h"
-#include "render.h"
+#include <Descent3/render.h>
 #include "selectedroom.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include "texture.h"
-#include "gametexture.h"
-#include "object.h"
+#include <Descent3/gametexture.h>
+#include <Descent3/object.h>
 #include "erooms.h"
 #include "group.h"
 

@@ -44,19 +44,19 @@
 #include <algorithm>
 
 #include "procedurals.h"
-#include "bitmap.h"
-#include "gr.h"
+#include <bitmap/bitmap.h>
+#include <2dlib/gr.h>
 #include "gametexture.h"
 #include "vclip.h"
 #include "game.h"
-#include "texture.h"
-#include "mem.h"
-#include "ddio.h"
+//#include "texture.h"
+#include <mem/mem.h>
+#include <ddio/ddio.h>
 #include "config.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <math.h>
 #include <memory.h>
-#include "psrand.h"
+#include <misc/psrand.h>
 
 
 #define BRIGHT_COLOR 254

@@ -71,7 +71,7 @@
 #include "HogEditDoc.h"
 #include "listvwex.h"
 #include "HogEditView.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

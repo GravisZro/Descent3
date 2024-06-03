@@ -36,7 +36,7 @@
  * 
  */
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "gamepath.h"
 
 extern uint8_t Show_paths;

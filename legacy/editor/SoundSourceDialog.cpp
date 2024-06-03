@@ -85,7 +85,7 @@ void CSoundSourceDialog::OnOK()
 	}
 }
 
-#include "soundload.h"
+#include <sndlib/soundload.h>
 #include "DallasSoundDlg.h"
 
 void CSoundSourceDialog::OnSelect() 

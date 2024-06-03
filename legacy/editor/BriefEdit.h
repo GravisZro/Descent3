@@ -25,7 +25,7 @@
 // BriefEdit.h : header file
 //
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "telcomefxstructs.h"
 #include "telcom.h"
 #include "gr.h"

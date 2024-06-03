@@ -142,15 +142,15 @@
  * $NoKeywords: $
  */
 
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "ddio_win.h"
-#include "pserror.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <mem/mem.h>
 #include <stdarg.h>
 #include <sys/stat.h>
 #include <io.h>
 #include <fcntl.h>
-#include <stdio.h>
+#include <cstdio>
 #include <errno.h>
 
 //	---------------------------------------------------------------------------

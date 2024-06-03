@@ -19,10 +19,10 @@
 #ifndef TEXPAGE_H
 #define TEXPAGE_H
 
-#include "manage.h"
-#include "cfile.h"
-#include "pstypes.h"
-#include "procedurals.h"
+#include <manage/manage.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
+#include <Descent3/procedurals.h>
 
 struct mngs_texture_page {
   char bitmap_name[PAGENAME_LEN];  // filename for the bitmap associated with this texture

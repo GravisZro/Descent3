@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "ManageCheckin.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

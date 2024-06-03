@@ -120,14 +120,14 @@
 
 #include "stdafx.h"
 
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "editor.h"
 #include "WorldSoundsDialog.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 #include "soundpage.h"
-#include "manage.h"
-#include "hlsoundlib.h"
-#include "ddio.h"
+#include <manage/manage.h>
+#include <sndlib/hlsoundlib.h>
+#include <ddio/ddio.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1206,7 +1206,7 @@ void CWorldSoundsDialog::OnKillfocusSoundImportVolumeEdit()
 	UpdateDialog();
 }
 
-#include "mem.h"
+#include <mem/mem.h>
 #include "EditLineDialog.h"
 
 //Gets a name from the user, making sure it's unique

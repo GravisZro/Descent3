@@ -20,15 +20,15 @@
 #include "editor.h"
 #include "LightingStatus.h"
 #include "radiosity.h"
-#include "pserror.h"
-#include "findintersection.h"
+#include <misc/pserror.h>
+#include <physics/findintersection.h>
 #include "hemicube.h"
-#include "descent.h"
+#include <Descent3/descent.h>
 #include "rad_cast.h"
-#include "ddio.h"
-#include "vecmat.h"
-#include <stdlib.h>
-#include "mem.h"
+#include <ddio/ddio.h>
+#include <vecmat/vecmat.h>
+#include <cstdlib>
+#include <mem/mem.h>
 
 // Some radiosity globals
 int Shoot_method=SM_HEMICUBE;

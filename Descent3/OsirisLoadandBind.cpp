@@ -400,15 +400,15 @@
  */
 
 #include "osiris_dll.h"
-#include "pserror.h"
-#include "mono.h"
-#include "cfile.h"
-#include "ddio.h"
-#include "manage.h"
-#include <stdlib.h>
-#include "mem.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <cfile/cfile.h>
+#include <ddio/ddio.h>
+#include <manage/manage.h>
+#include <cstdlib>
+#include <mem/mem.h>
 #include "DllWrappers.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "multisafe.h"
 #include "osiris_predefs.h"
 #include "trigger.h"
@@ -438,7 +438,7 @@ bool Show_osiris_debug = false;
        // 0, only when the level ends
 
 // The exported DLL function call prototypes
-#if defined(__LINUX__)
+#if defined(__unix__)
 typedef char DLLFUNCCALL (*InitializeDLL_fp)(tOSIRISModuleInit *function_list);
 typedef void DLLFUNCCALL (*ShutdownDLL_fp)(void);
 typedef int DLLFUNCCALL (*GetGOScriptID_fp)(const char *name, uint8_t isdoor);
@@ -3144,7 +3144,7 @@ int Osiris_ExtractScriptsFromHog(int library_handle, bool is_mission_hog) {
   int count = 0;
 
   const char *script_extension;
-#if defined(__LINUX__)
+#if defined(__unix__)
 #if defined(MACOSX)
   script_extension = "*.dylib";
 #else

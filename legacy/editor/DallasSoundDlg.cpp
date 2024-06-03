@@ -21,8 +21,8 @@
 
 #include "stdafx.h"
 #include "editor.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
 #include "DallasSoundDlg.h"
 
 #ifdef _DEBUG

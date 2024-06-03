@@ -17,8 +17,8 @@
 */
 
 #include "musicapi.h"
-#include "music.h"
-#include "Macros.h"
+#include <music/music.h>
+#include <misc/macros.h>
 #include <limits>
 
 #ifdef min

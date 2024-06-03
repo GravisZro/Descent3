@@ -19,8 +19,8 @@
 #ifndef GAMEFILE_H
 #define GAMEFILE_H
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 
 #define MAX_GAMEFILES 1500
 

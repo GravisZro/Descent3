@@ -1507,40 +1507,40 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "AIMain.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "game.h"
 #include "weapon.h"
-#include "findintersection.h"
-#include "vecmat.h"
+#include <physics/findintersection.h>
+#include <vecmat/vecmat.h>
 #include "AIGoal.h"
 #include "terrain.h"
-#include "hlsoundlib.h"
-#include "sounds.h"
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
 #include "aiterrain.h"
 #include "weapon.h"
-#include "objinfo.h"
-#include "polymodel.h"
+#include <Descent3/object_info.h>
+#include <model/polymodel.h>
 #include "robotfire.h"
 #include "BOA.h"
 #include "player.h"
 #include "memory.h"
 #include "gamepath.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 #include "damage.h"
 #include "aipath.h"
 #include "robot.h"
 #include "attach.h"
 #include "demofile.h"
 #include "matcen.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "difficulty.h"
 #include "osiris_dll.h"
 #include "multi.h"
 #include "gamecinematics.h"
 #include "room.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "gametexture.h"
 #include "difficulty.h"
 

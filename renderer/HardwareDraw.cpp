@@ -16,9 +16,9 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "3d.h"
+#include <renderer/3d.h>
 #include "HardwareInternal.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 
 #define round(v) ((int)(((v) + 0.5f)))
 

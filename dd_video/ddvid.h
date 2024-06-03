@@ -44,8 +44,8 @@
 #ifndef DDVID_H
 #define DDVID_H
 
-#include "pstypes.h"
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <2dlib/grdefs.h>
 
 class oeApplication;
 

@@ -74,12 +74,12 @@
 #endif
 
 #include <memory.h>
-#include <string.h>
-#include "pstypes.h"
-#include "networking.h"
+#include <cstring>
+#include <misc/pstypes.h>
+#include <networking/networking.h>
 #include "mtgametrack.h"
 #include "mt_net.h"
-#include "byteswap.h"
+#include <lib/byteswap.h>
 
 #define LOGIN_LEN 33
 #define REAL_NAME_LEN 66

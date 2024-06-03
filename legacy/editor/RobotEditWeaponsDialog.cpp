@@ -92,16 +92,16 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "RobotEditWeaponsDialog.h"
-#include "weapon.h"
-#include "string.h"
-#include "polymodel.h"
-#include "fix.h"
-#include "weapon.h"
-#include "soundload.h"
+#include <Descent3/weapon.h>
+#include <cstring>
+#include <model/polymodel.h>
+#include <fix/fix.h>
+#include <Descent3/weapon.h>
+#include <sndlib/soundload.h>
 #include "soundpage.h"
-#include "hlsoundlib.h"
-#include "mono.h"
-#include "pserror.h"
+#include <sndlib/hlsoundlib.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

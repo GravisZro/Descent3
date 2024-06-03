@@ -143,19 +143,19 @@
  *
  * $NoKeywords: $
  */
-#include "cfile.h"
-#include "manage.h"
-#include "door.h"
 #include "doorpage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "polymodel.h"
-#include <string.h>
-#include "vclip.h"
-#include "ddio.h"
-#include "soundload.h"
+
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <model/polymodel.h>
+#include <cstring>
+#include <Descent3/vclip.h>
+#include <ddio/ddio.h>
+#include <sndlib/soundload.h>
 #include "soundpage.h"
-#include "args.h"
+#include <Descent3/args.h>
 
 // doorpage commands that are read/written
 // A command is followed by a byte count describing how many bytes

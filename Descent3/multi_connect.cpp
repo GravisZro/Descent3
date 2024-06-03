@@ -96,7 +96,7 @@
  *
  * 61    4/16/99 11:56a Matt
  * Changed directplay code to be "ifdef _WIN32" instead of "ifndef
- * __LINUX__" so it will work on the Mac.
+ * __unix__" so it will work on the Mac.
  *
  * 60    4/15/99 1:41a Jeff
  * changes for linux compile
@@ -257,15 +257,15 @@
 #include "multi_server.h"
 #include "player.h"
 #include "game.h"
-#include "ddio.h"
-#include "Mission.h"
+#include <ddio/ddio.h>
+#include "mission.h"
 // #include "gametrack.h"
 #include "stringtable.h"
 #include "pilot.h"
 #include "ship.h"
 #include "args.h"
 
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
 #include "multi_dll_mgr.h"
 
@@ -656,7 +656,7 @@ int MultiPollForLevelInfo() {
   return 0;
 }
 
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 // Returns a unique value for this ship
 int MultiGetShipChecksum(int ship_index) {

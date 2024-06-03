@@ -20,7 +20,7 @@
 #define _TABLE_MANAGE_H_
 
 #include "genericpage.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #define NO_DESCRIPTION_STRING	"<None>"
 #define TEMP_TABLE_FILENAME		"TempTable.loc"

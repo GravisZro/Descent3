@@ -25,7 +25,7 @@
 // TerrainSoundDialog.h : header file
 //
 
-#include "game.h"
+#include <Descent3/game.h>
 #include "SoundListCombo.h"
 
 /////////////////////////////////////////////////////////////////////////////

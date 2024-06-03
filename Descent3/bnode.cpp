@@ -101,13 +101,13 @@
 #include "memory.h"
 #include "bnode.h"
 #include "room.h"
-#include "mem.h"
-#include "vecmat.h"
+#include <mem/mem.h>
+#include <vecmat/vecmat.h>
 #include "terrain.h"
 #include "room.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "BOA.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 
 bn_list BNode_terrain_list[8];
 bool BNode_allocated = false;

@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "AmbientSoundElement.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -83,7 +83,7 @@ void CAmbientSoundElement::OnOK()
 	
 }
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 void CAmbientSoundElement::OnSelendokASESoundList() 
 {

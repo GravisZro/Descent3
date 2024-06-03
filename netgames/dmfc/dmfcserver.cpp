@@ -101,7 +101,7 @@
 #include "gamedll_header.h"
 #include "DMFC.h"
 #include "dmfcinternal.h"
-#include "d3events.h"
+#include <Descent3/d3events.h>
 
 extern char **DMFCStringTable;
 extern int DMFCStringTableSize;

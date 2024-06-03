@@ -82,11 +82,11 @@
 // ----------------------------------------------------------------------------
 
 #include <cstring>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
-#include "pserror.h"
-#include "psclass.h"
-#include "ddio.h"
+#include <misc/pserror.h>
+#include <misc/psclass.h>
+#include <ddio/ddio.h>
 #include "ddio_lnx.h"
 
 bool ddio_mouseGrabbed = false;

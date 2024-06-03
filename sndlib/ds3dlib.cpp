@@ -205,18 +205,18 @@
 
 #include "ds3dlib_internal.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <process.h>
-#include "cfile.h"
-#include "pserror.h"
-#include "mono.h"
+#include <cfile/cfile.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
 #include "soundload.h"
-#include "mem.h"
-#include "application.h"
+#include <mem/mem.h>
+#include <ddio/application.h>
 #include "auddev.h"
-#include "Macros.h"
-#include "ddio.h"
+#include <misc/macros.h>
+#include <ddio/ddio.h>
 
 // Hacked window handle -- chrishack
 static oeWin32Application *SoundApp = NULL;

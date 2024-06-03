@@ -26,7 +26,7 @@
 //
 
 #include "gr.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CProceduralDialog dialog

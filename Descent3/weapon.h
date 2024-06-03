@@ -193,10 +193,10 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "weapon_external.h"
 
 #define MAX_PRIMARY_WEAPONS 10

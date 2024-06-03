@@ -307,22 +307,22 @@
 
 #include "stdafx.h"
 
-#include <string.h>
+#include <cstring>
 #include <ctype.h>
 #include <io.h>
 
-#include "pserror.h"
-#include "cfile.h"
-#include "mem.h"
-#include "mono.h"
-#include "ddio.h"
-#include "manage.h"
-#include "object.h"
-#include "room.h"
+#include <misc/pserror.h>
+#include <cfile/cfile.h>
+#include <mem/mem.h>
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
+#include <manage/manage.h>
+#include <Descent3/object.h>
+#include <Descent3/room.h>
 #include "trigger.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "gametexture.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <Descent3/gametexture.h>
 #include "gamepath.h"
 #include "matcen.h"
 #include "levelgoal.h"
@@ -334,7 +334,7 @@
 #include "editor.h"
 #include "editorDoc.h"
 #include "osiris_predefs.h"
-#include "descent.h"
+#include <Descent3/descent.h>
 #endif
 
 #include "ScriptCompilerAPI.h"
@@ -9622,9 +9622,9 @@ int CDallasMainDlg::CreateScriptFile(char *filename)
 	O(("// Filename:	%s",filename));
 	O(("// Version:	%d",DALLAS_SAVE_VERSION));
 	O(("/////////////////////////////////////////////////////////////////////"));
-	O(("#include <stdio.h>"));
-	O(("#include <stdlib.h>"));
-	O(("#include <string.h>"));
+	O(("#include <cstdio>"));
+	O(("#include <cstdlib>"));
+	O(("#include <cstring>"));
 	O(("#include <ctype.h>"));
 	O(("#include \"osiris_import.h\""));
 	O(("#include \"osiris_common.h\""));

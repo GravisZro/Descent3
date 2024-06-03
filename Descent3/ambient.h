@@ -43,7 +43,7 @@
 #ifndef _AMBIENT_H
 #define _AMBIENT_H
 
-#include "manage.h"
+#include <manage/manage.h>
 
 // An Ambient Sound Element, one part of an Ambient Sound Pattern (ASP)
 struct ase {

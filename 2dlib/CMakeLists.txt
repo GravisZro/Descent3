@@ -1,4 +1,8 @@
-set(HEADERS lib2d.h)
+set(HEADERS
+  ddgr.h
+  grdefs.h
+  gr.h
+  lib2d.h)
 set(CPPS
   font.cpp
   hardsurf.cpp
@@ -10,14 +14,3 @@ set(CPPS
   viewport.cpp)
 
 add_library(2dlib STATIC ${HEADERS} ${CPPS})
-target_link_libraries(2dlib PRIVATE
-  cfile
-  bitmap
-  renderer
-)
-
-target_include_directories(2dlib PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/2dlib
-  >
-)

@@ -165,7 +165,7 @@
 #include "gamedll_header.h"
 #include "idmfc.h"
 #include "monsterball.h"
-#include <string.h>
+#include <cstring>
 #include "monsterstr.h"
 
 #include <algorithm>

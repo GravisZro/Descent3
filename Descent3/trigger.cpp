@@ -117,12 +117,12 @@
 #include "room.h"
 #include "object.h"
 //@$-#include "d3x.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "osiris_dll.h"
 #include "levelgoal.h"
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 // The maximum number of triggers that can be in the mine
 #define MAX_TRIGGERS 100

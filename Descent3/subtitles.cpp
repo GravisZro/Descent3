@@ -51,18 +51,18 @@
 
 #include "subtitles.h"
 // #include "gamefont.h"
-// #include "grtext.h"
-// #include "renderer.h"
-#include "pserror.h"
-#include "ddio.h"
-// #include "ddvid.h"
-#include "manage.h"
-#include "application.h"
-#include "mem.h"
-#include "movie.h"
+// #include <grtext/grtext.h>
+// #include <renderer/renderer.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+// #include <dd_video/ddvid.h>
+#include <manage/manage.h>
+#include <ddio/application.h>
+#include <mem/mem.h>
+#include <movie/movie.h>
 #include "args.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
 
 // Subtitle data

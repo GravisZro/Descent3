@@ -24,21 +24,21 @@
 #include "WorldObjectsGenericDialog.h"
 #include "PhysicsDlg.h"
 #include "AISettingsDlg.h"
-#include "objinfo.h"
-#include "polymodel.h"
+#include <Descent3/object_info.h>
+#include <model/polymodel.h>
 #include "AnimStatesDialog.h"
 #include "EditLineDialog.h"
 #include "genericpage.h"
 #include "RobotEditWeaponsDialog.h"
 #include "GenericLightDialog.h"
-#include "robotfire.h"
-#include "ddio.h"
-#include "soundload.h"
-#include "objinit.h"
-#include "gametexture.h"
-#include "vclip.h"
+#include <Descent3/robotfire.h>
+#include <ddio/ddio.h>
+#include <sndlib/soundload.h>
+#include <Descent3/object_init.h>
+#include <Descent3/gametexture.h>
+#include <Descent3/vclip.h>
 #include "QuickCompile.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

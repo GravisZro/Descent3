@@ -463,19 +463,19 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "AIGoal.h"
 #include "aistruct.h"
 #include "aipath.h"
 #include "object.h"
 #include "game.h"
 #include "terrain.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "AIMain.h"
 #include "room.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "BOA.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 
 extern int AI_unique_goal_id;
 

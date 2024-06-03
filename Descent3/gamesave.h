@@ -84,19 +84,19 @@
 #ifndef GAMESAVE_H
 #define GAMESAVE_H
 
-#include "pstypes.h"
-#include "cfile.h"
+#include <misc/pstypes.h>
+#include <cfile/cfile.h>
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 #include "gametexture.h"
-#include "bitmap.h"
-#include "ddio.h"
+#include <bitmap/bitmap.h>
+#include <ddio/ddio.h>
 #include "door.h"
 #include "doorway.h"
 #include "ship.h"
 #include "weapon.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 #define GAMESAVE_SLOTS 8    // maximum number of savegames
 #define GAMESAVE_DESCLEN 31 // gamesave description maximum length.

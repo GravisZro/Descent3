@@ -105,9 +105,9 @@
 #define _GR_H
 
 #include "ddgr.h"
-#include "fix.h"
-#include "pserror.h"
-#include "pstypes.h"
+#include <fix/fix.h>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
 
 class grMemorySurface;
 class grViewport;

@@ -58,10 +58,10 @@
 
 #include "Moveworld.h"
 
-#include "ddio.h"
-#include "vecmat.h"
+#include <ddio/ddio.h>
+#include <vecmat/vecmat.h>
 #include "d3edit.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 
 #define dist_2d(x,y)  sqrt((x)*(x) + (y)*(y))
 

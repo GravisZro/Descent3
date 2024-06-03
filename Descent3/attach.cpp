@@ -23,8 +23,8 @@
 #include "multi.h"
 #include "game.h"
 #include "demofile.h"
-#include "polymodel.h"
-#include "objinfo.h"
+#include <model/polymodel.h>
+#include <Descent3/object_info.h>
 
 /*	// Determines the necessary orientation and position of the moving object
         f_use_uvec = true;

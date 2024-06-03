@@ -117,15 +117,15 @@
  *
  * $NoKeywords: $
  */
-#include "cfile.h"
-#include "manage.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
 #include "soundpage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "soundload.h"
-#include "ddio.h"
-#include "args.h"
-#include <string.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <sndlib/soundload.h>
+#include <ddio/ddio.h>
+#include <Descent3/args.h>
+#include <cstring>
 // soundpage commands that are read/written
 // A command is followed by a byte count describing how many bytes
 // are in the data for the command

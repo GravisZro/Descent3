@@ -18,7 +18,7 @@
 
 #include "windows.h"
 #include "gamedll_header.h"
-#include <string.h>
+#include <cstring>
 //########################Start DMFC Specifics##########################
 #include "DMFC.h"
 #include "powerball.h"

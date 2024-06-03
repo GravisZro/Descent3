@@ -41,7 +41,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "ViewerPropDlg.h"
-#include "object.h"
+#include <Descent3/object.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -242,7 +242,7 @@ void CViewerPropDlg::OnOrientCommitButton()
 	State_changed = Viewer_moved = 1;
 }
 
-#include "findintersection.h"
+#include <physics/findintersection.h>
 
 void CViewerPropDlg::OnPosCommitButton() 
 {

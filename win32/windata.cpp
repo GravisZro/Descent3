@@ -73,8 +73,8 @@
 #include <windows.h>
 #include <assert.h>
 
-#include "mono.h"
-#include "pserror.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
 
 //	Construction and destruction.
 

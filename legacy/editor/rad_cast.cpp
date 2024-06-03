@@ -198,14 +198,14 @@
  * 
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory.h>
 #include "radiosity.h"
 #include "rad_cast.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include	"room.h"
 #include "editor_lighting.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "special_face.h"
 #include "bsp.h"
 #include "boa.h"

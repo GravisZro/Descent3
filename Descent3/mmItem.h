@@ -69,7 +69,7 @@
 #ifndef MMITEM_H
 #define MMITEM_H
 #include "newui.h"
-#include "psclass.h"
+#include <misc/psclass.h>
 #include "gamefont.h"
 #if ((!defined(OEM)) && (!defined(DEMO)))
 #define MOVIE_MENU
@@ -103,7 +103,7 @@ enum tmmItemFX {
 void MenuScene(); // display menu scene
 /////////////////////////////////////////////////////////////////////
 // gcc doesn't like the tQueue template in psclass.h
-#ifdef __LINUX__
+#ifdef __unix__
 //	tQueue
 //		a circular queue implementation
 class tmmItemQueue {
@@ -144,7 +144,7 @@ class mmItem : public UIGadget {
   int16_t m_alpha; // alpha for text item
   int16_t m_satcount;
   tmmItemFX m_curfx; // current effect
-#ifndef __LINUX__
+#ifndef __unix__
   tQueue<tmmItemFX, 8> m_fxqueue; // special effects queue
 #else
   tmmItemQueue m_fxqueue;

@@ -25,14 +25,14 @@
 // ScriptSelect.h : header file
 //
 
-#include "objscript.h"
-#include "objcscript.h"
+#include <Descent3/object_script.h>
+//#include "objcscript.h"
 #include "d3x.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CScriptSelect dialog
 
-#include "object.h"
+#include <Descent3/object.h>
 #include "trigger.h"															   
 
 class CScriptSelect : public CDialog

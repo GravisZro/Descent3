@@ -437,16 +437,16 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <errno.h>
-#include <string.h>
-#if defined(__LINUX__)
-#include "linux_fix.h"
-#endif
-#include "descent.h"
-#include "manage.h"
-#include "pserror.h"
-#include "gametexture.h"
+#include <cstring>
+
+#include <linux/linux_fix.h>
+
+#include <Descent3/descent.h>
+#include <manage/manage.h>
+#include <misc/pserror.h>
+#include <Descent3/gametexture.h>
 #include "texpage.h"
 #include "doorpage.h"
 #include "soundpage.h"
@@ -454,20 +454,20 @@
 #include "shippage.h"
 #include "weaponpage.h"
 #include "gamefilepage.h"
-#include "mono.h"
-#include "object.h"
-#include "ddio.h"
-#include "cfile.h"
-#include "appdatabase.h"
+#include <ddebug/mono.h>
+#include <Descent3/object.h>
+#include <ddio/ddio.h>
+#include <cfile/cfile.h>
+#include <ddio/appdatabase.h>
 #include "genericpage.h"
-#include "mem.h"
-#include "dedicated_server.h"
-#include "appconsole.h"
-#include "init.h"
-#include "stringtable.h"
-#include "args.h"
-#include "vclip.h"
-#include "polymodel.h"
+#include <mem/mem.h>
+#include <Descent3/dedicated_server.h>
+#include <ddio/appconsole.h>
+#include <Descent3/init.h>
+#include <Descent3/stringtable.h>
+#include <Descent3/args.h>
+#include <Descent3/vclip.h>
+#include <model/polymodel.h>
 int Old_table_method = 0;
 void mng_WriteNewUnknownPage(CFILE *outfile);
 //	This is for levels

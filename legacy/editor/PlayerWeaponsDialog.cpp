@@ -23,10 +23,10 @@
 #include "editor.h"
 #include "PlayerWeaponsDialog.h"
 #include "RobotEditWeaponsDialog.h"
-#include "ship.h"
-#include "weapon.h"
-#include "pserror.h"
-#include "soundload.h"
+#include <Descent3/ship.h>
+#include <Descent3/weapon.h>
+#include <misc/pserror.h>
+#include <sndlib/soundload.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

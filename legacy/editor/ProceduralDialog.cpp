@@ -22,18 +22,18 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "ProceduralDialog.h"
-#include "bitmap.h"
-#include "gametexture.h"
-#include "manage.h"
+#include <bitmap/bitmap.h>
+#include <Descent3/gametexture.h>
+#include <manage/manage.h>
 #include "texpage.h"
-#include "pserror.h"
-#include "mono.h"
-#include "vclip.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <Descent3/vclip.h>
 #include "macros.h"
 #include "texture.h"
 #include "EditLineDialog.h"
-#include "ddio.h"
-#include "game.h"
+#include <ddio/ddio.h>
+#include <Descent3/game.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

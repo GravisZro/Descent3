@@ -183,8 +183,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "pserror.h"
-#include "renderer.h"
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
 #include "object.h"
 
 //	return 0 if we wan't to return to the menu, or return 1 if everything

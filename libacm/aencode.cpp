@@ -16,12 +16,12 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <math.h>
 #include <assert.h>
-#include "aencode.h"
+#include <libacm/aencode.h>
 
 typedef uint32_t uint32_t;
 typedef int32_t int32_t;

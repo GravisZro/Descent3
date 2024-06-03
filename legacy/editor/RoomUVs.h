@@ -40,7 +40,7 @@
  * $NoKeywords: $
  */
 
-#include "room.h"
+#include <Descent3/room.h>
 
 
 //	Given u,v coordinates at two vertices, assign u,v coordinates to the other vertices on a face.

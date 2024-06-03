@@ -17,19 +17,19 @@
 */
 
 #include "cinematics.h"
-#include "movie.h"
+#include <movie/movie.h>
 #include "game.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "descent.h"
 #include "gamefont.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "subtitles.h"
 #include "dedicated_server.h"
-#include "appdatabase.h"
-#include "bitmap.h"
+#include <ddio/appdatabase.h>
+#include <bitmap/bitmap.h>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 #ifdef DEBUG
 static struct {

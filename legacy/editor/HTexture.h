@@ -72,14 +72,14 @@
 #ifndef HTEXTURE_H
 #define HTEXTURE_H
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #ifndef NEWEDITOR
 #include "d3edit.h"
 #else
-#include "../neweditor/stdafx.h"
-#include "../neweditor/neweditor.h"
-#include "../neweditor/globals.h"
+#include <neweditor/stdafx.h>
+#include <neweditor/neweditor.h>
+#include <neweditor/globals.h>
 #endif
 
 struct room;

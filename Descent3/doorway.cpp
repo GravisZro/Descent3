@@ -128,12 +128,12 @@
 
 #include "doorway.h"
 #include "door.h"
-#include "pserror.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <mem/mem.h>
 #include "room.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "game.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "stringtable.h"
 #include "player.h"
 #include "osiris_dll.h"

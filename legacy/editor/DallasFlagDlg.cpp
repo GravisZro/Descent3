@@ -27,7 +27,7 @@
 #include "editor.h"
 #endif
 
-#include "cfile.h"
+#include <cfile/cfile.h>
 #include "DallasMainDlg.h"
 #include "DallasFlagDlg.h"
 

@@ -28,7 +28,7 @@
 // BriefManage.h : header file
 //
 
-#include "manage.h"
+#include <manage/manage.h>
 /////////////////////////////////////////////////////////////////////////////
 // CBriefManage dialog
 

@@ -75,9 +75,9 @@
 
 #include "ddgrWin32.h"
 #include "ddgrWin32GDI.h"
-#include "application.h"
-#include "mono.h"
-#include "pserror.h"
+#include <ddio/application.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
 #include "gr.h"
 
 /*	Global Library Data

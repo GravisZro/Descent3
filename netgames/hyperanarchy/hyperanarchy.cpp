@@ -53,8 +53,8 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include "gamedll_header.h"
 #include "idmfc.h"
 #include "HyperAnarchy.h"

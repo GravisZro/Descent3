@@ -336,20 +336,20 @@
 
 #include <cstdint>
 
-#include "vecmat_external.h"
-#include "aistruct_external.h"
-#include "object_external.h"
-#include "matcen_external.h"
-#include "robotfirestruct_external.h"
-#include "findintersection_external.h"
-#include "weapon_external.h"
-#include "damage_external.h"
-#include "fireball_external.h"
-#include "levelgoal_external.h"
-#include "deathinfo_external.h"
-#include "difficulty_external.h"
-#include "gamecinematics_external.h"
-#include "player_external.h"
+#include <vecmat/vecmat_external.h>
+#include <Descent3/aistruct_external.h>
+#include <Descent3/object_external.h>
+#include <Descent3/matcen_external.h>
+#include <Descent3/robotfirestruct_external.h>
+#include <physics/findintersection_external.h>
+#include <Descent3/weapon_external.h>
+#include <Descent3/damage_external.h>
+#include <Descent3/fireball_external.h>
+#include <Descent3/levelgoal_external.h>
+#include <Descent3/deathinfo_external.h>
+#include <Descent3/difficulty_external.h>
+#include <Descent3/gamecinematics_external.h>
+#include <Descent3/player_external.h>
 
 // =======================================================================
 // Event return values (OR these if needed)

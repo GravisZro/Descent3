@@ -20,7 +20,7 @@
 
 #include <gtest/gtest.h>
 
-#include "pstring.h"
+#include <misc/pstring.h>
 
 TEST(D3, CleanupStr) {
   std::vector<std::pair<const char*, const char*>> test_data = {

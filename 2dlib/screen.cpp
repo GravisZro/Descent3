@@ -45,11 +45,11 @@
  * $NoKeywords: $
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "gr.h"
-#include "pserror.h"
-#include "renderer.h"
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
 
 //	---------------------------------------------------------------------------
 //	grSurface constructor and destructor

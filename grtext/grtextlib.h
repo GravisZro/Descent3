@@ -39,7 +39,7 @@
 #define GRTEXTLIB_H
 
 #include "grtext.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 struct tCharBlt {
   uint16_t ch;

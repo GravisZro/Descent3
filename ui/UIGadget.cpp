@@ -117,9 +117,9 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
-#include "Macros.h"
-#include <string.h>
+#include <ui/uilib.h>
+#include <misc/macros.h>
+#include <cstring>
 
 int UIGadget::m_LastKey = 0;
 int UIGadget::m_LastKeyCount = 0;

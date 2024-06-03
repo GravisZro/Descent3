@@ -187,9 +187,7 @@
 #ifndef NEWUI_H
 #define NEWUI_H
 
-#if defined(__LINUX__)
-#include "linux_fix.h" //fix some of the stricmp's
-#endif
+#include <linux/linux_fix.h>
 
 #include "newui_core.h"
 

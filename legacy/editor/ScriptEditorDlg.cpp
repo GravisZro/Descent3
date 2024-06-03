@@ -51,13 +51,13 @@
 
 #include "stdafx.h"
 #include "editor.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "ScriptEditorDlg.h"
 #include <process.h>
 #include "CFILE.h"
 #include "OsirisStatusDlg.h"
-#include "pserror.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

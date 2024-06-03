@@ -152,9 +152,9 @@
 
 #include "fireball_external.h"
 #include "object.h"
-#include "vecmat.h"
-#include "manage.h"
-#include "grdefs.h"
+#include <vecmat/vecmat.h>
+#include <manage/manage.h>
+#include <2dlib/grdefs.h>
 #include "DeathInfo.h"
 
 #define PARTICLE_LIFE .5

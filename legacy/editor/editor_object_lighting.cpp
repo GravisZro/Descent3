@@ -17,25 +17,25 @@
 */
 
 
-#include "3d.h"
+#include <renderer/3d.h>
 #include "texture.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 #include "erooms.h"
 #include "editor_lighting.h"
-#include "descent.h"
-#include "room.h"
-#include "lightmap.h"
-#include "polymodel.h"
-#include "objinfo.h"
-#include <string.h>
-#include <stdlib.h>
-#include "terrain.h"
+#include <Descent3/descent.h>
+#include <Descent3/room.h>
+#include <bitmap/lightmap.h>
+#include <model/polymodel.h>
+#include <Descent3/object_info.h>
+#include <cstring>
+#include <cstdlib>
+#include <Descent3/terrain.h>
 #include "radiosity.h"
-#include "lighting.h"
-#include "findintersection.h"
-#include "lightmap_info.h"
+#include <Descent3/lighting.h>
+#include <physics/findintersection.h>
+#include <Descent3/lightmap_info.h>
 #include "object_lighting.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 void ComputeObjectSurfaceRes (rad_surface *surf,object *obj,int subnum,int facenum)
 {

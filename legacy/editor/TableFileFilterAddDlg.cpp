@@ -43,7 +43,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "TableFileFilterAddDlg.h"
-#include "manage.h"
+#include <manage/manage.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

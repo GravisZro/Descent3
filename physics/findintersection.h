@@ -218,10 +218,10 @@
 #ifndef _FVI_H
 #define _FVI_H
 
-#include "object.h"
-#include "vecmat.h"
-#include "terrain.h"
-// #include "room.h"
+#include <Descent3/object.h>
+#include <vecmat/vecmat.h>
+#include <Descent3/terrain.h>
+#include <Descent3/room.h>
 #include "findintersection_external.h"
 
 extern float Ceiling_height;

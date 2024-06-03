@@ -20,7 +20,7 @@
 #define AIPATH_H_
 
 #include "object.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "aistruct.h"
 
 // Exported functions

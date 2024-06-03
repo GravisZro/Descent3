@@ -185,24 +185,24 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "WireframeGrWnd.h"
-#include "3d.h"
-#include "gametexture.h"
+#include <renderer/3d.h>
+#include <Descent3/gametexture.h>
 #include "drawworld.h"
 #include "moveworld.h"
 #include "selectedroom.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include "texture.h"
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 #include "erooms.h"
 
 #include <assert.h>
 #include "gr.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "macros.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "SelManager.h"
-#include "room.h"
-#include "lighting.h"
+#include <Descent3/room.h>
+#include <Descent3/lighting.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

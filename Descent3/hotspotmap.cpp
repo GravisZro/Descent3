@@ -98,21 +98,21 @@
  * $NoKeywords: $
  */
 
-#include "mono.h"
-#include "renderer.h"
+#include <ddebug/mono.h>
+#include <renderer/renderer.h>
 #include "render.h"
-#include "grdefs.h"
-#include "ddio.h"
+#include <2dlib/grdefs.h>
+#include <ddio/ddio.h>
 #include "descent.h"
 #include "game.h"
-#include "cfile.h"
-#include "application.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cfile/cfile.h>
+#include <ddio/application.h>
+#include <cstdlib>
+#include <cstring>
 #include "hotspotmap.h"
-#include "mem.h"
-#include "bitmap.h"
-#include "manage.h"
+#include <mem/mem.h>
+#include <bitmap/bitmap.h>
+#include <manage/manage.h>
 
 static void makecorner(int corner_bmp, int back_bmp, const char *tmap, int l, int t, int r, int b);
 static int CreateHotSpotMap(const char *map, int width, int height, hotspotmap_t *hsmap);

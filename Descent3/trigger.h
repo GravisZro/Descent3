@@ -84,10 +84,10 @@
 #ifndef TRIGGER_H
 #define TRIGGER_H
 
-#include "pstypes.h"
-#include "ObjScript.h"
+#include <misc/pstypes.h>
+#include "object_script.h"
 #include "object_external_struct.h"
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 // Trigger flags
 #define TF_UNUSED 1                 //

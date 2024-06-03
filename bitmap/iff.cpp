@@ -67,19 +67,19 @@
 
 #define MIN_COMPRESS_WIDTH 65 // don't compress if less than this wide
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
-#include "mem.h"
+#include <mem/mem.h>
 #include "iff.h"
-#include "byteswap.h"
-#include "cfile.h"
-#include "pserror.h"
-#include "pstypes.h"
-#include "bitmap.h"
-#include "mono.h"
-#include "grdefs.h"
+#include <lib/byteswap.h>
+#include <cfile/cfile.h>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <bitmap/bitmap.h>
+#include <ddebug/mono.h>
+#include <2dlib/grdefs.h>
 
 // Internal constants and structures for this library
 

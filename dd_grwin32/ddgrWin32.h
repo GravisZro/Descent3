@@ -42,8 +42,8 @@
 #ifndef DDGRWIN32_H
 #define DDGRWIN32_H
 
-#include "ddgr.h"
-#include "pstypes.h"
+#include <2dlib/ddgr.h>
+#include <misc/pstypes.h>
 
 /*	Subsystem constants
 

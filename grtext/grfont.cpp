@@ -108,16 +108,16 @@
  */
 
 #include "grtextlib.h"
-#include "cfile.h"
-#include "bitmap.h"
-#include "pserror.h"
-#include "renderer.h"
-#include "mem.h"
-#include "ddio.h"
+#include <cfile/cfile.h>
+#include <bitmap/bitmap.h>
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
+#include <mem/mem.h>
+#include <ddio/ddio.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include <ctype.h>
 
 const int MAX_FONTS = 16, MAX_FONT_BITMAPS = 32;

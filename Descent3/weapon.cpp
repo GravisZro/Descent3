@@ -333,30 +333,30 @@
 */
 
 #include "weapon.h"
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 #include "object.h"
-#include "3d.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <renderer/3d.h>
+#include <cstdlib>
+#include <cstdio>
 #include <stdarg.h>
-#include <string.h>
-#include "bitmap.h"
+#include <cstring>
+#include <bitmap/bitmap.h>
 #include "vclip.h"
 #include "game.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "player.h"
 #include "hud.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "objinfo.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <Descent3/object_info.h>
 #include "gametexture.h"
 #include "ship.h"
 #include "gauges.h"
-#include "sounds.h"
+#include <Descent3/sounds.h>
 #include "stringtable.h"
-#include "Macros.h"
-#include "cfile.h"
+#include <misc/macros.h>
+#include <cfile/cfile.h>
 #include "AIMain.h"
 
 #include <algorithm>

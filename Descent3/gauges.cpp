@@ -187,18 +187,18 @@
 #include "gamefont.h"
 #include "hud.h"
 #include "game.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 #include "render.h"
 #include "player.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "gametexture.h"
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 #include "vclip.h"
-#include "Inventory.h"
+#include "inventory.h"
 #include "cockpit.h"
 #include "player.h"
 #include "ship.h"
-#include "3d.h"
+#include <renderer/3d.h>
 #include "weapon.h"
 #include "stringtable.h"
 

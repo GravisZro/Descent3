@@ -397,22 +397,24 @@
  */
 
 #include "room.h"
-#include "mono.h"
-#include "vecmat.h"
-#include "gametexture.h"
-#include "manage.h"
-#include "renderer.h"
-#include "game.h"
-#include "render.h"
-#include "grdefs.h"
-#include <stdlib.h>
+
 #include <string.h>
+#include <stdlib.h>
+
+#include <ddebug/mono.h>
+#include <vecmat/vecmat.h>
+#include "gametexture.h"
+#include <manage/manage.h>
+#include <renderer/renderer.h>
+#include "game.h"
+#include <Descent3/render.h>
+#include <2dlib/grdefs.h>
 #include "terrain.h"
-#include "findintersection.h"
-#include "lightmap.h"
-#include "lightmap_info.h"
+#include <physics/findintersection.h>
+#include <bitmap/lightmap.h>
+#include <Descent3/lightmap_info.h>
 #include "special_face.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "doorway.h"
 #include "multi_world_state.h"
 #include "damage_external.h"

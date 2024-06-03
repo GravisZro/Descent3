@@ -53,7 +53,7 @@
 #include "dmfcinternal.h"
 #include "encryption.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory.h>
 
 extern char **DMFCStringTable;

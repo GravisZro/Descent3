@@ -101,15 +101,15 @@
  */
 
 #include "ship.h"
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 #include "object.h"
-#include "3d.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <renderer/3d.h>
+#include <cstdlib>
+#include <cstdio>
 #include <stdarg.h>
-#include <string.h>
-#include "polymodel.h"
+#include <cstring>
+#include <model/polymodel.h>
 #include "player.h"
 #include "robotfire.h"
 

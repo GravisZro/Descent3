@@ -22,8 +22,8 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "FilePageAddDlg.h"
-#include "ddio.h"
-#include "mem.h"
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 #include <direct.h>
 
 #ifdef _DEBUG

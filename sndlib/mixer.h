@@ -19,7 +19,7 @@
 #ifndef __SOUND_MIXER_H______
 #define __SOUND_MIXER_H______
 
-#include "ssl_lib.h"
+#include <sndlib/ssl_lib.h>
 
 class sound_buffer {
 public:

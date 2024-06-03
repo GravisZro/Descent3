@@ -309,23 +309,23 @@
  * $NoKeywords: $
  */
 
-#include "controller.h"
+#include <ddio/controller.h>
 
 #include <math.h>
 
-#include "pserror.h"
-#include "ddio.h"
-#include "joystick.h"
-#include "Macros.h"
-#include "inffile.h"
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <ddio/joystick.h>
+#include <misc/macros.h>
+#include <cfile/inffile.h>
 
 // Sorry! This is needed for the semi-hacky mouselook support
-#include "descent.h"
-#include "player.h"
-#include "object.h"
-#include "pilot.h"
-#include "multi.h"
-#include "game.h"
+#include <Descent3/descent.h>
+#include <Descent3/player.h>
+#include <Descent3/object.h>
+#include <Descent3/pilot.h>
+#include <Descent3/multi.h>
+#include <Descent3/game.h>
 // End of hacky includes
 
 extern float Mouselook_sensitivity;

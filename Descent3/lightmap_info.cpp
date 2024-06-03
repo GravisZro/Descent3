@@ -17,17 +17,17 @@
 */
 
 // Lightmap info
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #include "lightmap_info.h"
-#include "lightmap.h"
-#include "mono.h"
-#include "ddgr.h"
-#include "grdefs.h"
-#include "renderer.h"
-#include <stdlib.h>
-#include <string.h>
-#include "mem.h"
+#include <bitmap/lightmap.h>
+#include <ddebug/mono.h>
+#include <2dlib/ddgr.h>
+#include <2dlib/grdefs.h>
+#include <renderer/renderer.h>
+#include <cstdlib>
+#include <cstring>
+#include <mem/mem.h>
 #include "dedicated_server.h"
 
 int Num_of_lightmap_info = 0;

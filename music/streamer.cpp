@@ -60,8 +60,8 @@
  * $NoKeywords: $
  */
 
-#include "music.h"
-#include "streamaudio.h"
+#include <music/music.h>
+#include <stream_audio/streamaudio.h>
 
 oms_stream::oms_stream() {}
 

@@ -81,7 +81,7 @@
  */
 #ifndef GAMEOS_H
 #define GAMEOS_H
-#include "pstypes.h"
+#include <misc/pstypes.h>
 struct gameos_packet {
   int code;
   unsigned time_stamp;

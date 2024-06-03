@@ -84,11 +84,11 @@
 #include <cstdio>
 #include <cstdarg>
 
-#include <string.h>
+#include <cstring>
 #include <assert.h>
 #include "gr.h"
-#include "mono.h"
-#include "renderer.h"
+#include <ddebug/mono.h>
+#include <renderer/renderer.h>
 
 #define CLIP_LEFT (vp_InitLeft + vp_Left)
 #define CLIP_TOP (vp_InitTop + vp_Top)

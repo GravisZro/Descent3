@@ -18,9 +18,9 @@
 
 
 #include "NewBitmap.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
-#include <stb_image_write.h>
+#include <stb/stb_image_write.h>
 
 NewBitmap::NewBitmap(uint32_t w, uint32_t h, PixelDataFormat format, bool flippedY)
     : _w(w), _h(h), _format(format), _flippedY(flippedY), _data(allocateData(w, h, format)) {

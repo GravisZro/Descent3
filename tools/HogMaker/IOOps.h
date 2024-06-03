@@ -20,7 +20,7 @@
 #include <cstdint>
 #include <ostream>
 
-#include "byteswap.h"
+#include <lib/byteswap.h>
 
 namespace D3 {
 

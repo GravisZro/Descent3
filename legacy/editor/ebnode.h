@@ -51,10 +51,10 @@
 #define EBNODE_H_
 
 #include "bnode.h"
-#include "room.h"
-#include "mem.h"
-#include "vecmat.h"
-#include "3d.h"
+#include <Descent3/room.h>
+#include <mem/mem.h>
+#include <vecmat/vecmat.h>
+#include <renderer/3d.h>
 #include "gr.h"
 
 #define EBDRAW_NONE                0

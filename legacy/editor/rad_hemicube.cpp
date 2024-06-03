@@ -18,15 +18,15 @@
 
 // rad_scan
 
-#include "vecmat.h"
-#include "3d.h"
+#include <vecmat/vecmat.h>
+#include <renderer/3d.h>
 #include "radiosity.h"
 #include "hemicube.h"
 #include "gr.h"
 #include "d3edit.h"
-#include "ddio.h"
-#include "mem.h"
-#include <stdlib.h>
+#include <ddio/ddio.h>
+#include <mem/mem.h>
+#include <cstdlib>
 
 #define TOP_FACE		0
 #define LEFT_FACE		1

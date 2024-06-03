@@ -39,8 +39,8 @@
 #define __UNZIP_H
 
 #include <cstdint>
-#include <stdio.h>
-#include "pstypes.h"
+#include <cstdio>
+#include <misc/pstypes.h>
 
 struct zipentry {
   uint32_t cent_file_header_sig;

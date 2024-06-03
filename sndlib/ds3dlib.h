@@ -222,8 +222,8 @@
 // #include <mmsystem.h>		// Multi-media system support
 // #include "dsound.h"			// Direct sound header file
 
-#include "ssl_lib.h" // Shared sound header (between high and low-levels)
-#include "vecmat.h"
+#include <sndlib/ssl_lib.h> // Shared sound header (between high and low-levels)
+#include <vecmat/vecmat.h>
 
 #ifndef DS3DLIB_INTERNAL_H
 typedef void *LPDIRECTSOUND;

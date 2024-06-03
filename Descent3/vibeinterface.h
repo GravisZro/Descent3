@@ -19,8 +19,8 @@
 #ifndef VIBE_H_
 #define VIBE_H_
 
-#include "application.h"
-#include "vecmat_external.h"
+#include <ddio/application.h>
+#include <vecmat/vecmat_external.h>
 #include "controls.h"
 
 // Initialize IntelliVIBE

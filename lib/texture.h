@@ -96,9 +96,9 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "3d.h"
-#include "pstypes.h"
-#include "renderer.h"
+#include <renderer/3d.h>
+#include <misc/pstypes.h>
+#include <renderer/renderer.h>
 
 #define MAX_TEXTURE_SHADES 32
 

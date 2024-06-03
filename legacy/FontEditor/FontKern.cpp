@@ -38,15 +38,15 @@
  */
 
 #include "FontEditor.h"
-#include "pserror.h"
-#include "renderer.h"
-#include "ddio.h"
-#include "grtext.h"
-#include "bitmap.h"
-#include "mem.h"
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
+#include <ddio/ddio.h>
+#include <grtext/grtext.h>
+#include <bitmap/bitmap.h>
+#include <mem/mem.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 
 chunked_bitmap Editor_bkg;

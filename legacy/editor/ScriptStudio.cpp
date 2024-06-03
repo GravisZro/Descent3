@@ -85,13 +85,13 @@
 #include "ScriptStudio.h"
 #include "OsirisStatusDlg.h"
 #include "ObjCScript.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "d3x.h"
-#include "ddio.h"
-#include "cfile.h"
+#include <ddio/ddio.h>
+#include <cfile/cfile.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

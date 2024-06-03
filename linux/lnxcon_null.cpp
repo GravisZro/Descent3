@@ -49,10 +49,10 @@
 #include <cstring>
 #include <cstdio>
 
-#include "application.h"
-#include "appconsole.h"
-#include "TaskSystem.h"
-#include "mono.h"
+#include <ddio/application.h>
+#include <ddio/appconsole.h>
+// #include "TaskSystem.h"
+#include <ddebug/mono.h>
 
 
 // put some data up on the screen

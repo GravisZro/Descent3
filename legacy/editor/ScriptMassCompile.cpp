@@ -65,18 +65,18 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "ScriptMassCompile.h"
-#include "cfile.h"
-#include "gamefile.h"
+#include <cfile/cfile.h>
+#include <Descent3/gamefile.h>
 #include "gamefilepage.h"
 #include "AppDatabase.h"
 #include "Descent.h"
-#include "mono.h"
-#include "ddio.h"
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
 #include "ScriptCompilerAPI.h"
-#include <string.h>
+#include <cstring>
 #include <stdarg.h>
-#include "mem.h"
-#include "pserror.h"
+#include <mem/mem.h>
+#include <misc/pserror.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

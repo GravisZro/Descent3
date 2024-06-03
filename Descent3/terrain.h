@@ -19,10 +19,10 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-#include "vecmat.h"
-#include "pstypes.h"
-#include "3d.h"
-#include "grdefs.h"
+#include <vecmat/vecmat.h>
+#include <misc/pstypes.h>
+#include <renderer/3d.h>
+#include <2dlib/grdefs.h>
 #include "object.h"
 
 // How far we texture out to...after this distance we draw flat shaded polygons

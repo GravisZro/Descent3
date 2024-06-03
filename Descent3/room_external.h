@@ -99,8 +99,8 @@
 #ifndef _ROOM_EXTERNAL_H_
 #define _ROOM_EXTERNAL_H_
 
-#include "pstypes.h"
-#include "vecmat_external.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat_external.h>
 #include "bnode.h"
 
 #define MAX_FACES_PER_ROOM 3000  // max number of faces per room

@@ -64,7 +64,7 @@
 #define M_WIREFRAMEGRWND_H
 
 #include "GrWnd.h"
-#include "3d.h"
+#include <renderer/3d.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CWireframeGrWnd window

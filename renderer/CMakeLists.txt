@@ -28,22 +28,3 @@ endif()
 #Direct3D.cpp
 
 add_library(renderer STATIC ${HEADERS} ${CPPS})
-target_link_libraries(renderer PRIVATE
-  bitmap
-  ddio
-  rtperformance
-  module
-  2dlib
-  $<$<PLATFORM_ID:Linux,Darwin>:
-    linux
-  >
-  $<$<PLATFORM_ID:Windows>:
-    win32
-  >
-)
-
-target_include_directories(renderer PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/renderer
-  >
-)

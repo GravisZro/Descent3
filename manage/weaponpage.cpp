@@ -286,23 +286,23 @@
  *
  * $NoKeywords: $
  */
-#include "cfile.h"
-#include "manage.h"
-#include "weapon.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <Descent3/weapon.h>
 #include "weaponpage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "vclip.h"
-#include "polymodel.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <Descent3/vclip.h>
+#include <model/polymodel.h>
 #include "soundpage.h"
-#include "soundload.h"
-#include "ddio.h"
-#include "gametexture.h"
+#include <sndlib/soundload.h>
+#include <ddio/ddio.h>
+#include <Descent3/gametexture.h>
 #include "texpage.h"
-#include <string.h>
-#include "sounds.h"
+#include <cstring>
+#include <Descent3/sounds.h>
 #include "genericpage.h"
-#include "args.h"
+#include <Descent3/args.h>
 
 // weaponpage commands that are read/written
 // A command is followed by a byte count describing how many bytes

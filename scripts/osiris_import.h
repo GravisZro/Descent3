@@ -24,7 +24,7 @@
 
 #include "osiris_common.h"
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include "linux_lib.h"
 #endif
 

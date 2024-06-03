@@ -19,7 +19,7 @@
 #ifndef __HARDWARE_INTERNAL_H__
 #define __HARDWARE_INTERNAL_H__
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #define MAX_POINTS_IN_POLY 100
 

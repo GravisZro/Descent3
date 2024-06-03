@@ -156,7 +156,7 @@
 #ifndef NETWORKING_H
 #define NETWORKING_H
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include <cstdint>
 
 #if defined(WIN32)
@@ -189,12 +189,12 @@ static inline void INADDR_GET_SUN_SUNB(struct in_addr *st, uint8_t *s_b1, uint8_
   *s_b4 = st->S_un.S_un_b.s_b4;
 }
 
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 // Linux includes/defines
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -209,10 +209,10 @@ static inline void INADDR_GET_SUN_SUNB(struct in_addr *st, uint8_t *s_b1, uint8_
 #include <fcntl.h>
 
 // rcg06212000 my SDL adds.
-#include "SDL.h"
-#include "SDL_thread.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 
-#include "linux_fix.h"
+#include <linux/linux_fix.h>
 
 #define SOCKET int
 #define BOOL bool
@@ -490,7 +490,7 @@ struct async_dns_lookup {
   bool abort;      // read only to worker thread. If this is set, don't fill in the struct.
 
   // rcg06212000 added to let us join the thread at completion...
-#ifdef __LINUX__
+#ifdef __unix__
   SDL_Thread *threadId;
 #endif
 };
@@ -500,7 +500,7 @@ struct async_dns_lookup {
 #else
 #define CDECLCALL
 #endif
-#ifdef __LINUX__
+#ifdef __unix__
 // rcg06192000 used to return void *.
 int CDECLCALL gethostbynameworker(void *parm);
 #else

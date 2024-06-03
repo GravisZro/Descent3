@@ -30,7 +30,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CMyListCtrl window
-#include "manage_external.h"
+#include <manage/manage_external.h>
 
 #define STATE_COMPILED	0
 #define STATE_OOD		1

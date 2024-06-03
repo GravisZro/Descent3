@@ -181,12 +181,12 @@
 #ifndef __PILOT_H_
 #define __PILOT_H_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "pilot_class.h"
 
 /*
 #include "controls.h"
-#include "controller.h"
+#include <ddio/controller.h>
 #include "ship.h"
 
 #define PILOT_STRING_SIZE	20

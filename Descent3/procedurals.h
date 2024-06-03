@@ -19,9 +19,9 @@
 #ifndef PROCEDURALS_H
 #define PROCEDURALS_H
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "fix.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <fix/fix.h>
 
 #define MAX_PROC_ELEMENTS 8000
 

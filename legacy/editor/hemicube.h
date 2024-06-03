@@ -19,7 +19,7 @@
 #ifndef HEMICUBE_H
 #define HEMICUBE_H
 
-#include "3d.h"
+#include <renderer/3d.h>
 #include "radiosity.h"
 #include "gr.h"
 

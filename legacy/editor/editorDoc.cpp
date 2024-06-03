@@ -79,15 +79,15 @@
 #include "MainFrm.h"
 
 
-#include <string.h>
+#include <cstring>
 
 #include "d3edit.h"
-#include "mono.h"
-#include "game.h"
+#include <ddebug/mono.h>
+#include <Descent3/game.h>
 #include "HFile.h"
-#include "cfile.h"
-#include "ddio.h"
-#include "manage.h"
+#include <cfile/cfile.h>
+#include <ddio/ddio.h>
+#include <manage/manage.h>
 #include "DallasMainDlg.h"
 
 

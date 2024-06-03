@@ -34,22 +34,3 @@ set(CPPS
 )
 
 add_library(sndlib STATIC ${HEADERS} ${CPPS})
-target_link_libraries(sndlib PRIVATE
-  cfile
-  ddio
-  networking
-  bitmap
-  renderer
-  manage
-  model
-  physics
-  2dlib
-  stream_audio
-  libacm
-)
-
-target_include_directories(sndlib PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/sndlib
-  >
-)

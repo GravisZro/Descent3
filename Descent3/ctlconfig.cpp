@@ -278,19 +278,19 @@
  * $NoKeywords: $
  */
 #include "ctlconfig.h"
-#include "CtlCfgElem.h"
+#include "control_config_element.h"
 #include "ctlconfigtxt.h"
 #include "game.h"
 #include "weapon.h"
 #include "pilot.h"
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 #include "multi.h"
 #include "gameloop.h"
 #include "gamefont.h"
 #include "D3ForceFeedback.h"
-#include "hlsoundlib.h"
-#include "ddio.h"
-#include <string.h>
+#include <sndlib/hlsoundlib.h>
+#include <ddio/ddio.h>
+#include <cstring>
 //////////////////////////////////////////////////////////////////////////////
 #define IDV_KCONFIG 10
 #define IDV_CCONFIG 11

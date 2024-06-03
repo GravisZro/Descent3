@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "BriefEdit.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "BriefingParse.h"
 
 #include "BriefBitmapEdit.h"
@@ -33,9 +33,9 @@
 #include "BriefTextEdit.h"
 #include "Telcom.h"
 #include "BriefManage.h"
-#include "mem.h"
-#include "textaux.h"
-#include "ddio.h"
+#include <mem/mem.h>
+#include <grtext/textaux.h>
+#include <ddio/ddio.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

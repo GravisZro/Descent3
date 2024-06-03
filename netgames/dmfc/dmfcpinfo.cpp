@@ -93,7 +93,7 @@
 #include "gamedll_header.h"
 #include "DMFC.h"
 #include "dmfcinternal.h"
-#include <string.h>
+#include <cstring>
 
 
 PInfo::PInfo(int slot) {

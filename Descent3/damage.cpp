@@ -558,26 +558,26 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory.h>
 #include "damage.h"
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "player.h"
 #include "fireball.h"
 #include "gameevent.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "multi.h"
 #include "game.h"
-#include "sounds.h"
-#include "soundload.h"
+#include <Descent3/sounds.h>
+#include <sndlib/soundload.h>
 #include "game2dll.h"
 #include "weapon.h"
 #include "ship.h"
 #include "attach.h"
 #include "difficulty.h"
 #include "demofile.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 #include "osiris_dll.h"
 #include "D3ForceFeedback.h"
 #include "multi_server.h"
@@ -585,7 +585,7 @@
 #include "DeathInfo.h"
 #include "AIGoal.h"
 #include "viseffect.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "vibeinterface.h"
 
 #include <algorithm>
@@ -1478,7 +1478,7 @@ void ShakePlayer() {
 void UnshakePlayer() { ObjSetOrient(Player_object, &Old_player_orient); }
 
 #include "terrain.h"
-#include "collide.h"
+#include <physics/collide.h>
 
 #define SHARD_MAX_EDGE_LEN 3.0f
 

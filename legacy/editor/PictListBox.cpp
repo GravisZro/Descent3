@@ -59,7 +59,7 @@
 #include "PictListBox.h"
 
 #include "d3edit.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "gr.h"
 
 

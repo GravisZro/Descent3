@@ -412,32 +412,32 @@
 
 #include "hud.h"
 #include "gauges.h"
-#include "grdefs.h"
+#include <2dlib/grdefs.h>
 #include "game.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "player.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 #include "descent.h"
 #include "object.h"
 #include "gamefont.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "cockpit.h"
 #include "game2dll.h"
 #include "ship.h"
 #include "pilot.h"
-#include "mem.h"
-#include "musicapi.h"
+#include <mem/mem.h>
+#include <d3music/musicapi.h>
 #include "demofile.h"
 #include "stringtable.h"
-#include "pstring.h"
+#include <misc/pstring.h>
 #include "config.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <stdarg.h>
-#include <string.h>
+#include <cstring>
 #include "gamecinematics.h"
-#include "CtlCfgElem.h"
+#include "control_config_element.h"
 #include "ctlconfig.h"
 
 //////////////////////////////////////////////////////////////////////////////

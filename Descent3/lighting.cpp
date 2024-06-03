@@ -24,25 +24,25 @@
  * $NoKeywords: $
  */
 
-#include "3d.h"
-#include "texture.h"
+#include <renderer/3d.h>
+//#include "texture.h"
 #include "gametexture.h"
 #include "lighting.h"
-#include "lightmap.h"
+#include <bitmap/lightmap.h>
 #include "descent.h"
 #include "game.h"
 #include "room.h"
-#include <string.h>
-#include <stdlib.h>
-#include "findintersection.h"
+#include <cstring>
+#include <cstdlib>
+#include <physics/findintersection.h>
 #include "lightmap_info.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "special_face.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "config.h"
 #include "dedicated_server.h"
-#include "objinfo.h"
-#include "Macros.h"
+#include <Descent3/object_info.h>
+#include <misc/macros.h>
 
 #include <algorithm>
 

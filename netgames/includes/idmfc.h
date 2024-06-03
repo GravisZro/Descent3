@@ -139,17 +139,17 @@
 #ifndef __IDMFC_H_
 #define __IDMFC_H_
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdarg.h>
 #include <time.h>
 #include "gamedll_header.h"
 #include "DMFC.h"
-#include "controls.h"
-#include "Mission.h"
-#include "weapon.h"
-#include "player.h"
-#include "ship.h"
-#include "vclip.h"
+#include <Descent3/controls.h>
+#include <Descent3/mission.h>
+#include <Descent3/weapon.h>
+#include <Descent3/player.h>
+#include <Descent3/ship.h>
+#include <Descent3/vclip.h>
 
 #ifdef __cplusplus
 // C++ compiler, should we use classes?

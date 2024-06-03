@@ -49,10 +49,10 @@
 
 
 #include "ddvidlib.h"
-#include "pserror.h"
-#include "application.h"
+#include <misc/pserror.h>
+#include <ddio/application.h>
 
-#include <string.h>
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////////////
 //	Variables

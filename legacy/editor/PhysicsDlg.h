@@ -25,7 +25,7 @@
 // PhysicsDlg.h : header file
 //
 
-#include "object.h"
+#include <Descent3/object.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CPhysicsDlg dialog

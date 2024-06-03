@@ -176,14 +176,14 @@
 //	Keyboard Interface
 // ----------------------------------------------------------------------------
 
-#include "pserror.h"
-#include "mono.h"
-#include "ddio.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
 #include "ddio_win.h"
-#include "application.h"
-#include "TaskSystem.h"
+#include <ddio/application.h>
+// #include "TaskSystem.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <process.h>
 
 // ----------------------------------------------------------------------------

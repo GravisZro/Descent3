@@ -300,19 +300,19 @@
 #include "newui.h"
 #include "game.h"
 #include "descent.h"
-#include "renderer.h"
-#include "3d.h"
+#include <renderer/renderer.h>
+#include <renderer/3d.h>
 #include "gamefont.h"
-#include "bitmap.h"
-#include "ddio.h"
+#include <bitmap/bitmap.h>
+#include <ddio/ddio.h>
 #include "stringtable.h"
-#include "textaux.h"
+#include <grtext/textaux.h>
 #include "newui_core.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "dedicated_server.h"
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <stdarg.h>
 
 #define MSGBOX_HEIGHT msgbox.H()

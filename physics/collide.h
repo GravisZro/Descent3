@@ -83,8 +83,8 @@
 #ifndef _COLLIDE_H
 #define _COLLIDE_H
 
-#include "object.h"
-#include "vecmat.h"
+#include <Descent3/object.h>
+#include <vecmat/vecmat.h>
 #include "findintersection.h"
 
 extern uint8_t CollisionResult[MAX_OBJECT_TYPES][MAX_OBJECT_TYPES];

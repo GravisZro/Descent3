@@ -56,7 +56,7 @@
  * all mangles symbol names fixed.  Finished making interface functions.
  *
  * 120   6/12/99 10:59p Jeff
- * fixed messed up #ifdef for __LINUX__
+ * fixed messed up #ifdef for __unix__
  *
  * 119   6/10/99 6:31p Jeff
  * fixed mprintf define
@@ -288,13 +288,13 @@
 #ifndef __DMFC_H__
 #define __DMFC_H__
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdarg.h>
 #include <time.h>
 #include "gamedll_header.h"
 #include "DMFCKeyCodes.h"
 
-#if ((defined __LINUX__) && (!defined __i386__))
+#if ((defined __unix__) && (!defined __i386__))
 #include <signal.h>
 #endif
 
@@ -338,7 +338,7 @@
     if (DLLDebugBreak_callback_resume)                                                                                 \
       DLLDebugBreak_callback_resume();                                                                                 \
   } while (0)
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 // For some reason Linux doesn't like the \ continuation character, so I have to uglify this
 #define DLLmprintf(...) DLLDebug_ConsolePrintf(__VA_ARGS__)
 #ifdef DEBUG_BREAK

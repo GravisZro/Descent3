@@ -73,7 +73,7 @@
 #ifndef BNODE_H_
 #define BNODE_H_
 
-#include "vecmat_external.h"
+#include <vecmat/vecmat_external.h>
 
 #define MAX_BNODE_SIZE 20.0f
 // Not bigger than 127 - char bnode - in portal struct

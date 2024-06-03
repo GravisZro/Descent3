@@ -50,7 +50,7 @@
 struct tGauge;
 struct tGaugePos;
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 //	rendering functions
 

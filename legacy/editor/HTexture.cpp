@@ -165,10 +165,10 @@
 #endif
 
 #include "roomuvs.h"
-#include "gametexture.h"
-#include "terrain.h"
-#include "room.h"
-#include "descent.h"
+#include <Descent3/gametexture.h>
+#include <Descent3/terrain.h>
+#include <Descent3/room.h>
+#include <Descent3/descent.h>
 #include "erooms.h"
 
 #define HTEX_CALIB_VAL		((float)(1.0/128.0))

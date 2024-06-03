@@ -19,8 +19,8 @@
 #include "musicplay.h"
 #include "win\directx\dsound.h"
 #include "ds3dlib.h"
-#include "streamaudio.h"
-#include "application.h"
+#include <stream_audio/streamaudio.h>
+#include <ddio/application.h>
 
 
 static win_llsSystem	Sound_system;

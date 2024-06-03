@@ -115,17 +115,17 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "WorldObjectsDoorDialog.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "doorpage.h"
-#include "mono.h"
-#include "vclip.h"
-#include "polymodel.h"
+#include <ddebug/mono.h>
+#include <Descent3/vclip.h>
+#include <model/polymodel.h>
 #include "door.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "EditLineDialog.h"
-#include "objinit.h"
-#include "soundload.h"
-#include "mem.h"
+#include <Descent3/object_init.h>
+#include <sndlib/soundload.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -186,7 +186,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CWorldObjectsDoorDialog message handlers
 
-#include "room.h"
+#include <Descent3/room.h>
 
 //Makes sure a door model is ok. If not ok, brings up messagebox to tell the user
 //Parameter:	handle - the handle for the polymodel

@@ -60,10 +60,16 @@
  */
 
 #include "program.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "descent.h"
 
-#include "appdatabase.h"
+#if defined(WIN32)
+#include <win32/windatabase.h>
+#elif defined(__unix__)
+#include <linux/lnxdatabase.h>
+#else
+# include <ddio/appdatabase.h>
+#endif
 
 program_version Program_version;
 
@@ -72,7 +78,7 @@ program_version Program_version;
 void ProgramVersion(int version_type, uint8_t major, uint8_t minor, uint8_t build) {
 #if defined(WIN32) // I'm sorry.  Samir
   oeWin32AppDatabase dbase((oeWin32AppDatabase *)Database);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   oeLnxAppDatabase dbase((oeLnxAppDatabase *)Database);
 #else
   oeAppDatabase dbase(Database); // this will fail without an operating system equiv

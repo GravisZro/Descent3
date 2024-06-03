@@ -70,18 +70,18 @@
 //
 
 #include "stdafx.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #include "editor.h"
 #include "GrFontDialog.h"
 
 #include "gr.h"
-#include "mono.h"
-#include "bitmap.h"
-#include "gametexture.h"
-#include "manage.h"
-#include "mem.h"
+#include <ddebug/mono.h>
+#include <bitmap/bitmap.h>
+#include <Descent3/gametexture.h>
+#include <manage/manage.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

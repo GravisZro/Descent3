@@ -35,9 +35,9 @@ static char notice1[] = "(c) 1997 Interplay Productions.  All Rights Reserved.\n
                         "Further, you may not reverse engineer, decompile or otherwise\n"
                         "attempt to derive source code of this material.\n";
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 #include "platform.h"
 #include "mvelibi.h"

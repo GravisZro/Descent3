@@ -73,14 +73,14 @@
 	#include "d3edit.h"
 #else
 	#include "globals.h"
-	#include "terrain.h"
-	#include "renderer.h"
+	#include <Descent3/terrain.h>
+	#include <renderer/renderer.h>
 #endif
 
 #include "epath.h"
 
-#include "object.h"
-#include "findintersection.h"
+#include <Descent3/object.h>
+#include <physics/findintersection.h>
 
 uint8_t Show_paths = 1;
 

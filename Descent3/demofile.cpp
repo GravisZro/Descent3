@@ -265,26 +265,26 @@
  * $NoKeywords: $
  */
 
-#include <stdio.h>
-#include "cfile.h"
-#include "objinfo.h"
+#include <cstdio>
+#include <cfile/cfile.h>
+#include <Descent3/object_info.h>
 #include "ship.h"
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
 #include "hud.h"
 #include "stringtable.h"
 #include "program.h"
-#include "Mission.h"
+#include "mission.h"
 #include "game.h"
 #include "gamesequence.h"
 #include "weapon.h"
 #include "damage.h"
-#include "mem.h"
-#include "ObjScript.h"
-#include "hlsoundlib.h"
+#include <mem/mem.h>
+#include "object_script.h"
+#include <sndlib/hlsoundlib.h>
 #include "viseffect.h"
-#include "collide.h"
-#include "sounds.h"
+#include <physics/collide.h>
+#include <Descent3/sounds.h>
 #include "fireball.h"
 #include "attach.h"
 #include "gameloop.h"
@@ -293,7 +293,7 @@
 #include "osiris_dll.h"
 #include "args.h"
 #include "gamecinematics.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "cockpit.h"
 // We borrow a lot of code from the savegame system
 #include "gamesave.h"

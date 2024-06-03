@@ -47,13 +47,13 @@
  * $NoKeywords: $
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
 // #include "local_malloc.h"
 #include "registry.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 
 // Convert a string that represents a hex value into an int
 int hextoi(char *p) {

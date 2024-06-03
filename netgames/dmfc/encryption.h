@@ -38,7 +38,7 @@
 #ifndef __ICEENCRYPT_H_
 #define __ICEENCRYPT_H_
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 class IceSubkey;
 

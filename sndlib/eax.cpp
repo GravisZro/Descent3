@@ -64,7 +64,7 @@
 
 #include "eax.h"
 #include "eax2.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 // DATA
 #define EAX_ENVIRONMENTS_AVAILABLE (1 << 0)

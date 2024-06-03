@@ -20,7 +20,7 @@
 #ifndef SELMANAGER_H
 #define SELMANAGER_H
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 class CWnd;
 class editorSelectorManager;

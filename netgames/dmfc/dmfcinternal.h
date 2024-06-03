@@ -252,7 +252,7 @@
 #ifndef __DMFC_INTERNAL_H
 #define __DMFC_INTERNAL_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdarg.h>
 #include <time.h>
 #include "idmfc.h"

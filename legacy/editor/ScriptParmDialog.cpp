@@ -43,10 +43,10 @@
 #include "editor.h"
 #include "ScriptParmDialog.h"
 #include "ObjectListDialog.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 #include "d3x.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

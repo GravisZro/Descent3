@@ -294,13 +294,13 @@
 #ifndef POLYMODEL_H
 #define POLYMODEL_H
 
-#include "manage.h"
-#include "pstypes.h"
-#include "vecmat.h"
-#include "3d.h"
-#include "robotfirestruct.h"
+#include <manage/manage.h>
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
+#include <renderer/3d.h>
+#include <Descent3/robotfirestruct.h>
 #include "polymodel_external.h"
-#include "object_external_struct.h"
+#include <Descent3/object_external_struct.h>
 
 #define PM_COMPATIBLE_VERSION 1807
 #define PM_OBJFILE_VERSION 2300

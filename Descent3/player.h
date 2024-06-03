@@ -370,8 +370,8 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "pstypes.h"
-#include "Inventory.h"
+#include <misc/pstypes.h>
+#include "inventory.h"
 
 #include "robotfirestruct.h"
 #include "object_external_struct.h"

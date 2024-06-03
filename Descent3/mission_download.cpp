@@ -118,26 +118,26 @@
  *
  */
 
-#include <stdio.h>
+#include <cstdio>
 
-#include "pstypes.h"
-#include "mem.h"
+#include <misc/pstypes.h>
+#include <mem/mem.h>
 #include "args.h"
 #include "descent.h"
-#include "networking.h"
+#include <networking/networking.h>
 #include "multi.h"
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "stringtable.h"
 #include "multi_dll_mgr.h"
 // #include "inetgetfile.h"
-#include "grtext.h"
-#include "Mission.h"
+#include <grtext/grtext.h>
+#include "mission.h"
 #include "mission_download.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 
-#include "unzip.h"
+#include <unzip/unzip.h>
 
 int Got_url;
 msn_urls msn_URL = {"", {"", "", "", "", ""}};
@@ -830,7 +830,7 @@ int msn_ExtractZipFile(char *zipfilename, char *mn3name) {
   return 1;
 }
 
-#ifdef __LINUX__
+#ifdef __unix__
 char *_strlwr(char *string) {
   char *ptr = string;
   while (*ptr) {

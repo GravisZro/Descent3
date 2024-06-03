@@ -43,7 +43,7 @@
 #ifndef DDSNDGEOMETRY_H
 #define DDSNDGEOMETRY_H
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 //	constants
 typedef int tSoundMaterial; // value returned by geometry system.

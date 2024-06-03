@@ -22,16 +22,16 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "ScriptSyncDialog.h"
-#include "ddio.h"
-#include "cfile.h"
-#include "psglob.h"
-#include "gamefile.h"
-#include "manage.h"
+#include <ddio/ddio.h>
+#include <cfile/cfile.h>
+#include <misc/psglob.h>
+#include <Descent3/gamefile.h>
+#include <manage/manage.h>
 #include "ScriptCompilerAPI.h"
-#include "mem.h"
-#include "mono.h"
-#include "textaux.h"
-#include "appdatabase.h"
+#include <mem/mem.h>
+#include <ddebug/mono.h>
+#include <grtext/textaux.h>
+#include <ddio/appdatabase.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

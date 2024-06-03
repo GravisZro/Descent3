@@ -445,7 +445,7 @@ void CDeathDialog::OnDeathPaste()
 	UpdateDialog();
 }
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 void CDeathDialog::OnOK() 
 {

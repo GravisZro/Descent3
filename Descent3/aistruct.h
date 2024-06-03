@@ -392,8 +392,8 @@
 #ifndef AISTRUCT_H_
 #define AISTRUCT_H_
 
-#include "pstypes.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
 #include "aistruct_external.h"
 #include "room.h"
 

@@ -20,14 +20,14 @@
 #include "fireball.h"
 #include "object.h"
 #include "splinter.h"
-#include "polymodel.h"
-#include "renderer.h"
+#include <model/polymodel.h>
+#include <renderer/renderer.h>
 #include "gametexture.h"
 
-#include "Macros.h"
-#include <stdlib.h>
+#include <misc/macros.h>
+#include <cstdlib>
 
-#include "psrand.h"
+#include <misc/psrand.h>
 
 #include <algorithm>
 

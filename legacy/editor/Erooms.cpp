@@ -542,7 +542,7 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <string.h>
+#include <cstring>
 
 #ifndef NEWEDITOR
 #include "d3edit.h"
@@ -554,14 +554,14 @@
 #endif
 
 #include "erooms.h"
-#include "room.h"
-#include "gametexture.h"
-#include "terrain.h"
+#include <Descent3/room.h>
+#include <Descent3/gametexture.h>
+#include <Descent3/terrain.h>
 #include "special_face.h"
-#include "lighting.h"
+#include <Descent3/lighting.h>
 #include "trigger.h"
-#include "mem.h"
-#include "doorway.h"
+#include <mem/mem.h>
+#include <Descent3/doorway.h>
 
 #ifndef NEWEDITOR
 #include "editor_lighting.h"
@@ -3307,8 +3307,8 @@ int ComputeAllRoomShells()
 	return bad_shells;
 }
 
-#include "objinfo.h"
-#include "mission.h"
+#include <Descent3/object_info.h>
+#include <Descent3/mission.h>
 
 void ListObjectsInLevel(int *object_counts)
 {

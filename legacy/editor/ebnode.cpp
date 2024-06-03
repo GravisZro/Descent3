@@ -129,16 +129,16 @@
 #endif
 
 #include "bnode.h"
-#include "room.h"
-#include "mem.h"
+#include <Descent3/room.h>
+#include <mem/mem.h>
 #include "memory.h"
-#include "vecmat.h"
-#include "object.h"
-#include "3d.h"
+#include <vecmat/vecmat.h>
+#include <Descent3/object.h>
+#include <renderer/3d.h>
 #include "ebnode.h"
-#include "findintersection.h"
-#include "pserror.h"
-#include "terrain.h"
+#include <physics/findintersection.h>
+#include <misc/pserror.h>
+#include <Descent3/terrain.h>
 #include "boa.h"
 #include "aimain.h"
 
@@ -1338,8 +1338,8 @@ void EBNode_MakeFirstPass(void)
 #include "editor/d3edit.h"
 #else
 #include "neweditor/globals.h"
-#include "terrain.h"
-#include "renderer.h"
+#include <Descent3/terrain.h>
+#include <renderer/renderer.h>
 #endif
 
 #include "gr.h"

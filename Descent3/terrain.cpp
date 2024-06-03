@@ -19,24 +19,24 @@
 #ifdef NEWEDITOR
 #include "neweditor\globals.h"
 #else
-#include <stdlib.h>
+#include <cstdlib>
 #endif
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "object.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "terrain.h"
-#include "pserror.h"
-#include "texture.h"
-#include "bitmap.h"
+#include <misc/pserror.h>
+//#include "texture.h"
+#include <bitmap/bitmap.h>
 #include "gametexture.h"
 #include "lighting.h"
-#include "lightmap.h"
+#include <bitmap/lightmap.h>
 #include "weather.h"
-#include <string.h>
-#include "mem.h"
-#include "Macros.h"
+#include <cstring>
+#include <mem/mem.h>
+#include <misc/macros.h>
 #include "dedicated_server.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #ifdef EDITOR
 #include "editor\d3edit.h"
 #endif

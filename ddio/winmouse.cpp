@@ -20,16 +20,16 @@
 //      Mouse Interface
 // ----------------------------------------------------------------------------
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <math.h>
 
-#include "pserror.h"
-#include "mono.h"
-#include "ddio.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
 #include "ddio_win.h"
-#include "application.h"
-#include "psclass.h"
-#include "Macros.h"
+#include <ddio/application.h>
+#include <misc/psclass.h>
+#include <misc/macros.h>
 
 struct t_mse_button_info {
   bool is_down[N_MSEBTNS];

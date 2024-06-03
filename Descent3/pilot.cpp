@@ -572,39 +572,39 @@
 
 #include <cstdio>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <stdarg.h>
 
 #include "pilot.h"
-#include "mono.h"
-#include "renderer.h"
+#include <ddebug/mono.h>
+#include <renderer/renderer.h>
 #include "render.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "descent.h"
 #include "game.h"
-#include "cfile.h"
-#include "application.h"
-#include "manage.h"
+#include <cfile/cfile.h>
+#include <ddio/application.h>
+#include <manage/manage.h>
 #include "newui.h"
-#include "grtext.h"
+#include <grtext/grtext.h>
 #include "gamefont.h"
-#include "ConfigItem.h"
+#include "configitem.h"
 #include "ctlconfig.h"
 #include "hud.h"
 #include "stringtable.h"
 #include "gametexture.h"
 #include "vclip.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "weapon.h"
 #include "config.h"
 #include "difficulty.h"
 #include "PilotPicsAPI.h"
-#include "Mission.h"
-#include "mem.h"
-#include "polymodel.h"
+#include "mission.h"
+#include <mem/mem.h>
+#include <model/polymodel.h>
 #include "audiotaunts.h"
-#include "streamaudio.h"
+#include <stream_audio/streamaudio.h>
 #include "ship.h"
 #include "dedicated_server.h"
 

@@ -15,19 +15,3 @@ set(CPPS
 )
 
 add_library(dd_video STATIC ${HEADERS} ${CPPS})
-target_link_libraries(dd_video PRIVATE
-  $<$<PLATFORM_ID:Linux,Darwin>:
-    linux
-  >
-  $<$<PLATFORM_ID:Windows>:
-    win32
-  >
-  ddio
-  2dlib
-)
-
-target_include_directories(dd_video PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/dd_video
-  >
-)

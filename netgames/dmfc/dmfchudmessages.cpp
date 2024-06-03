@@ -93,7 +93,7 @@
 #include "gamedll_header.h"
 #include "DMFC.h"
 #include "dmfcinternal.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 extern char **DMFCStringTable;
 extern int DMFCStringTableSize;

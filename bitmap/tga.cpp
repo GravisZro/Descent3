@@ -132,19 +132,19 @@
  * $NoKeywords: $
  */
 
-#include "cfile.h"
-#include "pserror.h"
-#include "pstypes.h"
-#include "bitmap.h"
-#include "mono.h"
-#include "grdefs.h"
-#include "texture.h"
-#include "byteswap.h"
-#include <string.h>
-#include "mem.h"
-#include "gamesequence.h"
+#include <cfile/cfile.h>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+#include <bitmap/bitmap.h>
+#include <ddebug/mono.h>
+#include <2dlib/grdefs.h>
+//#include "texture.h"
+#include <lib/byteswap.h>
+#include <cstring>
+#include <mem/mem.h>
+#include <Descent3/gamesequence.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 static char *Tga_file_data = NULL;
 static int Fake_pos = 0;

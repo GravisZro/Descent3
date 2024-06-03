@@ -19,10 +19,10 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 #define MAX_ROBOTS 100
 

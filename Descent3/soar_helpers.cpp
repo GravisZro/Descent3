@@ -38,7 +38,7 @@
 #include "soar_helpers.h"
 
 #include "object.h"
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "controls.h"
 #include "weapon.h"
 #include "room.h"

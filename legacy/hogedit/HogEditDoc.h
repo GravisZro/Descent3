@@ -64,7 +64,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 #define FILE_IS_SAME		0
 #define FILE_HAS_CHANGED	1

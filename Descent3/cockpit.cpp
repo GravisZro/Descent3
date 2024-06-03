@@ -190,17 +190,17 @@
 //			deactivate cockpit.
 #include "cockpit.h"
 #include "game.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "hud.h"
 #include "gauges.h"
 #include "ship.h"
 #include "player.h"
 #include "room.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "sounds.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <Descent3/sounds.h>
 
-#include <string.h>
+#include <cstring>
 
 #include <algorithm>
 

@@ -41,7 +41,7 @@
 #ifndef TASKSYSTEM_H
 #define TASKSYSTEM_H
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 enum tTaskPriority { TASKPRIORITY_HIGHEST, TASKPRIORITY_NORMAL, TASKPRIORITY_LOWEST };
 

@@ -46,12 +46,12 @@
 #include "editor.h"
 #include "WorldObjectsPowerupDialog.h"
 #include "powerup.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "powerpage.h"
-#include "mono.h"
-#include "vclip.h"
-#include "polymodel.h"
-#include "soundload.h"
+#include <ddebug/mono.h>
+#include <Descent3/vclip.h>
+#include <model/polymodel.h>
+#include <sndlib/soundload.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

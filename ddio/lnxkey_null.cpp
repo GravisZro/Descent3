@@ -38,7 +38,7 @@
  * $NoKeywords: $
  */
 
-#include "ddio.h"
+#include <ddio/ddio.h>
 
 extern volatile struct tLnxKeys {
   union {

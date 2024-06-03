@@ -83,7 +83,7 @@
 #ifndef GAMEFONT_H
 #define GAMEFONT_H
 
-#include "grtext.h"
+#include <grtext/grtext.h>
 
 extern int Game_fonts[]; // D3 font handles
 

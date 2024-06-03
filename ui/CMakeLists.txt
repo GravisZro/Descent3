@@ -1,7 +1,7 @@
 set(HEADERS
   uidraw.h
   ui.h
-  UIlib.h
+  uilib.h
   uires.h
   uisys.h)
 
@@ -23,13 +23,3 @@ set(CPPS
   UIWindow.cpp)
 
 add_library(ui STATIC ${HEADERS} ${CPPS})
-target_link_libraries(ui PRIVATE
-  ddio
-  bitmap
-  grtext
-  renderer
-  dd_video
-  2dlib
-)
-
-target_include_directories(ui PUBLIC .)

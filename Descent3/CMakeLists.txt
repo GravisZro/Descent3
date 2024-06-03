@@ -19,10 +19,10 @@ set(HEADERS
   cinematics.h
   cockpit.h
   config.h
-  ConfigItem.h
+  configitem.h
   controls.h
   credits.h
-  CtlCfgElem.h
+  control_config_element.h
   ctlconfig.h
   ctlconfigtxt.h
   D3ForceFeedback.h
@@ -56,7 +56,7 @@ set(HEADERS
   hotspotmap.h
   hud.h
   init.h
-  Inventory.h
+  inventory.h
   levelgoal.h
   levelgoal_external.h
   lighting.h
@@ -68,7 +68,7 @@ set(HEADERS
   matcen.h
   matcen_external.h
   menu.h
-  Mission.h
+  mission.h
   mission_download.h
   mmItem.h
   multi.h
@@ -87,9 +87,9 @@ set(HEADERS
   object_external.h
   object_external_struct.h
   object_lighting.h
-  objinfo.h
-  objinit.h
-  ObjScript.h
+  object_info.h
+  object_init.h
+  object_script.h
   osiris_dll.h
   osiris_predefs.h
   osiris_share.h
@@ -161,10 +161,10 @@ set(CPPS
   cinematics.cpp
   cockpit.cpp
   config.cpp
-  ConfigItem.cpp
+  configitem.cpp
   Controls.cpp
   credits.cpp
-  CtlCfgElem.cpp
+  control_config_element.cpp
   ctlconfig.cpp
   D3ForceFeedback.cpp
   d3serial.cpp
@@ -179,7 +179,7 @@ set(CPPS
   doorway.cpp
   fireball.cpp
   game.cpp
-  Game2DLL.cpp
+  game2dll.cpp
   GameCheat.cpp
   gamecinematics.cpp
   gameevent.cpp
@@ -198,7 +198,7 @@ set(CPPS
   hudmessage.cpp
   init.cpp
   intellivibe.cpp
-  Inventory.cpp
+  inventory.cpp
   levelgoal.cpp
   lighting.cpp
   lightmap_info.cpp
@@ -210,7 +210,7 @@ set(CPPS
   matcen.cpp
   megacell.cpp
   menu.cpp
-  Mission.cpp
+  mission.cpp
   mission_download.cpp
   mmItem.cpp
   multi.cpp
@@ -228,9 +228,9 @@ set(CPPS
   newui_filedlg.cpp
   object.cpp
   object_lighting.cpp
-  objinfo.cpp
-  ObjInit.cpp
-  ObjScript.cpp
+  object_info.cpp
+  object_init.cpp
+  object_script.cpp
   OsirisLoadandBind.cpp
   osiris_predefs.cpp
   pilot.cpp
@@ -263,13 +263,13 @@ set(CPPS
   TelComGoals.cpp
   terrain.cpp
   terrainrender.cpp
-  TerrainSearch.cpp
+  terrainsearch.cpp
   trigger.cpp
   vclip.cpp
   viseffect.cpp
   voice.cpp
   weapon.cpp
-  WeaponFire.cpp
+  weaponfire.cpp
   weather.cpp)
 
 if(WIN32)

@@ -84,17 +84,17 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
 #include <ctype.h>
 #include "game.h"
 #include "descent.h"
-#include "mono.h"
-#include "cfile.h"
+#include <ddebug/mono.h>
+#include <cfile/cfile.h>
 #include "localization.h"
-#include "mem.h"
-#include "ddio.h"
+#include <mem/mem.h>
+#include <ddio/ddio.h>
 
 struct tLangTag {
   const char *tag;

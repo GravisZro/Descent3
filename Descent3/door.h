@@ -100,12 +100,12 @@
 #ifdef NEWEDITOR /* only include tablefile header (manage stuff for NEWEDITOR) */
 #include "..\neweditor\ned_TableFile.h"
 #include "..\neweditor\ned_Door.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "object.h"
 #else
 
-#include "pstypes.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <manage/manage.h>
 #include "object.h"
 
 // IMPORTANT!!!!!!!!!!!

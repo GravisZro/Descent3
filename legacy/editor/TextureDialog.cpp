@@ -155,12 +155,12 @@
 
 #include "HTexture.h"
 #include "texture.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 #include "gr.h"
-#include "descent.h"
+#include <Descent3/descent.h>
 #include "erooms.h"
-#include "room.h"
-#include "terrain.h"
+#include <Descent3/room.h>
+#include <Descent3/terrain.h>
 
 
 #ifdef _DEBUG

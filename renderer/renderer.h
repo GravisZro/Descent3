@@ -295,8 +295,8 @@
 #define RENDERER_H
 
 #include <memory>
-#include "pstypes.h"
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <2dlib/grdefs.h>
 
 // Declare this here so we don't need to include 3d.h
 typedef struct g3Point g3Point;

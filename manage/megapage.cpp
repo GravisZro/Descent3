@@ -62,15 +62,15 @@
  */
 
 #include <cstring>
-#include "cfile.h"
-#include "manage.h"
-#include "megacell.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <Descent3/megacell.h>
 #include "megapage.h"
 #include "texpage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "polymodel.h"
-#include "ddio.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <model/polymodel.h>
+#include <ddio/ddio.h>
 // megacellpage commands that are read/written
 // A command is followed by a byte count describing how many bytes
 // are in the data for the command

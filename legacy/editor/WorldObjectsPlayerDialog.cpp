@@ -125,15 +125,15 @@
 #include "editor.h"
 #include "WorldObjectsPlayerDialog.h"
 #include "shippage.h"
-#include "ship.h"
-#include "manage.h"
-#include "polymodel.h"
+#include <Descent3/ship.h>
+#include <manage/manage.h>
+#include <model/polymodel.h>
 #include "PhysicsDlg.h"
 #include "PlayerWeaponsDialog.h"
-#include "robotfire.h"
-#include "ddio.h"
-#include "polymodel.h"
-#include "objinit.h"
+#include <Descent3/robotfire.h>
+#include <ddio/ddio.h>
+#include <model/polymodel.h>
+#include <Descent3/object_init.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

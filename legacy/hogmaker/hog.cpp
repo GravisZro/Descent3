@@ -35,14 +35,14 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include <io.h>
 #include <sys/stat.h>
 
 #include "hogfile.h"
-#include "pstypes.h"
+#include <misc/pstypes.h>
 #include "macros.h"
 
 

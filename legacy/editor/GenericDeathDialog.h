@@ -28,7 +28,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CGenericDeathDialog dialog
 
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 class CGenericDeathDialog : public CDialog
 {

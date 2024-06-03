@@ -19,10 +19,10 @@
 #ifndef MEGACELLPAGE_H
 #define MEGACELLPAGE_H
 
-#include "manage.h"
-#include "megacell.h"
-#include "cfile.h"
-#include "pstypes.h"
+#include <manage/manage.h>
+#include <Descent3/megacell.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
 
 struct mngs_megacell_page {
   megacell megacell_struct;

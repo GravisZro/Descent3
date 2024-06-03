@@ -169,7 +169,7 @@
 #define CONTROLS_H
 
 #include "object.h"
-#include "controller.h"
+#include <ddio/controller.h>
 
 class gameController;
 class pilot;

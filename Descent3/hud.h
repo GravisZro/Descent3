@@ -252,8 +252,8 @@
 #ifndef HUD_H
 #define HUD_H
 
-#include "pstypes.h"
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <2dlib/grdefs.h>
 
 #define MAX_HUD_MESSAGES 3
 #define HUD_MESSAGE_LENGTH 200

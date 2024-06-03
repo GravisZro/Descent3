@@ -18,8 +18,8 @@
 
 #include <curses.h>
 #include <dlfcn.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #define LINES (*soLINES)
 #define COLS (*soCOLS)

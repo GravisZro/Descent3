@@ -78,7 +78,7 @@
 #include "d3edit.h"
 #include "HObject.h"
 
-#include "ddio.h"
+#include <ddio/ddio.h>
 
 ObjectMoveManager ObjMoveManager;
 

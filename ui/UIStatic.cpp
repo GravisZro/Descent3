@@ -66,9 +66,9 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
+#include <ui/uilib.h>
 
-#include <string.h>
+#include <cstring>
 
 //	----------------------------------------------------------------------------
 //	UIText

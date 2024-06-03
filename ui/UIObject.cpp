@@ -38,7 +38,7 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
+#include <ui/uilib.h>
 
 UIObject::UIObject() {
   m_X = m_Y = 0;

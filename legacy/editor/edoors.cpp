@@ -25,13 +25,13 @@
 #define texdlg_texture GetCurrentTexture()
 #endif
 
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "erooms.h"
-#include "room.h"
+#include <Descent3/room.h>
 #include "door.h"
 #include "hroom.h"
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 
 void PlaceDoor(room *baseroomp,int baseface,int placed_door)

@@ -20,10 +20,10 @@
 #ifndef WEAPONPAGE_H
 #define WEAPONPAGE_H
 
-#include "manage.h"
-#include "weapon.h"
-#include "cfile.h"
-#include "pstypes.h"
+#include <manage/manage.h>
+#include <Descent3/weapon.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
 
 struct mngs_weapon_page {
   weapon weapon_struct;

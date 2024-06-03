@@ -19,8 +19,8 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 
 struct listnode {
   void *data;

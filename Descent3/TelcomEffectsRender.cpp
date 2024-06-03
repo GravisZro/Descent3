@@ -49,12 +49,12 @@
  * $NoKeywords: $
  */
 #include "TelComEffects.h"
-#include "textaux.h"
-#include "mem.h"
-#include "hlsoundlib.h"
-#include <string.h>
+#include <grtext/textaux.h>
+#include <mem/mem.h>
+#include <sndlib/hlsoundlib.h>
+#include <cstring>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 int glitch_dx = 0, glitch_dy = 0;
 #define DISABLED_TEXT_COLOR GR_RGB(180, 180, 180);

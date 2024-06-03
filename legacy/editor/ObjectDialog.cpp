@@ -235,18 +235,18 @@
 #include "ObjMoveManager.h"
 
 #include "HObject.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 
-#include "object.h"
-#include "ship.h"
-#include "objinfo.h"
-#include "multi.h"
-#include "objinit.h"
-#include "room.h"
+#include <Descent3/object.h>
+#include <Descent3/ship.h>
+#include <Descent3/object_info.h>
+#include <Descent3/multi.h>
+#include <Descent3/object_init.h>
+#include <Descent3/room.h>
 #include "d3edit.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "door.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 #include "PowerupPropDialog.h"
 

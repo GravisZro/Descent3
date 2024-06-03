@@ -51,7 +51,7 @@
 
 #include "ds3dlib_internal.h"
 #include "auddev.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 //////////////////////////////////////////////////////////////////////////////
 

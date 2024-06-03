@@ -629,13 +629,13 @@
 #include "multi_server.h"
 #include "player.h"
 #include "game.h"
-#include "mono.h"
-#include "ddio.h"
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
 #include "hud.h"
 #include "pilot.h"
 #include "BOA.h"
 #include "LoadLevel.h"
-#include "Mission.h"
+#include "mission.h"
 #include "game2dll.h"
 #include "stringtable.h"
 
@@ -649,25 +649,25 @@
 #include "damage.h"
 // #include "gamespy.h"
 #include "multi_world_state.h"
-#include "ObjScript.h"
+#include "object_script.h"
 #include "marker.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "weapon.h"
 #include "weather.h"
 #include "doorway.h"
 #include "object_lighting.h"
 #include "ship.h"
-#include "pstring.h"
+#include <misc/pstring.h>
 #include "audiotaunts.h"
 
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
 #include "multi_dll_mgr.h"
 #include "spew.h"
-#include "psrand.h"
-#include "polymodel.h"
-#include "init.h"
-#include "../md5/md5.h"
+#include <misc/psrand.h>
+#include <model/polymodel.h>
+#include <Descent3/init.h>
+#include <md5/md5.h>
 
 #include <algorithm>
 

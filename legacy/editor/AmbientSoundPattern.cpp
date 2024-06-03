@@ -25,11 +25,11 @@
 #include "AmbientSoundElement.h"
 #include "EditLineDialog.h"
 #include "ambient.h"
-#include "ssl_lib.h"
-#include "pserror.h"
+#include <sndlib/ssl_lib.h>
+#include <misc/pserror.h>
 #include "gamefilepage.h"
-#include "ddio.h"
-#include "mem.h"
+#include <ddio/ddio.h>
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

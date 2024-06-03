@@ -18,7 +18,7 @@
 
 #include "list.h"
 // #include <malloc.h>
-#include "mem.h"
+#include <mem/mem.h>
 
 // Allocates space for a new list node, returning the pointer to it
 listnode *NewListNode(void) {

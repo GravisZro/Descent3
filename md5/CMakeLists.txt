@@ -10,10 +10,3 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-target_include_directories(md5 PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/md5
-  >
-)
-
-

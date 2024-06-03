@@ -73,16 +73,16 @@
  *
  */
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 #include "ambient.h"
 
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 
 #include "room.h"
 #include "game.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 
 #define MAX_AMBIENT_SOUND_PATTERNS 100
 asp Ambient_sound_patterns[MAX_AMBIENT_SOUND_PATTERNS];
@@ -155,10 +155,10 @@ void InitAmbientSounds() {
   }
 }
 
-#include "ddio.h"
-#include "soundload.h"
+#include <ddio/ddio.h>
+#include <sndlib/soundload.h>
 #include "descent.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 // Close down ambient sound system and free data
 static void FreeAmbientSoundData() {

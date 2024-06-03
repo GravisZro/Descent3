@@ -45,9 +45,9 @@
  */
 
 #include "gamedll_header.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
 #include <ctype.h>
 #include <math.h>
 #include "idmfc.h"

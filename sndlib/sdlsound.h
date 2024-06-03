@@ -19,9 +19,9 @@
 #ifndef __LINUX_DD_SOUND_H_
 #define __LINUX_DD_SOUND_H_
 
-#include <SDL_audio.h>
+#include <SDL2/SDL_audio.h>
 
-#include "ssl_lib.h"
+#include <sndlib/ssl_lib.h>
 #include "mixer.h"
 
 class sound_buffer_info;

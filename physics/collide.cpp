@@ -827,38 +827,37 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #include "collide.h"
 #include "physics.h"
-#include "pserror.h"
-#include "mono.h"
-#include "object.h"
-#include "player.h"
-#include "hlsoundlib.h"
-#include "weapon.h"
-#include "damage.h"
-#include "fireball.h"
-#include "sounds.h"
-#include "AIMain.h"
-#include "multi.h"
-#include "game.h"
-#include "soundload.h"
-#include "game2dll.h"
-#include "scorch.h"
-#include "ddio.h"
-#include "vecmat.h"
-#include "trigger.h"
-#include "lighting.h"
-#include "hud.h"
-#include "D3ForceFeedback.h"
-#include "demofile.h"
-#include "osiris_dll.h"
-#include "marker.h"
-#include "hud.h"
-#include "levelgoal.h"
-#include "psrand.h"
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
+#include <Descent3/object.h>
+#include <Descent3/player.h>
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/weapon.h>
+#include <Descent3/damage.h>
+#include <Descent3/fireball.h>
+#include <Descent3/sounds.h>
+#include <Descent3/AIMain.h>
+#include <Descent3/multi.h>
+#include <Descent3/game.h>
+#include <sndlib/soundload.h>
+#include <Descent3/game2dll.h>
+#include <Descent3/scorch.h>
+#include <ddio/ddio.h>
+#include <vecmat/vecmat.h>
+#include <Descent3/trigger.h>
+#include <Descent3/lighting.h>
+#include <Descent3/hud.h>
+#include <Descent3/D3ForceFeedback.h>
+#include <Descent3/demofile.h>
+#include <Descent3/osiris_dll.h>
+#include <Descent3/marker.h>
+#include <Descent3/levelgoal.h>
+#include <misc/psrand.h>
 
 #include <algorithm>
 
@@ -2338,7 +2337,7 @@ void collide_player_and_player(object *p1, object *p2, vector *collision_point, 
   bump_two_objects(p1, p2, collision_point, collision_normal, 1);
 }
 
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 void collide_generic_and_player(object *robotobj, object *playerobj, vector *collision_point, vector *collision_normal,
                                 bool f_reverse_normal, fvi_info *hit_info) {

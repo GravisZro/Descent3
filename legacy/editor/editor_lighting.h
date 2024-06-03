@@ -19,11 +19,11 @@
 #ifndef EDITOR_LIGHTING_H
 #define EDITOR_LIGHTING_H
 
-#include "3d.h"
+#include <renderer/3d.h>
 #include "radiosity.h"
-#include "room.h"
-#include "object.h"
-#include "lightmap_info.h"
+#include <Descent3/room.h>
+#include <Descent3/object.h>
+#include <Descent3/lightmap_info.h>
 
 extern vector ScratchCenters[MAX_LIGHTMAP_INFOS];
 extern vector ScratchRVecs[MAX_LIGHTMAP_INFOS];

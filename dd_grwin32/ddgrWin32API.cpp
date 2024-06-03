@@ -42,8 +42,8 @@
 #include "ddgrWin32.h"
 #include "ddgrWin32GDI.h"
 #include "ddgrWin32DX.h"
-#include "mono.h"
-#include "pserror.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
 
 /*	Surface Functions
  */

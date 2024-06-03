@@ -38,20 +38,20 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "debuggraph.h"
-#include "grdefs.h"
-#include "mono.h"
+#include <2dlib/grdefs.h>
+#include <ddebug/mono.h>
 #include <memory.h>
-#include "pserror.h"
-#include "bitmap.h"
-#include "renderer.h"
-#include "pstypes.h"
+#include <misc/pserror.h>
+#include <bitmap/bitmap.h>
+#include <renderer/renderer.h>
+#include <misc/pstypes.h>
 #include "stringtable.h"
 #include "newui.h"
 #include "newui_core.h"
-#include "mem.h"
-#include <string.h>
+#include <mem/mem.h>
+#include <cstring>
 #include "game.h"
 
 #define DATA_TYPE_INT 0

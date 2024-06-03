@@ -19,10 +19,10 @@
 #ifndef GAMEFILEPAGE_H
 #define GAMEFILEPAGE_H
 
-#include "manage.h"
-#include "cfile.h"
-#include "pstypes.h"
-#include "gamefile.h"
+#include <manage/manage.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
+#include <Descent3/gamefile.h>
 
 struct mngs_gamefile_page {
   gamefile gamefile_struct;

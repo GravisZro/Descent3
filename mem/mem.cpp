@@ -188,7 +188,7 @@
  *
  * $NoKeywords: $
  */
-#ifndef __LINUX__
+#ifndef __unix__
 #include <new.h>
 #endif
 #if defined(MACOSX)
@@ -197,9 +197,9 @@
 #else
 #include <malloc.h>
 #endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #ifdef WIN32
 // Non-Linux Includes
 #include <windows.h>
@@ -208,12 +208,12 @@
 #endif
 #include <cstdint>
 
-#include "init.h"
-#include "mem.h"
-#include "pserror.h"
-#include "pstypes.h"
-// #include "args.h"
-// #include "ddio.h"
+//#include <Descent3/init.h>
+#include <mem/mem.h>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
+// #include <Descent3/args.h>
+// #include <ddio/ddio.h>
 //
 // #define MEM_DEBUG
 
@@ -250,7 +250,7 @@ bool Mem_low_memory_mode = false;
 bool Mem_superlow_memory_mode = false;
 // If this is set, the mem library ignores mem_free() calls.  All the memory is then freed at once oon exit.
 bool Mem_quick_exit = 0;
-#if defined(__LINUX__)
+#if defined(__unix__)
 // Linux memory management
 int LnxTotalMemUsed;
 void mem_shutdown(void) {}
@@ -359,7 +359,7 @@ void operator delete(void *ptr)
 int handle_program_memory_depletion(size_t size);
 HANDLE Heap;
 void mem_Init() {
-#if defined(WIN32) || defined(__LINUX__)
+#if defined(WIN32) || defined(__unix__)
   //	allocate failsafe block for memory used by any functions after we run out of memory.
   // (printf for instance needs heap memory, as well as our error library.)
   MEMORYSTATUS ms;
@@ -434,7 +434,7 @@ void mem_Init() {
   }
   return;
 #endif
-#if defined(WIN32) || defined(__LINUX__)
+#if defined(WIN32) || defined(__unix__)
   Mem_failsafe_block = mem_malloc(128);
   if (!Mem_failsafe_block) {
     Error("No available heap memory.");

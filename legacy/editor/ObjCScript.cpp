@@ -118,19 +118,19 @@
 #include "stdafx.h"
 #include "ObjCScript.h"
 #include "editor.h"
-#include "cfile.h"
-#include "ddio.h"
+#include <cfile/cfile.h>
+#include <ddio/ddio.h>
 #include "d3x.h"
-#include "manage.h"
-#include "mission.h"
+#include <manage/manage.h>
+#include <Descent3/mission.h>
 #include "osiris.h"
-#include "gamefile.h"
-#include "pserror.h"
-#include "mem.h"
+#include <Descent3/gamefile.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 #define MAX_SCRIPT_LINE_SIZE	800
 

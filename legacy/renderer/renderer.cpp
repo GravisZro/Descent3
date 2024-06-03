@@ -417,18 +417,18 @@
  *
  * $NoKeywords: $
  */
-#include "renderer.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "ddvid.h"
-#include "pstypes.h"
-#include "mono.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "bitmap.h"
-#include "application.h"
-#include "3d.h"
+#include <renderer/renderer.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <dd_video/ddvid.h>
+#include <misc/pstypes.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <bitmap/bitmap.h>
+#include <ddio/application.h>
+#include <renderer/3d.h>
 
 // Renderers for Windows version.  Mac gets these through a global include file.
 #if defined(WIN32)
@@ -439,7 +439,7 @@
 #endif
 
 // Renderers for Linux version
-#if defined(__LINUX__)
+#if defined(__unix__)
 #define USE_OPENGL
 #define USE_GLIDE
 // #define USE_D3D

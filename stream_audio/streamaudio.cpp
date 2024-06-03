@@ -164,14 +164,14 @@
  *
  * $NoKeywords: $
  */
-#include "streamaudio.h"
-#include "pserror.h"
-#include "cfile.h"
-#include "mem.h"
-#include "Macros.h"
-#include "ddio.h"
-#include <stdlib.h>
-#include <string.h>
+#include <stream_audio/streamaudio.h>
+#include <misc/pserror.h>
+#include <cfile/cfile.h>
+#include <mem/mem.h>
+#include <misc/macros.h>
+#include <ddio/ddio.h>
+#include <cstdlib>
+#include <cstring>
 // #include "samirlog.h"
 #define LOGFILE(_s)
 //	this stream is for everyone (used by the StreamPlay interface)

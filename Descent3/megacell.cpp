@@ -37,17 +37,17 @@
 * $NoKeywords: $
 */
 
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 #include "terrain.h"
-#include "texture.h"
+//#include "texture.h"
 #include "gametexture.h"
 #include "megacell.h"
-#include "bitmap.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <bitmap/bitmap.h>
+#include <cstdlib>
+#include <cstdio>
 #include <stdarg.h>
-#include <string.h>
+#include <cstring>
 
 megacell Megacells[MAX_MEGACELLS];
 int Num_megacells = 0;

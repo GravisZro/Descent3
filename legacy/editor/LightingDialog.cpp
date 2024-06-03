@@ -253,19 +253,19 @@
 #include "editor.h"
 #include "LightingDialog.h"
 #include "editor_lighting.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 #include "radiosity.h"
 #include "hemicube.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "erooms.h"
-#include "vecmat.h"
-#include "polymodel.h"
-#include "lightmap_info.h"
-#include "hlsoundlib.h"
-#include "lighting.h"
+#include <vecmat/vecmat.h>
+#include <model/polymodel.h>
+#include <Descent3/lightmap_info.h>
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/lighting.h>
 #include "bsp.h"
-#include "ddio.h"
-#include "vclip.h"
+#include <ddio/ddio.h>
+#include <Descent3/vclip.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

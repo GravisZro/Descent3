@@ -67,15 +67,15 @@
 #include "selectedroom.h"
 
 #ifdef NEWEDITOR
-	#include "../neweditor/stdafx.h"
-	#include "../neweditor/globals.h"
+	#include <neweditor/stdafx.h>
+	#include <neweditor/globals.h>
 #else
 	#include "d3edit.h"
 #endif
 
-#include "room.h"
-#include "pserror.h"
-#include "mem.h"
+#include <Descent3/room.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
 
 //Returns true if a room is in the selected list
 int IsRoomSelected(int roomnum)

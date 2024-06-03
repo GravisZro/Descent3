@@ -25,7 +25,7 @@
 // LevelInfoDialog.h : header file
 //
 
-#include "mission.h"
+#include <Descent3/mission.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CLevelInfoDialog dialog

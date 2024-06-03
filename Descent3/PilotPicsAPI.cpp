@@ -58,17 +58,17 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include "bitmap.h"
+#include <cstdlib>
+#include <cstdio>
+#include <bitmap/bitmap.h>
 #include "player.h"
 #include "pilot.h"
-#include "cfile.h"
-#include "mono.h"
-#include "ddio.h"
-#include "manage.h"
+#include <cfile/cfile.h>
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
+#include <manage/manage.h>
 #include "PilotPicsAPI.h"
-#include "mem.h"
+#include <mem/mem.h>
 
 #include <algorithm>
 

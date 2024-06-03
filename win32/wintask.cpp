@@ -45,8 +45,8 @@
  */
 
 //	Library includes
-#include "TaskSystem.h"
-#include "pserror.h"
+// #include "TaskSystem.h"
+#include <misc/pserror.h>
 
 //	Standard includes
 #include <windows.h>

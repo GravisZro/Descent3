@@ -25,7 +25,7 @@
 // PlaySongDlg.h : header file
 //
 
-#include "streamaudio.h"
+#include <stream_audio/streamaudio.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CPlaySongDlg dialog

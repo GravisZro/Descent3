@@ -42,8 +42,8 @@
 #define BSP_H
 
 #include "list.h"
-#include "vecmat.h"
-#include "cfile.h"
+#include <vecmat/vecmat.h>
+#include <cfile/cfile.h>
 
 #define BSP_IN_FRONT 1
 #define BSP_BEHIND 2

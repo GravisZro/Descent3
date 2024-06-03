@@ -579,28 +579,28 @@
  *
  */
 #include <memory.h>
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 #include "fireball.h"
 #include "vclip.h"
 #include "object.h"
 #include "cockpit.h"
 #include "game.h"
-#include "3d.h"
-#include "mono.h"
+#include <renderer/3d.h>
+#include <ddebug/mono.h>
 #include "room.h"
-#include "polymodel.h"
-#include "objinfo.h"
+#include <model/polymodel.h>
+#include <Descent3/object_info.h>
 #include "gametexture.h"
 #include "splinter.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "damage.h"
 #include "gameevent.h"
 #include "weapon.h"
 #include "viseffect.h"
 #include "spew.h"
-#include "hlsoundlib.h"
-#include "sounds.h"
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
 #include "gameloop.h"
 #include "multi.h"
 #include "AIGoal.h"
@@ -608,10 +608,10 @@
 #include "ship.h"
 #include "BOA.h"
 #include "demofile.h"
-#include "ObjScript.h"
-#include <stdlib.h>
-#include <string.h>
-#include "psrand.h"
+#include "object_script.h"
+#include <cstdlib>
+#include <cstring>
+#include <misc/psrand.h>
 
 #include <algorithm>
 

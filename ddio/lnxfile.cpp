@@ -74,9 +74,9 @@
 #include <ctype.h>
 #endif
 
-#include "ddio.h"
-#include "pserror.h"
-#include "mem.h"
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
 
 #define _MAX_DIR 256
 

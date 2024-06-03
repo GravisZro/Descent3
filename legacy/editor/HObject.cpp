@@ -225,18 +225,18 @@
  */
 
 #include "HObject.h"
-#include "object.h"
+#include <Descent3/object.h>
 #include "FindIntersection.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "boa.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 #include "d3edit.h"
-#include "mono.h"
-#include "vclip.h"
-#include "terrain.h"
-#include "player.h"
-#include "ship.h"
+#include <ddebug/mono.h>
+#include <Descent3/vclip.h>
+#include <Descent3/terrain.h>
+#include <Descent3/player.h>
+#include <Descent3/ship.h>
 #include "erooms.h"
 
 //	---------------------------------------------------------------------------

@@ -81,29 +81,29 @@
  */
 
 #include "TelComGoals.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
 
-#include "cfile.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "bitmap.h"
+#include <cfile/cfile.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <bitmap/bitmap.h>
 
 #include "TelCom.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 #include "game.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "stringtable.h"
 #include "gametexture.h"
-#include "textaux.h"
+#include <grtext/textaux.h>
 #include "TelComEfxStructs.h"
 #include "TelComEffects.h"
 #include "levelgoal.h"
-#include "textaux.h"
-#include "Mission.h"
-#include "Macros.h"
-#include "hlsoundlib.h"
+#include <grtext/textaux.h>
+#include "mission.h"
+#include <misc/macros.h>
+#include <sndlib/hlsoundlib.h>
 
 #include <algorithm>
 

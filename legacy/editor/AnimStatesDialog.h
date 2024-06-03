@@ -19,7 +19,7 @@
 // AnimStatesDialog.h : header file
 //
 
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CAnimStatesDialog dialog

@@ -19,7 +19,7 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include "logfile.h"
+#include <misc/logfile.h>
 
 #ifdef _DEBUG
 static bool log_enable = true;

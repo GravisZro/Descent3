@@ -854,36 +854,36 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <math.h>
-#include "mono.h"
+#include <ddebug/mono.h>
 #include "findintersection.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "collide.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 // #include "bspfi.h"
-#include "3d.h"
-#include "room.h"
-#include "descent.h"
-#include "weapon.h"
+#include <renderer/3d.h>
+#include <Descent3/room.h>
+#include <Descent3/descent.h>
+#include <Descent3/weapon.h>
 
 #ifndef NED_PHYSICS
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 #else
 #include "..\neweditor\ned_GameTexture.h"
 #endif
 
-#include "BOA.h"
-#include "polymodel.h"
+#include <Descent3/BOA.h>
+#include <model/polymodel.h>
 #include "physics.h"
-#include "player.h"
-#include "doorway.h"
-#include "renderer.h"
+#include <Descent3/player.h>
+#include <Descent3/doorway.h>
+#include <renderer/renderer.h>
 
 // Debug performance includes (do nothing in final release)
 #ifndef NED_PHYSICS
-#include "rtperformance.h"
+#include <rtperformance/rtperformance.h>
 #endif
 
 int FVI_counter;

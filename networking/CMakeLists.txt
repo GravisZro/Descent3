@@ -9,19 +9,3 @@ if(WIN32)
 endif()
 
 add_library(networking STATIC ${HEADERS} ${CPPS})
-target_link_libraries(networking PRIVATE
-  ddio
-  renderer
-  bitmap
-  manage
-  module
-  ddio
-  2dlib
-  model
-)
-
-target_include_directories(networking PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/networking
-  >
-)

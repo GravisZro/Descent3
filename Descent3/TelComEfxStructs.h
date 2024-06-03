@@ -91,7 +91,7 @@
 #ifndef __TELCOMEFXSTRUCTS_H_
 #define __TELCOMEFXSTRUCTS_H_
 
-#include "grdefs.h"
+#include <2dlib/grdefs.h>
 
 #define MAX_FILELEN 32
 //===================

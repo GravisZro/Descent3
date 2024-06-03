@@ -144,7 +144,7 @@
 #include "door.h"
 #include "HView.h"
 #include "HRoom.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "edoors.h"
 
 #ifdef _DEBUG

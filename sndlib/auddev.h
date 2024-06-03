@@ -81,8 +81,8 @@
 #include <mmsystem.h>
 #include "dsound.h"
 #include "vmanpset.h"
-#include "pstypes.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h>
 
 #define SOUND_DECAY_MAXTIME 100.0f
 #define SOUND_GAIN_MAXSCALAR 1.0f

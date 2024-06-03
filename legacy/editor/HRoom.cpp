@@ -389,7 +389,7 @@
  * $NoKeywords: $
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "HRoom.h"
 
@@ -406,8 +406,8 @@
 #include "SelectedRoom.h"
 #include "group.h"
 #include "door.h"
-#include "doorway.h"
-#include "terrain.h"
+#include <Descent3/doorway.h>
+#include <Descent3/terrain.h>
 #include "HTexture.h"
 #include "trigger.h"
 
@@ -3151,7 +3151,7 @@ void MoveVert(room *rp,int facenum,int vertnum,float new_position)
 	World_changed = 1;
 }
 
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 //Incorporates the geometry from the specified object into the specified room.  Deletes the object.
 //Returns true if worked, false if some error

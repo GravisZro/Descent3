@@ -73,8 +73,9 @@
 #ifndef __DDIO_FORCEFEEDBACK_H_
 #define __DDIO_FORCEFEEDBACK_H_
 #include <cstdint>
-#include "pstypes.h"
-#include "string.h"
+#include <misc/pstypes.h>
+#include <cstring>
+
 #define kMAX_Str 80
 #define kInfinite_Duration 0xFFFFFF
 #define FF_USEENVELOPE 0x01

@@ -62,16 +62,16 @@
  */
 #include "BriefingParse.h"
 #include "TelComEffects.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <ctype.h>
-#include "cfile.h"
-#include "pserror.h"
+#include <cfile/cfile.h>
+#include <misc/pserror.h>
 #include "game.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "voice.h"
-#include "streamaudio.h"
-#include "ddio.h"
+#include <stream_audio/streamaudio.h>
+#include <ddio/ddio.h>
 
 //	constructor
 CBriefParse::CBriefParse() {

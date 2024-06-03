@@ -143,7 +143,7 @@
 #include "SmallViews.h"
 
 #include "descent.h"
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #include "game.h"
 #include "object.h"
@@ -151,13 +151,13 @@
 #include "render.h"
 #include "gameloop.h"
 #include "weapon.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 #include "config.h"
 #include "terrain.h"
 #include "gauges.h"
 #include "cockpit.h"
 #include "player.h"
-#include "grtext.h"
+#include <grtext/grtext.h>
 #include "stringtable.h"
 #include "gamefont.h"
 

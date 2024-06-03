@@ -19,9 +19,9 @@
 #ifndef SPECIAL_FACE_H
 #define SPECIAL_FACE_H
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <vecmat/vecmat.h>
 
 #define BAD_SPECIAL_FACE_INDEX -1
 #define MAX_SPECIAL_FACES 13000 // made large enough for Josh's Mercenary level 3

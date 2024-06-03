@@ -1642,34 +1642,34 @@
  *
  */
 
-#include "pstypes.h"
-#include "pserror.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
 #include "player.h"
 #include "game.h"
 #include "multi.h"
 #include "multi_client.h"
 #include "multi_server.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "hud.h"
 #include "robotfire.h"
 #include "ship.h"
 #include "descent.h"
 #include "damage.h"
 #include "gamesequence.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "gametexture.h"
 #include "room.h"
 #include "game2dll.h"
 #include "viseffect.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
 #include "fireball.h"
-#include "Mission.h"
+#include "mission.h"
 #include "LoadLevel.h"
 #include "gamecinematics.h"
-#include "init.h"
+#include <Descent3/init.h>
 
-#include "sounds.h"
+#include <Descent3/sounds.h>
 #include "weapon.h"
 #include "stringtable.h"
 
@@ -1677,7 +1677,7 @@
 #include "demofile.h"
 #include "args.h"
 
-#include "ui.h"
+#include <ui/ui.h>
 #include "newui.h"
 #include "multi_dll_mgr.h"
 #include "BOA.h"
@@ -1685,14 +1685,14 @@
 #include "mission_download.h"
 // #include "gamespy.h"
 #include "multi_world_state.h"
-#include "ObjScript.h"
+#include "object_script.h"
 #include "audiotaunts.h"
 #include "marker.h"
 #include "weather.h"
 #include "doorway.h"
 #include "object_lighting.h"
 #include "spew.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "SmallViews.h"
 #include "demofile.h"
 #include "debuggraph.h"
@@ -1701,13 +1701,13 @@
 #include "cockpit.h"
 #include "hud.h"
 
-#include <string.h>
+#include <cstring>
 #include <memory.h>
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "psrand.h"
+#include <misc/psrand.h>
 
-#include "../md5/md5.h"
+#include <md5/md5.h>
 void MultiProcessShipChecksum(MD5 *md5, int ship_index);
 
 

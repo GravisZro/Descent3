@@ -67,7 +67,7 @@
 #include "dmfcinternal.h"
 #include "dmfcinputcommands.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdarg.h>
 #include <assert.h>
 

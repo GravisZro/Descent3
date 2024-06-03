@@ -78,9 +78,9 @@
 #ifndef _DDGR_H
 #define _DDGR_H
 
-#include "pstypes.h"
-#include "Macros.h"
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <misc/macros.h>
+#include <2dlib/grdefs.h>
 
 //	----------------------------------------------------------------------------
 //	DDGR

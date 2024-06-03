@@ -50,7 +50,7 @@
 #ifndef GRDEFS_H
 #define GRDEFS_H
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 //	bit depth info
 #define BPP_TO_BYTESPP(x) (((x) + 7) >> 3)

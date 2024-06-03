@@ -99,10 +99,10 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "psclass.h"
-#include "streamaudio.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <misc/psclass.h>
+#include <stream_audio/streamaudio.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 //	These are internal constants for the music sequencer

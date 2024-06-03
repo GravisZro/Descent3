@@ -22,13 +22,13 @@
 #include "BOA.h"
 #include "AIMain.h"
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "memory.h"
 #include "doorway.h"
 #include "aistruct.h"
 #include "terrain.h"
-#include "psrand.h"
-#include "findintersection.h"
+#include <misc/psrand.h>
+#include <physics/findintersection.h>
 
 #define MAX_DYNAMIC_PATHS 50
 #define MAX_NODES 50

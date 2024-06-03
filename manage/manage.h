@@ -20,14 +20,12 @@
 #ifndef MANAGE_H
 #define MANAGE_H
 
-#include <stdio.h>
-#include "cfile.h"
-#include "bitmap.h"
-#include "manage_external.h"
+#include <cstdio>
+#include <cfile/cfile.h>
+#include <bitmap/bitmap.h>
+#include <manage/manage_external.h>
 
-#if defined(__LINUX__)
-#include "linux_fix.h" //for strnicmp,etc.
-#endif
+#include <linux/linux_fix.h>
 
 #define LOCAL_TABLE "Table.loc"
 #define TEMP_LOCAL_TABLE "Tablr.loc"

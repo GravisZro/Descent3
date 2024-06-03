@@ -374,13 +374,13 @@
 #include "editorDoc.h"
 #include "editorView.h"
 #include "slew.h"
-#include "object.h"
-#include "descent.h"
+#include <Descent3/object.h>
+#include <Descent3/descent.h>
 #include "moveworld.h"
 #include "d3edit.h"
-#include "pserror.h"
-#include "args.h"
-#include "game.h"
+#include <misc/pserror.h>
+#include <Descent3/args.h>
+#include <Descent3/game.h>
 #include "trigger.h"
 #include "HTexture.h"
 #include "HRoom.h"
@@ -393,11 +393,11 @@
 #include "ObjMoveManager.h"
 #include "ViewerPropDlg.h"
 
-#include "mono.h"
-#include "ddio.h"
+#include <ddebug/mono.h>
+#include <ddio/ddio.h>
 
 #include "boa.h"
-#include "terrain.h"
+#include <Descent3/terrain.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -107,19 +107,19 @@
 #ifndef __MULTI_EXTERNAL_H_
 #define __MULTI_EXTERNAL_H_
 
-#if defined(__LINUX__)
+#if defined(__unix__)
 #include <cstring>
 #include <cstdint>
 typedef uintptr_t DWORD;
 typedef int HANDLE;
 #endif
 
-#include "pstypes.h"
-#include "manage_external.h"
-#include "cfile.h"
-#include "networking.h"
+#include <misc/pstypes.h>
+#include <manage/manage_external.h>
+#include <cfile/cfile.h>
+#include <networking/networking.h>
 #include "descent.h" //for MSN_NAMELEN
-#include "byteswap.h"
+#include <lib/byteswap.h>
 #include <cassert>
 
 #define NETGAME_NAME_LEN 32

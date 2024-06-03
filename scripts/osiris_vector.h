@@ -23,8 +23,8 @@
 #include <cstdint>
 #include <ctime>
 
-#include "fix.h"
-#include "vecmat_external.h"
+#include <fix/fix.h>
+#include <vecmat/vecmat_external.h>
 
 const vector Zero_vector = {0.0f, 0.0f, 0.0f};
 

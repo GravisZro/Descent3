@@ -57,7 +57,7 @@
  * $NoKeywords: $
  */
 
-#include "room.h"
+#include <Descent3/room.h>
 
 struct object;
 

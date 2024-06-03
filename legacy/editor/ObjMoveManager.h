@@ -41,7 +41,7 @@
 #ifndef _OBJ_MOVE_MANAGER_H
 #define _OBJ_MOVE_MANAGER_H
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 
 struct object;
 

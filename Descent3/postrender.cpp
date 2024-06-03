@@ -76,7 +76,7 @@
 #include "..\neweditor\globals.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "object.h"
 #include "viseffect.h"
 #include "render.h"
@@ -85,7 +85,7 @@
 #include "postrender.h"
 #include "config.h"
 #include "terrain.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 
 postrender_struct Postrender_list[MAX_POSTRENDERS];
 int Num_postrenders = 0;

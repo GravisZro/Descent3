@@ -21,7 +21,7 @@
 
 #include "hotspotmap.h"
 #include "gamefont.h"
-#include "bitmap.h"
+#include <bitmap/bitmap.h>
 
 // TelCom Briefing System Header File
 

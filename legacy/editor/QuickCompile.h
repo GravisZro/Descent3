@@ -40,8 +40,8 @@
 #endif // _MSC_VER > 1000
 // QuickCompile.h : header file
 //
-#include "pstypes.h"
-#include <stdio.h>
+#include <misc/pstypes.h>
+#include <cstdio>
 
 /////////////////////////////////////////////////////////////////////////////
 // CQuickCompile dialog

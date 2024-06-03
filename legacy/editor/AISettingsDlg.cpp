@@ -22,9 +22,9 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "AISettingsDlg.h"
-#include "mono.h"
-#include "soundload.h"
-#include "pserror.h"
+#include <ddebug/mono.h>
+#include <sndlib/soundload.h>
+#include <misc/pserror.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

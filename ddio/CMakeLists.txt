@@ -36,19 +36,4 @@ set(CPPS
     winmouse.cpp
   >
 )
-add_library(ddio STATIC ${CPPS})
-target_link_libraries(ddio
-  ddebug
-  $<$<PLATFORM_ID:Linux,Darwin>:
-    linux
-  >
-  $<$<PLATFORM_ID:Windows>:
-    win32
-  >
-)
-
-target_include_directories(ddio PUBLIC
-  $<BUILD_INTERFACE:
-    ${PROJECT_SOURCE_DIR}/ddio
-  >
-)
+add_library(ddio STATIC ${HEADERS} ${CPPS})

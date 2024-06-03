@@ -28,7 +28,7 @@
 #ifndef _STATUS_DLG_H_
 #define _STATUS_DLG_H_
 
-#include "fix.h"
+#include <fix/fix.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CStatusDlg dialog

@@ -50,9 +50,9 @@
 #ifndef __VISEFFECT_EXTERNAL_H_
 #define __VISEFFECT_EXTERNAL_H_
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "vecmat.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <vecmat/vecmat.h>
 
 #define MAX_VIS_EFFECTS 5000
 

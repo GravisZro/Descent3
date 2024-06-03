@@ -112,7 +112,7 @@
  *
  * 169   4/16/99 11:56a Matt
  * Changed directplay code to be "ifdef _WIN32" instead of "ifndef
- * __LINUX__" so it will work on the Mac.
+ * __unix__" so it will work on the Mac.
  *
  * 168   4/15/99 1:40a Jeff
  * changes for linux compile
@@ -659,7 +659,7 @@
 #include "mmItem.h"
 #include "game.h"
 #include "gamesequence.h"
-#include "Mission.h"
+#include "mission.h"
 #include "multi_ui.h"
 #include "ctlconfig.h"
 #include "config.h"
@@ -668,7 +668,7 @@
 #include "pilot.h"
 #include "LoadLevel.h"
 #include "stringtable.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "args.h"
 #include "cinematics.h"
 
@@ -682,7 +682,7 @@
 bool Directplay_lobby_launched_game = false;
 #endif
 #include "multi_dll_mgr.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 #include "newui_core.h"
 
 #define IDV_QUIT 0xff

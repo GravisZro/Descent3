@@ -26,7 +26,7 @@
 #include "AddScriptDialog.h"
 #include "ScriptStudio.h"
 
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "d3x.h"
 #include "ObjCScript.h"
 #include "ScriptWizard.h"

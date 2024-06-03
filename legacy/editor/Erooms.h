@@ -180,7 +180,7 @@
 #ifndef _EROOMS_H
 #define _EROOMS_H
 
-#include "room.h"
+#include <Descent3/room.h>
 
 #define DEFAULT_ROOM_SIZE 20.0
 

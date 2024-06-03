@@ -77,29 +77,29 @@
  *
  */
 
-#include "pserror.h"
-#include "pstypes.h"
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
 
-#include "3d.h"
-#include "vecmat.h"
-#include "grdefs.h"
+#include <renderer/3d.h>
+#include <vecmat/vecmat.h>
+#include <2dlib/grdefs.h>
 #include "polymodel.h"
-#include "gametexture.h"
-#include "byteswap.h"
-#include "renderer.h"
-#include "lighting.h"
-#include "game.h"
-#include "render.h"
-#include "fireball.h"
-#include "lightmap_info.h"
-#include "lightmap.h"
-#include "lighting.h"
-#include "findintersection.h"
+#include <Descent3/gametexture.h>
+#include <lib/byteswap.h>
+#include <renderer/renderer.h>
+#include <Descent3/lighting.h>
+#include <Descent3/game.h>
+#include <Descent3/render.h>
+#include <Descent3/fireball.h>
+#include <Descent3/lightmap_info.h>
+#include <bitmap/lightmap.h>
+#include <Descent3/lighting.h>
+#include <physics/findintersection.h>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
-#include "psrand.h"
+#include <misc/psrand.h>
 
 static float face_depth[MAX_POLYGON_VECS];
 static uint8_t triangulated_faces[MAX_FACES_PER_ROOM];

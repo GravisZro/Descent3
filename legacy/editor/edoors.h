@@ -19,7 +19,7 @@
 #ifndef EDOOR_H
 #define EDOOR_H
 
-#include "room.h"
+#include <Descent3/room.h>
 
 void PlaceDoor(room *baseroomp,int baseface,int placed_door);
 

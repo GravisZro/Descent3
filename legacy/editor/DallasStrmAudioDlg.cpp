@@ -22,8 +22,8 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "DallasUtilities.h"
-#include "manage.h"
-#include "streamaudio.h"
+#include <manage/manage.h>
+#include <stream_audio/streamaudio.h>
 #include "DallasStrmAudioDlg.h"
 
 #ifdef _DEBUG

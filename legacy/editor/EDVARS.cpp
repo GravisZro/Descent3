@@ -124,7 +124,7 @@
 */
 
 #include "d3edit.h"
-#include "room.h"
+#include <Descent3/room.h>
 
 //Current room, face, edge, & vert.
 room *Curroomp=NULL;

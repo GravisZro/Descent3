@@ -267,15 +267,13 @@
 #ifndef UI_H
 #define UI_H
 
-#if defined(__LINUX__)
-#include "linux_fix.h" //for stricmp's through code
-#endif
+#include <linux/linux_fix.h>
 
 #include "uires.h"
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <2dlib/grdefs.h>
 
 //	Class identification
 
@@ -399,7 +397,7 @@ private:
   void CheckFocusOnSlaves(int mx, int my);
 
 //	universal variables
-#ifdef __LINUX__ // gcc has a hard time tracing through some of the derived classes that access m_Wnd
+#ifdef __unix__ // gcc has a hard time tracing through some of the derived classes that access m_Wnd
 public:
 #else
 protected:
@@ -421,7 +419,7 @@ protected:
   void UnlockFocus();              // releases lock on input to gadget.
 
 //	called from outside gadget hierarchy.
-#ifdef __LINUX__ // gcc has a hard time tracing through the dervived classes of newuiButton and thinks it can't access
+#ifdef __unix__ // gcc has a hard time tracing through the dervived classes of newuiButton and thinks it can't access
                  // OnFormat()
 public:
 #else

@@ -128,8 +128,8 @@
 #ifndef _DESCENT_H
 #define _DESCENT_H
 
-#include <stdlib.h>
-#include "application.h"
+#include <cstdlib>
+#include <ddio/application.h>
 
 // The name of this product
 #ifdef DEMO

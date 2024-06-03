@@ -59,16 +59,16 @@
 #endif
 
 #include "rtperformance.h"
-#include "pstypes.h"
-#include "mono.h"
-#include "descent.h"
-#include "manage.h"
-#include "ddio.h"
-#include "cfile.h"
+#include <misc/pstypes.h>
+#include <ddebug/mono.h>
+#include <Descent3/descent.h>
+#include <manage/manage.h>
+#include <ddio/ddio.h>
+#include <cfile/cfile.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 #include <algorithm>
 

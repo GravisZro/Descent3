@@ -16,8 +16,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "pserror.h"
-#include "pstypes.h"
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
 #include "fireball.h"
 #include "weather.h"
 #include "viseffect.h"
@@ -25,13 +25,13 @@
 #include "terrain.h"
 #include "room.h"
 #include "game.h"
-#include "soundload.h"
-#include "hlsoundlib.h"
-#include "sounds.h"
+#include <sndlib/soundload.h>
+#include <sndlib/hlsoundlib.h>
+#include <Descent3/sounds.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "psrand.h"
+#include <misc/psrand.h>
 weather Weather = {0};
 
 int ThunderA_sound_handle = -1;

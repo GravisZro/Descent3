@@ -332,21 +332,21 @@
 #include "TextureDialog.h"
 #include "EditLineDialog.h"
 #include "RoomKeypadDialog.h"
-#include "game.h"
+#include <Descent3/game.h>
 
 #include "d3edit.h"
-#include "mono.h"
+#include <ddebug/mono.h>
 
-#include "render.h"
+#include <Descent3/render.h>
 #include "HRoom.h"
 #include "HFile.h"
 #include "erooms.h"
-#include "args.h"
+#include <Descent3/args.h>
 
-#include "terrain.h"
+#include <Descent3/terrain.h>
 #include "texture.h"
 
-#include "mem.h"
+#include <mem/mem.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -646,7 +646,7 @@ void CEditorView::CreateChildViews()
 	m_grwndCreated = TRUE;
 }
 
-#include "ddio.h"
+#include <ddio/ddio.h>
 
 void CEditorView::OnButtonOutline() 
 {

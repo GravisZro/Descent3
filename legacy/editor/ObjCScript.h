@@ -87,8 +87,8 @@
 #ifndef OBJCSCRIPT_H
 #define OBJCSCRIPT_H
 
-#include "pstypes.h"
-#include "objscript.h"
+#include <misc/pstypes.h>
+#include <Descent3/object_script.h>
 
 #define MAX_SCRIPTS					256
 #define MAX_SCRNAME					32

@@ -142,19 +142,19 @@
  * $NoKeywords: $
  */
 
-#include "music.h"
+#include <music/music.h>
 #include "musiclib.h"
-#include "ssl_lib.h"
-#include "soundload.h"
-#include "textaux.h"
-#include "pserror.h"
-#include "ddio.h"
-#include "Macros.h"
-#include "inffile.h"
-#include "streamaudio.h"
-#include "mem.h"
-#include <string.h>
-#include <stdlib.h>
+#include <sndlib/ssl_lib.h>
+#include <sndlib/soundload.h>
+#include <grtext/textaux.h>
+#include <misc/pserror.h>
+#include <ddio/ddio.h>
+#include <misc/macros.h>
+#include <cfile/inffile.h>
+#include <stream_audio/streamaudio.h>
+#include <mem/mem.h>
+#include <cstring>
+#include <cstdlib>
 
 // #include "samirlog.h"
 #define LOGFILE(_s)

@@ -124,14 +124,14 @@
  */
 
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "stdafx.h"
 #include "editor.h"
 #include "TriggerDialog.h"
 #include "trigger.h"
 #include "EditLineDialog.h"
-#include "render.h"
+#include <Descent3/render.h>
 #include "trigger.h"
 #include "HView.h"
 #include "FindIntersection.h"

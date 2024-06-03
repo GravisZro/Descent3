@@ -25,7 +25,7 @@
 #include "osiris_import.h"
 #include "osiris_common.h"
 
-#include "module.h"
+#include <module/module.h>
 
 #ifdef __cplusplus
 extern "C" {

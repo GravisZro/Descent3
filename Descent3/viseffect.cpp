@@ -447,17 +447,17 @@
 #include "gametexture.h"
 #include "object.h"
 #include <memory.h>
-#include <stdlib.h>
-#include "physics.h"
+#include <cstdlib>
+#include <physics/physics.h>
 #include "weapon.h"
 #include "lighting.h"
 #include "dedicated_server.h"
 #include "player.h"
 #include "config.h"
 #include "weather.h"
-#include "polymodel.h"
-#include "psrand.h"
-#include "mem.h"
+#include <model/polymodel.h>
+#include <misc/psrand.h>
+#include <mem/mem.h>
 
 #include <algorithm>
 

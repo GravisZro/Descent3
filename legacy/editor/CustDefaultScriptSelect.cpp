@@ -22,8 +22,8 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "CustDefaultScriptSelect.h"
-#include "manage.h"
-#include "ddio.h"
+#include <manage/manage.h>
+#include <ddio/ddio.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

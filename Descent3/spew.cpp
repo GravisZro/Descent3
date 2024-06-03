@@ -122,23 +122,23 @@
 
 //	ancillary includes
 #include "game.h"
-#include "vecmat.h"
-#include "ddio.h"
-#include "pserror.h"
+#include <vecmat/vecmat.h>
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
 #include "object.h"
 #include "damage.h"
 #include "viseffect.h"
 #include "fireball.h"
 #include "spew.h"
 #include "weapon.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 //	ANSI C includes
-#include <stdlib.h>
+#include <cstdlib>
 #include <math.h>
-#include <string.h>
+#include <cstring>
 
-#include "psrand.h"
+#include <misc/psrand.h>
 
 #define MAX_SPEWS_PER_FRAME 5 // maximum number of spews 1 can emit per frame
 

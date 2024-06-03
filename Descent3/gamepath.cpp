@@ -69,10 +69,10 @@
  */
 
 #include "gamepath.h"
-#include <stdlib.h>
-#include <string.h>
-#include "pserror.h"
-#include "pstypes.h"
+#include <cstdlib>
+#include <cstring>
+#include <misc/pserror.h>
+#include <misc/pstypes.h>
 
 game_path GamePaths[MAX_GAME_PATHS];
 int Num_game_paths = 0;

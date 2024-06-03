@@ -51,7 +51,7 @@
 #ifndef APPDATABASE
 #define APPDATABASE
 
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 /* oeAppDatabase
         to get info about the application from a managed database (or a custom info file)
@@ -93,17 +93,5 @@ public:
 
 // Macro to write a string
 #define write_string(label, varp) write(label, varp, strlen(varp))
-
-/*	This section includes the platform-specific header files
-        Add a platform to this list once implemented:
-
-                Win32				Samir		Win32Database.h			06/97
-*/
-
-#if defined(WIN32)
-#include "win32database.h"
-#elif defined(__LINUX__)
-#include "lnxdatabase.h"
-#endif
 
 #endif

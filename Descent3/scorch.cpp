@@ -95,16 +95,16 @@
  *
  */
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "pserror.h"
-#include "renderer.h"
-#include "3d.h"
+#include <misc/pserror.h>
+#include <renderer/renderer.h>
+#include <renderer/3d.h>
 #include "scorch.h"
 #include "room.h"
 #include "config.h"
 #include "object_external_struct.h" //for ROOMNUM_OUTSIDE macro
-#include "psrand.h"
+#include <misc/psrand.h>
 
 #include <algorithm>
 

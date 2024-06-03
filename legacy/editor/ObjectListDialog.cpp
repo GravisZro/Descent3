@@ -25,12 +25,12 @@
 #include "HObject.h"
 #include "MainFrm.h"
 																				 
-#include "object.h"
-#include "objinfo.h"
-#include "pserror.h"
+#include <Descent3/object.h>
+#include <Descent3/object_info.h>
+#include <misc/pserror.h>
 
-#include <string.h>
-#include <stdio.h>
+#include <cstring>
+#include <cstdio>
 
 
 #ifdef _DEBUG

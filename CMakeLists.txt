@@ -95,11 +95,11 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   message("Building for Linux")
-  add_compile_definitions(__LINUX__ _USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-linux.hog\")
+  add_compile_definitions(__unix__ _USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-linux.hog\")
   set(PLATFORM_INCLUDES "lib/linux" ${SDL2_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   message("Building for MAC OSX")
-  add_compile_definitions(__LINUX__ MACOSX=1 _USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-osx.hog\")
+  add_compile_definitions(__unix__ MACOSX=1 _USE_OGL_ACTIVE_TEXTURES PRIMARY_HOG=\"d3-osx.hog\")
   set(PLATFORM_INCLUDES "lib/linux" ${SDL2_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Windows.h defines to avoid as many issues as possible.
@@ -152,15 +152,7 @@ if(ENABLE_LOGGER)
   add_compile_definitions(LOGGER)
 endif()
 
-include_directories(
-  "cfile"   # TODO: Remove after untying all modules
-  "ddebug"  # -*-
-  "fix"     # -*-
-  "lib"     # TODO: Remove after untying all modules
-  "linux"   # -*-
-  "Descent3"
-  ${PLATFORM_INCLUDES}
-)
+include_directories(${PROJECT_SOURCE_DIR} third_party)
 
 add_subdirectory(third_party)
 

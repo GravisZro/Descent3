@@ -28,7 +28,7 @@
 #endif
 
 #include "ObjectListCombo.h"
-#include "object.h"
+#include <Descent3/object.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

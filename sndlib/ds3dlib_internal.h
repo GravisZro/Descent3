@@ -66,7 +66,7 @@
 #include <mmsystem.h>
 
 #include "win/directx/dsound.h"
-#include "ssl_lib.h"
+#include <sndlib/ssl_lib.h>
 
 class win_llsSystem;
 

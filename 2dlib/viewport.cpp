@@ -108,9 +108,9 @@
 
 #include "gr.h"
 #include "lib2d.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 
-#include "pserror.h"
+#include <misc/pserror.h>
 
 #define CLIP_LEFT (vp_InitLeft + vp_Left)
 #define CLIP_TOP (vp_InitTop + vp_Top)

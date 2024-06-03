@@ -117,19 +117,19 @@
 #include <windows.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
-#include "game.h"
-#include "ddio.h"
-#include "descent.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "mem.h"
-#include "mono.h"
-#include "networking.h"
+#include <Descent3/game.h>
+#include <ddio/ddio.h>
+#include <Descent3/descent.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
+#include <ddebug/mono.h>
+#include <networking/networking.h>
 #include "mtgametrack.h"
-#include "byteswap.h"
+#include <lib/byteswap.h>
 
 
 #include <time.h>

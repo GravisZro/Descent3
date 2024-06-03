@@ -64,10 +64,10 @@
  * $NoKeywords: $
  */
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
-#include "ddio.h"
-#include "pserror.h"
+#include <ddio/ddio.h>
+#include <misc/pserror.h>
 
 #ifdef __PERMIT_GL_LOGGING
 void DGL_EnableLogging(int enable);

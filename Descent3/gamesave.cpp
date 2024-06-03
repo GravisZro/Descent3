@@ -266,18 +266,18 @@
 #include "gamesave.h"
 #include "descent.h"
 #include "newui.h"
-#include "cfile.h"
-#include "Mission.h"
+#include <cfile/cfile.h>
+#include "mission.h"
 #include "gamesequence.h"
 #include "gameevent.h"
 #include "gameloop.h"
 #include "game.h"
 #include "stringtable.h"
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "gametexture.h"
-#include "bitmap.h"
-#include "ddio.h"
+#include <bitmap/bitmap.h>
+#include <ddio/ddio.h>
 #include "door.h"
 #include "doorway.h"
 #include "ship.h"
@@ -291,11 +291,11 @@
 #include "osiris_dll.h"
 #include "levelgoal.h"
 #include "aistruct.h"
-#include <string.h>
+#include <cstring>
 #include "matcen.h"
 #include "hud.h"
 #include "marker.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 #include "weather.h"
 
 // function prototypes.
@@ -510,7 +510,7 @@ struct tLoadGameDialogData {
   chunked_bitmap chunk;
 };
 
-#if defined(__LINUX__)
+#if defined(__unix__)
 void LoadGameDialogCB(newuiTiledWindow *wnd, void *data)
 #else
 void __cdecl LoadGameDialogCB(newuiTiledWindow *wnd, void *data)

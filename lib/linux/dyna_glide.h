@@ -3824,7 +3824,7 @@ extern int        __gu_prim_num_verts;
 
 #ifdef DYNAHEADER_CREATE_STORAGE
 
-#include "module.h"
+#include <module/module.h>
 static module glideDLLInst;
 
 ConvertAndDownloadRle_fpt ConvertAndDownloadRle = NULL;
@@ -4934,7 +4934,7 @@ extern guTexMemReset_fpt guTexMemReset;
 
 extern guTexSource_fpt guTexSource;
 
-#include "module.h"
+#include <module/module.h>
 extern module glideDLLInst = {NULL};
 
 #endif /* DYNAHEADER */

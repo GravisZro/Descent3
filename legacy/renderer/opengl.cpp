@@ -19,31 +19,31 @@
 #if defined(WIN32)
 #include <windows.h>
 #include "ddraw.h"
-#elif defined(__LINUX__)
-#include "linux_fix.h"
+#elif defined(__unix__)
+#include <linux/linux_fix.h>
 #include "lnxscreenmode.h"
 #else
 #endif
 
 #include "DDAccess.h" // Device Dependent access level module
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "application.h"
-#include "renderer.h"
-#include "3d.h"
-#include "bitmap.h"
-#include "lightmap.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddio/application.h>
+#include <renderer/renderer.h>
+#include <renderer/3d.h>
+#include <bitmap/bitmap.h>
+#include <bitmap/lightmap.h>
 #include "rend_opengl.h"
-#include "grdefs.h"
+#include <2dlib/grdefs.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
-#include "mem.h"
-#include "rtperformance.h"
+#include <mem/mem.h>
+#include <rtperformance/rtperformance.h>
 #include "dyna_gl.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #if defined(WIN32)
 #include "win/arb_extensions.h"
@@ -83,7 +83,7 @@ static HWND hOpenGLWnd = NULL;
 static HDC hOpenGLDC = NULL;
 HGLRC ResourceContext;
 static WORD Saved_gamma_values[256 * 3];
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 static Display *OpenGL_Display = NULL;
 static Window OpenGL_Window;
 static XVisualInfo OpenGL_VisualInfo;
@@ -355,7 +355,7 @@ void opengl_SetDefaults() {
   Last_texel_unit_set = -1;
   OpenGL_multitexture_state = false;
 
-#ifdef __LINUX__
+#ifdef __unix__
   OpenGL_UseLists = (FindArg("-gllists")) ? true : false;
   if (OpenGL_UseLists) {
 #endif
@@ -366,7 +366,7 @@ void opengl_SetDefaults() {
     dglVertexPointer(3, GL_FLOAT, 0, GL_verts);
     dglColorPointer(4, GL_FLOAT, 0, GL_colors);
     dglTexCoordPointer(4, GL_FLOAT, 0, GL_tex_coords);
-#ifdef __LINUX__
+#ifdef __unix__
   }
 #endif
 
@@ -494,7 +494,7 @@ int opengl_Setup(HDC glhdc) {
 
   return 1;
 }
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 bool opengl_GetXConfig(Display *dpy, XVisualInfo *vis, int attrib, int *value) {
   int res;
 
@@ -785,7 +785,7 @@ int opengl_Init(oeApplication *app, renderer_preferred_state *pref_state) {
   // Save gamma values for later
   GetDeviceGammaRamp(hOpenGLDC, (LPVOID)Saved_gamma_values);
 
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   /***********************************************************
    *               LINUX OPENGL
    ***********************************************************
@@ -987,7 +987,7 @@ void opengl_Close() {
   // Change our display back
   if (!WindowGL)
     ChangeDisplaySettings(NULL, 0);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   // Restore our video mode
   LinuxVideoMode.Lock(false);
   LinuxVideoMode.RestoreVideoMode();
@@ -1036,7 +1036,7 @@ void opengl_Close() {
   SetDeviceGammaRamp(hOpenGLDC, (LPVOID)Saved_gamma_values);
   //	I'm freeing the DC here - samir
   ReleaseDC(hOpenGLWnd, hOpenGLDC);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
 
 #else
 
@@ -1563,11 +1563,11 @@ void opengl_DrawMultitexturePolygon(int handle, g3Point **p, int nv, int map_typ
   opengl_SetMultitextureBlendMode(true);
 
   // And draw!
-#ifdef __LINUX__
+#ifdef __unix__
   if (OpenGL_UseLists) {
 #endif
     dglDrawArrays(GL_POLYGON, 0, nv);
-#ifdef __LINUX__
+#ifdef __unix__
   } else {
     dglBegin(GL_POLYGON);
     for (i = 0; i < nv; i++) {
@@ -1748,7 +1748,7 @@ void opengl_DrawPolygon(int handle, g3Point **p, int nv, int map_type) {
       colorp->a = alpha;
     }
 
-#ifdef __LINUX__
+#ifdef __unix__
     // MY TEST HACK...MAYBE BAD DRIVERS? OR MAYBE THIS IS
     // HOW IT SHOULD BE DONE (STILL BUGGY)
     // Texture this polygon!
@@ -1780,11 +1780,11 @@ void opengl_DrawPolygon(int handle, g3Point **p, int nv, int map_type) {
   }
 
   // And draw!
-#ifdef __LINUX__
+#ifdef __unix__
   if (OpenGL_UseLists) {
 #endif
     dglDrawArrays(GL_POLYGON, 0, nv);
-#ifdef __LINUX__
+#ifdef __unix__
   } else {
     dglBegin(GL_POLYGON);
     for (i = 0; i < nv; i++) {
@@ -1881,7 +1881,7 @@ void opengl_Flip() {
 
 #if defined(WIN32)
   SwapBuffers((HDC)hOpenGLDC);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
   glXWaitGL();
   glXSwapBuffers(OpenGL_Display, OpenGL_Window);
 #endif
@@ -2562,7 +2562,7 @@ void opengl_GetStatistics(tRendererStats *stats) {
   stats->texture_uploads = OpenGL_last_uploaded;
 }
 
-#ifdef __LINUX__
+#ifdef __unix__
 void CreateFullScreenWindow(Display *dpy, Window rootwin, Window window, int DisplayScreen, int DisplayWidth,
                             int DisplayHeight) {
   // see if a motif based window manager is running.  do this by

@@ -42,9 +42,9 @@
 #include "QuickCompile.h"
 #include "scriptcompilerapi.h"
 #include "ScriptMassCompile.h"
-#include "ddio.h"
-#include "cfile.h"
-#include "manage.h"
+#include <ddio/ddio.h>
+#include <cfile/cfile.h>
+#include <manage/manage.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

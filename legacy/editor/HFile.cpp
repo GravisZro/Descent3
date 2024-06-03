@@ -354,42 +354,42 @@
  * $NoKeywords: $
  */
 
-#include <string.h>
+#include <cstring>
 
-#include "descent.h"
+#include <Descent3/descent.h>
 #include "HFile.h"
 #include "d3edit.h"
-#include "room.h"
-#include "object.h"
-#include "game.h"
+#include <Descent3/room.h>
+#include <Descent3/object.h>
+#include <Descent3/game.h>
 #include "LoadLevel.h"
 #include "MoveWorld.h"
 #include "ERooms.h"
 #include "trigger.h"
 #include "door.h"
 #include "selectedroom.h"
-#include "terrain.h"
-#include "player.h"
+#include <Descent3/terrain.h>
+#include <Descent3/player.h>
 #include "gameevent.h"
 #include "HView.h"
 #include "gamepath.h"
 #include "boa.h"
-#include "mission.h"
-#include "lighting.h"
-#include "lightmap_info.h"
-#include "lightmap.h"
+#include <Descent3/mission.h>
+#include <Descent3/lighting.h>
+#include <Descent3/lightmap_info.h>
+#include <bitmap/lightmap.h>
 #include "special_face.h"
-#include "doorway.h"
+#include <Descent3/doorway.h>
 #include "matcen.h"
 #include "levelgoal.h"
 #include "aiambient.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "bnode.h"
-#include "findintersection.h"
+#include <physics/findintersection.h>
 
 //	Scripting stuff
 //#include "d3x.h"
-//#include "ObjScript.h"
+//#include <Descent3/object_script.h>
 
 //vertices for the default room created by CreateNewMine()
 vector default_room_verts[] = {	{ -10,  8, 20 },

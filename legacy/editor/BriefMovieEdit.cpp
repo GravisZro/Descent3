@@ -22,9 +22,9 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "BriefMovieEdit.h"
-#include "manage.h"
+#include <manage/manage.h>
 #include "BriefMissionFlagsDlg.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

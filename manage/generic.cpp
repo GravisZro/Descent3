@@ -351,21 +351,21 @@
  *
  * $NoKeywords: $
  */
-#include "cfile.h"
-#include "manage.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
 #include "genericpage.h"
 #include "soundpage.h"
 #include "weaponpage.h"
-#include "mono.h"
-#include "pserror.h"
-#include "polymodel.h"
-#include "ddio.h"
-#include <string.h>
-#include "robotfire.h"
-#include "weapon.h"
-#include "sounds.h"
-#include "mem.h"
-#include "args.h"
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
+#include <model/polymodel.h>
+#include <ddio/ddio.h>
+#include <cstring>
+#include <Descent3/robotfire.h>
+#include <Descent3/weapon.h>
+#include <Descent3/sounds.h>
+#include <mem/mem.h>
+#include <Descent3/args.h>
 
 #define GENERICFILE_VERSION 27
 

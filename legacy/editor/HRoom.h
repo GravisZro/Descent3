@@ -128,7 +128,7 @@
 #ifndef _HROOM_H
 #define _HROOM_H
 
-#include "room.h"
+#include <Descent3/room.h>
 
 //Make the Marked room/face the current room/face
 void SetMarkedRoom();

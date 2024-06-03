@@ -77,12 +77,12 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
-#include "bitmap.h"
-#include "ddvid.h"
-#include "renderer.h"
-#include "grtext.h"
-#include "3d.h"
+#include <ui/uilib.h>
+#include <bitmap/bitmap.h>
+#include <dd_video/ddvid.h>
+#include <renderer/renderer.h>
+#include <grtext/grtext.h>
+#include <renderer/3d.h>
 
 //////////////////////////////////////////////////////////////////////////////
 //	VARIABLES

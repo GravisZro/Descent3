@@ -20,7 +20,7 @@
 #define RENDEROBJECT_H
 
 #include "object.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 
 #ifdef _DEBUG
 void DrawDebugInfo(object *obj);

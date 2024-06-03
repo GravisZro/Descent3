@@ -26,8 +26,8 @@
  * $NoKeywords: $
  */
 
-#include "fix.h"
-#include "room.h"
+#include <fix/fix.h>
+#include <Descent3/room.h>
 
 void RotateRooms(angle p,angle h,angle b);
 

@@ -56,10 +56,10 @@
 #ifndef __POLYMODEL_EXTERNAL_H_
 #define __POLYMODEL_EXTERNAL_H_
 
-#include "vecmat_external.h"
-#include "pstypes.h"
-#include "grdefs.h"
-#include "manage_external.h"
+#include <vecmat/vecmat_external.h>
+#include <misc/pstypes.h>
+#include <2dlib/grdefs.h>
+#include <manage/manage_external.h>
 
 #define MAX_POLY_MODELS 1200
 

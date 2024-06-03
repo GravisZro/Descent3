@@ -16,12 +16,12 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "aiambient.h"
-#include "string.h"
-#include "objinfo.h"
+#include <cstring>
+#include <Descent3/object_info.h>
 #include "game.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 
 ambient_life a_life;
 

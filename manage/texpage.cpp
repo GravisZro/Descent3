@@ -257,20 +257,20 @@
  * $NoKeywords: $
  */
 
-#include "cfile.h"
-#include "manage.h"
-#include "gametexture.h"
-#include "bitmap.h"
-#include "mono.h"
-#include "pserror.h"
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <Descent3/gametexture.h>
+#include <bitmap/bitmap.h>
+#include <ddebug/mono.h>
+#include <misc/pserror.h>
 #include "texpage.h"
-#include <string.h>
-#include "vclip.h"
-#include "ddio.h"
-#include "args.h"
-#include "sounds.h"
+#include <cstring>
+#include <Descent3/vclip.h>
+#include <ddio/ddio.h>
+#include <Descent3/args.h>
+#include <Descent3/sounds.h>
 #include "soundpage.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 
 // Texpage commands that are read/written
 // A command is followed by a byte count describing how many bytes
@@ -1239,7 +1239,7 @@ void mng_LoadLocalTexturePage(CFILE *infile) {
     mprintf(0, "Could not load texpage named %s!\n", texpage1.tex_struct.name);
 }
 
-#include "mem.h"
+#include <mem/mem.h>
 
 // First searches through the texture index to see if the texture is already
 // loaded.  If not, searches in the table file and loads it.

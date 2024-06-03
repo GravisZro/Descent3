@@ -1241,14 +1241,15 @@
 #include "..\neweditor\stdafx.h"
 #endif
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <errno.h>
 #include <algorithm>
 
 #include "LoadLevel.h"
+#include <lib/d3x_op.h>
 
-#include "cfile.h"
+#include <cfile/cfile.h>
 
 #include "descent.h"
 #include "object.h"
@@ -1265,21 +1266,21 @@
 #include "terrain.h"
 #include "player.h"
 #include "door.h"
-#include "objinit.h"
+#include "object_init.h"
 #include "room.h"
-#include "objinfo.h"
-#include "lightmap.h"
+#include <Descent3/object_info.h>
+#include <bitmap/lightmap.h>
 #include "lightmap_info.h"
-#include "findintersection.h"
-#include "polymodel.h"
+#include <physics/findintersection.h>
+#include <model/polymodel.h>
 #include "object_lighting.h"
 #include "bsp.h"
 #include "gamepath.h"
 #include "game.h"
 #include "BOA.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "lighting.h"
-#include "Mission.h"
+#include "mission.h"
 #include "render.h"
 #include "weapon.h"
 #include "special_face.h"
@@ -1287,15 +1288,15 @@
 #include "ambient.h"
 #include "matcen.h"
 #include "dedicated_server.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "levelgoal.h"
 #include "aiambient.h"
 #include "args.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "ship.h"
 #include "fireball.h"
-#include "sounds.h"
-#include "soundload.h"
+#include <Descent3/sounds.h>
+#include <sndlib/soundload.h>
 #include "bnode.h"
 #include "localization.h"
 
@@ -3240,7 +3241,7 @@ void ReadTerrainSkyAndLightChunk(CFILE *fp, int version) {
 
   Terrain_sky.flags = cf_ReadInt(fp);
 
-#ifdef __LINUX__
+#ifdef __unix__
   if (FindArg("-noterrainfog") > 0) {
     Terrain_sky.flags &= ~TF_FOG;
   }

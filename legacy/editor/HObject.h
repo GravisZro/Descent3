@@ -78,9 +78,9 @@
 #ifndef HOBJECT_H
 #define HOBJECT_H
 
-#include "pstypes.h"
-#include "fix.h"
-#include "object.h"
+#include <misc/pstypes.h>
+#include <fix/fix.h>
+#include <Descent3/object.h>
 
 const float HOBJECT_SCALE_UNIT		= (float)0.5;
 const angle HOBJECT_ROTATION_UNIT	= 1024;

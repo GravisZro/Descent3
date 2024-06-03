@@ -187,27 +187,27 @@
  * $NoKeywords: $
  */
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "grtext.h"
-#include "renderer.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <grtext/grtext.h>
+#include <renderer/renderer.h>
 #include "gamecinematics.h"
-#include "vecmat.h"
-#include "mem.h"
+#include <vecmat/vecmat.h>
+#include <mem/mem.h>
 #include "gamepath.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "game.h"
 #include "AIGoal.h"
 #include "aipath.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "player.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "gamefont.h"
 #include "AIMain.h"
 #include "controls.h"
-#include "musicapi.h"
+#include <d3music/musicapi.h>
 #include "gamesequence.h"
 #include "demofile.h"
 #include "osiris_dll.h"

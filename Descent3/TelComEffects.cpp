@@ -137,12 +137,12 @@
 #include <cstdio>
 
 #include "TelComEffects.h"
-#include "mem.h"
-#include "vecmat.h"
-#include <string.h>
-#include "textaux.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
+#include <mem/mem.h>
+#include <vecmat/vecmat.h>
+#include <cstring>
+#include <grtext/textaux.h>
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
 
 tceffect TCEffects[MAX_TCEFFECTS];
 int Screen_roots[MAX_TELCOM_SCREENS];

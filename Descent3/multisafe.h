@@ -19,7 +19,7 @@
 #ifndef MULTISAFE_H
 #define MULTISAFE_H
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "osiris_share.h"
 
 // LOCAL MULTISAFE FUNCTIONS

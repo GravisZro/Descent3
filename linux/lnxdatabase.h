@@ -25,12 +25,14 @@
 #ifndef LINUXDATABASE
 #define LINUXDATABASE
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <ddio/appdatabase.h>
+
+#include <cstdio>
+#include <cstdlib>
 
 class CRegistry;
 
-#include "Macros.h"
+#include <misc/macros.h>
 
 /* oeLnxAppDatabase
        to get info about the application from a managed database (or a custom info file)

@@ -67,12 +67,12 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include "application.h"
-#include "appconsole.h"
-#include "TaskSystem.h"
+#include "winapp.h"
+#include <ddio/appconsole.h>
+// #include "TaskSystem.h"
 
 #include <windows.h>
-#include <string.h>
+#include <cstring>
 #include <process.h>
 
 #include <algorithm>

@@ -18,26 +18,26 @@
 
 #include "robotfire.h"
 #include "object.h"
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 
 #include "config.h" // for game toggles.
-#include "objinfo.h"
+#include <Descent3/object_info.h>
 #include "weapon.h"
 #include "ship.h"
 #include "game.h"
-#include "polymodel.h"
-#include "sounds.h"
-#include "hlsoundlib.h"
+#include <model/polymodel.h>
+#include <Descent3/sounds.h>
+#include <sndlib/hlsoundlib.h>
 #include "multi.h"
 #include "player.h"
 #include "demofile.h"
 #include "SmallViews.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "AIMain.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "psrand.h"
+#include <misc/psrand.h>
 // Fires a multiplayer and AI on/off weapon
 void FireOnOffWeapon(object *objp) {
   if (objp->type == OBJ_PLAYER) {

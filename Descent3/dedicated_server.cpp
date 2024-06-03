@@ -105,42 +105,42 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
-#ifndef __LINUX__
+#ifndef __unix__
 typedef int socklen_t;
 #endif
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "pstring.h"
-#include "cfile.h"
-#include "inffile.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <misc/pstring.h>
+#include <cfile/cfile.h>
+#include <cfile/inffile.h>
 #include "dedicated_server.h"
 #include "multi.h"
 #include "args.h"
-#include "appconsole.h"
-#include "ddio.h"
+#include <ddio/appconsole.h>
+#include <ddio/ddio.h>
 #include "newui.h"
-#include "ui.h"
+#include <ui/ui.h>
 #include "multi_dll_mgr.h"
 #include "multi_ui.h"
-#include "Mission.h"
+#include "mission.h"
 #include "multi_server.h"
-#include "Macros.h"
+#include <misc/macros.h>
 #include "game.h"
-#include "mem.h"
+#include <mem/mem.h>
 #include "stringtable.h"
 #include "multi_save_settings.h"
-#include "objinfo.h"
-#include "rtperformance.h"
+#include <Descent3/object_info.h>
+#include <rtperformance/rtperformance.h>
 #include "player.h"
 #include "stringtable.h"
-#include "init.h"
+#include <Descent3/init.h>
 #include "ship.h"
 #include "hud.h"
-#include "networking.h"
+#include <networking/networking.h>
 
 
 bool Dedicated_server = false;
@@ -788,14 +788,15 @@ void PrintDedicatedMessage(const char *fmt, ...) {
   DedicatedSocketputs(buf);
 }
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
-#include "linux_fix.h"
-#include "errno.h"
+#include <linux/linux_fix.h>
+#include <cerrno>
+
 #define BOOL bool
 #ifndef SOCKET
 #define SOCKET int

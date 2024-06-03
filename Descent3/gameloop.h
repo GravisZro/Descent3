@@ -92,7 +92,7 @@
  * $NoKeywords: $
  */
 
-#include "grdefs.h"
+#include <2dlib/grdefs.h>
 #include "object.h"
 
 // Do all game functions for one frame: render, move objects, etc.

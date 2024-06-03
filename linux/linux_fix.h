@@ -15,8 +15,7 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef __LINUX_FIX_H_
+#if !defined(__LINUX_FIX_H_) && defined(__unix__)
 #define __LINUX_FIX_H_
 
 #include <sys/stat.h>

@@ -51,8 +51,8 @@
 #ifndef CINEMATICS_H
 #define CINEMATICS_H
 
-#include "renderer.h"
-#include "bitmap.h"
+#include <renderer/renderer.h>
+#include <bitmap/bitmap.h>
 
 #include <cstdint>
 

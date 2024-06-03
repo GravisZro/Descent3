@@ -19,8 +19,8 @@
 #ifndef __DMFC_APP_H_
 #define __DMFC_APP_H_
 
-#include "osiris_share.h"
-#include "d3events.h"
+#include <Descent3/osiris_share.h>
+#include <Descent3/d3events.h>
 
 //	If a player dies, becomes an observer or disconnects, it's possible that they
 //	have a flag or more.  This function will handle setting certain variables, timer

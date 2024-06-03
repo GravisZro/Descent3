@@ -292,9 +292,9 @@
 #include <ras.h>
 typedef int socklen_t;
 #endif
-#include <stdlib.h>
-#include <string.h>
-#ifdef __LINUX__
+#include <cstdlib>
+#include <cstring>
+#ifdef __unix__
 #if !MACOSX
 #include <netinet/in.h>
 #endif
@@ -303,7 +303,7 @@ typedef int socklen_t;
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
 
 #define TRUE true
@@ -316,31 +316,31 @@ typedef int socklen_t;
 #include "dplobby.h"
 #endif
 
-#include "descent.h"
-// #include "../manage/shippage.h"
-#include "appdatabase.h"
+#include <Descent3/descent.h>
+// #include <manage/shippage.h>
+#include <ddio/appdatabase.h>
 
-#include "pstypes.h"
-#include "pserror.h"
-#include "mono.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddebug/mono.h>
 #include "networking.h"
-#include "ddio.h"
-#include "mem.h"
-#include "game.h"
-#include "args.h"
-#include "byteswap.h"
+#include <ddio/ddio.h>
+#include <mem/mem.h>
+#include <Descent3/game.h>
+#include <Descent3/args.h>
+#include <lib/byteswap.h>
 
 #ifdef WIN32
 #include "directplay.h"
 #endif
 
-#include "pstring.h"
+#include <misc/pstring.h>
 
 #ifndef WIN32
 bool Use_DirectPlay = false;
 #endif
 
-#include "module.h" //for some nice defines to use below
+#include <module/module.h>
 
 #define MAX_CONNECT_TRIES 50
 #define MAX_RECEIVE_BUFSIZE 32768
@@ -519,7 +519,7 @@ struct reliable_socket {
 
 static reliable_socket reliable_sockets[MAXRELIABLESOCKETS];
 //*******************************
-#ifdef __LINUX__
+#ifdef __unix__
 #include <fcntl.h>
 #endif
 
@@ -2069,10 +2069,10 @@ static async_dns_lookup *lastaslu = NULL;
 #define CDECLCALL
 #endif
 
-#ifdef __LINUX__
+#ifdef __unix__
 int CDECLCALL gethostbynameworker(void *parm);
-#include "SDL.h"
-#include "SDL_thread.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 
 // rcg06192000 use SDL threads.
 // #include <pthread.h>
@@ -2123,7 +2123,7 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
       lastaslu->abort = true;
 
       // rcg06212000 join the thread.
-#ifdef __LINUX__
+#ifdef __unix__
       SDL_WaitThread(lastaslu->threadId, NULL);
       free(lastaslu);
 #endif
@@ -2131,7 +2131,7 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
 
     // rcg06262000 don't need all the rigamarole since we join the thread.
 
-#if (!defined(__LINUX__))
+#if (!defined(__unix__))
     async_dns_lookup *newaslu;
     newaslu = (async_dns_lookup *)mem_malloc(sizeof(async_dns_lookup));
     memset(&newaslu->ip, 0, sizeof(uint32_t));
@@ -2153,7 +2153,7 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
 
 #ifdef WIN32
     _beginthread(gethostbynameworker, 0, newaslu);
-#elif defined(__LINUX__)
+#elif defined(__unix__)
     // rcg06192000 use SDL threads.
     /*
             nw_LoadThreadLibrary();
@@ -2196,7 +2196,7 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
       lastaslu->abort = true;
 
       // rcg06212000 join the thread.
-#ifdef __LINUX__
+#ifdef __unix__
       SDL_WaitThread(lastaslu->threadId, NULL);
 #endif
     } // if
@@ -2206,7 +2206,7 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
       return -1;
     if (aslu.done) {
       // rcg06212000 join the thread.
-#ifdef __LINUX__
+#ifdef __unix__
       SDL_WaitThread(aslu.threadId, NULL);
 #endif
 
@@ -2215,7 +2215,7 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
       return 1;
     } else if (aslu.error) {
       // rcg06212000 join the thread.
-#ifdef __LINUX__
+#ifdef __unix__
       SDL_WaitThread(aslu.threadId, NULL);
 #else
       mem_free(lastaslu);
@@ -2230,14 +2230,14 @@ int nw_Asyncgethostbyname(uint32_t *ip, int command, char *hostname) {
 }
 
 // This is the worker thread which does the lookup.
-#ifdef __LINUX__
+#ifdef __unix__
 int CDECLCALL gethostbynameworker(void *parm)
 #else
 void CDECLCALL gethostbynameworker(void *parm)
 #endif
 {
   // rcg06192000 nope.
-  //	#ifdef __LINUX__
+  //	#ifdef __unix__
   //	dpthread_detach(dpthread_self());
   //	#endif
 
@@ -2249,7 +2249,7 @@ void CDECLCALL gethostbynameworker(void *parm)
 
   if (he == NULL) {
     lookup->error = true;
-#ifdef __LINUX__
+#ifdef __unix__
     return 0;
 #else
     return;
@@ -2267,11 +2267,11 @@ void CDECLCALL gethostbynameworker(void *parm)
   }
 
 // rcg06252000 don't free this, 'cause we need the threadId.
-#ifndef __LINUX__
+#ifndef __unix__
   mem_free(lookup);
 #endif
 
-#ifdef __LINUX__
+#ifdef __unix__
   return 0;
 #endif
 }

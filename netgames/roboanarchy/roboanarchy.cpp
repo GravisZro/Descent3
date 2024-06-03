@@ -47,9 +47,9 @@
  * $NoKeywords: $
  */
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
 #include "idmfc.h"
 #include "roboAnarchy.h"
 #include "roboanarchystr.h"

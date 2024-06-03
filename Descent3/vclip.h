@@ -20,9 +20,9 @@
 
 #define VCLIP_H
 
-#include "pstypes.h"
-#include "fix.h"
-#include "manage.h"
+#include <misc/pstypes.h>
+#include <fix/fix.h>
+#include <manage/manage.h>
 
 #define MAX_VCLIPS 200
 #define VCLIP_MAX_FRAMES 50

@@ -25,10 +25,10 @@
 // RobotEditWeaponsDialog.h : header file
 //
 
-#include "object.h"
-#include "polymodel.h"
-#include "objinfo.h"
-#include "robotfirestruct.h"
+#include <Descent3/object.h>
+#include <model/polymodel.h>
+#include <Descent3/object_info.h>
+#include <Descent3/robotfirestruct.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // RobotEditWeaponsDialog dialog

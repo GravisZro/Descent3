@@ -21,7 +21,7 @@
 
 #include <cstdint>
 #include <cstdio>
-#include "pstypes.h"
+#include <misc/pstypes.h>
 
 
 typedef int32_t ReadSampleFunction(void *data);

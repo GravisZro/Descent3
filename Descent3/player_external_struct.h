@@ -77,11 +77,11 @@
 
 #include <cstdint>
 
-#include "pstypes.h"
-#include "vecmat_external.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat_external.h>
 #include "object_external_struct.h"
 #include "multi_external.h"
-#include "Inventory.h"
+#include "inventory.h"
 
 #define MAX_PLAYERS MAX_NET_PLAYERS
 #define MAX_TEAMS 4

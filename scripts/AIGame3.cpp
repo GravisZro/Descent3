@@ -18,9 +18,9 @@
 
 // AIGame3.cpp
 // 0.1
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "osiris_import.h"
 #include "osiris_common.h"
 #include "osiris_vector.h"
@@ -28,8 +28,8 @@
 
 #include "AIGame3_External.h"
 
-#include "module.h"
-#include "psrand.h"
+#include <module/module.h>
+#include <misc/psrand.h>
 
 #ifdef __cplusplus
 extern "C" {

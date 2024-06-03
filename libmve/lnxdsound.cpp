@@ -16,22 +16,23 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "lnxdsound.h"
+
 #include <assert.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/fcntl.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include <math.h>
 #include <memory.h>
-#include "lnxdsound.h"
-#include "args.h"
+#include <Descent3/args.h>
 
-#include "SDL.h"
-#include "SDL_audio.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_audio.h>
 
 #include <sched.h>
 

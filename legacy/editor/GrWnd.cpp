@@ -50,7 +50,7 @@
 
 #include <assert.h>
 
-#include "mono.h"
+#include <ddebug/mono.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

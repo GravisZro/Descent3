@@ -37,11 +37,11 @@
  *
  */
 
-#include "music.h"
-#include "mem.h"
-#include "pserror.h"
+#include <music/music.h>
+#include <mem/mem.h>
+#include <misc/pserror.h>
 
-#include <string.h>
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////////////
 

@@ -48,12 +48,12 @@
  * $NoKeywords: $
  */
 
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "terrain.h"
-#include "pstypes.h"
-#include "findintersection.h"
+#include <misc/pstypes.h>
+#include <physics/findintersection.h>
 #include "aiterrain.h"
-#include <string.h>
+#include <cstring>
 
 #define AI_MAX_SEGS_CHECKED 200
 

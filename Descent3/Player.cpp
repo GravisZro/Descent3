@@ -1084,19 +1084,19 @@
  * $NoKeywords: $
  */
 
-#include "pserror.h"
+#include <misc/pserror.h>
 #include "player.h"
 #include "game.h"
 #include "hud.h"
 #include "gauges.h"
-#include "Mission.h"
-#include "vecmat.h"
+#include "mission.h"
+#include <vecmat/vecmat.h>
 #include "fireball.h"
-#include "polymodel.h"
-#include "findintersection.h"
+#include <model/polymodel.h>
+#include <physics/findintersection.h>
 #include "hud.h"
 #include "splinter.h"
-#include "physics.h"
+#include <physics/physics.h>
 #include "viseffect.h"
 #include "damage.h"
 #include "multi.h"
@@ -1111,21 +1111,21 @@
 #include "AIMain.h"
 #include "aipath.h"
 #include "AIGoal.h"
-#include "hlsoundlib.h"
-#include "soundload.h"
-#include "sounds.h"
+#include <sndlib/hlsoundlib.h>
+#include <sndlib/soundload.h>
+#include <Descent3/sounds.h>
 #include "weapon.h"
 #include "stringtable.h"
 #include "pilot.h"
 #include "vclip.h"
-#include <stdlib.h>
-#include "objinit.h"
+#include <cstdlib>
+#include "object_init.h"
 #include "difficulty.h"
-#include "ddio.h"
-#include "ObjScript.h"
+#include <ddio/ddio.h>
+#include "object_script.h"
 #include "gamecinematics.h"
 #include "demofile.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "osiris_share.h"
 #include "config.h"
 #include "osiris_dll.h"

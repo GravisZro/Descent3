@@ -182,9 +182,9 @@
 #ifndef _3D_H
 #define _3D_H
 
-#include "pstypes.h"
-#include "vecmat.h" //the vector/matrix library
-#include "grdefs.h"
+#include <misc/pstypes.h>
+#include <vecmat/vecmat.h> //the vector/matrix library
+#include <2dlib/grdefs.h>
 #include "float.h"
 
 extern int g3d_interp_outline; // if on, polygon models outlined in white

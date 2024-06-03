@@ -16,11 +16,11 @@
 **
 */
 
-#include "debug.h"
-#include "pstypes.h"
+#include <ddebug/debug.h>
+#include <misc/pstypes.h>
 #include "mvelibl.h"
 #include "mvelibi.h"
-#include <string.h>
+#include <cstring>
 
 extern uint8_t *nf_buf_cur;
 extern uint8_t *nf_buf_prv;

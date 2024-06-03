@@ -54,11 +54,11 @@
 #include "hlsoundlib.h"
 #include "ddsndgeometry.h"
 #include "sndrender.h"
-#include "room.h"
-#include "object.h"
-#include "application.h"
+#include <Descent3/room.h>
+#include <Descent3/object.h>
+#include <ddio/application.h>
 #include "soundload.h"
-#include "gametexture.h"
+#include <Descent3/gametexture.h>
 
 
 static llsGeometry *Geometry = NULL;

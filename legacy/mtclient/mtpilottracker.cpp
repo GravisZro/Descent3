@@ -109,20 +109,20 @@
 #include <windows.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <math.h>
-#include <string.h>
-#include "game.h"
-#include "ddio.h"
-#include "descent.h"
-#include "pstypes.h"
-#include "pserror.h"
-#include "mem.h"
-#include "mono.h"
-#include "networking.h"
+#include <cstring>
+#include <Descent3/game.h>
+#include <ddio/ddio.h>
+#include <Descent3/descent.h>
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
+#include <ddebug/mono.h>
+#include <networking/networking.h>
 #include "mt_net.h"
-#include "byteswap.h"
+#include <lib/byteswap.h>
 
 #define LOGIN_LEN 33
 #define REAL_NAME_LEN 66

@@ -65,12 +65,12 @@
 #include "gamefont.h"
 #include "game.h"
 #include "hud.h"
-#include "grdefs.h"
-#include "bitmap.h"
+#include <2dlib/grdefs.h>
+#include <bitmap/bitmap.h>
 #include "player.h"
-#include "polymodel.h"
-#include "3d.h"
-#include "renderer.h"
+#include <model/polymodel.h>
+#include <renderer/3d.h>
+#include <renderer/renderer.h>
 #include "gametexture.h"
 
 //	how long it takes for a weapon gauge to fade out/in

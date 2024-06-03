@@ -22,13 +22,13 @@
 #include <cstdio>
 
 #include "Debug.h"
-#include "networking.h"
+#include <networking/networking.h>
 
 #include <windows.h>
 #include <winioctl.h>
 #include <assert.h>
 #include <conio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <io.h>
 #include <fcntl.h>
 #include <sys/stat.h>

@@ -19,8 +19,8 @@
 #ifndef _MATCEN_H_
 #define _MATCEN_H_
 
-#include "cfile.h"
-#include "vecmat.h"
+#include <cfile/cfile.h>
+#include <vecmat/vecmat.h>
 #include "matcen_external.h"
 
 #define MAX_MATCENS 60

@@ -108,13 +108,13 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <windows.h>
 
-#include "pserror.h"
-#include "application.h"
+#include <misc/pserror.h>
+#include <ddio/application.h>
 #include "ddio_win.h"
-#include "ddio.h"
+#include <ddio/ddio.h>
 #include "dinput.h"
 
 #include "forcefeedback.h"

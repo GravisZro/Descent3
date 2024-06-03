@@ -19,11 +19,11 @@
 #ifndef GENERICPAGE_H
 #define GENERICPAGE_H
 
-#include "manage.h"
-#include "cfile.h"
-#include "pstypes.h"
-#include "objinfo.h"
-#include "robotfirestruct.h"
+#include <manage/manage.h>
+#include <cfile/cfile.h>
+#include <misc/pstypes.h>
+#include <Descent3/object_info.h>
+#include <Descent3/robotfirestruct.h>
 
 struct mngs_generic_page {
   object_info objinfo_struct;

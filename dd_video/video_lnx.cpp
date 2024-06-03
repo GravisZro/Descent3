@@ -25,9 +25,9 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "ddvid.h"
-#include "application.h"
-#include "lnxapp.h"
+#include <dd_video/ddvid.h>
+#include <ddio/application.h>
+#include <linux/lnxapp.h>
 
 struct tinfo {
   int width, height, bytesperpixel, linewidth;

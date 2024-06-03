@@ -18,23 +18,23 @@
 
 #include <windows.h>
 #include "DDAccess.h" // This module has access to machine-dependent variables.
-#include "pstypes.h"
-#include "pserror.h"
-#include "application.h"
-#include "renderer.h"
-#include "3d.h"
-#include "bitmap.h"
-#include "lightmap.h"
+#include <misc/pstypes.h>
+#include <misc/pserror.h>
+#include <ddio/application.h>
+#include <renderer/renderer.h>
+#include <renderer/3d.h>
+#include <bitmap/bitmap.h>
+#include <bitmap/lightmap.h>
 #include "rend_d3d.h"
 #include "d3dtypes.h"
 #include "d3d.h"
 #include "ddraw.h"
-#include "grdefs.h"
-#include "module.h"
-#include "bumpmap.h"
-#include "mem.h"
-#include "rtperformance.h"
-#include "appdatabase.h"
+#include <2dlib/grdefs.h>
+#include <module/module.h>
+#include <bitmap/bumpmap.h>
+#include <mem/mem.h>
+#include <rtperformance/rtperformance.h>
+#include <windatabase.h>
 
 #include <algorithm>
 

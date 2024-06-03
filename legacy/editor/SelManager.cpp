@@ -19,8 +19,8 @@
 #include <algorithm>
 
 #ifdef NEWEDITOR
-	#include "../neweditor/stdafx.h"
-	#include "../neweditor/globals.h"	
+	#include <neweditor/stdafx.h>
+	#include <neweditor/globals.h>	
 #endif
 
 #include "SelManager.h"
@@ -29,7 +29,7 @@
 #include "macros.h"
 
 #ifndef NEWEDITOR
-	#include "ddio.h"
+	#include <ddio/ddio.h>
 #endif
 
 editorSelectorManager SelManager;

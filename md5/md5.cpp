@@ -16,7 +16,7 @@
  */
 
 #include "md5.h"
-#include <byteswap.h>
+#include <lib/byteswap.h>
 
 #include <algorithm>
 

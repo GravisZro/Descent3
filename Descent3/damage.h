@@ -99,7 +99,7 @@
 #define DAMAGE_H
 
 #include "damage_external.h"
-#include "vecmat.h"
+#include <vecmat/vecmat.h>
 #include "DeathInfo.h"
 
 // Maximum damage magnitude

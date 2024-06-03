@@ -81,18 +81,18 @@
 
 #include "stdafx.h"
 #include "ScriptCompilerAPI.h"
-#include "appdatabase.h"
-#include "descent.h"
-#include "cfile.h"
-#include "manage.h"
-#include "pserror.h"
-#include "mem.h"
-#include "ddio.h"
+#include <ddio/appdatabase.h>
+#include <Descent3/descent.h>
+#include <cfile/cfile.h>
+#include <manage/manage.h>
+#include <misc/pserror.h>
+#include <mem/mem.h>
+#include <ddio/ddio.h>
 #include "osiris_dll.h"
 #include <stdarg.h>
 
 #ifdef NEWEDITOR
-#include "../neweditor/globals.h"
+#include <neweditor/globals.h>
 #endif
 
 int ScriptCompile(tCompilerInfo *ci)
@@ -348,9 +348,9 @@ bool ScriptCreateEmptyLevelScript(char *filename)
 
 	O(("// %s",filename));
 	O(("// %s",VERSION));
-	O(("#include <stdio.h>"));
-	O(("#include <stdlib.h>"));
-	O(("#include <string.h>"));
+	O(("#include <cstdio>"));
+	O(("#include <cstdlib>"));
+	O(("#include <cstring>"));
 	O(("#include \"osiris_import.h\""));
 	O(("#include \"osiris_common.h\""));
 	O((""));
@@ -547,9 +547,9 @@ bool ScriptCreateEmptyGameScript(char *filename)
 
 	O(("// %s",filename));
 	O(("// %s",VERSION));
-	O(("#include <stdio.h>"));
-	O(("#include <stdlib.h>"));
-	O(("#include <string.h>"));
+	O(("#include <cstdio>"));
+	O(("#include <cstdlib>"));
+	O(("#include <cstring>"));
 	O(("#include \"osiris_import.h\""));
 	O(("#include \"osiris_common.h\""));
 	O((""));

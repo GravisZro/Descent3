@@ -86,10 +86,10 @@
 #include "stdafx.h"
 #include "editor.h"
 #include "AnimStatesDialog.h"
-#include "polymodel.h"
+#include <model/polymodel.h>
 #include "gr.h"
 #include "soundpage.h"
-#include "soundload.h"
+#include <sndlib/soundload.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

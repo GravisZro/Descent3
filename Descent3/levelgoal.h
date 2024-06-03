@@ -20,9 +20,9 @@
 #define _LEVELGOAL_H_
 
 #include "object.h"
-#include "cfile.h"
+#include <cfile/cfile.h>
 #include <cstdlib>
-#include "mem.h"
+#include <mem/mem.h>
 #include "levelgoal_external.h"
 
 class litem {

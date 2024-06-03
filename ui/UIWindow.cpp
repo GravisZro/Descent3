@@ -149,8 +149,8 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
-#include "Macros.h"
+#include <ui/uilib.h>
+#include <misc/macros.h>
 
 //	the window font for all windows
 int UIWindow::m_WindowFont = 0;

@@ -135,20 +135,20 @@
 #include "object.h"
 #include "hud.h"
 #include "weapon.h"
-#include "hlsoundlib.h"
+#include <sndlib/hlsoundlib.h>
 #include "game.h"
-#include "ddio.h"
-#include "soundload.h"
-#include "sounds.h"
+#include <ddio/ddio.h>
+#include <sndlib/soundload.h>
+#include <Descent3/sounds.h>
 #include "damage.h"
-#include "rtperformance.h"
+#include <rtperformance/rtperformance.h>
 #include "object_lighting.h"
 #include "gamesequence.h"
 #include "multi.h"
 #include "stringtable.h"
 #include "ship.h"
 #include "render.h"
-#include "renderer.h"
+#include <renderer/renderer.h>
 
 #define CHEATSPOT 14
 bool IsCheater = false;

@@ -35,11 +35,11 @@
  * $NoKeywords: $
  */
 
-#include "psglob.h"
-#include <stdlib.h>
+#include <misc/psglob.h>
+#include <cstdlib>
 #include <ctype.h>
 
-#ifdef __LINUX__
+#ifdef __unix__
 #include <ctype.h>
 #endif
 

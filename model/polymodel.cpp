@@ -598,23 +598,24 @@
  * $NoKeywords: $
  */
 
-#include "objinfo.h"
 #include "polymodel.h"
-#include "pserror.h"
-#include "3d.h"
-#include "mono.h"
-#include "bitmap.h"
-#include "renderer.h"
-#include "manage.h"
-#include "gametexture.h"
-#include "lighting.h"
-#include "ddio.h"
-#include "game.h"
-#include <stdlib.h>
-#include <string.h>
-#include "robotfire.h"
-#include "mem.h"
-#include "gamesequence.h"
+
+#include <Descent3/object_info.h>
+#include <misc/pserror.h>
+#include <renderer/3d.h>
+#include <ddebug/mono.h>
+#include <bitmap/bitmap.h>
+#include <renderer/renderer.h>
+#include <manage/manage.h>
+#include <Descent3/gametexture.h>
+#include <Descent3/lighting.h>
+#include <ddio/ddio.h>
+#include <Descent3/game.h>
+#include <cstdlib>
+#include <cstring>
+#include <Descent3/robotfire.h>
+#include <mem/mem.h>
+#include <Descent3/gamesequence.h>
 
 #include <algorithm>
 

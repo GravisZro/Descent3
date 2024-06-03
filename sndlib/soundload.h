@@ -19,7 +19,7 @@
 #ifndef SOUNDLOAD_H_
 #define SOUNDLOAD_H_
 
-#include "ssl_lib.h"
+#include <sndlib/ssl_lib.h>
 
 extern int Num_sounds;
 extern int Num_sound_files;

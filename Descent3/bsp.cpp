@@ -47,11 +47,11 @@
 
 #include "bsp.h"
 #include "room.h"
-#include "mem.h"
-#include "polymodel.h"
-#include <stdlib.h>
+#include <mem/mem.h>
+#include <model/polymodel.h>
+#include <cstdlib>
 #include "object.h"
-#include "psrand.h"
+#include <misc/psrand.h>
 
 #define BSP_TREE_VERSION 10003
 

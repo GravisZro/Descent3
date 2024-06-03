@@ -19,8 +19,8 @@
 #ifndef REND_OPENGL_H
 #define REND_OPENGL_H
 
-#include "renderer.h"
-#include "3d.h"
+#include <renderer/renderer.h>
+#include <renderer/3d.h>
 
 class oeApplication;
 

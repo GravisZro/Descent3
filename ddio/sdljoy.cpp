@@ -68,13 +68,13 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
-#include "joystick.h"
-#include "pserror.h"
+#include <ddio/joystick.h>
+#include <misc/pserror.h>
 
 // rcg06182000 need this for specific joystick stuff.
-#include "args.h"
+#include <Descent3/args.h>
 
 //	---------------------------------------------------------------------------
 //	globals

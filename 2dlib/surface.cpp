@@ -87,14 +87,14 @@
 
 #include <algorithm>
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #include "lib2d.h"
-#include "pserror.h"
-#include "bitmap.h"
-#include "texture.h"
-#include "renderer.h"
+#include <misc/pserror.h>
+#include <bitmap/bitmap.h>
+//#include "texture.h"
+#include <renderer/renderer.h>
 
 static inline unsigned XLAT_RGB_TO_16(ddgr_color c) {
   uint8_t r, g, b;

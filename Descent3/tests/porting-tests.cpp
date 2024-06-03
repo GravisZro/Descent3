@@ -19,7 +19,7 @@
 #include <gtest/gtest.h>
 
 #include "osiris_predefs.h"
-#include "osiris_share.h"
+#include <Descent3/osiris_share.h>
 #include "player_external_struct.h"
 
 // This is copy of actual Osiris_CreateGameChecksum(void) from OsirisLoadandBind.cpp

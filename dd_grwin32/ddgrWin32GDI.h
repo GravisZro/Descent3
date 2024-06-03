@@ -41,7 +41,7 @@
 
 #include <windows.h>
 
-#include "ddgr.h"
+#include <2dlib/ddgr.h>
 #include "ddraw.h"
 
 class oeApplication;

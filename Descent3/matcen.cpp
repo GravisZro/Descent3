@@ -146,33 +146,33 @@
 
 #include "matcen.h"
 #include "game.h"
-#include "sounds.h"
-#include "ssl_lib.h"
-#include "string.h"
-#include "soundload.h"
+#include <Descent3/sounds.h>
+#include <sndlib/ssl_lib.h>
+#include <cstring>
+#include <sndlib/soundload.h>
 #include "room.h"
 #include "object.h"
-#include "objinfo.h"
-#include "findintersection.h"
+#include <Descent3/object_info.h>
+#include <physics/findintersection.h>
 #ifndef NEWEDITOR
 #include "multi.h"
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include "fireball.h"
 #include "weapon.h"
-#include "polymodel.h"
-#include "hlsoundlib.h"
+#include <model/polymodel.h>
+#include <sndlib/hlsoundlib.h>
 #include "viseffect.h"
 #include "viseffect_external.h"
 #include "damage.h"
-#include "physics.h"
-#include "mem.h"
-#include "ObjScript.h"
+#include <physics/physics.h>
+#include <mem/mem.h>
+#include "object_script.h"
 #ifndef NEWEDITOR
 #include "player.h"
 #include "osiris_dll.h"
 #endif
-#include "psrand.h"
+#include <misc/psrand.h>
 #include "demofile.h"
 
 
@@ -1904,7 +1904,7 @@ void InitMatcens() {
   atexit(DestroyAllMatcens);
 }
 
-#if defined(__LINUX__)
+#if defined(__unix__)
 void DestroyAllMatcens()
 #else
 void __cdecl DestroyAllMatcens()

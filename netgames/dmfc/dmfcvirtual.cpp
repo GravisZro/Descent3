@@ -68,7 +68,7 @@
 
 #include "DMFC.h"
 #include "dmfcinternal.h"
-#include "d3events.h"
+#include <Descent3/d3events.h>
 
 //	DMFCBase::InitializeVirtualHandles
 //		Prepares the virtual handles

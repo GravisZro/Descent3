@@ -61,7 +61,7 @@
  * $NoKeywords: $
  */
 
-#include "UIlib.h"
+#include <ui/uilib.h>
 
 //	Construction and destruction
 
