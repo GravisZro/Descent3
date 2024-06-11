@@ -1125,7 +1125,7 @@ void CWorldObjectsGenericDialog::OnGenericChangeModel()
 
 void CWorldObjectsGenericDialog::OnGenericChangeName() 
 {
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this ship locked, if not reset name and bail
@@ -1164,7 +1164,7 @@ void CWorldObjectsGenericDialog::OnGenericChangeName()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Object_info[m_current].name);
 		strcpy (Object_info[m_current].name,name);
 		
@@ -2029,7 +2029,7 @@ void CWorldObjectsGenericDialog::OnCompilemodule()
 
 void CWorldObjectsGenericDialog::OnKillfocusScriptOverride() 
 {
-	char str[PAGENAME_LEN];
+	pagename_t str;
 	
 	((CEdit *) GetDlgItem(IDC_SCRIPT_OVERRIDE))->GetWindowText(str,PAGENAME_LEN);
 

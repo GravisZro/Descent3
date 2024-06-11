@@ -782,7 +782,7 @@ void matcen::SaveData(CFILE *fp) {
     int type = m_prod_type[i];
 
     if (type >= 0) {
-      len = strlen(Object_info[type].name) + 1; // Accounts for NULL charactor
+      len = Object_info[type].name.size() + 1; // Accounts for NULL charactor
       cf_WriteShort(fp, len);
       for (j = 0; j < len; j++) {
         cf_WriteByte(fp, Object_info[type].name[j]);
@@ -810,7 +810,7 @@ void matcen::SaveData(CFILE *fp) {
 
   // Convert these to names
   for (i = 0; i < MAX_MATCEN_SOUNDS; i++) {
-    len = strlen(Sounds[m_sounds[i]].name) + 1; // Accounts for NULL charactor
+    len = Sounds[m_sounds[i]].name.size() + 1; // Accounts for NULL charactor
     cf_WriteShort(fp, len);
     for (j = 0; j < len; j++) {
       cf_WriteByte(fp, Sounds[m_sounds[i]].name[j]);

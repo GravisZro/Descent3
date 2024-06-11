@@ -1762,7 +1762,7 @@ try_again:
 
 void CWorldWeaponsDialog::OnChangeName() 
 {
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 	int n=D3EditState.current_weapon;
 
@@ -1795,7 +1795,7 @@ void CWorldWeaponsDialog::OnChangeName()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Weapons[n].name);
 		strcpy (Weapons[n].name,name);
 		

@@ -369,7 +369,7 @@ void RenderHUDInventory(tHUDItem *item) {
     ASSERT(cur_sel < MAX_UNIQUE_INVEN_ITEMS);
 
     // render currently selected item
-    if (ilist[cur_sel].hud_name) {
+    if (!ilist[cur_sel].hud_name.empty()) {
       img_w = bm_w(HUD_resources.arrow_bmp, 0) * HUD_ARROW_SCALE;
 
       RenderHUDQuad(item->x, item->y + 2, img_w, bm_h(HUD_resources.arrow_bmp, 0) * HUD_ARROW_SCALE, 0, 0, 1, 1,
@@ -377,16 +377,16 @@ void RenderHUDInventory(tHUDItem *item) {
 
       if (ilist[cur_sel].amount > 1)
         RenderHUDText(item->color, item->alpha, item->saturation_count, item->x + img_w, item->y, "%s (%d)",
-                      ilist[cur_sel].hud_name, ilist[cur_sel].amount);
+                      std::data(ilist[cur_sel].hud_name), ilist[cur_sel].amount);
       else
         RenderHUDText(item->color, item->alpha, item->saturation_count, item->x + img_w, item->y, "%s",
-                      ilist[cur_sel].hud_name);
+                      std::data(ilist[cur_sel].hud_name));
     }
   }
 
   // render non usable list.
-  if (cur_sel != -1 && ilist[cur_sel].hud_name) {
-    y = item->y + RenderHUDGetTextHeight(ilist[cur_sel].hud_name) + 6;
+  if (cur_sel != -1 && !ilist[cur_sel].hud_name.empty()) {
+    y = item->y + RenderHUDGetTextHeight(std::data(ilist[cur_sel].hud_name)) + 6;
   } else {
     y = item->y + 16;
   }
@@ -396,17 +396,17 @@ void RenderHUDInventory(tHUDItem *item) {
       continue;
     if (ilist[i].selectable)
       continue;
-    if (!ilist[i].hud_name)
+    if (ilist[i].hud_name.empty())
       continue;
 
     if (ilist[i].amount > 1) {
-      RenderHUDText(item->color, item->alpha, item->saturation_count, item->x + img_w, y, "%s (%d)", ilist[i].hud_name,
+      RenderHUDText(item->color, item->alpha, item->saturation_count, item->x + img_w, y, "%s (%d)", std::data(ilist[i].hud_name),
                     ilist[i].amount);
     } else {
-      RenderHUDText(item->color, item->alpha, item->saturation_count, item->x + img_w, y, "%s", ilist[i].hud_name);
+      RenderHUDText(item->color, item->alpha, item->saturation_count, item->x + img_w, y, "%s", std::data(ilist[i].hud_name));
     }
 
-    y += RenderHUDGetTextHeight(ilist[i].hud_name);
+    y += RenderHUDGetTextHeight(std::data(ilist[i].hud_name));
   }
 
   /*
@@ -810,13 +810,13 @@ void RenderHUDCountermeasures(tHUDItem *item) {
     ASSERT(cur_sel < MAX_UNIQUE_INVEN_ITEMS);
 
     // render currently selected item
-    if (ilist[cur_sel].hud_name) {
+    if (!ilist[cur_sel].hud_name.empty()) {
       if (item->stat & STAT_GRAPHICAL)
         RenderHUDText(item->color, item->alpha, item->saturation_count, item->x, item->y, "%s %d",
-                      ilist[cur_sel].hud_name, ilist[cur_sel].amount);
+                      std::data(ilist[cur_sel].hud_name), ilist[cur_sel].amount);
       else
         RenderHUDText(item->color, item->alpha, item->saturation_count, item->tx, item->ty, "%s %d",
-                      ilist[cur_sel].hud_name, ilist[cur_sel].amount);
+                      std::data(ilist[cur_sel].hud_name), ilist[cur_sel].amount);
     }
   }
 }

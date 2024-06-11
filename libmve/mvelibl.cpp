@@ -377,6 +377,7 @@ static bool sndConfigure(unsigned rate, unsigned buflen, unsigned stereo, unsign
 }
 
 static void sndSync(void) {
+  return;
   // Better frame dropping using more flexible synchronization
   sync_late = syncWaitLevel(sync_wait_quanta >> 2) > (-sync_wait_quanta >> 1) && !sync_FrameDropped;
   sync_FrameDropped = false;
@@ -1421,7 +1422,7 @@ void MVE_rmEndMovie(void) {
   if (rm_active) {
     syncWait();
     syncRelease();
-    sndReset();
+    //sndReset();
     rm_active = false;
   }
 }

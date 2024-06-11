@@ -239,10 +239,10 @@ static cvar_entry CVars[] = {
 // Returns true if ok, false if something is wrong
 int RunServerConfigs() {
   // Load the connection DLL
-  if (LoadMultiDLL(Netgame.connection_name)) {
+  if (LoadMultiDLL(std::data(Netgame.connection_name))) {
     CallMultiDLL(MT_AUTO_START);
     if (!MultiDLLGameStarting) {
-      PrintDedicatedMessage(TXT_DS_COULDNTINIT, Netgame.connection_name);
+      PrintDedicatedMessage(TXT_DS_COULDNTINIT, std::data(Netgame.connection_name));
       PrintDedicatedMessage("\n");
       return 0;
     } else {
@@ -330,11 +330,11 @@ int LoadServerConfigFile() {
   // Make all ships available
   for (int i = 0; i < MAX_SHIPS; i++) {
     if (Ships[i].used)
-      PlayerSetShipPermission(-1, Ships[i].name, true);
+      PlayerSetShipPermission(-1, std::data(Ships[i].name), true);
   }
 
   if (GameArgs[t + 1][0]) {
-    strcpy(Netgame.server_config_name, GameArgs[t + 1]);
+    Netgame.server_config_name = GameArgs[t + 1];
   } else {
     PrintDedicatedMessage(TXT_DS_MISSINGCONFIG);
     PrintDedicatedMessage("\n");
@@ -342,7 +342,7 @@ int LoadServerConfigFile() {
   }
 
   //	open file
-  if (!inf.Open(Netgame.server_config_name, "[server config file]", DedicatedServerLex)) {
+  if (!inf.Open(std::data(Netgame.server_config_name), "[server config file]", DedicatedServerLex)) {
     PrintDedicatedMessage(TXT_DS_BADCONFIG, Netgame.server_config_name);
     PrintDedicatedMessage("\n");
     return 0;

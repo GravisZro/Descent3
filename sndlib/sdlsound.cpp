@@ -609,14 +609,14 @@ bool lnxsound::CheckAndForceSoundDataAlloc(int sound_index) {
     return true;
 
   // If not, get the sound data
-  int result = SoundLoadWaveFile(SoundFiles[sound_file_index].name, Sounds[sound_index].import_volume, sound_file_index,
+  int result = SoundLoadWaveFile(std::data(SoundFiles[sound_file_index].name), Sounds[sound_index].import_volume, sound_file_index,
                                  (m_sound_quality == SQT_HIGH), true);
 
   // Why would it load once (table load time) and not now?
   if (!result)
     return false;
 
-  mprintf(0, "Sound %s loaded.\n", SoundFiles[sound_file_index].name);
+  mprintf(0, "Sound %s loaded.\n", std::data(SoundFiles[sound_file_index].name));
 
   return true;
 }

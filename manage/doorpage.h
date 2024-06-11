@@ -26,9 +26,9 @@
 
 struct mngs_door_page {
   door door_struct;
-  char image_name[PAGENAME_LEN];
-  char open_sound_name[PAGENAME_LEN];
-  char close_sound_name[PAGENAME_LEN];
+  pagename_t image_name;
+  pagename_t open_sound_name;
+  pagename_t close_sound_name;
 };
 
 // Door page functions
@@ -48,7 +48,7 @@ int mng_ReadNewDoorPage(CFILE *infile, mngs_door_page *doorpage);
 
 // Reads in the doorpage named "name" into doorpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificDoorPage(char *name, mngs_door_page *doorpage, int offset = 0);
+int mng_FindSpecificDoorPage(const pagename_t& name, mngs_door_page *doorpage, int offset = 0);
 
 // Given a door page, allocs a door and calls AssignDoorPageToDoor to actually
 // load model and values. Rturns door handle on success, -1 if fail

@@ -277,13 +277,13 @@ void mng_WriteShipPage(CFILE *outfile, mngs_ship_page *shippage) {
 
   // Write out cockpit name
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_COCKPIT_NAME); // write out ship name
-  cf_WriteByte(outfile, strlen(shippage->ship_struct.cockpit_name) + 1);
-  cf_WriteString(outfile, shippage->ship_struct.cockpit_name);
+  cf_WriteByte(outfile, shippage->ship_struct.cockpit_name.size() + 1);
+  cf_WriteString(outfile, std::data(shippage->ship_struct.cockpit_name));
 
   // Write out hud config name
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_HUD_NAME); // write out ship name
-  cf_WriteByte(outfile, strlen(shippage->ship_struct.hud_config_name) + 1);
-  cf_WriteString(outfile, shippage->ship_struct.hud_config_name);
+  cf_WriteByte(outfile, shippage->ship_struct.hud_config_name.size() + 1);
+  cf_WriteString(outfile, std::data(shippage->ship_struct.hud_config_name));
 
   // Write out its models name
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_IMAGE_NAME); // get ready to write out name
@@ -292,8 +292,8 @@ void mng_WriteShipPage(CFILE *outfile, mngs_ship_page *shippage) {
     cf_WriteByte(outfile, shippage->image_name[i]);
 
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_DYING_IMAGE_NAME); // get ready to write out name
-  cf_WriteByte(outfile, strlen(shippage->dying_image_name) + 1);
-  cf_WriteString(outfile, shippage->dying_image_name);
+  cf_WriteByte(outfile, shippage->dying_image_name.size() + 1);
+  cf_WriteString(outfile, std::data(shippage->dying_image_name));
 
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_MASS);
   cf_WriteByte(outfile, 4);
@@ -341,12 +341,12 @@ void mng_WriteShipPage(CFILE *outfile, mngs_ship_page *shippage) {
 
   // Write the LOD model names
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_LOD_MODELS);
-  size = strlen(shippage->med_image_name) + 1;
-  size += strlen(shippage->lo_image_name) + 1;
+  size = shippage->med_image_name.size() + 1;
+  size += shippage->lo_image_name.size() + 1;
 
   cf_WriteByte(outfile, size);
-  cf_WriteString(outfile, shippage->med_image_name);
-  cf_WriteString(outfile, shippage->lo_image_name);
+  cf_WriteString(outfile, std::data(shippage->med_image_name));
+  cf_WriteString(outfile, std::data(shippage->lo_image_name));
 
   cf_WriteByte(outfile, SHIPPAGE_COMMAND_LOD_DISTANCE);
   cf_WriteByte(outfile, 8);
@@ -401,26 +401,26 @@ void mng_WriteShipPage(CFILE *outfile, mngs_ship_page *shippage) {
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     for (j = 0; j < MAX_WB_GUNPOINTS; j++) {
       cf_WriteByte(outfile, SHIPPAGE_COMMAND_WB_WEAPON);
-      size = strlen(shippage->weapon_name[i][j]) + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
+      size = shippage->weapon_name[i][j].size() + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
 
       cf_WriteByte(outfile, size);
 
       cf_WriteByte(outfile, i);
       cf_WriteByte(outfile, j);
-      cf_WriteString(outfile, shippage->weapon_name[i][j]);
+      cf_WriteString(outfile, std::data(shippage->weapon_name[i][j]));
     }
   }
 
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++) {
       cf_WriteByte(outfile, SHIPPAGE_COMMAND_WB_FIRE_SOUND);
-      size = strlen(shippage->fire_sound_name[i][j]) + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
+      size = shippage->fire_sound_name[i][j].size() + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
 
       cf_WriteByte(outfile, size);
 
       cf_WriteByte(outfile, i);
       cf_WriteByte(outfile, j);
-      cf_WriteString(outfile, shippage->fire_sound_name[i][j]);
+      cf_WriteString(outfile, std::data(shippage->fire_sound_name[i][j]));
     }
   }
 
@@ -444,28 +444,28 @@ void mng_WriteShipPage(CFILE *outfile, mngs_ship_page *shippage) {
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     if (shippage->firing_sound_name[i][0] != 0) {
       cf_WriteByte(outfile, SHIPPAGE_COMMAND_FIRING_SOUND);
-      size = strlen(shippage->firing_sound_name[i]) + 1 + 1; // 1 for the null charactor and 1 for the index
+      size = shippage->firing_sound_name[i].size() + 1 + 1; // 1 for the null charactor and 1 for the index
       cf_WriteByte(outfile, size);
       cf_WriteByte(outfile, i);
-      cf_WriteString(outfile, shippage->firing_sound_name[i]);
+      cf_WriteString(outfile, std::data(shippage->firing_sound_name[i]));
     }
   }
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     if (shippage->release_sound_name[i][0] != 0) {
       cf_WriteByte(outfile, SHIPPAGE_COMMAND_RELEASE_SOUND);
-      size = strlen(shippage->release_sound_name[i]) + 1 + 1; // 1 for the null charactor and 1 for the index
+      size = shippage->release_sound_name[i].size() + 1 + 1; // 1 for the null charactor and 1 for the index
       cf_WriteByte(outfile, size);
       cf_WriteByte(outfile, i);
-      cf_WriteString(outfile, shippage->release_sound_name[i]);
+      cf_WriteString(outfile, std::data(shippage->release_sound_name[i]));
     }
   }
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     if (shippage->spew_powerup_name[i][0] != 0) {
       cf_WriteByte(outfile, SHIPPAGE_COMMAND_SPEW_POWERUP);
-      size = strlen(shippage->spew_powerup_name[i]) + 1 + 1; // 1 for the null charactor and 1 for the index
+      size = shippage->spew_powerup_name[i].size() + 1 + 1; // 1 for the null charactor and 1 for the index
       cf_WriteByte(outfile, size);
       cf_WriteByte(outfile, i);
-      cf_WriteString(outfile, shippage->spew_powerup_name[i]);
+      cf_WriteString(outfile, std::data(shippage->spew_powerup_name[i]));
     }
   }
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
@@ -491,17 +491,17 @@ void mng_WriteNewShipPage(CFILE *outfile, mngs_ship_page *shippage) {
 
   cf_WriteShort(outfile, SHIPPAGE_VERSION);
 
-  cf_WriteString(outfile, shippage->ship_struct.name);
+  cf_WriteString(outfile, std::data(shippage->ship_struct.name));
 
-  cf_WriteString(outfile, shippage->ship_struct.cockpit_name);
+  cf_WriteString(outfile, std::data(shippage->ship_struct.cockpit_name));
 
-  cf_WriteString(outfile, shippage->ship_struct.hud_config_name);
+  cf_WriteString(outfile, std::data(shippage->ship_struct.hud_config_name));
 
   // Write out its models name
-  cf_WriteString(outfile, shippage->image_name);
-  cf_WriteString(outfile, shippage->dying_image_name);
-  cf_WriteString(outfile, shippage->med_image_name);
-  cf_WriteString(outfile, shippage->lo_image_name);
+  cf_WriteString(outfile, std::data(shippage->image_name));
+  cf_WriteString(outfile, std::data(shippage->dying_image_name));
+  cf_WriteString(outfile, std::data(shippage->med_image_name));
+  cf_WriteString(outfile, std::data(shippage->lo_image_name));
 
   // Write out lod distance
   cf_WriteFloat(outfile, shippage->ship_struct.med_lod_distance);
@@ -517,18 +517,18 @@ void mng_WriteNewShipPage(CFILE *outfile, mngs_ship_page *shippage) {
     int j;
 
     cf_WriteByte(outfile, shippage->ship_struct.fire_flags[i]);
-    cf_WriteString(outfile, shippage->firing_sound_name[i]);
-    cf_WriteString(outfile, shippage->release_sound_name[i]);
-    cf_WriteString(outfile, shippage->spew_powerup_name[i]);
+    cf_WriteString(outfile, std::data(shippage->firing_sound_name[i]));
+    cf_WriteString(outfile, std::data(shippage->release_sound_name[i]));
+    cf_WriteString(outfile, std::data(shippage->spew_powerup_name[i]));
     cf_WriteInt(outfile, shippage->ship_struct.max_ammo[i]);
 
     mng_WriteWeaponBatteryChunk(&shippage->ship_struct.static_wb[i], outfile);
 
     for (j = 0; j < MAX_WB_GUNPOINTS; j++)
-      cf_WriteString(outfile, shippage->fire_sound_name[i][j]);
+      cf_WriteString(outfile, std::data(shippage->fire_sound_name[i][j]));
 
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
-      cf_WriteString(outfile, shippage->weapon_name[i][j]);
+      cf_WriteString(outfile, std::data(shippage->weapon_name[i][j]));
   }
 
   EndManagePage(outfile, offset);
@@ -546,15 +546,15 @@ int mng_ReadNewShipPage(CFILE *infile, mngs_ship_page *shippage) {
   int version = cf_ReadShort(infile);
 
   // Read In misc names
-  cf_ReadString(shippage->ship_struct.name, PAGENAME_LEN, infile);
-  cf_ReadString(shippage->ship_struct.cockpit_name, PAGENAME_LEN, infile);
-  cf_ReadString(shippage->ship_struct.hud_config_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->ship_struct.name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->ship_struct.cockpit_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->ship_struct.hud_config_name), PAGENAME_LEN, infile);
 
   // Read in model names
-  cf_ReadString(shippage->image_name, PAGENAME_LEN, infile);
-  cf_ReadString(shippage->dying_image_name, PAGENAME_LEN, infile);
-  cf_ReadString(shippage->med_image_name, PAGENAME_LEN, infile);
-  cf_ReadString(shippage->lo_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->image_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->dying_image_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->med_image_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(shippage->lo_image_name), PAGENAME_LEN, infile);
 
   // read lod distance
   shippage->ship_struct.med_lod_distance = cf_ReadFloat(infile);
@@ -569,9 +569,9 @@ int mng_ReadNewShipPage(CFILE *infile, mngs_ship_page *shippage) {
 
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     shippage->ship_struct.fire_flags[i] = cf_ReadByte(infile);
-    cf_ReadString(shippage->firing_sound_name[i], PAGENAME_LEN, infile);
-    cf_ReadString(shippage->release_sound_name[i], PAGENAME_LEN, infile);
-    cf_ReadString(shippage->spew_powerup_name[i], PAGENAME_LEN, infile);
+    cf_ReadString(std::data(shippage->firing_sound_name[i]), PAGENAME_LEN, infile);
+    cf_ReadString(std::data(shippage->release_sound_name[i]), PAGENAME_LEN, infile);
+    cf_ReadString(std::data(shippage->spew_powerup_name[i]), PAGENAME_LEN, infile);
     shippage->ship_struct.max_ammo[i] = cf_ReadInt(infile);
 
     if (version >= 6)
@@ -580,25 +580,25 @@ int mng_ReadNewShipPage(CFILE *infile, mngs_ship_page *shippage) {
       mng_ReadWeaponBatteryChunk(&shippage->ship_struct.static_wb[i], infile, 1);
 
     for (j = 0; j < MAX_WB_GUNPOINTS; j++)
-      cf_ReadString(shippage->fire_sound_name[i][j], PAGENAME_LEN, infile);
+      cf_ReadString(std::data(shippage->fire_sound_name[i][j]), PAGENAME_LEN, infile);
 
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
-      cf_ReadString(shippage->weapon_name[i][j], PAGENAME_LEN, infile);
+      cf_ReadString(std::data(shippage->weapon_name[i][j]), PAGENAME_LEN, infile);
   }
 
   // Mark the newly filled structure as used
   shippage->ship_struct.used = 1;
 
   // Bash Fusion recharge times for the ships
-  if (!stricmp(shippage->ship_struct.name, "Pyro-GL")) {
+  if (shippage->ship_struct.name == "Pyro-GL") {
     // Pyro-GL
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
       shippage->ship_struct.static_wb[FUSION_INDEX].gp_fire_wait[j] = 0.66f;
-  } else if (!stricmp(shippage->ship_struct.name, "Phoenix")) {
+  } else if (shippage->ship_struct.name == "Phoenix") {
     // Phoenix
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
       shippage->ship_struct.static_wb[FUSION_INDEX].gp_fire_wait[j] = 0.792f;
-  } else if (!stricmp(shippage->ship_struct.name, "Magnum-AHT")) {
+  } else if (shippage->ship_struct.name == "Magnum-AHT") {
     // Magnum
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
       shippage->ship_struct.static_wb[FUSION_INDEX].gp_fire_wait[j] = 1.122f;
@@ -620,15 +620,15 @@ int mng_ReadShipPage(CFILE *infile, mngs_ship_page *shippage) {
   if (!Old_table_method)
     return mng_ReadNewShipPage(infile, shippage);
 
-  strcpy(shippage->dying_image_name, "");
+  shippage->dying_image_name.clear();
   ASSERT(infile != NULL);
 
   // Defaults
   memset(shippage, 0, sizeof(mngs_ship_page));
   shippage->ship_struct.armor_scalar = 1.0;
 
-  strcpy(shippage->med_image_name, "");
-  strcpy(shippage->lo_image_name, "");
+  shippage->med_image_name.clear();
+  shippage->lo_image_name.clear();
 
   shippage->ship_struct.med_lod_distance = DEFAULT_MED_LOD_DISTANCE;
   shippage->ship_struct.lo_lod_distance = DEFAULT_LO_LOD_DISTANCE;
@@ -661,21 +661,21 @@ int mng_ReadShipPage(CFILE *infile, mngs_ship_page *shippage) {
         shippage->image_name[i] = cf_ReadByte(infile);
       break;
     case SHIPPAGE_COMMAND_DYING_IMAGE_NAME:
-      cf_ReadString(shippage->dying_image_name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(shippage->dying_image_name), PAGENAME_LEN, infile);
       break;
     case SHIPPAGE_COMMAND_LOD_MODELS: // the name of the lower res models
-      cf_ReadString(shippage->med_image_name, len + 1, infile);
-      cf_ReadString(shippage->lo_image_name, len + 1, infile);
+      cf_ReadString(std::data(shippage->med_image_name), len + 1, infile);
+      cf_ReadString(std::data(shippage->lo_image_name), len + 1, infile);
       break;
     case SHIPPAGE_COMMAND_LOD_DISTANCE:
       shippage->ship_struct.med_lod_distance = cf_ReadFloat(infile);
       shippage->ship_struct.lo_lod_distance = cf_ReadFloat(infile);
       break;
     case SHIPPAGE_COMMAND_COCKPIT_NAME:
-      cf_ReadString(shippage->ship_struct.cockpit_name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(shippage->ship_struct.cockpit_name), PAGENAME_LEN, infile);
       break;
     case SHIPPAGE_COMMAND_HUD_NAME:
-      cf_ReadString(shippage->ship_struct.hud_config_name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(shippage->ship_struct.hud_config_name), PAGENAME_LEN, infile);
       break;
     case SHIPPAGE_COMMAND_NAME:
       for (i = 0; i < PAGENAME_LEN; i++)
@@ -759,7 +759,7 @@ int mng_ReadShipPage(CFILE *infile, mngs_ship_page *shippage) {
 
       i = cf_ReadByte(infile);
       j = cf_ReadByte(infile);
-      cf_ReadString(shippage->weapon_name[i][j], len - 1, infile);
+      cf_ReadString(std::data(shippage->weapon_name[i][j]), len - 1, infile);
       break;
     }
     case SHIPPAGE_COMMAND_WB_FIRE_SOUND: {
@@ -767,22 +767,22 @@ int mng_ReadShipPage(CFILE *infile, mngs_ship_page *shippage) {
 
       i = cf_ReadByte(infile);
       j = cf_ReadByte(infile);
-      cf_ReadString(shippage->fire_sound_name[i][j], len - 1, infile);
+      cf_ReadString(std::data(shippage->fire_sound_name[i][j]), len - 1, infile);
       break;
     }
     case SHIPPAGE_COMMAND_FIRING_SOUND: {
       int i = cf_ReadByte(infile);
-      cf_ReadString(shippage->firing_sound_name[i], len, infile);
+      cf_ReadString(std::data(shippage->firing_sound_name[i]), len, infile);
       break;
     }
     case SHIPPAGE_COMMAND_RELEASE_SOUND: {
       int i = cf_ReadByte(infile);
-      cf_ReadString(shippage->release_sound_name[i], len, infile);
+      cf_ReadString(std::data(shippage->release_sound_name[i]), len, infile);
       break;
     }
     case SHIPPAGE_COMMAND_SPEW_POWERUP: {
       int i = cf_ReadByte(infile);
-      cf_ReadString(shippage->spew_powerup_name[i], len, infile);
+      cf_ReadString(std::data(shippage->spew_powerup_name[i]), len, infile);
       break;
     }
     case SHIPPAGE_COMMAND_FIRE_FLAGS: {
@@ -832,7 +832,7 @@ int mng_ReadShipPage(CFILE *infile, mngs_ship_page *shippage) {
 
 // Reads in the ship named "name" into shippage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificShipPage(char *name, mngs_ship_page *shippage, int offset) {
+int mng_FindSpecificShipPage(const pagename_t& name, mngs_ship_page *shippage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -892,7 +892,7 @@ try_again:;
 
     mng_ReadNewShipPage(infile, shippage);
 
-    if (!stricmp(name, shippage->ship_struct.name)) {
+    if (shippage->ship_struct.name == name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -935,7 +935,7 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
 
   // copy our values
   memcpy(shippointer, &shippage->ship_struct, sizeof(ship));
-  strcpy(shippointer->name, shippage->ship_struct.name);
+  shippointer->name = shippage->ship_struct.name;
 
   // First see if our image differs from the one on the net
   // If it is, make a copy
@@ -946,37 +946,37 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalModelsDir, shippage->image_name, NULL);
-    ddio_MakePath(netstr, NetModelsDir, shippage->image_name, NULL);
+    ddio_MakePath(str, LocalModelsDir, std::data(shippage->image_name), NULL);
+    ddio_MakePath(netstr, NetModelsDir, std::data(shippage->image_name), NULL);
 
-    UpdatePrimitive(str, netstr, shippage->image_name, PAGETYPE_SHIP, shippointer->name);
+    UpdatePrimitive(str, netstr, std::data(shippage->image_name), PAGETYPE_SHIP, std::data(shippointer->name));
 
-    if (stricmp("INVALID IMAGE NAME", shippage->dying_image_name) && shippage->dying_image_name[0] != 0) {
-      ddio_MakePath(str, LocalModelsDir, shippage->dying_image_name, NULL);
-      ddio_MakePath(netstr, NetModelsDir, shippage->dying_image_name, NULL);
+    if (shippage->dying_image_name != "INVALID IMAGE NAME" && shippage->dying_image_name[0] != 0) {
+      ddio_MakePath(str, LocalModelsDir, std::data(shippage->dying_image_name), NULL);
+      ddio_MakePath(netstr, NetModelsDir, std::data(shippage->dying_image_name), NULL);
 
-      UpdatePrimitive(str, netstr, shippage->dying_image_name, PAGETYPE_SHIP, shippointer->name);
+      UpdatePrimitive(str, netstr, std::data(shippage->dying_image_name), PAGETYPE_SHIP, std::data(shippointer->name));
     }
 
     if (shippage->med_image_name[0] != 0) {
-      ddio_MakePath(str, LocalModelsDir, shippage->med_image_name, NULL);
-      ddio_MakePath(netstr, NetModelsDir, shippage->med_image_name, NULL);
+      ddio_MakePath(str, LocalModelsDir, std::data(shippage->med_image_name), NULL);
+      ddio_MakePath(netstr, NetModelsDir, std::data(shippage->med_image_name), NULL);
 
-      UpdatePrimitive(str, netstr, shippage->med_image_name, PAGETYPE_SHIP, shippointer->name);
+      UpdatePrimitive(str, netstr, std::data(shippage->med_image_name), PAGETYPE_SHIP, std::data(shippointer->name));
     }
 
     if (shippage->lo_image_name[0] != 0) {
-      ddio_MakePath(str, LocalModelsDir, shippage->lo_image_name, NULL);
-      ddio_MakePath(netstr, NetModelsDir, shippage->lo_image_name, NULL);
+      ddio_MakePath(str, LocalModelsDir, std::data(shippage->lo_image_name), NULL);
+      ddio_MakePath(netstr, NetModelsDir, std::data(shippage->lo_image_name), NULL);
 
-      UpdatePrimitive(str, netstr, shippage->lo_image_name, PAGETYPE_SHIP, shippointer->name);
+      UpdatePrimitive(str, netstr, std::data(shippage->lo_image_name), PAGETYPE_SHIP, std::data(shippointer->name));
     }
   }
 #endif
 
   // Try and load our ship model from the disk
 
-  img_handle = LoadPolyModel(shippage->image_name, 1);
+  img_handle = LoadPolyModel(std::data(shippage->image_name), 1);
 
   if (img_handle < 0) {
     mprintf(0, "Couldn't load file '%s' in AssignShipPage...\n", shippage->image_name);
@@ -985,8 +985,8 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
   } else
     shippointer->model_handle = img_handle;
 
-  if (stricmp("INVALID IMAGE NAME", shippage->dying_image_name) && shippage->dying_image_name[0] != 0) {
-    img_handle = LoadPolyModel(shippage->dying_image_name, 1);
+  if (shippage->dying_image_name == "INVALID IMAGE NAME" && shippage->dying_image_name[0] != 0) {
+    img_handle = LoadPolyModel(std::data(shippage->dying_image_name), 1);
 
     if (img_handle < 0) {
       mprintf(0, "Couldn't load file '%s' in AssignShipPage...\n", shippage->dying_image_name);
@@ -999,7 +999,7 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
 
   // Load lo-res stuff
   if (shippage->med_image_name[0] != 0) {
-    img_handle = LoadPolyModel(shippage->med_image_name, 1);
+    img_handle = LoadPolyModel(std::data(shippage->med_image_name), 1);
 
     if (img_handle < 0) {
       mprintf(0, "Couldn't load file '%s' in AssignShipPage...\n", shippage->med_image_name);
@@ -1011,7 +1011,7 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
     shippointer->med_render_handle = -1;
 
   if (shippage->lo_image_name[0] != 0) {
-    img_handle = LoadPolyModel(shippage->lo_image_name, 1);
+    img_handle = LoadPolyModel(std::data(shippage->lo_image_name), 1);
 
     if (img_handle < 0) {
       mprintf(0, "Couldn't load file '%s' in AssignGenericPage...\n", shippage->lo_image_name);
@@ -1025,7 +1025,7 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
   // Try and load the various weapons
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     for (j = 0; j < MAX_WB_GUNPOINTS; j++) {
-      if (shippage->weapon_name[i][j][0] != '\0') {
+      if (!shippage->weapon_name[i][j].empty()) {
         int weapon_handle = mng_GetGuaranteedWeaponPage(shippage->weapon_name[i][j], infile);
 
         if (weapon_handle < 0) {
@@ -1043,7 +1043,7 @@ int mng_AssignShipPageToShip(mngs_ship_page *shippage, int n, CFILE *infile) {
   // Try and load the various weapons
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++) {
-      if (shippage->fire_sound_name[i][j][0] != '\0') {
+      if (!shippage->fire_sound_name[i][j].empty()) {
         int fire_sound_handle = mng_GetGuaranteedSoundPage(shippage->fire_sound_name[i][j], infile);
 
         if (fire_sound_handle < 0) {
@@ -1107,55 +1107,55 @@ void mng_AssignShipToShipPage(int n, mngs_ship_page *shippage) {
   // Assign the  values
   memcpy(&shippage->ship_struct, shippointer, sizeof(ship));
 
-  strcpy(shippage->ship_struct.name, shippointer->name);
+  shippage->ship_struct.name = shippointer->name;
 
   if (shippointer->model_handle != -1)
-    strcpy(shippage->image_name, Poly_models[shippointer->model_handle].name);
+    shippage->image_name = Poly_models[shippointer->model_handle].name;
   else
-    strcpy(shippage->image_name, "");
+    shippage->image_name.clear();
 
   if (shippointer->dying_model_handle != -1)
-    strcpy(shippage->dying_image_name, Poly_models[shippointer->dying_model_handle].name);
+    shippage->dying_image_name = Poly_models[shippointer->dying_model_handle].name;
   else
-    strcpy(shippage->dying_image_name, "");
+    shippage->dying_image_name.clear();
 
   if (shippointer->med_render_handle != -1)
-    strcpy(shippage->med_image_name, Poly_models[shippointer->med_render_handle].name);
+    shippage->med_image_name = Poly_models[shippointer->med_render_handle].name;
   else
-    strcpy(shippage->med_image_name, "");
+    shippage->med_image_name.clear();
 
   if (shippointer->lo_render_handle != -1)
-    strcpy(shippage->lo_image_name, Poly_models[shippointer->lo_render_handle].name);
+    shippage->lo_image_name = Poly_models[shippointer->lo_render_handle].name;
   else
-    strcpy(shippage->lo_image_name, "");
+    shippage->lo_image_name.clear();
 
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     for (j = 0; j < MAX_WB_GUNPOINTS; j++) {
       if (shippointer->static_wb[i].gp_weapon_index[j] >= 0)
-        strcpy(shippage->weapon_name[i][j], Weapons[shippointer->static_wb[i].gp_weapon_index[j]].name);
+        shippage->weapon_name[i][j] = Weapons[shippointer->static_wb[i].gp_weapon_index[j]].name;
       else
-        strcpy(shippage->weapon_name[i][j], "Laser");
+        shippage->weapon_name[i][j] = "Laser";
     }
   }
 
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++) {
       if (shippointer->static_wb[i].fm_fire_sound_index[j] >= 0)
-        strcpy(shippage->fire_sound_name[i][j], Sounds[shippointer->static_wb[i].fm_fire_sound_index[j]].name);
+        shippage->fire_sound_name[i][j] = Sounds[shippointer->static_wb[i].fm_fire_sound_index[j]].name;
       else
-        strcpy(shippage->fire_sound_name[i][j], "");
+        shippage->fire_sound_name[i][j].clear();
     }
   }
 
   for (i = 0; i < MAX_PLAYER_WEAPONS; i++) {
 
     if (shippointer->firing_sound[i] != -1)
-      strcpy(shippage->firing_sound_name[i], Sounds[shippointer->firing_sound[i]].name);
+      shippage->firing_sound_name[i] = Sounds[shippointer->firing_sound[i]].name;
     else
       shippage->firing_sound_name[i][0] = 0;
 
     if (shippointer->firing_release_sound[i] != -1)
-      strcpy(shippage->release_sound_name[i], Sounds[shippointer->firing_release_sound[i]].name);
+      shippage->release_sound_name[i] = Sounds[shippointer->firing_release_sound[i]].name;
     else
       shippage->release_sound_name[i][0] = 0;
 
@@ -1164,7 +1164,7 @@ void mng_AssignShipToShipPage(int n, mngs_ship_page *shippage) {
         mprintf(1, "Spew powerup is not a powerup!  Setting to none.\n");
         shippage->spew_powerup_name[i][0] = 0;
       } else
-        strcpy(shippage->spew_powerup_name[i], Object_info[shippointer->spew_powerup[i]].name);
+        shippage->spew_powerup_name[i] = Object_info[shippointer->spew_powerup[i]].name;
     } else
       shippage->spew_powerup_name[i][0] = 0;
   }
@@ -1213,7 +1213,7 @@ void mng_LoadLocalShipPage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, shippage.ship_struct.name);
+      pl.name = shippage.ship_struct.name;
       pl.pagetype = PAGETYPE_SHIP;
 
       /*if (Network_up && Stand_alone==0)
@@ -1235,7 +1235,7 @@ void mng_LoadLocalShipPage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_SHIP &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, shippage.ship_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == shippage.ship_struct.name) {
             // found it!!
             mprintf(0, "ShipPage: %s previously loaded\n", shippage.ship_struct.name);
             need_to_load_page = false;
@@ -1262,7 +1262,7 @@ void mng_LoadLocalShipPage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_SHIP &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, shippage.ship_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == shippage.ship_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;

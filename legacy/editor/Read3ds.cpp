@@ -142,7 +142,7 @@ char Reading_properties[255];
 
 struct material
 {
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	int texhandle;
 };
 
@@ -161,7 +161,7 @@ struct reading_face
 };
 
 struct reading_room {
-	char		name[PAGENAME_LEN];
+        pagename_t	name;
 	int		flags;					// various room flags
 	int		num_faces;				// how many poygons in this room
 	int		num_portals;			// how many connections in this room
@@ -444,7 +444,7 @@ void Parse3DSMaxChunk (CFILE *fp, int size)
 
 			case ID_MAT_NAME:
 			{
-				char material_name[PAGENAME_LEN];
+				pagename_t material_name;
 
 				cf_ReadString(material_name,PAGENAME_LEN,fp);
 
@@ -464,7 +464,7 @@ void Parse3DSMaxChunk (CFILE *fp, int size)
 			case ID_MAT_TEXTURE:
 			{
 				int i;
-				char texture_name [PAGENAME_LEN];
+                                pagename_t texture_name;
 
 				// Read in Unknown field
 				for (i=0; i<6; i++ )
@@ -500,7 +500,7 @@ void Parse3DSMaxChunk (CFILE *fp, int size)
 			}
 			case ID_MAT_APP:
 			{
-				char material_name[PAGENAME_LEN];
+				pagename_t material_name;
 				int16_t n_faces,face;
 				int done=0;
 				int texnum;

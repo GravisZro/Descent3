@@ -321,18 +321,18 @@ void mng_WriteTexturePage(CFILE *outfile, mngs_texture_page *texpage) {
 
   // Write out texture name
   cf_WriteByte(outfile, TEXPAGE_COMMAND_NULL_NAME);
-  cf_WriteByte(outfile, strlen(texpage->tex_struct.name) + 1);
-  cf_WriteString(outfile, texpage->tex_struct.name);
+  cf_WriteByte(outfile, texpage->tex_struct.name.size() + 1);
+  cf_WriteString(outfile, std::data(texpage->tex_struct.name));
 
   // Write out its bitmaps name
   cf_WriteByte(outfile, TEXPAGE_COMMAND_BITMAP_NULL_NAME); // get ready to write out name
-  cf_WriteByte(outfile, strlen(texpage->bitmap_name) + 1);
-  cf_WriteString(outfile, texpage->bitmap_name);
+  cf_WriteByte(outfile, texpage->bitmap_name.size() + 1);
+  cf_WriteString(outfile, std::data(texpage->bitmap_name));
 
   // Write out its bitmaps name
   cf_WriteByte(outfile, TEXPAGE_COMMAND_DESTROY_NULL_NAME); // get ready to write out name
-  cf_WriteByte(outfile, strlen(texpage->destroy_name) + 1);
-  cf_WriteString(outfile, texpage->destroy_name);
+  cf_WriteByte(outfile, texpage->destroy_name.size() + 1);
+  cf_WriteString(outfile, std::data(texpage->destroy_name));
 
   cf_WriteByte(outfile, TEXPAGE_COMMAND_LIGHTING_FLOAT);
   cf_WriteByte(outfile, 4 * 3);
@@ -433,13 +433,13 @@ void mng_WriteNewTexturePage(CFILE *outfile, mngs_texture_page *texpage) {
   int offset = StartManagePage(outfile, PAGETYPE_TEXTURE);
 
   cf_WriteShort(outfile, TEXPAGE_VERSION);
-  cf_WriteString(outfile, texpage->tex_struct.name);
+  cf_WriteString(outfile, std::data(texpage->tex_struct.name));
 
   // Write out its bitmaps name
-  cf_WriteString(outfile, texpage->bitmap_name);
+  cf_WriteString(outfile, std::data(texpage->bitmap_name));
 
   // Write out destroy bitmap name
-  cf_WriteString(outfile, texpage->destroy_name);
+  cf_WriteString(outfile, std::data(texpage->destroy_name));
 
   // Write out rgb lighting and alpha
   cf_WriteFloat(outfile, texpage->tex_struct.r);
@@ -497,7 +497,7 @@ void mng_WriteNewTexturePage(CFILE *outfile, mngs_texture_page *texpage) {
     }
   }
 
-  cf_WriteString(outfile, texpage->sound_name);
+  cf_WriteString(outfile, std::data(texpage->sound_name));
   cf_WriteFloat(outfile, texpage->tex_struct.sound_volume);
 
   EndManagePage(outfile, offset);
@@ -523,9 +523,9 @@ void mng_InitTexturePage(mngs_texture_page *texpage) {
   texpage->tex_struct.sound = -1;
   texpage->tex_struct.sound_volume = 1.0;
 
-  strcpy(texpage->bitmap_name, "");
-  strcpy(texpage->destroy_name, "");
-  strcpy(texpage->sound_name, "");
+  texpage->bitmap_name.clear();
+  texpage->destroy_name.clear();
+  texpage->sound_name.clear();
 }
 
 // Reads a texture page from an open file.  Returns 0 on error.
@@ -593,13 +593,13 @@ int mng_ReadTexturePage(CFILE *infile, mngs_texture_page *texpage) {
         texpage->tex_struct.name[i] = cf_ReadByte(infile);
       break;
     case TEXPAGE_COMMAND_NULL_NAME:
-      cf_ReadString(texpage->tex_struct.name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(texpage->tex_struct.name), PAGENAME_LEN, infile);
       break;
     case TEXPAGE_COMMAND_BITMAP_NULL_NAME: // the name of the texture's bitmap
-      cf_ReadString(texpage->bitmap_name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(texpage->bitmap_name), PAGENAME_LEN, infile);
       break;
     case TEXPAGE_COMMAND_DESTROY_NULL_NAME: // the name of the texture's bitmap
-      cf_ReadString(texpage->destroy_name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(texpage->destroy_name), PAGENAME_LEN, infile);
       break;
     case TEXPAGE_COMMAND_FIRST_PROC_PAL:
       for (i = 0; i < 255; i++) {
@@ -655,8 +655,8 @@ int mng_ReadTexturePage(CFILE *infile, mngs_texture_page *texpage) {
   if (texpage->num_proc_elements == 0)
     texpage->tex_struct.flags &= ~TF_PROCEDURAL;
 
-  if (!strnicmp(texpage->destroy_name, "INVALID", 7))
-    strcpy(texpage->destroy_name, "");
+  if (texpage->destroy_name == "INVALID")
+    texpage->destroy_name.clear();
 
   texpage->tex_struct.used = 1;
 
@@ -672,9 +672,9 @@ int mng_ReadNewTexturePage(CFILE *infile, mngs_texture_page *texpage) {
 
   int version = cf_ReadShort(infile);
 
-  cf_ReadString(texpage->tex_struct.name, PAGENAME_LEN, infile);
-  cf_ReadString(texpage->bitmap_name, PAGENAME_LEN, infile);
-  cf_ReadString(texpage->destroy_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(texpage->tex_struct.name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(texpage->bitmap_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(texpage->destroy_name), PAGENAME_LEN, infile);
 
   texpage->tex_struct.r = cf_ReadFloat(infile);
   texpage->tex_struct.g = cf_ReadFloat(infile);
@@ -732,8 +732,8 @@ int mng_ReadNewTexturePage(CFILE *infile, mngs_texture_page *texpage) {
       texpage->tex_struct.flags &= ~TF_PROCEDURAL;
   }
 
-  if (!strnicmp(texpage->destroy_name, "INVALID", 7))
-    strcpy(texpage->destroy_name, "");
+  if (texpage->destroy_name == "INVALID")
+    texpage->destroy_name.clear();
 
   if (version >= 5) {
 
@@ -741,9 +741,9 @@ int mng_ReadNewTexturePage(CFILE *infile, mngs_texture_page *texpage) {
       // Kill buggy version of sound resolving code
       texpage->tex_struct.sound = cf_ReadInt(infile);
       texpage->tex_struct.sound = -1;
-      strcpy(texpage->sound_name, "");
+      texpage->sound_name.clear();
     } else
-      cf_ReadString(texpage->sound_name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(texpage->sound_name), PAGENAME_LEN, infile);
 
     texpage->tex_struct.sound_volume = cf_ReadFloat(infile);
   } else {
@@ -758,7 +758,7 @@ int mng_ReadNewTexturePage(CFILE *infile, mngs_texture_page *texpage) {
 
 // Given some texture names, finds them in the table file and deletes them
 // If local is 1, deletes from the local table file
-int mng_DeleteTexPageSeries(char *names[], int num_textures, int local) {
+int mng_DeleteTexPageSeries(pagename_t names[], int num_textures, int local) {
   CFILE *infile, *outfile;
   uint8_t pagetype, replaced = 0;
   int done = 0;
@@ -806,7 +806,7 @@ int mng_DeleteTexPageSeries(char *names[], int num_textures, int local) {
 
     int found = -1;
     for (int i = 0; i < num_textures && found == -1; i++) {
-      if (!stricmp(names[i], texpage1.tex_struct.name)) {
+      if (names[i] == texpage1.tex_struct.name) {
         found = i;
       }
     }
@@ -836,7 +836,7 @@ int mng_DeleteTexPageSeries(char *names[], int num_textures, int local) {
 
 // Reads in the texpage named "name" into texpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificTexPage(char *name, mngs_texture_page *texpage, int offset) {
+int mng_FindSpecificTexPage(const pagename_t& name, mngs_texture_page *texpage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -894,7 +894,7 @@ try_again:;
 
     mng_ReadNewTexturePage(infile, texpage);
 
-    if (!stricmp(name, texpage->tex_struct.name)) {
+    if (texpage->tex_struct.name == name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -947,10 +947,10 @@ int mng_AssignTexPageToTexture(mngs_texture_page *texpage, int n, CFILE *infile)
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalManageGraphicsDir, texpage->bitmap_name, NULL);
-    ddio_MakePath(netstr, ManageGraphicsDir, texpage->bitmap_name, NULL);
+    ddio_MakePath(str, LocalManageGraphicsDir, std::data(texpage->bitmap_name), NULL);
+    ddio_MakePath(netstr, ManageGraphicsDir, std::data(texpage->bitmap_name), NULL);
 
-    UpdatePrimitive(str, netstr, texpage->bitmap_name, PAGETYPE_TEXTURE, tex->name);
+    UpdatePrimitive(str, netstr, std::data(texpage->bitmap_name), PAGETYPE_TEXTURE, std::data(tex->name));
   }
 #endif
 
@@ -983,14 +983,14 @@ int mng_AssignTexPageToTexture(mngs_texture_page *texpage, int n, CFILE *infile)
   }*/
 
   if (tex->flags & TF_TEXTURE_64) {
-    bm_handle = LoadTextureImage(texpage->bitmap_name, NULL, SMALL_TEXTURE, mipped, pageable);
+    bm_handle = LoadTextureImage(std::data(texpage->bitmap_name), NULL, SMALL_TEXTURE, mipped, pageable);
   } else if (tex->flags & TF_TEXTURE_32) {
-    bm_handle = LoadTextureImage(texpage->bitmap_name, NULL, TINY_TEXTURE, mipped, pageable);
+    bm_handle = LoadTextureImage(std::data(texpage->bitmap_name), NULL, TINY_TEXTURE, mipped, pageable);
   } else if (tex->flags & TF_TEXTURE_256) {
     mipped = 0;
-    bm_handle = LoadTextureImage(texpage->bitmap_name, NULL, HUGE_TEXTURE, mipped, pageable);
+    bm_handle = LoadTextureImage(std::data(texpage->bitmap_name), NULL, HUGE_TEXTURE, mipped, pageable);
   } else
-    bm_handle = LoadTextureImage(texpage->bitmap_name, NULL, NORMAL_TEXTURE, mipped, pageable);
+    bm_handle = LoadTextureImage(std::data(texpage->bitmap_name), NULL, NORMAL_TEXTURE, mipped, pageable);
 
   if (bm_handle < 0) {
     mprintf(0, "Couldn't load bitmap '%s' in AssignTexPage...\n", texpage->bitmap_name);
@@ -1002,7 +1002,7 @@ int mng_AssignTexPageToTexture(mngs_texture_page *texpage, int n, CFILE *infile)
   // Load the destroyed texture
   if (tex->flags & TF_DESTROYABLE) {
     // Are destroyed and non-destroyed the same?
-    if (!(stricmp(texpage->destroy_name, tex->name))) {
+    if (texpage->destroy_name == tex->name) {
       tex->flags &= ~TF_DESTROYABLE;
       tex->destroy_handle = -1;
     } else {
@@ -1016,7 +1016,7 @@ int mng_AssignTexPageToTexture(mngs_texture_page *texpage, int n, CFILE *infile)
   }
 
   // Get sound if needed
-  if (stricmp("", texpage->sound_name))
+  if (texpage->sound_name.size())
     tex->sound = mng_GetGuaranteedSoundPage(texpage->sound_name, infile);
   else
     tex->sound = -1;
@@ -1075,21 +1075,21 @@ void mng_AssignTextureToTexPage(int n, mngs_texture_page *texpage) {
 
   if (tex->bm_handle != -1) {
     if (tex->flags & TF_ANIMATED)
-      strcpy(texpage->bitmap_name, GameVClips[tex->bm_handle].name);
+      texpage->bitmap_name = GameVClips[tex->bm_handle].name;
     else
-      strcpy(texpage->bitmap_name, GameBitmaps[tex->bm_handle].name);
+      texpage->bitmap_name = GameBitmaps[tex->bm_handle].name;
   } else
-    strcpy(texpage->bitmap_name, "");
+    texpage->bitmap_name.clear();
 
   if (tex->destroy_handle != -1)
-    strcpy(texpage->destroy_name, GameTextures[tex->destroy_handle].name);
+    texpage->destroy_name = GameTextures[tex->destroy_handle].name;
   else
-    strcpy(texpage->destroy_name, "");
+    texpage->destroy_name.clear();
 
   if (texpage->tex_struct.sound != -1)
-    strcpy(texpage->sound_name, Sounds[texpage->tex_struct.sound].name);
+    texpage->sound_name = Sounds[texpage->tex_struct.sound].name;
   else
-    strcpy(texpage->sound_name, "");
+    texpage->sound_name.clear();
 
   // assign procedural if there is one
   if (tex->flags & TF_PROCEDURAL) {
@@ -1151,7 +1151,7 @@ void mng_LoadLocalTexturePage(CFILE *infile) {
       mngs_Pagelock pl;
       // int locked;
 
-      strcpy(pl.name, texpage1.tex_struct.name);
+      pl.name = texpage1.tex_struct.name;
       pl.pagetype = PAGETYPE_TEXTURE;
 
       /*if (Network_up)
@@ -1174,7 +1174,7 @@ void mng_LoadLocalTexturePage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_TEXTURE &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, texpage1.tex_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == texpage1.tex_struct.name) {
             // found it!!
             mprintf(0, "TexturePage: %s previously loaded\n", texpage1.tex_struct.name);
             need_to_load_page = false;
@@ -1201,7 +1201,7 @@ void mng_LoadLocalTexturePage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_TEXTURE &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, texpage1.tex_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == texpage1.tex_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;
@@ -1244,7 +1244,7 @@ void mng_LoadLocalTexturePage(CFILE *infile) {
 // First searches through the texture index to see if the texture is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of texture found, -1 if not
-int mng_GetGuaranteedTexturePage(char *name, CFILE *infile) {
+int mng_GetGuaranteedTexturePage(const pagename_t& name, CFILE *infile) {
   int i;
 
   // See if its in memory

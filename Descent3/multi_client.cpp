@@ -162,7 +162,7 @@ void MultiSendMyInfo() {
   int count = 0;
 
   mprintf(0, "Sending my info\n");
-  char pshipmodel[PAGENAME_LEN];
+  pagename_t pshipmodel;
   Current_pilot.get_ship(pshipmodel);
 
   int ship_index = FindShipName(pshipmodel);
@@ -179,9 +179,9 @@ void MultiSendMyInfo() {
   count += len;
 
   // Do ship name
-  len = strlen(Ships[ship_index].name) + 1;
+  len = Ships[ship_index].name.size() + 1;
   MultiAddByte(len, data, &count);
-  memcpy(&data[count], Ships[ship_index].name, len);
+  memcpy(&data[count], std::data(Ships[ship_index].name), len);
   count += len;
 
   if (Game_is_master_tracker_game) {

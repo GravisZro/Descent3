@@ -796,7 +796,7 @@ void MultiStartServer(int playing, char *scriptname, int dedicated_server_num_te
   Current_pilot.get_multiplayer_data(NULL, NULL, NULL, &NetPlayers[Player_num].pilot_pic_id);
 
   // Choose ship
-  char pshipmodel[PAGENAME_LEN];
+  pagename_t pshipmodel;
   Current_pilot.get_ship(pshipmodel);
 
   Players[Player_num].ship_index = FindShipName(pshipmodel);
@@ -1133,9 +1133,9 @@ void MultiSendPlayer(int slot, int which) {
   count += len;
 
   // Add name
-  len = strlen(Ships[Players[which].ship_index].name) + 1;
+  len = Ships[Players[which].ship_index].name.size() + 1;
   MultiAddByte(len, data, &count);
-  memcpy(&data[count], Ships[Players[which].ship_index].name, len);
+  memcpy(&data[count], std::data(Ships[Players[which].ship_index].name), len);
   count += len;
 
   // Add flags, shields, inventory
@@ -1593,7 +1593,7 @@ void MultiSendWorldStates(int slot) {
           MultiAddByte(WS_ROOM_TEXTURE, cur_data, &cur_count);
           MultiAddShort(i, cur_data, &cur_count);
           MultiAddShort(t, cur_data, &cur_count);
-          MultiAddString(GameTextures[Rooms[i].faces[t].tmap].name, cur_data, &cur_count);
+          MultiAddString(std::data(GameTextures[Rooms[i].faces[t].tmap].name), cur_data, &cur_count);
           MultiStoreWorldPacket(slot, data, &count, cur_data, &cur_count, &size_offset);
         }
       }
@@ -2805,7 +2805,7 @@ void MultiSendClientExecuteDLL(int eventnum, int me_objnum, int it_objnum, int t
 // Resets the settings that a server uses
 void MultiResetSettings() {
   strcpy(Netgame.scriptname, "Anarchy.d3m");
-  strcpy(Netgame.connection_name, "Direct TCP~IP");
+  Netgame.connection_name = "Direct TCP~IP";
   strcpy(Netgame.mission, "fury.mn3");
   strcpy(Netgame.name, "Generic D3 Game");
 

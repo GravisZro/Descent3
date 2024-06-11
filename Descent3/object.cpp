@@ -3271,7 +3271,8 @@ object *ObjGet(int handle) {
 
   objp = &Objects[objnum];
 
-  if ((objp->type != OBJ_NONE) && (objp->handle == handle))
+  if (objp->type != OBJ_NONE &&
+      objp->handle == handle)
     return objp;
   else
     return NULL;

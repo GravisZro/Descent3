@@ -106,8 +106,8 @@ extern "C"
 	DLLEXPORT void DLLFUNCCALL DLLGameInit (int *api_func,uint8_t *all_ok);
 	DLLEXPORT void DLLFUNCCALL DLLGameCall (int eventnum,dllinfo *data);
 	DLLEXPORT void DLLFUNCCALL DLLGameClose ();
-	DLLEXPORT void DLLFUNCCALL DLLGetGameInfo (tDLLOptions *options);
-	DLLEXPORT int DLLFUNCCALL GetGOScriptID(char *name,uint8_t isdoor);
+        DLLEXPORT void DLLFUNCCALL DLLGetGameInfo (tDLLOptions *options);
+        DLLEXPORT int DLLFUNCCALL GetGOScriptID(char *name,uint8_t isdoor);
 	DLLEXPORT void DLLFUNCCALLPTR CreateInstance(int id);
 	DLLEXPORT void DLLFUNCCALL DestroyInstance(int id,void *ptr);
 	DLLEXPORT int16_t DLLFUNCCALL CallInstanceEvent(int id,void *ptr,int event,tOSIRISEventInfo *data);

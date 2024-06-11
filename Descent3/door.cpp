@@ -217,13 +217,13 @@ int GetPrevDoor(int n) {
 }
 // Searches thru all doors for a specific name, returns -1 if not found
 // or index of door with name
-int FindDoorName(const char *name) {
+int FindDoorName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_DOORS; i++)
-    if (Doors[i].used && !stricmp(name, Doors[i].name))
+    if (Doors[i].used && name == Doors[i].name)
       return i;
 
   return -1;

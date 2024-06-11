@@ -205,8 +205,8 @@ public:
   void set_name(const char *name);
   void get_name(char *name);
 
-  void set_ship(const char *ship);
-  void get_ship(char *ship);
+  void set_ship(const pagename_t& ship);
+  void get_ship(pagename_t& ship);
 
   void set_multiplayer_data(const char *logo = NULL, const char *audio1 = NULL, const char *audio2 = NULL, const uint16_t *ppic = NULL,
                             const char *audio3 = NULL, const char *audio4 = NULL);
@@ -276,13 +276,13 @@ private:
   //--- Try to preserve alignment	---//
   char *filename;      // filename location of this pilot
   char *name;          // name of the pilot (used in the game)
-  char *ship_logo;     // ship logo for multiplayer play (filename)
-  char *ship_model;    // what ship does this pilot fly
-  char *audio1_file;   // audio taunt #1 (filename)
-  char *audio2_file;   // audio taunt #2 (filename)
-  char *audio3_file;   // audio taunt #1 (filename)
-  char *audio4_file;   // audio taunt #2 (filename)
-  char *guidebot_name; // guidebot name
+  pagename_t ship_logo;     // ship logo for multiplayer play (filename)
+  pagename_t ship_model;    // what ship does this pilot fly
+  pagename_t audio1_file;   // audio taunt #1 (filename)
+  pagename_t audio2_file;   // audio taunt #2 (filename)
+  pagename_t audio3_file;   // audio taunt #1 (filename)
+  pagename_t audio4_file;   // audio taunt #2 (filename)
+  pagename_t guidebot_name; // guidebot name
 
   uint16_t picture_id; // pilot picture image id
   uint8_t difficulty;  // difficulty setting for this pilot (DIFFICULTY_*)

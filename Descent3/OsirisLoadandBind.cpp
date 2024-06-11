@@ -441,7 +441,7 @@ bool Show_osiris_debug = false;
 #if defined(__LINUX__)
 typedef char DLLFUNCCALL (*InitializeDLL_fp)(tOSIRISModuleInit *function_list);
 typedef void DLLFUNCCALL (*ShutdownDLL_fp)(void);
-typedef int DLLFUNCCALL (*GetGOScriptID_fp)(const char *name, uint8_t isdoor);
+typedef int DLLFUNCCALL (*GetGOScriptID_fp)(const pagename_t& name, uint8_t isdoor);
 typedef void DLLFUNCCALL *(*CreateInstance_fp)(int id);
 typedef void DLLFUNCCALL (*DestroyInstance_fp)(int id, void *ptr);
 typedef int16_t DLLFUNCCALL (*CallInstanceEvent_fp)(int id, void *ptr, int event, tOSIRISEventInfo *data);
@@ -451,7 +451,7 @@ typedef int DLLFUNCCALL (*SaveRestoreState_fp)(void *file_ptr, uint8_t saving_st
 #else
 typedef char(DLLFUNCCALL *InitializeDLL_fp)(tOSIRISModuleInit *function_list);
 typedef void(DLLFUNCCALL *ShutdownDLL_fp)(void);
-typedef int(DLLFUNCCALL *GetGOScriptID_fp)(const char *name, uint8_t isdoor);
+typedef int(DLLFUNCCALL *GetGOScriptID_fp)(const pagename_t& name, uint8_t isdoor);
 typedef void *(DLLFUNCCALL *CreateInstance_fp)(int id);
 typedef void(DLLFUNCCALL *DestroyInstance_fp)(int id, void *ptr);
 typedef int16_t(DLLFUNCCALL *CallInstanceEvent_fp)(int id, void *ptr, int event, tOSIRISEventInfo *data);
@@ -1462,12 +1462,12 @@ bool Osiris_BindScriptsToObject(object *obj) {
   bool isdoor = (bool)(real_type == OBJ_DOOR);
   bool iscustomonly = (bool)HAVECUSTOMONLY(real_type);
   char *default_module_name;
-  char *page_name;
+  pagename_t page_name;
 
   if (iscustomonly) {
     // this object can only have a custom script for it (i.e. OBJ_CAMERA)
     default_module_name = NULL;
-    page_name = NULL;
+    page_name.clear();
   } else {
     if (isdoor) {
       default_module_name = Doors[obj->id].module_name;
@@ -1486,7 +1486,7 @@ bool Osiris_BindScriptsToObject(object *obj) {
         page_name = obj->custom_default_script_name;
       } else {
         // use what was set in Object_info
-        if (Object_info[obj->id].script_name_override[0] != '\0')
+        if (!Object_info[obj->id].script_name_override.empty())
           page_name = Object_info[obj->id].script_name_override;
         else
           page_name = Object_info[obj->id].name;
@@ -1497,7 +1497,7 @@ bool Osiris_BindScriptsToObject(object *obj) {
   if (!iscustomonly) {
     // this object can have a default script
     ASSERT(default_module_name);
-    ASSERT(page_name);
+    ASSERT(!page_name.empty());
 
     // load up the dllname associated with the object and get the id
     dll_id = Osiris_LoadGameModule(default_module_name);
@@ -1522,7 +1522,7 @@ bool Osiris_BindScriptsToObject(object *obj) {
       os = obj->osiris_script;
 
       // we have the module loaded for the object, now we need to setup it's default script
-      gos_id = OSIRIS_loaded_modules[dll_id].GetGOScriptID(page_name, isdoor);
+      gos_id = OSIRIS_loaded_modules[dll_id].GetGOScriptID(std::data(page_name), isdoor);
 
       if (gos_id == -1) {
         // the default script for this object does not exist in the dll set for it
@@ -1580,7 +1580,7 @@ bool Osiris_BindScriptsToObject(object *obj) {
       // check first for a GOS
       if (!iscustomonly) {
         // this script can have a GOS in the level script
-        ASSERT(page_name);
+        ASSERT(!page_name.empty());
 
         gos_id = OSIRIS_loaded_modules[dll_id].GetGOScriptID(page_name, isdoor);
         if (gos_id != -1) {
@@ -1661,7 +1661,7 @@ bool Osiris_BindScriptsToObject(object *obj) {
             if (!gos_instance) {
               // we had an error obtaining the instance of the COS...doh!
               mprintf(0, "OSIRIS: Unable to create COS instance from level dll for (%s)\n",
-                       (page_name) ? (page_name) : "<No Name>");
+                      page_name.empty() ? "<No Name>" : std::data(page_name));
               Int3();
             } else {
               // ok, everything is valid
@@ -1700,7 +1700,7 @@ bool Osiris_BindScriptsToObject(object *obj) {
   // last we need to check the mission dll
   if (!iscustomonly) {
     // this object can have a script in the mission dll
-    ASSERT(page_name);
+    ASSERT(!page_name.empty());
 
     if (tOSIRISCurrentMission.mission_loaded) {
       dll_id = tOSIRISCurrentMission.dll_id;

@@ -548,7 +548,7 @@ void CWorldSoundsDialog::OnKillfocusSoundNameEdit()
 {
 	CEdit *ebox;
 	int n=D3EditState.current_sound;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this sound locked, if not reset name and bail
@@ -595,7 +595,7 @@ void CWorldSoundsDialog::OnKillfocusSoundNameEdit()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Sounds[n].name);
 		strcpy (Sounds[n].name,name);
 		
@@ -1244,7 +1244,7 @@ void CWorldSoundsDialog::OnSoundChangeName()
 {
 	int n=D3EditState.current_sound;
 
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this ship locked, if not reset name and bail
@@ -1276,7 +1276,7 @@ void CWorldSoundsDialog::OnSoundChangeName()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Sounds[n].name);
 		strcpy (Sounds[n].name,name);
 		

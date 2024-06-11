@@ -915,7 +915,7 @@ int ReloadModelTextures(int modelnum) {
 
   ASSERT(!(Poly_models[modelnum].flags & PMF_NOT_RESIDENT));
 
-  infile = cfopen(Poly_models[modelnum].name, "rb");
+  infile = cfopen(std::data(Poly_models[modelnum].name), "rb");
   if (!infile)
     return 0;
 
@@ -956,10 +956,12 @@ int ReloadModelTextures(int modelnum) {
 
         strcpy(temp, name_buf);
         strcat(temp, ".OGF");
-        ret = FindTextureBitmapName(temp);
+        pagename_t temppage(temp);
+        pagename_t texturename(name_buf);
+        ret = FindTextureBitmapName(temppage);
         if (ret == -1) {
           // See if its already in memory
-          ret = FindTextureName(name_buf);
+          ret = FindTextureName(texturename);
           if (ret == -1) {
             ret = 0;
             // mprintf(0,"Object texture %s is not in memory!\n",name_buf);
@@ -1405,7 +1407,7 @@ int ReadNewModelFile(int polynum, CFILE *infile) {
 
       pm->submodel[n].name[0] = '\0';
 
-      ReadModelStringLen(pm->submodel[n].name, PAGENAME_LEN, infile);
+      ReadModelStringLen(std::data(pm->submodel[n].name), PAGENAME_LEN, infile);
       ReadModelStringLen(props, MAX_PROP_LEN, infile); // and the user properites
 
       SetPolymodelProperties(&pm->submodel[n], props);
@@ -1413,8 +1415,8 @@ int ReadNewModelFile(int polynum, CFILE *infile) {
       pm->submodel[n].movement_type = cf_ReadInt(infile);
       pm->submodel[n].movement_axis = cf_ReadInt(infile);
 
-      if (pm->submodel[n].name[0] == '\0')
-        strcpy(pm->submodel[n].name, "unknown object name");
+      if (pm->submodel[n].name.empty())
+        pm->submodel[n].name = "unknown object name";
 
       memset(&pm->submodel[n].angs, 0, sizeof(angvec));
 
@@ -1768,11 +1770,12 @@ int ReadNewModelFile(int polynum, CFILE *infile) {
 
         strcpy(temp, name_buf);
         strcat(temp, ".OGF");
-
-        ret = FindTextureBitmapName(temp);
+        pagename_t tempname(temp);
+        pagename_t texturename(name_buf);
+        ret = FindTextureBitmapName(tempname);
         if (ret == -1) {
           // See if its already in memory
-          ret = FindTextureName(name_buf);
+          ret = FindTextureName(texturename);
           if (ret == -1) {
             ret = 0;
             // mprintf(0,"Object texture %s is not in memory!\n",name_buf);
@@ -2077,8 +2080,9 @@ int LoadPolyModel(const char *filename, int pageable) {
 
   ChangePolyModelName(filename, name);
 
+  pagename_t page(name);
   // If this polymodel is already in memory, just use that index
-  i = FindPolyModelName(name);
+  i = FindPolyModelName(page);
   if (i != -1) {
 #ifdef RELEASE
     Poly_models[i].used++;
@@ -2091,7 +2095,7 @@ int LoadPolyModel(const char *filename, int pageable) {
     if (Poly_models[i].flags & PMF_NOT_RESIDENT)
       not_res = 1;
 
-    mprintf(1, "Model '%s' usage count is now %d.\n", Poly_models[i].name, Poly_models[i].used + 1);
+    mprintf(1, "Model '%s' usage count is now %d.\n", std::data(Poly_models[i].name), Poly_models[i].used + 1);
 
     Poly_models[i].used = 1;
     FreePolyModel(i);
@@ -2144,7 +2148,7 @@ int LoadPolyModel(const char *filename, int pageable) {
     Poly_models[polynum].new_style = 0;
 
   // mprintf(0,"Loading model %s\n",name);
-  strcpy(Poly_models[polynum].name, name);
+  Poly_models[polynum].name = name;
 
   int ret = 0;
   if (!pageable)
@@ -2176,13 +2180,13 @@ void PageInPolymodel(int polynum, int type, float *size_ptr) {
   mprintf(0, "Paging in polymodel %s.\n", Poly_models[polynum].name);
 
   CFILE *infile;
-  infile = (CFILE *)cfopen(Poly_models[polynum].name, "rb");
+  infile = (CFILE *)cfopen(std::data(Poly_models[polynum].name), "rb");
 
   if (!infile) {
     // due to a bug in some 3rd party tablefile editors, full paths might
     // have been used when they shouldn't have been
     char *end_ptr, *start_ptr;
-    start_ptr = Poly_models[polynum].name;
+    start_ptr = std::data(Poly_models[polynum].name);
     end_ptr = start_ptr + strlen(start_ptr) - 1;
     while ((end_ptr >= start_ptr) && (*end_ptr != '\\'))
       end_ptr--;
@@ -2250,11 +2254,11 @@ void ChangePolyModelName(const char *src, char *dest) {
 }
 // Searches thru all polymodels for a specific name, returns -1 if not found
 // or index of polymodel with name
-int FindPolyModelName(const char *name) {
+int FindPolyModelName(const pagename_t& name) {
   int i;
 
   for (i = 0; i < MAX_POLY_MODELS; i++)
-    if (Poly_models[i].used && !stricmp(Poly_models[i].name, name))
+    if (Poly_models[i].used && Poly_models[i].name == name)
       return i;
 
   return -1;

@@ -26,15 +26,15 @@
 
 struct mngs_ship_page {
   ship ship_struct;
-  char image_name[PAGENAME_LEN];
-  char dying_image_name[PAGENAME_LEN];
-  char weapon_name[MAX_PLAYER_WEAPONS][MAX_WB_GUNPOINTS][PAGENAME_LEN];
-  char fire_sound_name[MAX_PLAYER_WEAPONS][MAX_WB_FIRING_MASKS][PAGENAME_LEN];
-  char med_image_name[PAGENAME_LEN];
-  char lo_image_name[PAGENAME_LEN];
-  char firing_sound_name[MAX_PLAYER_WEAPONS][PAGENAME_LEN];
-  char release_sound_name[MAX_PLAYER_WEAPONS][PAGENAME_LEN];
-  char spew_powerup_name[MAX_PLAYER_WEAPONS][PAGENAME_LEN];
+  pagename_t image_name;
+  pagename_t dying_image_name;
+  pagename_t weapon_name[MAX_PLAYER_WEAPONS][MAX_WB_GUNPOINTS];
+  pagename_t fire_sound_name[MAX_PLAYER_WEAPONS][MAX_WB_FIRING_MASKS];
+  pagename_t med_image_name;
+  pagename_t lo_image_name;
+  pagename_t firing_sound_name[MAX_PLAYER_WEAPONS];
+  pagename_t release_sound_name[MAX_PLAYER_WEAPONS];
+  pagename_t spew_powerup_name[MAX_PLAYER_WEAPONS];
 };
 
 // Ship page functions
@@ -54,7 +54,7 @@ int mng_ReadNewShipPage(CFILE *infile, mngs_ship_page *shippage);
 
 // Reads in the shippage named "name" into shippage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificShipPage(char *name, mngs_ship_page *shippage, int offset = 0);
+int mng_FindSpecificShipPage(const pagename_t& name, mngs_ship_page *shippage, int offset = 0);
 
 // Given a ship page, allocs a ship and calls AssignShipPageToShip to actually
 // load model and values. Rturns ship handle on success, -1 if fail

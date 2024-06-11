@@ -465,7 +465,7 @@ void CWorldObjectsRobotDialog::OnKillfocusRobotNameEdit()
 {
 	CEdit *ebox;
 	int n=D3EditState.current_robot;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this robot locked, if not reset name and bail
@@ -515,7 +515,7 @@ void CWorldObjectsRobotDialog::OnKillfocusRobotNameEdit()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Robots[n].name);
 		strcpy (Robots[n].name,name);
 		mng_ReplaceRobotPage (oldname,n,1);

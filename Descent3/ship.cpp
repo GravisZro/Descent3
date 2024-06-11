@@ -126,7 +126,7 @@ char *Static_ship_names[1];
 #define SHIP_PHOENIX_ID 1
 #define SHIP_MAGNUM_ID 2
 
-const char *AllowedShips[MAX_SHIPS] = {"Pyro-GL", "Phoenix", "Magnum-AHT"};
+std::array<pagename_t, MAX_SHIPS> AllowedShips = {"Pyro-GL", "Phoenix", "Magnum-AHT"};
 
 // Sets all ships to unused
 void InitShips() {
@@ -226,13 +226,13 @@ int GetPrevShip(int n) {
 }
 // Searches thru all ships for a specific name, returns -1 if not found
 // or index of ship with name
-int FindShipName(const char *name) {
+int FindShipName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_SHIPS; i++)
-    if (Ships[i].used && !stricmp(name, Ships[i].name))
+    if (Ships[i].used && name == Ships[i].name)
       return i;
 
   return -1;

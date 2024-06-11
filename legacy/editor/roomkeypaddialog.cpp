@@ -640,12 +640,12 @@ void CRoomKeypadDialog::UpdateDialog()
 	SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_RESETCONTENT,0,0);
 	SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_ADDSTRING,0,(LPARAM) (LPCTSTR) NULL_NAME);
 	for (i=0;i<Num_ambient_sound_patterns;i++)
-		if (Ambient_sound_patterns[i].name[0])
-			SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_ADDSTRING,0,(LPARAM) (LPCTSTR) AmbientSoundPatternName(i));
+                if (Ambient_sound_patterns[i].name[0])
+            SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_ADDSTRING,0,(LPARAM) (LPCTSTR) std::data(AmbientSoundPatternName(i)));
 	SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_SELECTSTRING,0,(LPARAM) (LPCTSTR) NULL_NAME);
 
-	//Set the current ambient sound pattern
-	SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_SELECTSTRING,0,(LPARAM) (LPCTSTR) ((Curroomp->ambient_sound == -1) ? NULL_NAME : AmbientSoundPatternName(Curroomp->ambient_sound)));
+        //Set the current ambient sound pattern
+        SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_SELECTSTRING,0,(LPARAM) (LPCTSTR) ((Curroomp->ambient_sound == -1) ? NULL_NAME : std::data(AmbientSoundPatternName(Curroomp->ambient_sound))));
 
 	//Build environmental presets list
 	((CComboBox *)GetDlgItem(IDC_ROOM_ENVAUDIO))->SelectString(-1, EnvAudio_PresetNames[(Curroomp->env_reverb < N_ENVAUDIO_PRESETS) ? Curroomp->env_reverb : 0]);
@@ -1513,11 +1513,11 @@ void CRoomKeypadDialog::OnBoaVisButton()
 
 void CRoomKeypadDialog::OnSelendokRoomAmbient() 
 {
-	int cur;
-	char name[200];
+        int cur;
+        pagename_t name;
 
-	cur = SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_GETCURSEL,0,0);
-	SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_GETLBTEXT,cur,(LPARAM) (LPCTSTR) name);
+        cur = SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_GETCURSEL,0,0);
+        SendDlgItemMessage( IDC_ROOM_AMBIENT, CB_GETLBTEXT,cur,(LPARAM) (LPCTSTR) std::data(name));
 
 	Curroomp->ambient_sound = FindAmbientSoundPattern(name);
 

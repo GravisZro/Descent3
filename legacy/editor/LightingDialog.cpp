@@ -1705,7 +1705,7 @@ void CLightingDialog::OnCombineFaces()
 }
 
 // Takes a bitmap name and resaves it
-void ResaveBitmap (char *name)
+void ResaveBitmap (const pagename_t& name)
 {
 	int bm_handle=bm_FindBitmapName (name);
 	if (bm_handle>=0)
@@ -1743,7 +1743,7 @@ void ResaveBitmap (char *name)
 }
 
 // Takes a vclip name and resaves it
-void ResaveVClip (char *name)
+void ResaveVClip (const pagename_t& name)
 {
 	int bm_handle=FindVClipName (name);
 	if (bm_handle>=0)

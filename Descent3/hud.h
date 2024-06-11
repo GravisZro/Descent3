@@ -252,6 +252,7 @@
 #ifndef HUD_H
 #define HUD_H
 
+#include "manage_external.h"
 #include "pstypes.h"
 #include "grdefs.h"
 
@@ -503,7 +504,7 @@ struct tHUDItem {
 
 //	hud resources
 struct sHUDResources {
-  char hud_inf_name[PSFILENAME_LEN + 1];
+  pagename_t hud_inf_name;
   int arrow_bmp;
   int goal_complete_bmp;
   int goal_bmp;
@@ -572,7 +573,7 @@ int FindCustomtext2HUDItem();
 void ResetHUD();
 
 //	loads in hud configuration file, adds hud items.
-void LoadHUDConfig(const char *filename, bool (*fn)(const char *, const char *, void *) = NULL, void *data = NULL);
+void LoadHUDConfig(const pagename_t& name, bool (*fn)(const char *, const char *, void *) = NULL, void *data = NULL);
 
 //	render cockpit and gauges frame
 void RenderHUDFrame();

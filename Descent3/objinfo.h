@@ -451,7 +451,7 @@ struct t_ai_info {
 
 // Info for robots, powerups, debris, etc.
 struct object_info {
-  char name[PAGENAME_LEN]; // the name on the page
+  pagename_t name; // the name on the page
 
   int type;   // what type of object this is
   float size; // size
@@ -475,7 +475,7 @@ struct object_info {
   int ammo_count; // if a powerup, how much ammo it has
 
   char *description;                   // used for inventory
-  char icon_name[MAX_INVEN_ICON_SIZE]; // used for inventory
+  pagename_t icon_name; // used for inventory
 
   int16_t sounds[MAX_OBJ_SOUNDS]; // list of sound handles
   int16_t dspew[MAX_DSPEW_TYPES];
@@ -496,7 +496,7 @@ struct object_info {
 
   // OSIRIS information
   char module_name[MAX_MODULENAME_LEN];
-  char script_name_override[PAGENAME_LEN];
+  pagename_t script_name_override;
 
   // Death information
   death_info death_types[MAX_DEATH_TYPES];    // the ways this object can die
@@ -544,7 +544,7 @@ int GetPrevObjectID(int n);
 
 // Searches thru all object ids for a specific name
 // Returns the found id, or -1 if not found
-int FindObjectIDName(const char *name);
+int FindObjectIDName(const pagename_t& name);
 
 // Given an object handle, returns an index to that object's model
 int GetObjectImage(int handle);

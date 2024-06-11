@@ -402,10 +402,10 @@ int MainMultiplayerMenu() {
 #ifdef DEMO
       if (stricmp(Ships[i].name, "pyro-gl") == 0)
 #endif
-        PlayerSetShipPermission(-1, Ships[i].name, 1);
+        PlayerSetShipPermission(-1, std::data(Ships[i].name), 1);
 #ifdef DEMO
       else
-        PlayerSetShipPermission(-1, Ships[i].name, 0);
+        PlayerSetShipPermission(-1, std::data(Ships[i].name), 0);
 #endif
     }
   }
@@ -912,7 +912,7 @@ void DoMultiAllowed(void) {
   // if(Object_info[i].type==OBJ_POWERUP)
   for (i = 0; i < MAX_OBJECT_IDS; i++) {
     if (Object_info[i].type == OBJ_POWERUP) {
-      obj_ti[i] = UITextItem(Object_info[i].name, UICOL_TEXT_NORMAL);
+      obj_ti[i] = UITextItem(std::data(Object_info[i].name), UICOL_TEXT_NORMAL);
       if (Object_info[i].multi_allowed) {
         objsallowed[i] = true;
         lb_generic_allowed.AddItem(&obj_ti[i]);
@@ -925,7 +925,7 @@ void DoMultiAllowed(void) {
 
   for (i = 0; i < MAX_SHIPS; i++) {
     if (Ships[i].used) {
-      ship_ti[i] = UITextItem(Ships[i].name, UICOL_TEXT_NORMAL);
+      ship_ti[i] = UITextItem(std::data(Ships[i].name), UICOL_TEXT_NORMAL);
 
       if (PlayerIsShipAllowed(0, i)) {
         shipsallowed[i] = true;
@@ -978,11 +978,7 @@ void DoMultiAllowed(void) {
       }
       for (i = 0; i < MAX_SHIPS; i++) {
         if (Ships[i].used) {
-          if (shipsallowed[i]) {
-            PlayerSetShipPermission(-1, Ships[i].name, 1);
-          } else {
-            PlayerSetShipPermission(-1, Ships[i].name, 0);
-          }
+          PlayerSetShipPermission(-1, std::data(Ships[i].name), shipsallowed[i] ? 1 : 0);
         }
       }
       // now exit

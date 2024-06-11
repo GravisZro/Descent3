@@ -1719,7 +1719,7 @@ void CWorldTexturesDialog::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 int CWorldTexturesDialog::LoadITLFile (char *filename,int type)
 {
 	CFILE *infile;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	uint32_t i,done=0,total=0;
 	char cur_name[100];
 	int tex_handle,tex_list[200];
@@ -2201,7 +2201,7 @@ try_again:
 void CWorldTexturesDialog::OnTextureChangeName() 
 {
 	int n=D3EditState.texdlg_texture;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this texture locked, if not reset name and bail
@@ -2234,7 +2234,7 @@ void CWorldTexturesDialog::OnTextureChangeName()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,GameTextures[n].name);
 		strcpy (GameTextures[n].name,name);
 		mng_ReplacePage (oldname,GameTextures[n].name,n,PAGETYPE_TEXTURE,1);

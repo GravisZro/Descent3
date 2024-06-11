@@ -2285,7 +2285,7 @@ extern int Buddy_handle[MAX_PLAYERS];
 bool AINotify(object *obj, uint8_t notify_type, void *info);
 void MultiDoMyInfo(uint8_t *data) {
   int count = 0;
-  char ship_name[PAGENAME_LEN];
+  pagename_t ship_name;
   int length;
 
   // Skip header stuff
@@ -2310,14 +2310,14 @@ void MultiDoMyInfo(uint8_t *data) {
 
   // Copy the ship name out
   len = MultiGetByte(data, &count);
-  memcpy(ship_name, &data[count], len);
+  memcpy(std::data(ship_name), &data[count], len);
   count += len;
 
   int ship_index = FindShipName(ship_name);
   if (ship_index < 0)
     ship_index = 0;
 
-  if (!PlayerIsShipAllowed(slot, ship_name)) {
+  if (!PlayerIsShipAllowed(slot, std::data(ship_name))) {
     bool found_one = false;
     int i;
 
@@ -2325,7 +2325,7 @@ void MultiDoMyInfo(uint8_t *data) {
     for (i = 0; i < MAX_SHIPS && !found_one; i++) {
       if (Ships[i].used && PlayerIsShipAllowed(Player_num, i)) {
         Players[Player_num].ship_index = i;
-        MultiBashPlayerShip(slot, Ships[i].name);
+        MultiBashPlayerShip(slot, std::data(Ships[i].name));
         found_one = true;
       }
     }
@@ -2509,7 +2509,7 @@ void MultiDoRequestWorldStates(uint8_t *data) {
 // Client only
 void MultiDoPlayer(uint8_t *data) {
   int count = 0;
-  char ship_name[PAGENAME_LEN];
+  pagename_t ship_name;
 
   mprintf(0, "Got player packet!\n");
 
@@ -2535,7 +2535,7 @@ void MultiDoPlayer(uint8_t *data) {
 
   // Get ship name
   len = MultiGetByte(data, &count);
-  memcpy(ship_name, &data[count], len);
+  memcpy(std::data(ship_name), &data[count], len);
   count += len;
 
   int ship_index = FindShipName(ship_name);
@@ -2645,7 +2645,7 @@ void MultiSendNewPlayer(int slot) {}
 
 void MultiDoPlayerEnteredGame(uint8_t *data) {
   int count = 0;
-  char ship_name[PAGENAME_LEN];
+  pagename_t ship_name;
   int length;
 
   mprintf(0, "Got player entered game packet!\n");
@@ -2673,7 +2673,7 @@ void MultiDoPlayerEnteredGame(uint8_t *data) {
 
   // get ship name
   len = MultiGetByte(data, &count);
-  memcpy(ship_name, &data[count], len);
+  memcpy(std::data(ship_name), &data[count], len);
   count += len;
 
   int ship_index = FindShipName(ship_name);
@@ -2756,9 +2756,9 @@ void MultiSendPlayerEnteredGame(int which) {
   count += len;
 
   // Add ship name
-  len = strlen(Ships[Players[which].ship_index].name) + 1;
+  len = Ships[Players[which].ship_index].name.size() + 1;
   MultiAddByte(len, data, &count);
-  memcpy(&data[count], Ships[Players[which].ship_index].name, len);
+  memcpy(&data[count], std::data(Ships[Players[which].ship_index].name), len);
   count += len;
 
   // Add flags
@@ -6553,13 +6553,13 @@ void MultiSendFullReliablePacket(int slot, int flags) {
 }
 
 // Given a string, returns a unique integer for that string
-uint32_t MultiGetUniqueIDFromString(char *plainstring) {
+uint32_t MultiGetUniqueIDFromString(pagename_t& plainstring) {
   int i, t, len;
   uint32_t ret;
   uint8_t cryptstring[PAGENAME_LEN];
   uint32_t vals[4];
 
-  len = strlen(plainstring);
+  len = plainstring.size();
 
   if (len < 4) {
     for (i = len; i < 4; i++)
@@ -9443,7 +9443,7 @@ void MultiDoBashPlayerShip(uint8_t *data) {
     ship_index = 0;
 
   // If told to switch to the Black Pyro, make sure it's allowed
-  if (!stricmp(Ships[ship_index].name, "Black Pyro")) {
+  if (Ships[ship_index].name == "Black Pyro") {
     extern bool MercInstalled();
     if (!MercInstalled()) {
       BailOnMultiplayer("Exiting: Game requires Black Pyro");

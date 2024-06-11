@@ -381,16 +381,16 @@ void mng_InitWeaponPage(mngs_weapon_page *weaponpage) {
   int i;
 
   memset(weaponpage, 0, sizeof(mngs_weapon_page));
-  strcpy(weaponpage->hud_image_name, "");
-  strcpy(weaponpage->fire_image_name, "");
-  strcpy(weaponpage->explode_image_name, "");
-  strcpy(weaponpage->spawn_name, "");
-  strcpy(weaponpage->alternate_spawn_name, "");
-  strcpy(weaponpage->robot_spawn_name, "");
-  strcpy(weaponpage->smoke_image_name, "");
-  strcpy(weaponpage->scorch_image_name, "");
-  strcpy(weaponpage->icon_name, "");
-  strcpy(weaponpage->particle_name, "");
+  weaponpage->hud_image_name.clear();
+  weaponpage->fire_image_name.clear();
+  weaponpage->explode_image_name.clear();
+  weaponpage->smoke_image_name.clear();
+  weaponpage->scorch_image_name.clear();
+  weaponpage->icon_name.clear();
+  weaponpage->spawn_name.clear();
+  weaponpage->alternate_spawn_name.clear();
+  weaponpage->particle_name.clear();
+  weaponpage->robot_spawn_name.clear();
 
   weaponpage->weapon_struct.alpha = 1.0;
   weaponpage->weapon_struct.alternate_chance = 0;
@@ -407,7 +407,7 @@ void mng_InitWeaponPage(mngs_weapon_page *weaponpage) {
   weaponpage->weapon_struct.phys_info.hit_die_dot = 1.0f;
 
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++)
-    strcpy(weaponpage->sound_name[i], "");
+    weaponpage->sound_name[i].clear();
 }
 
 // Given an open file pointer and a weapon_page struct, writes that weapon page out
@@ -423,21 +423,21 @@ void mng_WriteWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
   cf_WriteByte(outfile, 1);
   cf_WriteByte(outfile, WEAPONPAGE_VERSION);
 
-  if ((strlen(weaponpage->weapon_struct.name)) < 2)
+  if (weaponpage->weapon_struct.name.size() < 2)
     Int3(); // Get Jason, right now
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_NAME_NULL); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->weapon_struct.name)) + 1);
-  cf_WriteString(outfile, weaponpage->weapon_struct.name);
+  cf_WriteByte(outfile, weaponpage->weapon_struct.name.size() + 1);
+  cf_WriteString(outfile, std::data(weaponpage->weapon_struct.name));
 
   // Write out its image name
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_EXPLOSION_NAME); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->explode_image_name)) + 1);
-  cf_WriteString(outfile, weaponpage->explode_image_name);
+  cf_WriteByte(outfile, weaponpage->explode_image_name.size() + 1);
+  cf_WriteString(outfile, std::data(weaponpage->explode_image_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_PARTICLE_NAME); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->particle_name)) + 1);
-  cf_WriteString(outfile, weaponpage->particle_name);
+  cf_WriteByte(outfile, weaponpage->particle_name.size() + 1);
+  cf_WriteString(outfile, std::data(weaponpage->particle_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_PARTICLE_DATA);
   cf_WriteByte(outfile, 9);
@@ -446,32 +446,32 @@ void mng_WriteWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
   cf_WriteFloat(outfile, weaponpage->weapon_struct.particle_size);
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_SPAWN_NAME); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->spawn_name)) + 1);
-  cf_WriteString(outfile, weaponpage->spawn_name);
+  cf_WriteByte(outfile, weaponpage->spawn_name.size() + 1);
+  cf_WriteString(outfile, std::data(weaponpage->spawn_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_SPAWN_COUNT);
   cf_WriteByte(outfile, 1);
   cf_WriteByte(outfile, weaponpage->weapon_struct.spawn_count);
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_ROBOT_SPAWN_NAME); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->robot_spawn_name)) + 1);
-  cf_WriteString(outfile, weaponpage->robot_spawn_name);
+  cf_WriteByte(outfile, weaponpage->robot_spawn_name.size() + 1);
+  cf_WriteString(outfile, std::data(weaponpage->robot_spawn_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_ALT_SPAWN_NAME); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->alternate_spawn_name)) + 1);
-  cf_WriteString(outfile, weaponpage->alternate_spawn_name);
+  cf_WriteByte(outfile, weaponpage->alternate_spawn_name.size() + 1);
+  cf_WriteString(outfile, std::data(weaponpage->alternate_spawn_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_ALT_CHANCE);
   cf_WriteByte(outfile, 1);
   cf_WriteByte(outfile, weaponpage->weapon_struct.alternate_chance);
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_HUD_IMAGE_NULL); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->hud_image_name)) + 1);
-  cf_WriteString(outfile, weaponpage->hud_image_name);
+  cf_WriteByte(outfile, (weaponpage->hud_image_name.size()) + 1);
+  cf_WriteString(outfile, std::data(weaponpage->hud_image_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_FIRE_IMAGE_NULL); // get ready to write out name
-  cf_WriteByte(outfile, (strlen(weaponpage->fire_image_name)) + 1);
-  cf_WriteString(outfile, weaponpage->fire_image_name);
+  cf_WriteByte(outfile, (weaponpage->fire_image_name.size()) + 1);
+  cf_WriteString(outfile, std::data(weaponpage->fire_image_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_HOMING_FOV);
   cf_WriteByte(outfile, 4);
@@ -619,25 +619,25 @@ void mng_WriteWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
 
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++) {
     cf_WriteByte(outfile, WEAPONPAGE_COMMAND_SOUND_NAME);
-    cf_WriteByte(outfile, strlen(weaponpage->sound_name[i]) + 2); // 1 for sound index, 1 for null term
+    cf_WriteByte(outfile, weaponpage->sound_name[i].size() + 2); // 1 for sound index, 1 for null term
     cf_WriteByte(outfile, i);
-    cf_WriteString(outfile, weaponpage->sound_name[i]);
+    cf_WriteString(outfile, std::data(weaponpage->sound_name[i]));
   }
 
   // Write smoke name
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_SMOKE_NAME);
-  cf_WriteByte(outfile, strlen(weaponpage->smoke_image_name) + 1); // 1 for null term
-  cf_WriteString(outfile, weaponpage->smoke_image_name);
+  cf_WriteByte(outfile, weaponpage->smoke_image_name.size() + 1); // 1 for null term
+  cf_WriteString(outfile, std::data(weaponpage->smoke_image_name));
 
   // Write scorch name
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_SCORCH_NAME);
-  cf_WriteByte(outfile, strlen(weaponpage->scorch_image_name) + 1); // 1 for null term
-  cf_WriteString(outfile, weaponpage->scorch_image_name);
+  cf_WriteByte(outfile, weaponpage->scorch_image_name.size() + 1); // 1 for null term
+  cf_WriteString(outfile, std::data(weaponpage->scorch_image_name));
 
   // Write icon name
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_ICON_NAME);
-  cf_WriteByte(outfile, strlen(weaponpage->icon_name) + 1); // 1 for null term
-  cf_WriteString(outfile, weaponpage->icon_name);
+  cf_WriteByte(outfile, weaponpage->icon_name.size() + 1); // 1 for null term
+  cf_WriteString(outfile, std::data(weaponpage->icon_name));
 
   cf_WriteByte(outfile, WEAPONPAGE_COMMAND_SCORCH_SIZE);
   cf_WriteByte(outfile, 4);
@@ -658,19 +658,19 @@ void mng_WriteNewWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
 
   cf_WriteShort(outfile, WEAPONPAGE_VERSION);
 
-  if ((strlen(weaponpage->weapon_struct.name)) < 2)
+  if (weaponpage->weapon_struct.name.size() < 2)
     Int3(); // Get Jason, right now
 
-  cf_WriteString(outfile, weaponpage->weapon_struct.name);
+  cf_WriteString(outfile, std::data(weaponpage->weapon_struct.name));
 
   // Write hud image name
-  cf_WriteString(outfile, weaponpage->hud_image_name);
+  cf_WriteString(outfile, std::data(weaponpage->hud_image_name));
 
   // Write fire image
-  cf_WriteString(outfile, weaponpage->fire_image_name);
+  cf_WriteString(outfile, std::data(weaponpage->fire_image_name));
 
   // Write out particle data
-  cf_WriteString(outfile, weaponpage->particle_name);
+  cf_WriteString(outfile, std::data(weaponpage->particle_name));
 
   cf_WriteByte(outfile, weaponpage->weapon_struct.particle_count);
   cf_WriteFloat(outfile, weaponpage->weapon_struct.particle_life);
@@ -680,12 +680,12 @@ void mng_WriteNewWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
   cf_WriteInt(outfile, weaponpage->weapon_struct.flags);
 
   // Write spawn data
-  cf_WriteString(outfile, weaponpage->spawn_name);
+  cf_WriteString(outfile, std::data(weaponpage->spawn_name));
   cf_WriteByte(outfile, weaponpage->weapon_struct.spawn_count);
 
-  cf_WriteString(outfile, weaponpage->robot_spawn_name);
+  cf_WriteString(outfile, std::data(weaponpage->robot_spawn_name));
 
-  cf_WriteString(outfile, weaponpage->alternate_spawn_name);
+  cf_WriteString(outfile, std::data(weaponpage->alternate_spawn_name));
 
   cf_WriteByte(outfile, weaponpage->weapon_struct.alternate_chance);
 
@@ -710,7 +710,7 @@ void mng_WriteNewWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
   cf_WriteFloat(outfile, weaponpage->weapon_struct.alpha);
 
   // Write explosion data
-  cf_WriteString(outfile, weaponpage->explode_image_name);
+  cf_WriteString(outfile, std::data(weaponpage->explode_image_name));
   cf_WriteFloat(outfile, weaponpage->weapon_struct.explode_time);
   cf_WriteFloat(outfile, weaponpage->weapon_struct.explode_size);
 
@@ -734,17 +734,17 @@ void mng_WriteNewWeaponPage(CFILE *outfile, mngs_weapon_page *weaponpage) {
 
   // Write out its sounds name
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++)
-    cf_WriteString(outfile, weaponpage->sound_name[i]);
+    cf_WriteString(outfile, std::data(weaponpage->sound_name[i]));
 
   // Write smoke name
-  cf_WriteString(outfile, weaponpage->smoke_image_name);
+  cf_WriteString(outfile, std::data(weaponpage->smoke_image_name));
 
   // Write scorch data
-  cf_WriteString(outfile, weaponpage->scorch_image_name);
+  cf_WriteString(outfile, std::data(weaponpage->scorch_image_name));
   cf_WriteFloat(outfile, weaponpage->weapon_struct.scorch_size);
 
   // Write icon name
-  cf_WriteString(outfile, weaponpage->icon_name);
+  cf_WriteString(outfile, std::data(weaponpage->icon_name));
 
   EndManagePage(outfile, offset);
 }
@@ -784,16 +784,16 @@ int mng_ReadNewWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
 
   int version = cf_ReadShort(infile);
 
-  cf_ReadString(weaponpage->weapon_struct.name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->weapon_struct.name), PAGENAME_LEN, infile);
 
   // Read hud image name
-  cf_ReadString(weaponpage->hud_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->hud_image_name), PAGENAME_LEN, infile);
 
   // Read fire image
-  cf_ReadString(weaponpage->fire_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->fire_image_name), PAGENAME_LEN, infile);
 
   // Read particle data
-  cf_ReadString(weaponpage->particle_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->particle_name), PAGENAME_LEN, infile);
 
   weaponpage->weapon_struct.particle_count = cf_ReadByte(infile);
   weaponpage->weapon_struct.particle_life = cf_ReadFloat(infile);
@@ -803,11 +803,11 @@ int mng_ReadNewWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
   weaponpage->weapon_struct.flags = cf_ReadInt(infile);
 
   // Read spawn data
-  cf_ReadString(weaponpage->spawn_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->spawn_name), PAGENAME_LEN, infile);
   weaponpage->weapon_struct.spawn_count = cf_ReadByte(infile);
 
-  cf_ReadString(weaponpage->robot_spawn_name, PAGENAME_LEN, infile);
-  cf_ReadString(weaponpage->alternate_spawn_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->robot_spawn_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->alternate_spawn_name), PAGENAME_LEN, infile);
 
   weaponpage->weapon_struct.alternate_chance = cf_ReadByte(infile);
 
@@ -832,7 +832,7 @@ int mng_ReadNewWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
   weaponpage->weapon_struct.alpha = cf_ReadFloat(infile);
 
   // Read explosion data
-  cf_ReadString(weaponpage->explode_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->explode_image_name), PAGENAME_LEN, infile);
   weaponpage->weapon_struct.explode_time = cf_ReadFloat(infile);
   weaponpage->weapon_struct.explode_size = cf_ReadFloat(infile);
 
@@ -869,29 +869,29 @@ int mng_ReadNewWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
 
   // Read its sound names
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++)
-    cf_ReadString(weaponpage->sound_name[i], PAGENAME_LEN, infile);
+    cf_ReadString(std::data(weaponpage->sound_name[i]), PAGENAME_LEN, infile);
 
   // Read smoke name
-  cf_ReadString(weaponpage->smoke_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->smoke_image_name), PAGENAME_LEN, infile);
 
   // Read scorch data
-  cf_ReadString(weaponpage->scorch_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->scorch_image_name), PAGENAME_LEN, infile);
   weaponpage->weapon_struct.scorch_size = cf_ReadFloat(infile);
 
   // Read icon name
-  cf_ReadString(weaponpage->icon_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(weaponpage->icon_name), PAGENAME_LEN, infile);
 
   weaponpage->weapon_struct.used = 1;
 
 #ifdef OEM
-  if (!strcmp(weaponpage->weapon_struct.name, "NapalmBarrelPart2") ||
-      !strcmp(weaponpage->weapon_struct.name, "NapalmBarrel")) {
+  if (weaponpage->weapon_struct.name == "NapalmBarrelPart2" ||
+      weaponpage->weapon_struct.name == "NapalmBarrel") {
     // Do OEM hack
     DoOEMNapalmBarrelHack(weaponpage);
   }
 #endif
 
-  if (!stricmp(weaponpage->weapon_struct.name, "EMDBlob")) {
+  if (weaponpage->weapon_struct.name == "EMDBlob") {
     weaponpage->weapon_struct.life_time = 1.7f;
   }
 
@@ -935,25 +935,25 @@ int mng_ReadWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
         weaponpage->fire_image_name[i] = cf_ReadByte(infile);
       break;
     case WEAPONPAGE_COMMAND_NAME_NULL:
-      cf_ReadString(weaponpage->weapon_struct.name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->weapon_struct.name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_FIRE_IMAGE_NULL:
-      cf_ReadString(weaponpage->fire_image_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->fire_image_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_HUD_IMAGE_NULL:
-      cf_ReadString(weaponpage->hud_image_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->hud_image_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_SPAWN_NAME:
-      cf_ReadString(weaponpage->spawn_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->spawn_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_SPAWN_COUNT:
       weaponpage->weapon_struct.spawn_count = cf_ReadByte(infile);
       break;
     case WEAPONPAGE_COMMAND_ALT_SPAWN_NAME:
-      cf_ReadString(weaponpage->alternate_spawn_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->alternate_spawn_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_ROBOT_SPAWN_NAME:
-      cf_ReadString(weaponpage->robot_spawn_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->robot_spawn_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_ALT_CHANCE:
       weaponpage->weapon_struct.alternate_chance = cf_ReadByte(infile);
@@ -963,10 +963,10 @@ int mng_ReadWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
         weaponpage->weapon_struct.name[i] = cf_ReadByte(infile);
       break;
     case WEAPONPAGE_COMMAND_EXPLOSION_NAME:
-      cf_ReadString(weaponpage->explode_image_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->explode_image_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_PARTICLE_NAME:
-      cf_ReadString(weaponpage->particle_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->particle_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_FLAGS:
       weaponpage->weapon_struct.flags = cf_ReadInt(infile);
@@ -996,7 +996,7 @@ int mng_ReadWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
       break;
     case WEAPONPAGE_COMMAND_SOUND_NAME:
       t = cf_ReadByte(infile);
-      cf_ReadString(weaponpage->sound_name[t], len, infile);
+      cf_ReadString(std::data(weaponpage->sound_name[t]), len, infile);
       break;
     case WEAPONPAGE_COMMAND_PHYS_FLAGS:
       weaponpage->weapon_struct.phys_info.flags = cf_ReadInt(infile);
@@ -1098,16 +1098,16 @@ int mng_ReadWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
       weaponpage->weapon_struct.lighting_info.lighting_render_type = cf_ReadByte(infile);
       break;
     case WEAPONPAGE_COMMAND_SMOKE_NAME:
-      cf_ReadString(weaponpage->smoke_image_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->smoke_image_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_SCORCH_NAME:
-      cf_ReadString(weaponpage->scorch_image_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->scorch_image_name), len + 1, infile);
       break;
     case WEAPONPAGE_COMMAND_SCORCH_SIZE:
       weaponpage->weapon_struct.scorch_size = cf_ReadFloat(infile);
       break;
     case WEAPONPAGE_COMMAND_ICON_NAME:
-      cf_ReadString(weaponpage->icon_name, len + 1, infile);
+      cf_ReadString(std::data(weaponpage->icon_name), len + 1, infile);
       break;
     default:
       // Ignore the ones we don't know
@@ -1127,26 +1127,26 @@ int mng_ReadWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
   }
 
   // Clear out old strings
-  if (!strnicmp("INVALID", weaponpage->explode_image_name, 7))
-    strcpy(weaponpage->explode_image_name, "");
-  if (!strnicmp("INVALID", weaponpage->smoke_image_name, 7))
-    strcpy(weaponpage->smoke_image_name, "");
-  if (!strnicmp("INVALID", weaponpage->scorch_image_name, 7))
-    strcpy(weaponpage->scorch_image_name, "");
-  if (!strnicmp("INVALID", weaponpage->icon_name, 7))
-    strcpy(weaponpage->icon_name, "");
-  if (!strnicmp("INVALID", weaponpage->spawn_name, 7))
-    strcpy(weaponpage->spawn_name, "");
-  if (!strnicmp("INVALID", weaponpage->alternate_spawn_name, 7))
-    strcpy(weaponpage->alternate_spawn_name, "");
-  if (!strnicmp("INVALID", weaponpage->robot_spawn_name, 7))
-    strcpy(weaponpage->robot_spawn_name, "");
-  if (!strnicmp("INVALID", weaponpage->particle_name, 7))
-    strcpy(weaponpage->particle_name, "");
+  if (weaponpage->explode_image_name == "INVALID")
+    weaponpage->explode_image_name.clear();
+  if (weaponpage->smoke_image_name == "INVALID")
+    weaponpage->smoke_image_name.clear();
+  if (weaponpage->scorch_image_name == "INVALID")
+    weaponpage->scorch_image_name.clear();
+  if (weaponpage->icon_name == "INVALID")
+    weaponpage->icon_name.clear();
+  if (weaponpage->spawn_name == "INVALID")
+    weaponpage->spawn_name.clear();
+  if (weaponpage->alternate_spawn_name == "INVALID")
+    weaponpage->alternate_spawn_name.clear();
+  if (weaponpage->robot_spawn_name == "INVALID")
+    weaponpage->robot_spawn_name.clear();
+  if (weaponpage->particle_name == "INVALID")
+    weaponpage->particle_name.clear();
 
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++) {
-    if (!strnicmp("INVALID", weaponpage->sound_name[i], 7))
-      strcpy(weaponpage->sound_name[i], "");
+    if (weaponpage->sound_name[i] == "INVALID")
+      weaponpage->sound_name[i].clear();
   }
 
   // This is a valid new page
@@ -1157,7 +1157,7 @@ int mng_ReadWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage) {
 
 // Reads in the weapon named "name" into weaponpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificWeaponPage(char *name, mngs_weapon_page *weaponpage) {
+int mng_FindSpecificWeaponPage(const pagename_t& name, mngs_weapon_page *weaponpage) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -1214,7 +1214,7 @@ try_again:;
 
     mng_ReadNewWeaponPage(infile, weaponpage);
 
-    if (!stricmp(name, weaponpage->weapon_struct.name)) {
+    if (name == weaponpage->weapon_struct.name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -1235,7 +1235,7 @@ try_again:;
 
 // Reads in the weapon named "name" into weaponpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificWeaponPage(char *name, mngs_weapon_page *weaponpage, int offset) {
+int mng_FindSpecificWeaponPage(const pagename_t& name, mngs_weapon_page *weaponpage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -1292,7 +1292,7 @@ int mng_FindSpecificWeaponPage(char *name, mngs_weapon_page *weaponpage, int off
 
     mng_ReadNewWeaponPage(infile, weaponpage);
 
-    if (!stricmp(name, weaponpage->weapon_struct.name)) {
+    if (name == weaponpage->weapon_struct.name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -1310,7 +1310,7 @@ const char *Weapon_error_filename = NULL;
 // First searches through the weapon index to see if the weapon is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of weapon found, -1 if not
-int mng_GetGuaranteedWeaponPage(char *name, CFILE *infile) {
+int mng_GetGuaranteedWeaponPage(const pagename_t& name, CFILE *infile) {
   int i;
   mngs_weapon_page weaponpage;
 
@@ -1369,7 +1369,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
 
   // copy our values
   memcpy(weaponpointer, &weaponpage->weapon_struct, sizeof(weapon));
-  strcpy(weaponpointer->name, weaponpage->weapon_struct.name);
+  weaponpointer->name = weaponpage->weapon_struct.name;
 
   // First see if our image differs from the one on the net
   // If it is, make a copy
@@ -1380,52 +1380,52 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalManageGraphicsDir, weaponpage->hud_image_name, NULL);
-    ddio_MakePath(netstr, ManageGraphicsDir, weaponpage->hud_image_name, NULL);
+    ddio_MakePath(str, LocalManageGraphicsDir, std::data(weaponpage->hud_image_name), NULL);
+    ddio_MakePath(netstr, ManageGraphicsDir, std::data(weaponpage->hud_image_name), NULL);
 
-    UpdatePrimitive(str, netstr, weaponpage->hud_image_name, PAGETYPE_WEAPON, weaponpointer->name);
+    UpdatePrimitive(str, netstr, std::data(weaponpage->hud_image_name), PAGETYPE_WEAPON, std::data(weaponpointer->name));
 
     // Now copy the discharge image, depending on whether or not its a model
     if ((weaponpage->weapon_struct.flags & WF_IMAGE_BITMAP) || (weaponpage->weapon_struct.flags & WF_IMAGE_VCLIP)) {
-      ddio_MakePath(str, LocalManageGraphicsDir, weaponpage->fire_image_name, NULL);
-      ddio_MakePath(netstr, ManageGraphicsDir, weaponpage->fire_image_name, NULL);
+      ddio_MakePath(str, LocalManageGraphicsDir, std::data(weaponpage->fire_image_name), NULL);
+      ddio_MakePath(netstr, ManageGraphicsDir, std::data(weaponpage->fire_image_name), NULL);
     } else {
-      ddio_MakePath(str, LocalModelsDir, weaponpage->fire_image_name, NULL);
-      ddio_MakePath(netstr, NetModelsDir, weaponpage->fire_image_name, NULL);
+      ddio_MakePath(str, LocalModelsDir, std::data(weaponpage->fire_image_name), NULL);
+      ddio_MakePath(netstr, NetModelsDir, std::data(weaponpage->fire_image_name), NULL);
     }
 
-    UpdatePrimitive(str, netstr, weaponpage->fire_image_name, PAGETYPE_WEAPON, weaponpointer->name);
+    UpdatePrimitive(str, netstr, std::data(weaponpage->fire_image_name), PAGETYPE_WEAPON, std::data(weaponpointer->name));
   }
 #endif
 
   // Try and load our weapon model from the disk
 
   if (weaponpointer->flags & WF_HUD_ANIMATED)
-    img_handle = AllocLoadVClip(weaponpage->hud_image_name, NOT_TEXTURE, 0);
+    img_handle = AllocLoadVClip(std::data(weaponpage->hud_image_name), NOT_TEXTURE, 0);
   else
-    img_handle = bm_AllocLoadFileBitmap(weaponpage->hud_image_name, 0);
+    img_handle = bm_AllocLoadFileBitmap(std::data(weaponpage->hud_image_name), 0);
 
   if (img_handle < 0) {
     mprintf(0, "Couldn't load bitmap '%s' in AssignWeaponPage...\n", weaponpage->hud_image_name);
     weaponpointer->hud_image_handle = -1;
     Weapon_error = "Can't load HUD image";
-    Weapon_error_filename = weaponpage->hud_image_name;
+    Weapon_error_filename = std::data(weaponpage->hud_image_name);
     return 0;
   } else
     weaponpointer->hud_image_handle = img_handle;
 
   if (weaponpointer->flags & WF_IMAGE_BITMAP)
-    img_handle = bm_AllocLoadFileBitmap(weaponpage->fire_image_name, 0);
+    img_handle = bm_AllocLoadFileBitmap(std::data(weaponpage->fire_image_name), 0);
   else if (weaponpointer->flags & WF_IMAGE_VCLIP)
-    img_handle = AllocLoadVClip(weaponpage->fire_image_name, NOT_TEXTURE, 0);
+    img_handle = AllocLoadVClip(std::data(weaponpage->fire_image_name), NOT_TEXTURE, 0);
   else
-    img_handle = LoadPolyModel(weaponpage->fire_image_name, 1);
+    img_handle = LoadPolyModel(std::data(weaponpage->fire_image_name), 1);
 
   if (img_handle < 0) {
     mprintf(0, "Couldn't load bitmap/model '%s' in AssignWeaponPage...\n", weaponpage->fire_image_name);
     weaponpointer->fire_image_handle = -1;
     Weapon_error = "Can't load fire image";
-    Weapon_error_filename = weaponpage->fire_image_name;
+    Weapon_error_filename = std::data(weaponpage->fire_image_name);
     return 0;
   } else {
     weaponpointer->fire_image_handle = img_handle;
@@ -1440,7 +1440,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
     }*/
   }
 
-  if (stricmp(weaponpage->explode_image_name, "INVALID NAME") && weaponpage->explode_image_name[0] != 0) {
+  if (weaponpage->explode_image_name != "INVALID NAME" && weaponpage->explode_image_name[0] != 0) {
     img_handle = mng_GetGuaranteedTexturePage(weaponpage->explode_image_name, infile);
 
     if (img_handle < 0) {
@@ -1452,7 +1452,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
     weaponpointer->explode_image_handle = -1;
 
   // Try to load particle texture
-  if (stricmp(weaponpage->particle_name, "INVALID NAME") && weaponpage->particle_name[0] != 0) {
+  if (weaponpage->particle_name != "INVALID NAME" && weaponpage->particle_name[0] != 0) {
     img_handle = mng_GetGuaranteedTexturePage(weaponpage->particle_name, infile);
 
     if (img_handle < 0) {
@@ -1464,7 +1464,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
     weaponpointer->particle_handle = -1;
 
   // Try to load spawn weapons
-  if (stricmp(weaponpage->spawn_name, "INVALID NAME") && weaponpage->spawn_name[0] != 0) {
+  if (weaponpage->spawn_name != "INVALID NAME" && weaponpage->spawn_name[0] != 0) {
     img_handle = mng_GetGuaranteedWeaponPage(weaponpage->spawn_name, infile);
 
     if (img_handle < 0) {
@@ -1475,7 +1475,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
   } else
     weaponpointer->spawn_handle = -1;
 
-  if (stricmp(weaponpage->alternate_spawn_name, "INVALID NAME") && weaponpage->alternate_spawn_name[0] != 0) {
+  if (weaponpage->alternate_spawn_name != "INVALID NAME" && weaponpage->alternate_spawn_name[0] != 0) {
     img_handle = mng_GetGuaranteedWeaponPage(weaponpage->alternate_spawn_name, infile);
 
     if (img_handle < 0) {
@@ -1487,7 +1487,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
     weaponpointer->alternate_spawn_handle = -1;
 
   // Try to load robot spawn
-  if (stricmp(weaponpage->robot_spawn_name, "INVALID NAME") && weaponpage->robot_spawn_name[0] != 0) {
+  if (weaponpage->robot_spawn_name != "INVALID NAME" && weaponpage->robot_spawn_name[0] != 0) {
     img_handle = mng_GetGuaranteedGenericPage(weaponpage->robot_spawn_name, infile);
 
     if (img_handle < 0) {
@@ -1499,7 +1499,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
     weaponpointer->robot_spawn_handle = -1;
 
   // Try to load smoke
-  if (stricmp(weaponpage->smoke_image_name, "INVALID NAME") && weaponpage->smoke_image_name[0] != 0) {
+  if (weaponpage->smoke_image_name != "INVALID NAME" && weaponpage->smoke_image_name[0] != 0) {
     img_handle = mng_GetGuaranteedTexturePage(weaponpage->smoke_image_name, infile);
 
     if (img_handle < 0) {
@@ -1515,7 +1515,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
   }
 
   // Try to load scorch
-  if (stricmp(weaponpage->scorch_image_name, "INVALID NAME") && weaponpage->scorch_image_name[0] != 0) {
+  if (weaponpage->scorch_image_name != "INVALID NAME" && weaponpage->scorch_image_name[0] != 0) {
     img_handle = mng_GetGuaranteedTexturePage(weaponpage->scorch_image_name, infile);
 
     if (img_handle < 0) {
@@ -1529,7 +1529,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
   }
 
   // Try to load icone
-  if (stricmp(weaponpage->icon_name, "INVALID NAME") && weaponpage->icon_name[0] != 0) {
+  if (weaponpage->icon_name != "INVALID NAME" && weaponpage->icon_name[0] != 0) {
     img_handle = mng_GetGuaranteedTexturePage(weaponpage->icon_name, infile);
 
     if (img_handle < 0) {
@@ -1544,7 +1544,7 @@ int mng_AssignWeaponPageToWeapon(mngs_weapon_page *weaponpage, int n, CFILE *inf
 
   // Try and load the various sounds
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++) {
-    if (stricmp(weaponpage->sound_name[i], "INVALID NAME") && (strlen(weaponpage->sound_name[i]) > 3)) {
+    if (weaponpage->sound_name[i] != "INVALID NAME" && weaponpage->sound_name[i].size() > 3) {
       sound_handle = mng_GetGuaranteedSoundPage(weaponpage->sound_name[i]);
 
       if (sound_handle < 0) {
@@ -1569,78 +1569,78 @@ void mng_AssignWeaponToWeaponPage(int n, mngs_weapon_page *weaponpage) {
   // Assign the  values
   memcpy(&weaponpage->weapon_struct, weaponpointer, sizeof(weapon));
 
-  strcpy(weaponpage->weapon_struct.name, weaponpointer->name);
+  weaponpage->weapon_struct.name = weaponpointer->name;
 
   if (weaponpointer->hud_image_handle != -1) {
     if (weaponpointer->flags & WF_HUD_ANIMATED)
-      strcpy(weaponpage->hud_image_name, GameVClips[weaponpointer->hud_image_handle].name);
+      weaponpage->hud_image_name = GameVClips[weaponpointer->hud_image_handle].name;
     else
-      strcpy(weaponpage->hud_image_name, GameBitmaps[weaponpointer->hud_image_handle].name);
+      weaponpage->hud_image_name = GameBitmaps[weaponpointer->hud_image_handle].name;
   } else
-    strcpy(weaponpage->hud_image_name, "");
+    weaponpage->hud_image_name.clear();
 
   if (weaponpointer->fire_image_handle != -1) {
     if (weaponpointer->flags & WF_IMAGE_BITMAP)
-      strcpy(weaponpage->fire_image_name, GameBitmaps[weaponpointer->fire_image_handle].name);
+      weaponpage->fire_image_name = GameBitmaps[weaponpointer->fire_image_handle].name;
     else if (weaponpointer->flags & WF_IMAGE_VCLIP)
-      strcpy(weaponpage->fire_image_name, GameVClips[weaponpointer->fire_image_handle].name);
+      weaponpage->fire_image_name = GameVClips[weaponpointer->fire_image_handle].name;
     else
-      strcpy(weaponpage->fire_image_name, Poly_models[weaponpointer->fire_image_handle].name);
+      weaponpage->fire_image_name = Poly_models[weaponpointer->fire_image_handle].name;
   } else
-    strcpy(weaponpage->fire_image_name, "");
+    weaponpage->fire_image_name.clear();
 
   // do explosion name
 
   if (weaponpointer->explode_image_handle != -1)
-    strcpy(weaponpage->explode_image_name, GameTextures[weaponpointer->explode_image_handle].name);
+    weaponpage->explode_image_name = GameTextures[weaponpointer->explode_image_handle].name;
   else
-    strcpy(weaponpage->explode_image_name, "");
+    weaponpage->explode_image_name.clear();
 
   // Do particle name
   if (weaponpointer->particle_handle != -1)
-    strcpy(weaponpage->particle_name, GameTextures[weaponpointer->particle_handle].name);
+    weaponpage->particle_name = GameTextures[weaponpointer->particle_handle].name;
   else
-    strcpy(weaponpage->particle_name, "");
+    weaponpage->particle_name.clear();
 
   // Do spawn name
   if (weaponpointer->spawn_handle != -1)
-    strcpy(weaponpage->spawn_name, Weapons[weaponpointer->spawn_handle].name);
+    weaponpage->spawn_name = Weapons[weaponpointer->spawn_handle].name;
   else
-    strcpy(weaponpage->spawn_name, "");
+    weaponpage->spawn_name.clear();
 
   // Do spawn name
   if (weaponpointer->alternate_spawn_handle != -1)
-    strcpy(weaponpage->alternate_spawn_name, Weapons[weaponpointer->alternate_spawn_handle].name);
+    weaponpage->alternate_spawn_name = Weapons[weaponpointer->alternate_spawn_handle].name;
   else
-    strcpy(weaponpage->alternate_spawn_name, "");
+    weaponpage->alternate_spawn_name.clear();
 
   // Do robot spawn name
   if (weaponpointer->robot_spawn_handle != -1)
-    strcpy(weaponpage->robot_spawn_name, Object_info[weaponpointer->robot_spawn_handle].name);
+    weaponpage->robot_spawn_name = Object_info[weaponpointer->robot_spawn_handle].name;
   else
-    strcpy(weaponpage->robot_spawn_name, "");
+    weaponpage->robot_spawn_name.clear();
 
   if ((weaponpointer->flags & WF_SMOKE) && weaponpointer->smoke_handle >= 0 &&
       GameTextures[weaponpointer->smoke_handle].used) {
-    strcpy(weaponpage->smoke_image_name, GameTextures[weaponpointer->smoke_handle].name);
+    weaponpage->smoke_image_name = GameTextures[weaponpointer->smoke_handle].name;
   } else
-    strcpy(weaponpage->smoke_image_name, "");
+    weaponpage->smoke_image_name.clear();
 
   if (weaponpointer->scorch_handle >= 0 && GameTextures[weaponpointer->scorch_handle].used) {
-    strcpy(weaponpage->scorch_image_name, GameTextures[weaponpointer->scorch_handle].name);
+    weaponpage->scorch_image_name = GameTextures[weaponpointer->scorch_handle].name;
   } else
-    strcpy(weaponpage->scorch_image_name, "");
+    weaponpage->scorch_image_name.clear();
 
   if (weaponpointer->icon_handle >= 0 && GameTextures[weaponpointer->icon_handle].used) {
-    strcpy(weaponpage->icon_name, GameTextures[weaponpointer->icon_handle].name);
+    weaponpage->icon_name = GameTextures[weaponpointer->icon_handle].name;
   } else
-    strcpy(weaponpage->icon_name, "");
+    weaponpage->icon_name.clear();
 
   for (i = 0; i < MAX_WEAPON_SOUNDS; i++) {
     if (weaponpointer->sounds[i] != SOUND_NONE_INDEX)
-      strcpy(weaponpage->sound_name[i], Sounds[weaponpointer->sounds[i]].name);
+      weaponpage->sound_name[i] = Sounds[weaponpointer->sounds[i]].name;
     else
-      strcpy(weaponpage->sound_name[i], "");
+      weaponpage->sound_name[i].clear();
   }
 }
 
@@ -1685,7 +1685,7 @@ void mng_LoadLocalWeaponPage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, weaponpage.weapon_struct.name);
+      pl.name = weaponpage.weapon_struct.name;
       pl.pagetype = PAGETYPE_WEAPON;
 
       /*if (Network_up && Stand_alone==0)
@@ -1707,7 +1707,7 @@ void mng_LoadLocalWeaponPage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_WEAPON &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, weaponpage.weapon_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == weaponpage.weapon_struct.name) {
             // found it!!
             mprintf(0, "WeaponPage: %s previously loaded\n", weaponpage.weapon_struct.name);
             need_to_load_page = false;
@@ -1734,7 +1734,7 @@ void mng_LoadLocalWeaponPage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_WEAPON &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, weaponpage.weapon_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == weaponpage.weapon_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;

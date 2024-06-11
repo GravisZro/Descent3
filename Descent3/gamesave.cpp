@@ -835,7 +835,12 @@ void save_data_table(CFILE *fp, const std::array<T, sz>& data) {
 
   gs_WriteShort(fp, highest_index + 1);
   for (int16_t i = 0; i <= highest_index; i++)
-    cf_WriteString(fp, data[i].used ? data[i].name : "");
+  {
+    if(data[i].used)
+      cf_WriteString(fp, std::data(data[i].name));
+    else
+      cf_WriteString(fp, "");
+  }
 }
 
 //	writes out translation tables.
@@ -851,7 +856,12 @@ void SGSXlateTables(CFILE *fp) {
   gs_WriteShort(fp, highest_index + 1);
 
   for (i = 0; i <= highest_index; i++)
-    cf_WriteString(fp, (Object_info[i].type != OBJ_NONE) ? Object_info[i].name : "");
+  {
+    if(Object_info[i].type == OBJ_NONE)
+      cf_WriteString(fp, "");
+    else
+      cf_WriteString(fp, std::data(Object_info[i].name));
+  }
 
   //	write out polymodel list.
   save_data_table(fp, Poly_models);
@@ -874,7 +884,7 @@ void SGSXlateTables(CFILE *fp) {
     if (Objects[i].type == OBJ_FIREBALL) {
       if (Objects[i].ctype.blast_info.bm_handle > -1) {
         gs_WriteShort(fp, Objects[i].ctype.blast_info.bm_handle);
-        cf_WriteString(fp, GameBitmaps[Objects[i].ctype.blast_info.bm_handle].name);
+        cf_WriteString(fp, std::data(GameBitmaps[Objects[i].ctype.blast_info.bm_handle].name));
       }
     }
   gs_WriteShort(fp, -1); // terminate bitmap list

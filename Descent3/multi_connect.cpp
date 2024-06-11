@@ -720,7 +720,7 @@ void MultiProcessShipChecksum(MD5 *md5, int ship_index) {
 // Server is telling us about the level
 void MultiDoLevelInfo(uint8_t *data) {
   int count = 0;
-  char pshipmodel[PAGENAME_LEN];
+  pagename_t pshipmodel;
   Current_pilot.get_ship(pshipmodel);
 
   int ship_index = FindShipName(pshipmodel);
@@ -782,7 +782,7 @@ void MultiSendLevelInfo(int slot) {
 void MultiDoReadyForLevel(uint8_t *data) {
   int count = 0;
   uint8_t slot;
-  char ship_name[PAGENAME_LEN];
+  pagename_t ship_name;
 
   // Skip header stuff
   SKIP_HEADER(data, &count);
@@ -792,7 +792,7 @@ void MultiDoReadyForLevel(uint8_t *data) {
 
   // Copy the ship name out
   int len = MultiGetByte(data, &count);
-  memcpy(ship_name, &data[count], len);
+  memcpy(std::data(ship_name), &data[count], len);
   count += len;
 
   int ship_index = FindShipName(ship_name);
@@ -816,7 +816,7 @@ void MultiSendReadyForLevel() {
 
   mprintf(0, "Sending ready for level!\n");
 
-  char pshipmodel[PAGENAME_LEN];
+  pagename_t pshipmodel;
   Current_pilot.get_ship(pshipmodel);
 
   int ship_index = FindShipName(pshipmodel);
@@ -828,9 +828,9 @@ void MultiSendReadyForLevel() {
   MultiAddByte(Player_num, data, &count);
 
   // Send ship for anti-cheating purposes (CHEAP and EASILY HACKABLE!)
-  int len = strlen(Ships[ship_index].name) + 1;
+  int len = Ships[ship_index].name.size() + 1;
   MultiAddByte(len, data, &count);
-  memcpy(&data[count], Ships[ship_index].name, len);
+  memcpy(&data[count], std::data(Ships[ship_index].name), len);
   count += len;
 
   END_DATA(count, data, size_offset);

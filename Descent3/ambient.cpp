@@ -189,19 +189,19 @@ void InitAmbientSoundSystem() {
 
 // Return the index of a named ambient sound pattern
 // Returns number, or -1 if can't find
-int FindAmbientSoundPattern(char *aspname) {
+int FindAmbientSoundPattern(const pagename_t& aspname) {
   if (!aspname[0])
     return -1;
 
   for (int i = 0; i < Num_ambient_sound_patterns; i++)
-    if (stricmp(Ambient_sound_patterns[i].name, aspname) == 0)
+    if (Ambient_sound_patterns[i].name == aspname)
       return i;
 
   return -1;
 }
 
 // Returns a pointer to the name of the specified ambient sound pattern
-char *AmbientSoundPatternName(int n) { return Ambient_sound_patterns[n].name; }
+const pagename_t& AmbientSoundPatternName(int n) { return Ambient_sound_patterns[n].name; }
 
 #define AMBIENT_FILE_ID "ASPF"
 #define AMBIENT_FILE_VERSION 0
@@ -248,7 +248,7 @@ void ReadAmbientData() {
 
     asp *asp = &Ambient_sound_patterns[p];
 
-    cf_ReadString(asp->name, sizeof(asp->name), ifile);
+    cf_ReadString(std::data(asp->name), sizeof(asp->name), ifile);
 
     asp->min_delay = cf_ReadFloat(ifile);
     asp->max_delay = cf_ReadFloat(ifile);
@@ -262,9 +262,8 @@ void ReadAmbientData() {
 
     int prob = 0;
     for (int s = 0; s < asp->num_sounds; s++) {
-      char tbuf[PAGENAME_LEN];
-
-      cf_ReadString(tbuf, sizeof(tbuf), ifile);
+      pagename_t tbuf;
+      cf_ReadString(std::data(tbuf), PAGENAME_LEN, ifile);
       asp->sounds[s].handle = FindSoundName(IGNORE_TABLE(tbuf));
 
       asp->sounds[s].min_volume = cf_ReadFloat(ifile);
@@ -316,7 +315,7 @@ void WriteAmbientData() {
 
     asp *asp = &Ambient_sound_patterns[p];
 
-    cf_WriteString(ofile, asp->name);
+    cf_WriteString(ofile, std::data(asp->name));
 
     cf_WriteFloat(ofile, asp->min_delay);
     cf_WriteFloat(ofile, asp->max_delay);
@@ -324,7 +323,7 @@ void WriteAmbientData() {
     cf_WriteInt(ofile, asp->num_sounds);
 
     for (int s = 0; s < asp->num_sounds; s++) {
-      cf_WriteString(ofile, Sounds[asp->sounds[s].handle].name);
+      cf_WriteString(ofile, std::data(Sounds[asp->sounds[s].handle].name));
 
       cf_WriteFloat(ofile, asp->sounds[s].min_volume);
       cf_WriteFloat(ofile, asp->sounds[s].max_volume);

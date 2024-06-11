@@ -711,7 +711,7 @@ void CWorldObjectsPowerupDialog::OnKillfocusPowerNameEdit()
 {
 	CEdit *ebox;
 	int n=D3EditState.current_powerup;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this powerup locked, if not reset name and bail
@@ -758,7 +758,7 @@ void CWorldObjectsPowerupDialog::OnKillfocusPowerNameEdit()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Powerups[n].name);
 		strcpy (Powerups[n].name,name);
 		mng_ReplacePowPage (oldname,n,1);

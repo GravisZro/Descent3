@@ -45,8 +45,10 @@
 
 #ifndef __MANAGE_EXTERNAL_H_
 #define __MANAGE_EXTERNAL_H_
+#include "fixed_string.h"
 
 #define PAGENAME_LEN 35
+using pagename_t = fixed_string_t<PAGENAME_LEN>;
 
 // Use this macro around your parameter in a table-file lookup, etc. to have the
 // table file parser ignore this instance of the function (because you might be

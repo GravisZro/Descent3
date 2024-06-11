@@ -26,7 +26,7 @@
 
 struct mngs_megacell_page {
   megacell megacell_struct;
-  char cellname[MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT][PAGENAME_LEN];
+  pagename_t cellname[MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT];
 };
 
 // Megacell page functions
@@ -46,7 +46,7 @@ int mng_ReadNewMegacellPage(CFILE *infile, mngs_megacell_page *megacellpage);
 
 // Reads in the megacellpage named "name" into megacellpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificMegacellPage(char *name, mngs_megacell_page *megacellpage, int local);
+int mng_FindSpecificMegacellPage(const pagename_t& name, mngs_megacell_page *megacellpage, int local);
 
 // Given a megacell page, allocs a megacell and calls AssignMegacellPageToMegacell to actually
 // load model and values. Rturns megacell handle on success, -1 if fail

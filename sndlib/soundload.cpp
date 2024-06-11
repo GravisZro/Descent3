@@ -248,7 +248,7 @@
 int Num_sounds = 0;
 int Num_sound_files = 0;
 
-const char *Static_sound_names[NUM_STATIC_SOUNDS] = {
+std::array<pagename_t, NUM_STATIC_SOUNDS> Static_sound_names = {
     TBL_SOUND("Default"),                      // 0	SOUND_NONE_INDEX
     TBL_SOUND("Refuel"),                       // 1	SOUND_REFUELING
     TBL_SOUND("DefaultRobotExplode1"),         // 2	SOUND_ROBOT_EXPLODE_1
@@ -377,13 +377,13 @@ int GetPrevSoundFile(int n) {
 }
 // Searches thru all sounds for a specific name, returns -1 if not found
 // or index of sound with name
-int FindSoundFileName(char *name) {
+int FindSoundFileName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_SOUND_FILES; i++)
-    if (SoundFiles[i].used && !stricmp(name, SoundFiles[i].name))
+    if (SoundFiles[i].used && SoundFiles[i].name == name)
       return i;
 
   return -1;
@@ -408,10 +408,10 @@ void ChangeSoundFileName(const char *src, char *dest) {
 int LoadSoundFile(const char *filename, float import_volume, bool f_get_data) {
   int sound_file_index;
   char extension[10];
-  char name[90];
+  pagename_t name;
   int len;
 
-  ChangeSoundFileName(filename, name);
+  ChangeSoundFileName(filename, std::data(name));
 
   // See if the file was already loaded
   sound_file_index = FindSoundFileName(name);
@@ -435,7 +435,7 @@ int LoadSoundFile(const char *filename, float import_volume, bool f_get_data) {
     goto error_state;
   }
 
-  strcpy(SoundFiles[sound_file_index].name, name);
+  SoundFiles[sound_file_index].name = name;
 
   // Load the file by its type (as defined by the extension)
   strncpy(extension, &filename[len - 3], 5);
@@ -555,23 +555,23 @@ int GetPrevSound(int n) {
 }
 // Searches thru all sounds for a specific name, returns -1 if not found
 // or index of sound with name
-int FindSoundName(const char *name) {
+int FindSoundName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_SOUNDS; i++)
-    if (Sounds[i].used && !stricmp(name, Sounds[i].name))
+    if (Sounds[i].used && name == Sounds[i].name)
       return i;
 
   return -1;
 }
 
 // Given a filename, loads the sound.
-int LoadSound(char *filename) {
+int LoadSound(const pagename_t& name) {
   int sound_handle;
 
-  sound_handle = mng_GetGuaranteedSoundPage(filename);
+  sound_handle = mng_GetGuaranteedSoundPage(name);
 
   return sound_handle;
 }

@@ -964,7 +964,7 @@ int AllocLoadRoom (char *filename,bool bCenter,bool palette_room)
 	int done=0,initted=0;
 	int command,len,room_num=-1,i;
 	room *rp;
-	char texture_names[MAX_TEXTURES][PAGENAME_LEN];
+        pagename_t texture_names[MAX_TEXTURES];
 	int highest_index;
 	int16_t tex_index;
 	int room_version=0;

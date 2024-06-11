@@ -25,9 +25,9 @@
 #include "procedurals.h"
 
 struct mngs_texture_page {
-  char bitmap_name[PAGENAME_LEN];  // filename for the bitmap associated with this texture
-  char destroy_name[PAGENAME_LEN]; // filename for the destroyed bitmap
-  char sound_name[PAGENAME_LEN];   // filename for the destroyed bitmap
+  pagename_t bitmap_name;  // filename for the bitmap associated with this texture
+  pagename_t destroy_name; // filename for the destroyed bitmap
+  pagename_t sound_name;   // filename for the destroyed bitmap
   texture tex_struct;
 
   int num_proc_elements;
@@ -81,7 +81,7 @@ void mng_LoadNetTexturePage(CFILE *, bool overlay = false);
 
 // Reads in the texpage named "name" into texpage struct
 // Returns 0 on error, else 1 if all is good
-int mng_FindSpecificTexPage(char *name, mngs_texture_page *texpage, int offset = 0);
+int mng_FindSpecificTexPage(const pagename_t& name, mngs_texture_page *texpage, int offset = 0);
 
 // Given a texpage and a texture handle, attempts to make texture n correspond to
 // to the texpage.
@@ -93,10 +93,10 @@ void mng_AssignTextureToTexPage(int n, mngs_texture_page *texpage);
 // First searches through the texture index to see if the texture is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of texture found, -1 if not
-int mng_GetGuaranteedTexturePage(char *name, CFILE *infile = NULL);
+int mng_GetGuaranteedTexturePage(const pagename_t& name, CFILE *infile = NULL);
 
 // Given some texture names, finds them in the table file and deletes them
 // If local is 1, deletes from the local table file
-int mng_DeleteTexPageSeries(char *names[], int num_textures, int local);
+int mng_DeleteTexPageSeries(pagename_t names[], int num_textures, int local);
 
 #endif

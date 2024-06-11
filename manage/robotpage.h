@@ -27,7 +27,7 @@
 
 struct mngs_robot_page {
   object_info robot_struct;
-  char image_name[PAGENAME_LEN];
+  pagename_t image_name;
 };
 
 // Robot page functions
@@ -42,15 +42,15 @@ int mng_ReadRobotPage(CFILE *infile, mngs_robot_page *robotpage);
 // Given a robot handle, searches the table file and replaces the robot with the same name
 // If local=1, then does it to the users local copy
 // Returns 0 on error, else 1 if all is good
-int mng_ReplaceRobotPage(char *name, int handle, int local);
+int mng_ReplaceRobotPage(const pagename_t& name, int handle, int local);
 
 // Given a robot name, finds it in the table file and deletes it
 // If local is 1, deletes from the local table file
-int mng_DeleteRobotPage(char *name, int local);
+int mng_DeleteRobotPage(const pagename_t& name, int local);
 
 // Reads in the robotpage named "name" into robotpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificRobotPage(char *name, mngs_robot_page *robotpage);
+int mng_FindSpecificRobotPage(const pagename_t& name, mngs_robot_page *robotpage);
 
 // Given a robot page, allocs a robot and calls AssignRobotPageToRobot to actually
 // load model and values. Rturns robot handle on success, -1 if fail

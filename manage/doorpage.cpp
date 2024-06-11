@@ -219,12 +219,12 @@ void mng_WriteDoorPage(CFILE *outfile, mngs_door_page *doorpage) {
   Int3(); // this shouldn't be called -- hit points not written out
 
   cf_WriteByte(outfile, DOORPAGE_COMMAND_OPEN_SOUND_NAME);
-  cf_WriteByte(outfile, strlen(doorpage->open_sound_name) + 1);
-  cf_WriteString(outfile, doorpage->open_sound_name);
+  cf_WriteByte(outfile, doorpage->open_sound_name.size() + 1);
+  cf_WriteString(outfile, std::data(doorpage->open_sound_name));
 
   cf_WriteByte(outfile, DOORPAGE_COMMAND_CLOSE_SOUND_NAME);
-  cf_WriteByte(outfile, strlen(doorpage->close_sound_name) + 1);
-  cf_WriteString(outfile, doorpage->close_sound_name);
+  cf_WriteByte(outfile, doorpage->close_sound_name.size() + 1);
+  cf_WriteString(outfile, std::data(doorpage->close_sound_name));
 
   cf_WriteByte(outfile, DOORPAGE_COMMAND_END); // we're all done
   cf_WriteByte(outfile, 0);
@@ -238,8 +238,8 @@ void mng_WriteNewDoorPage(CFILE *outfile, mngs_door_page *doorpage) {
   int offset = StartManagePage(outfile, PAGETYPE_DOOR);
 
   cf_WriteShort(outfile, DOORPAGE_VERSION);
-  cf_WriteString(outfile, doorpage->door_struct.name);
-  cf_WriteString(outfile, doorpage->image_name);
+  cf_WriteString(outfile, std::data(doorpage->door_struct.name));
+  cf_WriteString(outfile, std::data(doorpage->image_name));
 
   cf_WriteFloat(outfile, doorpage->door_struct.total_open_time);
   cf_WriteFloat(outfile, doorpage->door_struct.total_close_time);
@@ -248,10 +248,10 @@ void mng_WriteNewDoorPage(CFILE *outfile, mngs_door_page *doorpage) {
   cf_WriteByte(outfile, doorpage->door_struct.flags);
   cf_WriteShort(outfile, doorpage->door_struct.hit_points);
 
-  cf_WriteString(outfile, doorpage->open_sound_name);
-  cf_WriteString(outfile, doorpage->close_sound_name);
+  cf_WriteString(outfile, std::data(doorpage->open_sound_name));
+  cf_WriteString(outfile, std::data(doorpage->close_sound_name));
 
-  cf_WriteString(outfile, doorpage->door_struct.module_name);
+  cf_WriteString(outfile, std::data(doorpage->door_struct.module_name));
 
   EndManagePage(outfile, offset);
 }
@@ -262,8 +262,8 @@ int mng_ReadNewDoorPage(CFILE *infile, mngs_door_page *doorpage) {
 
   int version = cf_ReadShort(infile);
 
-  cf_ReadString(doorpage->door_struct.name, PAGENAME_LEN, infile);
-  cf_ReadString(doorpage->image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(doorpage->door_struct.name), sizeof(doorpage->door_struct.name), infile);
+  cf_ReadString(std::data(doorpage->image_name), sizeof(doorpage->image_name), infile);
 
   doorpage->door_struct.total_open_time = cf_ReadFloat(infile);
   doorpage->door_struct.total_close_time = cf_ReadFloat(infile);
@@ -276,8 +276,8 @@ int mng_ReadNewDoorPage(CFILE *infile, mngs_door_page *doorpage) {
   else
     doorpage->door_struct.hit_points = 0;
 
-  cf_ReadString(doorpage->open_sound_name, PAGENAME_LEN, infile);
-  cf_ReadString(doorpage->close_sound_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(doorpage->open_sound_name), sizeof(doorpage->open_sound_name), infile);
+  cf_ReadString(std::data(doorpage->close_sound_name), sizeof(doorpage->close_sound_name), infile);
 
   if (version >= 2)
     cf_ReadString(doorpage->door_struct.module_name, MAX_MODULENAME_LEN, infile);
@@ -301,8 +301,8 @@ int mng_ReadDoorPage(CFILE *infile, mngs_door_page *doorpage) {
     return mng_ReadNewDoorPage(infile, doorpage);
 
   // doorpage->door_struct.script_name[0]=0;
-  strcpy(doorpage->open_sound_name, "INVALID SOUND NAME");
-  strcpy(doorpage->close_sound_name, "INVALID SOUND NAME");
+  strcpy(std::data(doorpage->open_sound_name), "INVALID SOUND NAME");
+  strcpy(std::data(doorpage->close_sound_name), "INVALID SOUND NAME");
 
   ASSERT(infile != NULL);
 
@@ -341,10 +341,10 @@ int mng_ReadDoorPage(CFILE *infile, mngs_door_page *doorpage) {
       doorpage->door_struct.flags = cf_ReadByte(infile);
       break;
     case DOORPAGE_COMMAND_OPEN_SOUND_NAME:
-      cf_ReadString(doorpage->open_sound_name, len + 1, infile);
+      cf_ReadString(std::data(doorpage->open_sound_name), len + 1, infile);
       break;
     case DOORPAGE_COMMAND_CLOSE_SOUND_NAME:
-      cf_ReadString(doorpage->close_sound_name, len + 1, infile);
+      cf_ReadString(std::data(doorpage->close_sound_name), len + 1, infile);
       break;
     default:
       // Ignore the ones we don't know
@@ -362,7 +362,7 @@ int mng_ReadDoorPage(CFILE *infile, mngs_door_page *doorpage) {
 
 // Reads in the door named "name" into doorpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificDoorPage(char *name, mngs_door_page *doorpage, int offset) {
+int mng_FindSpecificDoorPage(const pagename_t& name, mngs_door_page *doorpage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -420,7 +420,7 @@ int mng_FindSpecificDoorPage(char *name, mngs_door_page *doorpage, int offset) {
 
     mng_ReadNewDoorPage(infile, doorpage);
 
-    if (!stricmp(name, doorpage->door_struct.name)) {
+    if (name == doorpage->door_struct.name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -455,7 +455,7 @@ int mng_AssignDoorPageToDoor(mngs_door_page *doorpage, int n) {
 
   // copy our values
   memcpy(doorpointer, &doorpage->door_struct, sizeof(door));
-  strcpy(doorpointer->name, doorpage->door_struct.name);
+  doorpointer->name = doorpage->door_struct.name;
 
   // First see if our image differs from the one on the net
   // If it is, make a copy
@@ -466,16 +466,16 @@ int mng_AssignDoorPageToDoor(mngs_door_page *doorpage, int n) {
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalModelsDir, doorpage->image_name, NULL);
-    ddio_MakePath(netstr, NetModelsDir, doorpage->image_name, NULL);
+    ddio_MakePath(str, LocalModelsDir, std::data(doorpage->image_name), NULL);
+    ddio_MakePath(netstr, NetModelsDir, std::data(doorpage->image_name), NULL);
 
-    UpdatePrimitive(str, netstr, doorpage->image_name, PAGETYPE_DOOR, doorpointer->name);
+    UpdatePrimitive(str, netstr, std::data(doorpage->image_name), PAGETYPE_DOOR, std::data(doorpointer->name));
   }
 #endif
 
   // Try and load our door model from the disk
 
-  img_handle = LoadPolyModel(doorpage->image_name, 1);
+  img_handle = LoadPolyModel(std::data(doorpage->image_name), 1);
 
   // Set sounds
   doorpointer->open_sound = mng_GetGuaranteedSoundPage(doorpage->open_sound_name);
@@ -498,22 +498,22 @@ void mng_AssignDoorToDoorPage(int n, mngs_door_page *doorpage) {
   // Assign the  values
   memcpy(&doorpage->door_struct, doorpointer, sizeof(door));
 
-  strcpy(doorpage->door_struct.name, doorpointer->name);
+  doorpage->door_struct.name =doorpointer->name;
 
   if (doorpointer->model_handle != -1)
-    strcpy(doorpage->image_name, Poly_models[doorpointer->model_handle].name);
+    doorpage->image_name = Poly_models[doorpointer->model_handle].name;
   else
-    strcpy(doorpage->image_name, "INVALID IMAGE NAME");
+    strcpy(std::data(doorpage->image_name), "INVALID IMAGE NAME");
 
   if (doorpointer->open_sound != -1)
-    strcpy(doorpage->open_sound_name, Sounds[doorpointer->open_sound].name);
+    doorpage->open_sound_name = Sounds[doorpointer->open_sound].name;
   else
-    strcpy(doorpage->open_sound_name, "INVALID SOUND NAME");
+    strcpy(std::data(doorpage->open_sound_name), "INVALID SOUND NAME");
 
   if (doorpointer->close_sound != -1)
-    strcpy(doorpage->close_sound_name, Sounds[doorpointer->close_sound].name);
+    doorpage->close_sound_name = Sounds[doorpointer->close_sound].name;
   else
-    strcpy(doorpage->close_sound_name, "INVALID SOUND NAME");
+    strcpy(std::data(doorpage->close_sound_name), "INVALID SOUND NAME");
 }
 
 // Loads a door found in the net table file.  It then allocs a door and
@@ -557,7 +557,7 @@ void mng_LoadLocalDoorPage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, doorpage.door_struct.name);
+      pl.name = doorpage.door_struct.name;
       pl.pagetype = PAGETYPE_DOOR;
 
       /*if (Network_up && Stand_alone==0)
@@ -581,7 +581,7 @@ void mng_LoadLocalDoorPage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_DOOR &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, doorpage.door_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == doorpage.door_struct.name) {
             // found it!!
             mprintf(0, "DoorPage: %s previously loaded\n", doorpage.door_struct.name);
             need_to_load_page = false;
@@ -609,7 +609,7 @@ void mng_LoadLocalDoorPage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_DOOR &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, doorpage.door_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == doorpage.door_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;

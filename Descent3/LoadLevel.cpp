@@ -1342,7 +1342,7 @@ extern float GlobalMultiplier;
 
 struct {
   int16_t type, id;
-  char name[PAGENAME_LEN];
+  pagename_t name;
 } Failed_xlate_items[MAX_FAILED_XLATE_ITEMS];
 
 int Num_failed_xlate_items;
@@ -1717,8 +1717,8 @@ int ReadObject(CFILE *ifile, object *objp, int handle, int fileversion) {
     if (fileversion < 119)
       objp->ctype.soundsource_info.sound_index = cf_ReadInt(ifile);
     else {
-      char soundname[PAGENAME_LEN];
-      cf_ReadString(soundname, sizeof(soundname), ifile);
+      pagename_t soundname;
+      cf_ReadString(std::data(soundname), sizeof(soundname), ifile);
       objp->ctype.soundsource_info.sound_index = soundname[0] ? FindSoundName(IGNORE_TABLE(soundname)) : -1;
     }
     objp->ctype.soundsource_info.volume = cf_ReadFloat(ifile);
@@ -2598,8 +2598,8 @@ int ReadRoom(CFILE *ifile, room *rp, int version) {
 
   // Read ambient sound pattern name
   if (version >= 78) {
-    char tbuf[PAGENAME_LEN];
-    cf_ReadString(tbuf, sizeof(tbuf), ifile);
+    pagename_t tbuf;
+    cf_ReadString(std::data(tbuf), sizeof(tbuf), ifile);
     rp->ambient_sound = FindAmbientSoundPattern(tbuf);
   } else
     rp->ambient_sound = -1;
@@ -2631,23 +2631,23 @@ int ReadRoom(CFILE *ifile, room *rp, int version) {
 }
 
 // Build a translation table for various items
-void BuildXlateTable(CFILE *ifile, int (*lookup_func)(const char *), int16_t *xlate_table, int max_items, int type) {
-  char name[PAGENAME_LEN];
+void BuildXlateTable(CFILE *ifile, int (*lookup_func)(const pagename_t&), int16_t *xlate_table, int max_items, int type) {
+  pagename_t name;
   int n;
   int i;
 
   n = cf_ReadInt(ifile); // get num items
   for (i = 0; i < n; i++) {
 
-    cf_ReadString(name, sizeof(name), ifile); // get old name
+    cf_ReadString(std::data(name), sizeof(name), ifile); // get old name
 
-    if (!name[0]) // if null name, don't look up
+    if (!name.empty()) // if null name, don't look up
       xlate_table[i] = -1;
     else {                                // look up, and warn if not found
       xlate_table[i] = lookup_func(name); // returns -1 if not found
 #if (defined(EDITOR) || defined(NEWEDITOR))
       if ((xlate_table[i] == -1) && (type != -1))
-        AddFailedXLateItem(type, i, name);
+        AddFailedXLateItem(type, i, std::data(name));
 #endif
     }
   }
@@ -2903,12 +2903,12 @@ void ReadGamePathsChunk(CFILE *fp, int version) {
 
   for (i = 0; i < Num_game_paths; i++) {
     GamePaths[i].used = 1;
-    GamePaths[i].name[0] = 0;
+    GamePaths[i].name.clear();
     GamePaths[i].pathnodes = (node *)mem_malloc(MAX_NODES_PER_PATH * sizeof(node));
     GamePaths[i].flags = 0;
 
     // Read in the path's info
-    cf_ReadString(GamePaths[i].name, PAGENAME_LEN, fp);
+    cf_ReadString(std::data(GamePaths[i].name), PAGENAME_LEN, fp);
     GamePaths[i].num_nodes = cf_ReadInt(fp);
     GamePaths[i].flags = cf_ReadByte(fp);
 
@@ -2934,21 +2934,21 @@ void ReadGamePathsChunk(CFILE *fp, int version) {
 }
 
 void ReadOverrideSoundChunk(CFILE *fp, int version) {
-  char soundname[PAGENAME_LEN];
+  pagename_t soundname;
 
-  cf_ReadString(soundname, sizeof(soundname), fp);
-  if (strcmp(soundname, "") != 0) {
+  cf_ReadString(std::data(soundname), sizeof(soundname), fp);
+  if (soundname.empty()) {
     sound_override_force_field = FindSoundName(soundname);
   }
 
-  cf_ReadString(soundname, sizeof(soundname), fp);
-  if (strcmp(soundname, "") != 0) {
+  cf_ReadString(std::data(soundname), sizeof(soundname), fp);
+  if (soundname.empty()) {
     sound_override_glass_breaking = FindSoundName(soundname);
   }
 }
 
 void ReadFFTMChunk(CFILE *fp, int version) {
-  char texturename[PAGENAME_LEN];
+  pagename_t texturename;
   int i;
 
   int num_items = MAX_FORCE_FIELD_BOUNCE_TEXTURES;
@@ -2958,9 +2958,9 @@ void ReadFFTMChunk(CFILE *fp, int version) {
   }
 
   for (i = 0; i < num_items; i++) {
-    cf_ReadString(texturename, sizeof(texturename), fp);
+    cf_ReadString(std::data(texturename), sizeof(texturename), fp);
 
-    if (strcmp(texturename, "") != 0) {
+    if (!texturename.empty()) {
       force_field_bounce_texture[i] = FindTextureName(texturename);
       force_field_bounce_multiplier[i] = cf_ReadFloat(fp);
       GameTextures[force_field_bounce_texture[i]].flags |= TF_FORCEFIELD;
@@ -3518,7 +3518,7 @@ void VerifyObjectList() {
 }
 
 // Data to deal with a bunch of renamed doors
-const char *Old_door_names[] = {"markroomdoor.OOF1",
+pagename_t Old_door_names[] = {"markroomdoor.OOF1",
                           "cellblockdoor.OOF1",
                           "towerringdoor.OOF1",
                           "hangdoorinverse.oof1",
@@ -3541,7 +3541,7 @@ const char *Old_door_names[] = {"markroomdoor.OOF1",
                           "PTMC Industrial 1",
                           "PTMC Covert 1"};
 
-const char *New_door_names[] = {"MARK'S OLD DOOR",
+pagename_t New_door_names[] = {"MARK'S OLD DOOR",
                           "SEAN'S NOVAK DOOR 1",
                           "SEAN'S NOVAK DOOR 2",
                           "SEAN'S NOVAK DOOR 3",
@@ -3567,7 +3567,7 @@ const char *New_door_names[] = {"MARK'S OLD DOOR",
 #define NUM_RENAMED_DOORS (sizeof(Old_door_names) / sizeof(*Old_door_names))
 
 // Deals with some renamed doors.  Translates the old name to the new name, then looks up the id
-int SpecialFindDoorName(const char *name) {
+int SpecialFindDoorName(const pagename_t& name) {
   int i, id;
 
   // Look up the old name, and return it if found
@@ -3577,7 +3577,7 @@ int SpecialFindDoorName(const char *name) {
 
   // Didn't find old name, so see if there's a new name, and look for that
   for (i = 0; i < NUM_RENAMED_DOORS; i++) {
-    if (stricmp(name, Old_door_names[i]) == 0)
+    if (name == Old_door_names[i])
       return FindDoorName(New_door_names[i]);
   }
 
@@ -3901,8 +3901,8 @@ int LoadLevel(char *filename, void (*cb_fn)(const char *, int, int)) {
           if (version < 119)
             Terrain_sound_bands[b].sound_index = cf_ReadInt(ifile);
           else {
-            char soundname[PAGENAME_LEN];
-            cf_ReadString(soundname, sizeof(soundname), ifile);
+            pagename_t soundname;
+            cf_ReadString(std::data(soundname), sizeof(soundname), ifile);
             Terrain_sound_bands[b].sound_index = FindSoundName(IGNORE_TABLE(soundname));
           }
           Terrain_sound_bands[b].low_alt = cf_ReadByte(ifile);
@@ -4452,7 +4452,7 @@ int WriteRoom(CFILE *ofile, room *rp) {
   cf_WriteFloat(ofile, rp->fog_b);
 
   // Write ambient sound pattern name
-  cf_WriteString(ofile, (rp->ambient_sound == -1) ? "" : AmbientSoundPatternName(rp->ambient_sound));
+  cf_WriteString(ofile, (rp->ambient_sound == -1) ? "" : std::data(AmbientSoundPatternName(rp->ambient_sound)));
 
   cf_WriteByte(ofile, (int8_t)rp->env_reverb);
 
@@ -5627,7 +5627,7 @@ void AlmostPageInGeneric(int id) {
   }
 }
 
-extern const char *Static_sound_names[];
+extern std::array<pagename_t, NUM_STATIC_SOUNDS> Static_sound_names;
 void AlmostPageInAllData() {
   int i;
 
@@ -5638,10 +5638,10 @@ void AlmostPageInAllData() {
   // mprintf(0,"%d bytes to page in for the ship.\n",need_to_page_in);
   // Get static fireballs
   for (i = 0; i < NUM_FIREBALLS; i++) {
-    char name[PAGENAME_LEN];
-    strcpy(name, Fireballs[i].name);
+    pagename_t name;
+    name = Fireballs[i].name;
 
-    name[strlen(name) - 4] = 0;
+    name[name.size() - 4] = 0;
     int id = IGNORE_TABLE(FindTextureName(name));
     if (id != -1)
       AlmostPageInLevelTexture(id);

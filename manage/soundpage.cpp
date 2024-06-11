@@ -202,8 +202,8 @@ void mng_WriteNewSoundPage(CFILE *outfile, mngs_sound_page *soundpage) {
   int offset = StartManagePage(outfile, PAGETYPE_SOUND);
   cf_WriteShort(outfile, SOUNDPAGE_VERSION);
   // Write out name,rawfile name
-  cf_WriteString(outfile, soundpage->sound_struct.name);
-  cf_WriteString(outfile, soundpage->raw_name);
+  cf_WriteString(outfile, std::data(soundpage->sound_struct.name));
+  cf_WriteString(outfile, std::data(soundpage->raw_name));
   cf_WriteInt(outfile, soundpage->sound_struct.flags);
   cf_WriteInt(outfile, soundpage->sound_struct.loop_start);
   cf_WriteInt(outfile, soundpage->sound_struct.loop_end);
@@ -220,8 +220,8 @@ int mng_ReadNewSoundPage(CFILE *infile, mngs_sound_page *soundpage) {
   ASSERT(infile != NULL);
   int version = cf_ReadShort(infile);
   // read in name,rawfile name
-  cf_ReadString(soundpage->sound_struct.name, PAGENAME_LEN, infile);
-  cf_ReadString(soundpage->raw_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(soundpage->sound_struct.name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(soundpage->raw_name), PAGENAME_LEN, infile);
   soundpage->sound_struct.flags = cf_ReadInt(infile);
 
   soundpage->sound_struct.loop_start = cf_ReadInt(infile);
@@ -233,15 +233,15 @@ int mng_ReadNewSoundPage(CFILE *infile, mngs_sound_page *soundpage) {
   soundpage->sound_struct.min_distance = cf_ReadFloat(infile);
   soundpage->sound_struct.import_volume = cf_ReadFloat(infile);
 #ifdef DEMO
-  if (!stricmp("DefaultBuildingExplode", soundpage->sound_struct.name)) {
+  if (soundpage->sound_struct.name = "DefaultBuildingExplode") {
     soundpage->sound_struct.import_volume = 1.0;
     soundpage->sound_struct.flags &= ~(SPF_OBJ_UPDATE | SPF_FIXED_FREQ);
   }
-  if (!stricmp("DefaultRobotExplode1", soundpage->sound_struct.name)) {
+  if (soundpage->sound_struct.name == "DefaultRobotExplode1") {
     soundpage->sound_struct.import_volume = 1.0;
     soundpage->sound_struct.flags &= ~(SPF_OBJ_UPDATE | SPF_FIXED_FREQ);
   }
-  if (!stricmp("DefaultRobotExplode2", soundpage->sound_struct.name)) {
+  if (soundpage->sound_struct.name == "DefaultRobotExplode2") {
     soundpage->sound_struct.import_volume = 1.0;
     soundpage->sound_struct.flags &= ~(SPF_OBJ_UPDATE | SPF_FIXED_FREQ);
   }
@@ -317,7 +317,7 @@ int mng_ReadSoundPage(CFILE *infile, mngs_sound_page *soundpage) {
 }
 // Reads in the sound named "name" into soundpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificSoundPage(char *name, mngs_sound_page *soundpage, int offset) {
+int mng_FindSpecificSoundPage(const pagename_t& name, mngs_sound_page *soundpage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -367,7 +367,7 @@ int mng_FindSpecificSoundPage(char *name, mngs_sound_page *soundpage, int offset
     }
     mng_ReadNewSoundPage(infile, soundpage);
 
-    if (!stricmp(name, soundpage->sound_struct.name)) {
+    if (soundpage->sound_struct.name == name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -398,7 +398,7 @@ int mng_AssignSoundPageToSound(mngs_sound_page *soundpage, int n) {
   int raw_handle;
   // copy our values
   memcpy(soundpointer, &soundpage->sound_struct, sizeof(sound_info));
-  strcpy(soundpointer->name, soundpage->sound_struct.name);
+  soundpointer->name = soundpage->sound_struct.name;
 // First see if our raw differs from the one on the net
 // If it is, make a copy
 // If its a release version, don't do any of this
@@ -407,13 +407,13 @@ int mng_AssignSoundPageToSound(mngs_sound_page *soundpage, int n) {
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalSoundsDir, soundpage->raw_name, NULL);
-    ddio_MakePath(netstr, NetSoundsDir, soundpage->raw_name, NULL);
-    UpdatePrimitive(str, netstr, soundpage->raw_name, PAGETYPE_SOUND, soundpointer->name);
+    ddio_MakePath(str, LocalSoundsDir, std::data(soundpage->raw_name), NULL);
+    ddio_MakePath(netstr, NetSoundsDir, std::data(soundpage->raw_name), NULL);
+    UpdatePrimitive(str, netstr, std::data(soundpage->raw_name), PAGETYPE_SOUND, std::data(soundpointer->name));
   }
 #endif
   // Try and load our sound raw from the disk
-  raw_handle = LoadSoundFile(soundpage->raw_name, Sounds[n].import_volume, false);
+  raw_handle = LoadSoundFile(std::data(soundpage->raw_name), Sounds[n].import_volume, false);
   if (raw_handle < 0) {
     mprintf(0, "Couldn't load file '%s' in AssignSoundPage...\n", soundpage->raw_name);
     soundpointer->sample_index = -1;
@@ -428,11 +428,11 @@ void mng_AssignSoundToSoundPage(int n, mngs_sound_page *soundpage) {
   // Assign the  values
   memcpy(&soundpage->sound_struct, soundpointer, sizeof(sound_info));
 
-  strcpy(soundpage->sound_struct.name, soundpointer->name);
+  soundpage->sound_struct.name = soundpointer->name;
   if (soundpointer->sample_index != -1)
-    strcpy(soundpage->raw_name, SoundFiles[soundpointer->sample_index].name);
+    soundpage->raw_name = SoundFiles[soundpointer->sample_index].name;
   else
-    strcpy(soundpage->raw_name, "");
+    soundpage->raw_name.clear();
 }
 // Loads a sound found in the net table file.  It then allocs a sound and
 // then calls SetAndLoadSound to actually load in any raws associated
@@ -470,7 +470,7 @@ void mng_LoadLocalSoundPage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, soundpage.sound_struct.name);
+      pl.name = soundpage.sound_struct.name;
       pl.pagetype = PAGETYPE_SOUND;
 
       /*if (Network_up && Stand_alone==0)
@@ -493,7 +493,7 @@ void mng_LoadLocalSoundPage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_SOUND &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, soundpage.sound_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == soundpage.sound_struct.name) {
             // found it!!
             mprintf(0, "SoundPage: %s previously loaded\n", soundpage.sound_struct.name);
             need_to_load_page = false;
@@ -522,7 +522,7 @@ void mng_LoadLocalSoundPage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_SOUND &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, soundpage.sound_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == soundpage.sound_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;
@@ -557,7 +557,7 @@ void mng_LoadLocalSoundPage(CFILE *infile) {
 // First searches through the sound index to see if the sound is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of sound found, -1 if not
-int mng_GetGuaranteedSoundPage(char *name, CFILE *infile) {
+int mng_GetGuaranteedSoundPage(const pagename_t& name, CFILE *infile) {
   int i;
   mngs_sound_page soundpage;
   // See if its in memory

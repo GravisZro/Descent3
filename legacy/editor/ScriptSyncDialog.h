@@ -42,7 +42,7 @@
 
 struct
 {
-	char filename[PAGENAME_LEN];
+	pagename_t filename;
 	int state;
 }tFileInfo;
 

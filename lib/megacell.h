@@ -32,7 +32,7 @@
 #define MAX_MEGACELL_HEIGHT 8
 
 struct megacell {
-  char name[PAGENAME_LEN];
+  pagename_t name;
   int8_t width;
   int8_t height;
 
@@ -61,6 +61,6 @@ int GetPrevMegacell(int n);
 
 // Searches thru all MEGACELLs for a specific name, returns -1 if not found
 // or index of MEGACELL with name
-int FindMegacellName(char *name);
+int FindMegacellName(const pagename_t& name);
 
 #endif

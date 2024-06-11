@@ -113,11 +113,11 @@ void InitGamePaths() {
 
 // searches through GamePath index and returns index of path matching name
 // returns -1 if not found
-int FindGamePathName(const char *name) {
+int FindGamePathName(const pagename_t& name) {
   int i;
 
   for (i = 0; i < MAX_GAME_PATHS; i++) {
-    if (GamePaths[i].used && !stricmp(GamePaths[i].name, name))
+    if (GamePaths[i].used && GamePaths[i].name == name)
       return i;
   }
   return -1;

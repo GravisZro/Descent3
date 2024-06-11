@@ -515,7 +515,7 @@ void BuildOldFileList(FILETIME threshold);
 #endif
 struct old_file {
   uint8_t type;
-  char name[PAGENAME_LEN];
+  pagename_t name;
 };
 #define MAX_OLDFILE_ELEMENTS 10000
 int Num_old_files = 0;
@@ -943,11 +943,11 @@ void mng_InitTrackLocks() {
 }
 // Given a name, returns the index of the tracklock with that name
 // -1 indicates that it wasn't found
-int mng_FindTrackLock(char *name, int pagetype) {
+int mng_FindTrackLock(const pagename_t& name, int pagetype) {
   int i;
   for (i = 0; i < MAX_TRACKLOCKS; i++) {
     if (GlobalTrackLocks[i].used && GlobalTrackLocks[i].pagetype == pagetype &&
-        !stricmp(name, GlobalTrackLocks[i].name))
+        name == GlobalTrackLocks[i].name)
       return i;
   }
   return -1;
@@ -955,11 +955,11 @@ int mng_FindTrackLock(char *name, int pagetype) {
 // Searches through global array of tracklocks and returns first free one
 // Sets the tracklock to be named "name" and its type "pagetype"
 // returns -1 if none free
-int mng_AllocTrackLock(char *name, int pagetype) {
+int mng_AllocTrackLock(const pagename_t& name, int pagetype) {
   int i;
   for (i = 0; i < MAX_TRACKLOCKS; i++)
     if (GlobalTrackLocks[i].used == 0) {
-      strcpy(GlobalTrackLocks[i].name, name);
+      GlobalTrackLocks[i].name = name;
       GlobalTrackLocks[i].pagetype = pagetype;
       GlobalTrackLocks[i].used = 1;
       mprintf(0, "Tracklock %s allocated.\n", name);
@@ -976,7 +976,7 @@ void mng_FreeTrackLock(int n) {
   GlobalTrackLocks[n].name[0] = 0;
 }
 // Displays all the network locks of "name"
-void mng_DisplayLockList(char *name) {
+void mng_DisplayLockList(const pagename_t& name) {
   mngs_Pagelock list[100];
   char temp[200];
   int max = 100;
@@ -985,7 +985,7 @@ void mng_DisplayLockList(char *name) {
   char str[5000];
 #ifndef RELEASE
   // Get the list
-  if ((num = mng_GetListOfLocks(list, max, name)) < 0) {
+  if (num = mng_GetListOfLocks(list, max, std::data(name)); num < 0) {
     OutrageMessageBox(MBOX_OK, ErrorString);
     return;
   } else if (num == 0) {
@@ -996,7 +996,7 @@ void mng_DisplayLockList(char *name) {
   // Make a large string with all the info in it
   snprintf(str, sizeof(str), "User %s has the following pages locked:\n\n", TableUser);
   for (i = 0; i < num; i++) {
-    snprintf(temp, sizeof(temp), "%s:%s", PageNames[list[i].pagetype], list[i].name);
+    snprintf(temp, sizeof(temp), "%s:%s", PageNames[list[i].pagetype], std::data(list[i].name));
     strncat(str, temp, sizeof(str) - strlen(str) - 1);
     strncat(str, "\n", sizeof(str) - strlen(str) - 1);
     length += strlen(temp);
@@ -1120,20 +1120,20 @@ void mng_ReadWriteDummyPage(CFILE *infile, CFILE *outfile, uint8_t pagetype) {
 // Renames a page on the network
 // This function is called when you rename your object, regardless if you check
 // it in
-int mng_RenamePage(char *oldname, char *newname, int pagetype) {
+bool mng_RenamePage(const pagename_t& oldname, pagename_t& newname, int pagetype) {
   int l, i;
   mngs_Pagelock pl;
-  char oname[PAGENAME_LEN];
+  pagename_t oname;
 
   mprintf(0, "Renaming %s to %s...\n", oldname, newname);
-  strcpy(oname, oldname);
-  strcpy(pl.name, oname);
+  oname = oldname;
+  pl.name = oname;
   pl.pagetype = pagetype;
   // Make sure we own it
   l = mng_CheckIfPageOwned(&pl, TableUser);
   ASSERT(l == 1);
-  strcpy(pl.name, newname);
-  strcpy(pl.holder, TableUser);
+  pl.name = newname;
+  pl.holder = TableUser;
 
   // First, change the name of the network pagelock
   l = mng_ReplacePagelock(oname, &pl);
@@ -1143,7 +1143,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_TEXTURE:
     i = FindTextureName(oname);
     ASSERT(i != -1);
-    strcpy(GameTextures[i].name, newname);
+    GameTextures[i].name = newname;
 
     l = mng_ReplacePage(oname, GameTextures[i].name, i, PAGETYPE_TEXTURE, 0);
     ASSERT(l == 1);
@@ -1154,7 +1154,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_DOOR:
     i = FindDoorName(oname);
     ASSERT(i != -1);
-    strcpy(Doors[i].name, newname);
+    Doors[i].name = newname;
     l = mng_ReplacePage(oname, Doors[i].name, i, PAGETYPE_DOOR, 0);
     if (mng_FindTrackLock(oname, PAGETYPE_DOOR) != -1)
       mng_ReplacePage(oname, Doors[i].name, i, PAGETYPE_DOOR, 1);
@@ -1163,7 +1163,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_GENERIC:
     i = FindObjectIDName(oname);
     ASSERT(i != -1);
-    strcpy(Object_info[i].name, newname);
+    Object_info[i].name = newname;
 
     l = mng_ReplacePage(oname, Object_info[i].name, i, PAGETYPE_GENERIC, 0);
 
@@ -1175,7 +1175,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_GAMEFILE:
     i = FindGamefileName(oname);
     ASSERT(i != -1);
-    strcpy(Gamefiles[i].name, newname);
+    Gamefiles[i].name = newname;
 
     l = mng_ReplacePage(oname, Gamefiles[i].name, i, PAGETYPE_GAMEFILE, 0);
     if (mng_FindTrackLock(oname, PAGETYPE_GAMEFILE) != -1)
@@ -1185,7 +1185,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_SOUND:
     i = FindSoundName(oname);
     ASSERT(i != -1);
-    strcpy(Sounds[i].name, newname);
+    Sounds[i].name = newname;
     l = mng_ReplacePage(oname, Sounds[i].name, i, PAGETYPE_SOUND, 0);
     if (mng_FindTrackLock(oname, PAGETYPE_SOUND) != -1)
       mng_ReplacePage(oname, Sounds[i].name, i, PAGETYPE_SOUND, 1);
@@ -1194,7 +1194,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_MEGACELL:
     i = FindMegacellName(oname);
     ASSERT(i != -1);
-    strcpy(Megacells[i].name, newname);
+    Megacells[i].name = newname;
     l = mng_ReplacePage(oname, Megacells[i].name, i, PAGETYPE_MEGACELL, 0);
 
     if (mng_FindTrackLock(oname, PAGETYPE_MEGACELL) != -1)
@@ -1204,7 +1204,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_SHIP:
     i = FindShipName(oname);
     ASSERT(i != -1);
-    strcpy(Ships[i].name, newname);
+    Ships[i].name = newname;
 
     l = mng_ReplacePage(oname, Ships[i].name, i, PAGETYPE_SHIP, 0);
     if (mng_FindTrackLock(oname, PAGETYPE_SHIP) != -1)
@@ -1215,7 +1215,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
   case PAGETYPE_WEAPON:
     i = FindWeaponName(oname);
     ASSERT(i != -1);
-    strcpy(Weapons[i].name, newname);
+    Weapons[i].name = newname;
 
     l = mng_ReplacePage(oname, Weapons[i].name, i, PAGETYPE_WEAPON, 0);
     if (mng_FindTrackLock(oname, PAGETYPE_WEAPON) != -1)
@@ -1226,7 +1226,7 @@ int mng_RenamePage(char *oldname, char *newname, int pagetype) {
     Int3(); // Unknown type, get Jason
     break;
   }
-  return 1;
+  return true;
 }
 #define PROGRESS_PERCENTAGE_THRESHOLD 20
 // This is the function that opens the table files and reads in the individual pages
@@ -1344,7 +1344,7 @@ int mng_LoadNetPages(int show_progress) {
   }
   mprintf(0, "\n%d pages read in %.1f seconds.\n", n_pages, timer_GetTime() - start_time);
   mprintf(0, "\n");
-  PrintDedicatedMessage((0, "\nPage reading completed.\n"));
+  PrintDedicatedMessage(0, "\nPage reading completed.\n");
 
   cfclose(infile);
 
@@ -1484,7 +1484,7 @@ int mng_LoadLocalPages() {
 #define MAX_TRIES 10000
 // Removes a file, then renames another file to be the removed file. Get it?
 // Returns 1 on success, else 0 on fail
-int SwitcherooFiles(char *name, char *tempname) {
+int SwitcherooFiles(const char* name, const char* tempname) {
   /*// If we're changing the net table file, make a backup first!
   if ((!stricmp (name,TableFilename)))
   {
@@ -1544,44 +1544,44 @@ void mng_TransferPages() {
     switch (pagetype) {
     case PAGETYPE_TEXTURE:
       mng_ReadNewTexturePage(infile, &texpage);
-      strcpy(local_tracklocks[num_tracklocks].name, texpage.tex_struct.name);
+      local_tracklocks[num_tracklocks].name = texpage.tex_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_TEXTURE;
       num_tracklocks++;
 
       break;
     case PAGETYPE_SOUND:
       mng_ReadNewSoundPage(infile, &soundpage);
-      strcpy(local_tracklocks[num_tracklocks].name, soundpage.sound_struct.name);
+      local_tracklocks[num_tracklocks].name = soundpage.sound_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_SOUND;
       num_tracklocks++;
       break;
     case PAGETYPE_WEAPON:
       mng_ReadNewWeaponPage(infile, &weaponpage);
-      strcpy(local_tracklocks[num_tracklocks].name, weaponpage.weapon_struct.name);
+      local_tracklocks[num_tracklocks].name = weaponpage.weapon_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_WEAPON;
       num_tracklocks++;
       break;
     case PAGETYPE_GENERIC:
       mng_ReadNewGenericPage(infile, &genericpage);
-      strcpy(local_tracklocks[num_tracklocks].name, genericpage.objinfo_struct.name);
+      local_tracklocks[num_tracklocks].name = genericpage.objinfo_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_GENERIC;
       num_tracklocks++;
       break;
     case PAGETYPE_DOOR:
       mng_ReadNewDoorPage(infile, &doorpage);
-      strcpy(local_tracklocks[num_tracklocks].name, doorpage.door_struct.name);
+      local_tracklocks[num_tracklocks].name = doorpage.door_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_DOOR;
       num_tracklocks++;
       break;
     case PAGETYPE_SHIP:
       mng_ReadNewShipPage(infile, &shippage);
-      strcpy(local_tracklocks[num_tracklocks].name, shippage.ship_struct.name);
+      local_tracklocks[num_tracklocks].name = shippage.ship_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_SHIP;
       num_tracklocks++;
       break;
     case PAGETYPE_GAMEFILE:
       mng_ReadNewGamefilePage(infile, &gamefilepage);
-      strcpy(local_tracklocks[num_tracklocks].name, gamefilepage.gamefile_struct.name);
+      local_tracklocks[num_tracklocks].name = gamefilepage.gamefile_struct.name;
       local_tracklocks[num_tracklocks].pagetype = PAGETYPE_GAMEFILE;
       num_tracklocks++;
       break;
@@ -1593,70 +1593,74 @@ void mng_TransferPages() {
     }
   }
   cfclose(infile);
-  // Now go through and filter out all unused lock files
-  infile = (CFILE *)cfopen(TableLockFilename, "rb");
-  if (!infile) {
-    strcpy(ErrorString, "Couldn't open Table lock file!");
-    goto done;
-  }
-  outfile = (CFILE *)cfopen(TempTableLockFilename, "wb");
-  if (!outfile) {
-    cfclose(infile);
-    strcpy(ErrorString, "Couldn't open temporary table lock file!");
-    goto done;
-  }
-  done = 0;
-  mngs_Pagelock temp_pl;
-  while (!done) {
-    if (cfeof(infile)) {
-      done = 1;
-      continue;
+  try
+  {
+    // Now go through and filter out all unused lock files
+    infile = (CFILE *)cfopen(TableLockFilename, "rb");
+    if (!infile) {
+      throw "Couldn't open Table lock file!";
     }
-    if (mng_ReadPagelock(infile, &temp_pl)) {
-      int found = -1;
-      for (int i = 0; i < num_tracklocks && found == -1; i++) {
-        if (local_tracklocks[i].pagetype == temp_pl.pagetype && !stricmp(local_tracklocks[i].name, temp_pl.name)) {
-          found = i;
+    outfile = (CFILE *)cfopen(TempTableLockFilename, "wb");
+    if (!outfile) {
+      cfclose(infile);
+      throw "Couldn't open temporary table lock file!";
+    }
+    done = 0;
+    mngs_Pagelock temp_pl;
+    while (!done) {
+      if (cfeof(infile)) {
+        done = 1;
+        continue;
+      }
+      if (mng_ReadPagelock(infile, &temp_pl)) {
+        int found = -1;
+        for (int i = 0; i < num_tracklocks && found == -1; i++) {
+          if (local_tracklocks[i].pagetype == temp_pl.pagetype &&
+              local_tracklocks[i].name == temp_pl.name) {
+            found = i;
+          }
         }
-      }
-      if (found != -1)
-        mng_WritePagelock(outfile, &temp_pl);
-      else {
-        mprintf(0, "Found unused lock file %s\n", temp_pl.name);
-      }
+        if (found != -1)
+          mng_WritePagelock(outfile, &temp_pl);
+        else {
+          mprintf(0, "Found unused lock file %s\n", std::data(temp_pl.name));
+        }
 
-    } else
-      done = 1;
-  }
-  cfclose(infile);
-  cfclose(outfile);
+      } else
+        done = 1;
+    }
+    cfclose(infile);
+    cfclose(outfile);
 
-  if (remove(TableLockFilename)) {
-    snprintf(ErrorString, sizeof(ErrorString), "There was a problem deleting the temp file - errno %d", errno);
-    goto done;
+    if (remove(TableLockFilename)) {
+      snprintf(ErrorString, sizeof(ErrorString), "There was a problem deleting the temp file - errno %d", errno);
+      throw ErrorString;
+    }
+    if (rename(TempTableLockFilename, TableLockFilename)) {
+      snprintf(ErrorString, sizeof(ErrorString), "There was a problem renaming the temp file - errno %d", errno);
+      throw ErrorString;
+    }
+    mng_EraseLocker();
+    mprintf(0, "Done transferring pages...good luck!\n");
   }
-  if (rename(TempTableLockFilename, TableLockFilename)) {
-    snprintf(ErrorString, sizeof(ErrorString), "There was a problem renaming the temp file - errno %d", errno);
-
-    goto done;
+  catch(const char* msg)
+  {
+    strcpy(ErrorString, msg);
   }
-  mng_EraseLocker();
-  mprintf(0, "Done transferring pages...good luck!\n");
-done:;
   mem_free(local_tracklocks);
 }
 // #define DELETING_PAGELOCKS	1
 // #define CLEANING_PAGELOCKS	1
 //  Given a list of names and a pagetype, unlocks the ones already inside the lock file
-int mng_UnlockPagelockSeries(const char *names[], int *pagetypes, int num);
+int mng_UnlockPagelockSeries(const pagename_t names[], int *pagetypes, int num);
 // Goes through the pagelock table and deletes all duplicate entries
 int mng_DeleteDuplicatePagelocks();
 void ReorderPagelocks() {
-  const char *names[] = {"Lava"};
+  const pagename_t names("Lava");
   int types[] = {PAGETYPE_SOUND};
   if (!mng_MakeLocker())
     return;
-  mng_UnlockPagelockSeries(names, types, 1);
+  mng_UnlockPagelockSeries(&names, types, 1);
 
   // mng_DeleteDuplicatePagelocks ();
 
@@ -1907,9 +1911,9 @@ void ReorderPages(int local) {
 bool InLockList(mngs_Pagelock *pl) {
   if (Starting_editor) {
     for (int i = 0; i < Num_locklist; i++) {
-      if (LockList[i].pagetype == pl->pagetype) {
-        if (!stricmp(LockList[i].name, pl->name))
-          return true;
+      if (LockList[i].pagetype == pl->pagetype &&
+          LockList[i].name == pl->name) {
+        return true;
       }
     }
   } else {
@@ -1919,11 +1923,11 @@ bool InLockList(mngs_Pagelock *pl) {
   return false;
 }
 // Given a filename, returns the type of primitive it is
-int GetPrimType(char *name) {
+int GetPrimType(const pagename_t& name) {
   char ext[10];
   char tname[_MAX_PATH];
   int primtype;
-  ddio_SplitPath(name, tname, tname, ext);
+  ddio_SplitPath(std::data(name), tname, tname, ext);
   if (!stricmp("oof", ext))
     primtype = PRIMTYPE_OOF;
   else if (!stricmp("ogf", ext))
@@ -1998,10 +2002,10 @@ void BuildOldFileList(FILETIME threshold) {
 }
 #endif
 // Returns true if the passed in primitive is old (ie needs to be updated from the network)
-bool IsPrimitiveOld(char *name) {
+bool IsPrimitiveOld(const pagename_t& name) {
   int primtype = GetPrimType(name);
   for (int i = 0; i < Num_old_files; i++) {
-    if (OldFiles[i].type == primtype && !stricmp(OldFiles[i].name, name))
+    if (OldFiles[i].type == primtype && OldFiles[i].name == name)
       return true;
   }
 
@@ -2023,7 +2027,7 @@ void UpdatePrimitive(char *localname, char *netname, char *primname, int pagetyp
   if (update) {
     mngs_Pagelock temp_pl;
     temp_pl.pagetype = pagetype;
-    strcpy(temp_pl.name, pagename);
+    temp_pl.name = pagename;
     if (!InLockList(&temp_pl)) {
       mprintf(0, "Making a local copy of %s for next time.\n", primname);
       if (!cf_CopyFile(localname, netname, 1)) {
@@ -2096,7 +2100,7 @@ void mng_AssignAndWritePage(int handle, int pagetype, CFILE *outfile) {
 // Given a texture handle, searches the table file and replaces the texture with the same name
 // If local=1, then does it to the users local copy
 // Returns 0 on error, else 1 if all is good
-int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype, int local) {
+bool mng_ReplacePage(const pagename_t& srcname, pagename_t& destname, int handle, int dest_pagetype, int local) {
   CFILE *infile, *outfile;
   uint8_t pagetype, replaced = 0;
   int done = 0, len;
@@ -2119,7 +2123,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     mprintf(0, "Couldn't open temp table file to replace page %s!\n", srcname);
     cfclose(infile);
     Int3();
-    return 0;
+    return false;
   }
   // Allocate memory for copying
   uint8_t *copybuffer = (uint8_t *)mem_malloc(COPYBUFFER_SIZE);
@@ -2128,7 +2132,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     cfclose(infile);
     cfclose(outfile);
     Int3();
-    return 0;
+    return false;
   }
   while (!done) {
     if (cfeof(infile)) {
@@ -2152,7 +2156,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     switch (pagetype) {
     case PAGETYPE_TEXTURE: {
       mng_ReadNewTexturePage(infile, &texpage);
-      if (!stricmp(srcname, texpage.tex_struct.name)) {
+      if (srcname == texpage.tex_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2162,7 +2166,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_SOUND: {
       mng_ReadNewSoundPage(infile, &soundpage);
-      if (!stricmp(srcname, soundpage.sound_struct.name)) {
+      if (srcname == soundpage.sound_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2172,7 +2176,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_WEAPON: {
       mng_ReadNewWeaponPage(infile, &weaponpage);
-      if (!stricmp(srcname, weaponpage.weapon_struct.name)) {
+      if (srcname == weaponpage.weapon_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2182,7 +2186,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_GENERIC: {
       mng_ReadNewGenericPage(infile, &genericpage);
-      if (!stricmp(srcname, genericpage.objinfo_struct.name)) {
+      if (srcname == genericpage.objinfo_struct.name) {
         // This is the page we want to replace, so write the new one out.
         if (genericpage.objinfo_struct.description != NULL) {
           mem_free(genericpage.objinfo_struct.description);
@@ -2199,7 +2203,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_DOOR: {
       mng_ReadNewDoorPage(infile, &doorpage);
-      if (!stricmp(srcname, doorpage.door_struct.name)) {
+      if (srcname == doorpage.door_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2209,7 +2213,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_MEGACELL: {
       mng_ReadNewMegacellPage(infile, &megacellpage);
-      if (!stricmp(srcname, megacellpage.megacell_struct.name)) {
+      if (srcname == megacellpage.megacell_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2219,7 +2223,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_SHIP: {
       mng_ReadNewShipPage(infile, &shippage);
-      if (!stricmp(srcname, shippage.ship_struct.name)) {
+      if (srcname == shippage.ship_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2229,7 +2233,7 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
     }
     case PAGETYPE_GAMEFILE: {
       mng_ReadNewGamefilePage(infile, &gamefilepage);
-      if (!stricmp(srcname, gamefilepage.gamefile_struct.name)) {
+      if (srcname == gamefilepage.gamefile_struct.name) {
         mng_AssignAndWritePage(handle, pagetype, outfile);
         replaced = 1;
       } else {
@@ -2255,16 +2259,16 @@ int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype
   mem_free(copybuffer);
   if (local) {
     if (!SwitcherooFiles(LocalTableFilename, LocalTempTableFilename))
-      return 0;
+      return false;
   } else {
     if (!SwitcherooFiles(TableFilename, TempTableFilename))
-      return 0;
+      return false;
   }
-  return 1; // successful!
+  return true; // successful!
 }
 // Given a texture name, finds it in the table file and deletes it
 // If local is 1, deletes from the local table file
-int mng_DeletePage(char *name, int dest_pagetype, int local) {
+int mng_DeletePage(const pagename_t& name, int dest_pagetype, int local) {
   CFILE *infile, *outfile;
   uint8_t pagetype, replaced = 0;
   int done = 0;
@@ -2322,7 +2326,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
 
     case PAGETYPE_TEXTURE: {
       mng_ReadNewTexturePage(infile, &texpage);
-      if (stricmp(name, texpage.tex_struct.name))
+      if (name != texpage.tex_struct.name)
         mng_WriteNewTexturePage(outfile, &texpage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2330,7 +2334,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_DOOR: {
       mng_ReadNewDoorPage(infile, &doorpage);
-      if (stricmp(name, doorpage.door_struct.name))
+      if (name != doorpage.door_struct.name)
         mng_WriteNewDoorPage(outfile, &doorpage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2338,7 +2342,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_GENERIC: {
       mng_ReadNewGenericPage(infile, &genericpage);
-      if (stricmp(name, genericpage.objinfo_struct.name))
+      if (name != genericpage.objinfo_struct.name)
         mng_WriteNewGenericPage(outfile, &genericpage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2351,7 +2355,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_SOUND: {
       mng_ReadNewSoundPage(infile, &soundpage);
-      if (stricmp(name, soundpage.sound_struct.name))
+      if (name != soundpage.sound_struct.name)
         mng_WriteNewSoundPage(outfile, &soundpage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2359,7 +2363,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_SHIP: {
       mng_ReadNewShipPage(infile, &shippage);
-      if (stricmp(name, shippage.ship_struct.name))
+      if (name != shippage.ship_struct.name)
         mng_WriteNewShipPage(outfile, &shippage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2367,7 +2371,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_WEAPON: {
       mng_ReadNewWeaponPage(infile, &weaponpage);
-      if (stricmp(name, weaponpage.weapon_struct.name))
+      if (name != weaponpage.weapon_struct.name)
         mng_WriteNewWeaponPage(outfile, &weaponpage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2375,7 +2379,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_MEGACELL: {
       mng_ReadNewMegacellPage(infile, &megacellpage);
-      if (stricmp(name, megacellpage.megacell_struct.name))
+      if (name != megacellpage.megacell_struct.name)
         mng_WriteNewMegacellPage(outfile, &megacellpage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2383,7 +2387,7 @@ int mng_DeletePage(char *name, int dest_pagetype, int local) {
     }
     case PAGETYPE_GAMEFILE: {
       mng_ReadNewGamefilePage(infile, &gamefilepage);
-      if (stricmp(name, gamefilepage.gamefile_struct.name))
+      if (name != gamefilepage.gamefile_struct.name)
         mng_WriteNewGamefilePage(outfile, &gamefilepage);
       else
         deleted = 1; // Don't write out the one we want to delete
@@ -2560,7 +2564,7 @@ int Loading_addon_table = -1;
 // Add-on data routines
 //----------------------
 // Frees all the primitives associated with an page
-void mng_FreePagetypePrimitives(int pagetype, char *name, int freetype) {
+void mng_FreePagetypePrimitives(int pagetype, const pagename_t& name, int freetype) {
   int n;
   switch (pagetype) {
   case PAGETYPE_TEXTURE:
@@ -2679,7 +2683,7 @@ void mng_PopAddonPages() {
     if (addondata->Addon_tracklocks[i].overlay > 0) {
       // Free this data, then read the old stuff back in
       mng_FreePagetypePrimitives(addondata->Addon_tracklocks[i].pagetype, addondata->Addon_tracklocks[i].name, 0);
-      char *name = addondata->Addon_tracklocks[i].name;
+      const pagename_t& name = addondata->Addon_tracklocks[i].name;
       switch (addondata->Addon_tracklocks[i].pagetype) {
       case PAGETYPE_TEXTURE: {
         n = FindTextureName(name);
@@ -2787,16 +2791,16 @@ void mng_ClearAddonTables() {
 }
 // Push the given table file as an addon table file
 // returns true on success
-bool mng_SetAddonTable(char *name) {
+bool mng_SetAddonTable(const pagename_t& name) {
   ASSERT(Num_addon_tables < MAX_ADDON_TABLES);
   if (Num_addon_tables >= MAX_ADDON_TABLES)
     return false;
 
   // make sure the table file exists!
-  if (!cfexist(name))
+  if (!cfexist(std::data(name)))
     return false;
 
-  strcpy(AddOnDataTables[Num_addon_tables].AddOnTableFilename, name);
+  strcpy(AddOnDataTables[Num_addon_tables].AddOnTableFilename, std::data(name));
   AddOnDataTables[Num_addon_tables].Addon_tracklocks =
       (mngs_track_lock *)mem_malloc(MAX_ADDON_TRACKLOCKS * sizeof(mngs_track_lock));
   AddOnDataTables[Num_addon_tables].Num_addon_tracklocks = 0;
@@ -2808,7 +2812,7 @@ bool mng_SetAddonTable(char *name) {
 }
 
 // Pushes an addon pack onto the stack so we can keep track of it
-void mng_PushAddonPage(int pagetype, char *name, int overlay) {
+void mng_PushAddonPage(int pagetype, const pagename_t& name, int overlay) {
   ASSERT(Loading_addon_table >= 0 && Loading_addon_table < MAX_ADDON_TABLES);
 
   AddOnTablefile *addon = &AddOnDataTables[Loading_addon_table];
@@ -2818,9 +2822,9 @@ void mng_PushAddonPage(int pagetype, char *name, int overlay) {
   // First check to see if this is a redundant page
   for (int i = 0; i < addon->Num_addon_tracklocks; i++) {
     if (addon->Addon_tracklocks[i].used && addon->Addon_tracklocks[i].pagetype == pagetype) {
-      if (!stricmp(addon->Addon_tracklocks[i].name, name)) {
+      if (addon->Addon_tracklocks[i].name == name) {
         Int3();
-        Error("Redundant addon page '%s' loaded...", name);
+        Error("Redundant addon page '%s' loaded...", std::data(name));
         return;
       }
     }
@@ -2830,7 +2834,7 @@ void mng_PushAddonPage(int pagetype, char *name, int overlay) {
   addon->Addon_tracklocks[addon->Num_addon_tracklocks].pagetype = pagetype;
   addon->Addon_tracklocks[addon->Num_addon_tracklocks].overlay = overlay;
   addon->Addon_tracklocks[addon->Num_addon_tracklocks].stack_filepos = 0;
-  strcpy(addon->Addon_tracklocks[addon->Num_addon_tracklocks].name, name);
+  addon->Addon_tracklocks[addon->Num_addon_tracklocks].name = name;
   addon->Num_addon_tracklocks++;
 }
 
@@ -2919,7 +2923,7 @@ void mng_CompileAddonPages(void) {
             continue;
           if (AddOnDataTables[tf].Addon_tracklocks[i].pagetype != pagetype)
             continue;
-          if (stricmp(pagename, AddOnDataTables[tf].Addon_tracklocks[i].name))
+          if (AddOnDataTables[tf].Addon_tracklocks[i].name != pagename)
             continue;
 
           // this is it!

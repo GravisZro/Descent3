@@ -448,19 +448,19 @@ void mng_InitGenericPage(mngs_generic_page *genericpage) {
   int i;
 
   memset(genericpage, 0, sizeof(mngs_generic_page));
-  strcpy(genericpage->image_name, "");
+  genericpage->image_name.clear();
 
-  strcpy(genericpage->med_image_name, "");
-  strcpy(genericpage->lo_image_name, "");
+  genericpage->med_image_name.clear();
+  genericpage->lo_image_name.clear();
 
   for (i = 0; i < MAX_OBJ_SOUNDS; i++)
-    strcpy(genericpage->sound_name[i], "");
+    genericpage->sound_name[i].clear();
 
   for (i = 0; i < MAX_AI_SOUNDS; i++)
-    strcpy(genericpage->ai_sound_name[i], "");
+    genericpage->ai_sound_name[i].clear();
 
   for (i = 0; i < MAX_DSPEW_TYPES; i++) {
-    strcpy(genericpage->dspew_name[i], "\0");
+    genericpage->dspew_name[i].clear();
   }
 
   genericpage->objinfo_struct.description = NULL;
@@ -468,7 +468,7 @@ void mng_InitGenericPage(mngs_generic_page *genericpage) {
 
   for (i = 0; i < NUM_MOVEMENT_CLASSES; i++)
     for (int j = 0; j < NUM_ANIMS_PER_CLASS; j++)
-      strcpy(genericpage->anim_sound_name[i][j], "");
+      genericpage->anim_sound_name[i][j].clear();
 
   genericpage->objinfo_struct.med_lod_distance = DEFAULT_MED_LOD_DISTANCE;
   genericpage->objinfo_struct.lo_lod_distance = DEFAULT_LO_LOD_DISTANCE;
@@ -505,7 +505,7 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
 
   ASSERT(outfile != NULL);
   ASSERT(genericpage != NULL);
-  ASSERT((strlen(genericpage->image_name)) > 2);
+  ASSERT(genericpage->image_name.size() > 2);
 
   cf_WriteByte(outfile, PAGETYPE_GENERIC);
 
@@ -519,13 +519,13 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
 
   // Write the name
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_NAME);
-  cf_WriteByte(outfile, strlen(genericpage->objinfo_struct.name) + 1);
-  cf_WriteString(outfile, genericpage->objinfo_struct.name);
+  cf_WriteByte(outfile, genericpage->objinfo_struct.name.size() + 1);
+  cf_WriteString(outfile, std::data(genericpage->objinfo_struct.name));
 
   // Write the model name
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_IMAGE_NAME);
-  cf_WriteByte(outfile, strlen(genericpage->image_name) + 1);
-  cf_WriteString(outfile, genericpage->image_name);
+  cf_WriteByte(outfile, genericpage->image_name.size() + 1);
+  cf_WriteString(outfile, std::data(genericpage->image_name));
 
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_IMPACT);
   cf_WriteByte(outfile, 3 * sizeof(float));
@@ -535,12 +535,12 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
 
   // Write the LOD model names
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_LOD_MODELS);
-  size = strlen(genericpage->med_image_name) + 1;
-  size += strlen(genericpage->lo_image_name) + 1;
+  size = genericpage->med_image_name.size() + 1;
+  size += genericpage->lo_image_name.size() + 1;
 
   cf_WriteByte(outfile, size);
-  cf_WriteString(outfile, genericpage->med_image_name);
-  cf_WriteString(outfile, genericpage->lo_image_name);
+  cf_WriteString(outfile, std::data(genericpage->med_image_name));
+  cf_WriteString(outfile, std::data(genericpage->lo_image_name));
 
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_SCORE);
   cf_WriteByte(outfile, 1);
@@ -558,8 +558,8 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
 
   if (genericpage->objinfo_struct.icon_name[0] != '\0') {
     cf_WriteByte(outfile, GENERICPAGE_COMMAND_ICON_NAME);
-    cf_WriteByte(outfile, strlen(genericpage->objinfo_struct.icon_name) + 1);
-    cf_WriteString(outfile, genericpage->objinfo_struct.icon_name);
+    cf_WriteByte(outfile, genericpage->objinfo_struct.icon_name.size() + 1);
+    cf_WriteString(outfile, std::data(genericpage->objinfo_struct.icon_name));
   }
 
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_LOD_DISTANCE);
@@ -699,26 +699,26 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
 
   for (i = 0; i < MAX_OBJ_SOUNDS; i++) {
     cf_WriteByte(outfile, GENERICPAGE_COMMAND_SOUND_NAME);
-    cf_WriteByte(outfile, strlen(genericpage->sound_name[i]) + 2); // 1 for sound index, 1 for null term
+    cf_WriteByte(outfile, genericpage->sound_name[i].size() + 2); // 1 for sound index, 1 for null term
     cf_WriteByte(outfile, i);
-    cf_WriteString(outfile, genericpage->sound_name[i]);
+    cf_WriteString(outfile, std::data(genericpage->sound_name[i]));
   }
 
   for (i = 0; i < MAX_AI_SOUNDS; i++) {
     cf_WriteByte(outfile, GENERICPAGE_COMMAND_AI_SOUND_NAME);
-    cf_WriteByte(outfile, strlen(genericpage->ai_sound_name[i]) + 2); // 1 for sound index, 1 for null term
+    cf_WriteByte(outfile, genericpage->ai_sound_name[i].size() + 2); // 1 for sound index, 1 for null term
     cf_WriteByte(outfile, i);
-    cf_WriteString(outfile, genericpage->ai_sound_name[i]);
+    cf_WriteString(outfile, std::data(genericpage->ai_sound_name[i]));
   }
 
   for (i = 0; i < MAX_DSPEW_TYPES; i++) {
     cf_WriteByte(outfile, GENERICPAGE_COMMAND_DSPEW_INFO);
-    cf_WriteByte(outfile, strlen(genericpage->dspew_name[i]) + 9); // 1 for null charactor
+    cf_WriteByte(outfile, genericpage->dspew_name[i].size() + 9); // 1 for null charactor
     cf_WriteByte(outfile, i);
     cf_WriteByte(outfile, genericpage->objinfo_struct.f_dspew);
     cf_WriteFloat(outfile, genericpage->objinfo_struct.dspew_percent[i]);
     cf_WriteShort(outfile, genericpage->objinfo_struct.dspew_number[i]);
-    cf_WriteString(outfile, genericpage->dspew_name[i]);
+    cf_WriteString(outfile, std::data(genericpage->dspew_name[i]));
   }
 
   cf_WriteByte(outfile, GENERICPAGE_COMMAND_AI_INFO2);
@@ -795,13 +795,13 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
     int j;
     for (j = 0; j < MAX_WB_GUNPOINTS; j++) {
       cf_WriteByte(outfile, GENERICPAGE_COMMAND_WB_WEAPON);
-      size = strlen(genericpage->weapon_name[i][j]) + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
+      size = genericpage->weapon_name[i][j].size() + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
 
       cf_WriteByte(outfile, size);
 
       cf_WriteByte(outfile, i);
       cf_WriteByte(outfile, j);
-      cf_WriteString(outfile, genericpage->weapon_name[i][j]);
+      cf_WriteString(outfile, std::data(genericpage->weapon_name[i][j]));
     }
   }
 
@@ -815,13 +815,13 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
     int j;
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++) {
       cf_WriteByte(outfile, GENERICPAGE_COMMAND_WB_FIRE_SOUND);
-      size = strlen(genericpage->fire_sound_name[i][j]) + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
+      size = genericpage->fire_sound_name[i][j].size() + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
 
       cf_WriteByte(outfile, size);
 
       cf_WriteByte(outfile, i);
       cf_WriteByte(outfile, j);
-      cf_WriteString(outfile, genericpage->fire_sound_name[i][j]);
+      cf_WriteString(outfile, std::data(genericpage->fire_sound_name[i][j]));
     }
   }
 
@@ -829,13 +829,13 @@ void mng_WriteGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
     int j;
     for (j = 0; j < NUM_ANIMS_PER_CLASS; j++) {
       cf_WriteByte(outfile, GENERICPAGE_COMMAND_ANIM_SOUND_NAME);
-      size = strlen(genericpage->anim_sound_name[i][j]) + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
+      size = genericpage->anim_sound_name[i][j].size() + 1 + 2; // 1 for the null charactor and 2 for the 2 indices
 
       cf_WriteByte(outfile, size);
 
       cf_WriteByte(outfile, i);
       cf_WriteByte(outfile, j);
-      cf_WriteString(outfile, genericpage->anim_sound_name[i][j]);
+      cf_WriteString(outfile, std::data(genericpage->anim_sound_name[i][j]));
     }
   }
 
@@ -849,7 +849,7 @@ void mng_WriteNewGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
 
   ASSERT(outfile != NULL);
   ASSERT(genericpage != NULL);
-  ASSERT((strlen(genericpage->image_name)) > 2);
+  ASSERT(genericpage->image_name.size() > 2);
 
   int offset = StartManagePage(outfile, PAGETYPE_GENERIC);
 
@@ -858,12 +858,12 @@ void mng_WriteNewGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
   cf_WriteByte(outfile, genericpage->objinfo_struct.type);
 
   // Write out object name
-  cf_WriteString(outfile, genericpage->objinfo_struct.name);
+  cf_WriteString(outfile, std::data(genericpage->objinfo_struct.name));
 
   // Write out model names
-  cf_WriteString(outfile, genericpage->image_name);
-  cf_WriteString(outfile, genericpage->med_image_name);
-  cf_WriteString(outfile, genericpage->lo_image_name);
+  cf_WriteString(outfile, std::data(genericpage->image_name));
+  cf_WriteString(outfile, std::data(genericpage->med_image_name));
+  cf_WriteString(outfile, std::data(genericpage->lo_image_name));
 
   // Write out impact data
   cf_WriteFloat(outfile, genericpage->objinfo_struct.impact_size);
@@ -881,10 +881,10 @@ void mng_WriteNewGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
   cf_WriteString(outfile, ""); // genericpage->objinfo_struct.script_name
 
   // Write module name
-  cf_WriteString(outfile, genericpage->objinfo_struct.module_name);
+  cf_WriteString(outfile, std::data(genericpage->objinfo_struct.module_name));
 
   // Write scriptname override
-  cf_WriteString(outfile, genericpage->objinfo_struct.script_name_override);
+  cf_WriteString(outfile, std::data(genericpage->objinfo_struct.script_name_override));
 
   if (genericpage->objinfo_struct.description != NULL) {
     // Write description if there is one
@@ -894,7 +894,7 @@ void mng_WriteNewGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
     cf_WriteByte(outfile, 0);
 
   // Write icon name
-  cf_WriteString(outfile, genericpage->objinfo_struct.icon_name);
+  cf_WriteString(outfile, std::data(genericpage->objinfo_struct.icon_name));
 
   // Write LOD distances
   cf_WriteFloat(outfile, genericpage->objinfo_struct.med_lod_distance);
@@ -967,7 +967,7 @@ void mng_WriteNewGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
     cf_WriteByte(outfile, genericpage->objinfo_struct.f_dspew);
     cf_WriteFloat(outfile, genericpage->objinfo_struct.dspew_percent[i]);
     cf_WriteShort(outfile, genericpage->objinfo_struct.dspew_number[i]);
-    cf_WriteString(outfile, genericpage->dspew_name[i]);
+    cf_WriteString(outfile, std::data(genericpage->dspew_name[i]));
   }
 
   // Write out animation info
@@ -986,24 +986,24 @@ void mng_WriteNewGenericPage(CFILE *outfile, mngs_generic_page *genericpage) {
   // Write out weapon names
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (j = 0; j < MAX_WB_GUNPOINTS; j++)
-      cf_WriteString(outfile, genericpage->weapon_name[i][j]);
+      cf_WriteString(outfile, std::data(genericpage->weapon_name[i][j]));
   }
 
   // Write out sounds
   for (i = 0; i < MAX_OBJ_SOUNDS; i++)
-    cf_WriteString(outfile, genericpage->sound_name[i]);
+    cf_WriteString(outfile, std::data(genericpage->sound_name[i]));
 
   for (i = 0; i < MAX_AI_SOUNDS; i++)
-    cf_WriteString(outfile, genericpage->ai_sound_name[i]);
+    cf_WriteString(outfile, std::data(genericpage->ai_sound_name[i]));
 
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
-      cf_WriteString(outfile, genericpage->fire_sound_name[i][j]);
+      cf_WriteString(outfile, std::data(genericpage->fire_sound_name[i][j]));
   }
 
   for (i = 0; i < NUM_MOVEMENT_CLASSES; i++) {
     for (j = 0; j < NUM_ANIMS_PER_CLASS; j++)
-      cf_WriteString(outfile, genericpage->anim_sound_name[i][j]);
+      cf_WriteString(outfile, std::data(genericpage->anim_sound_name[i][j]));
   }
 
   // Write out respawn scalar
@@ -1033,48 +1033,48 @@ void GenericPageSetPowerupDefaultAmmo(object_info *ip) {
   ip->ammo_count = 0;
 
   // Set for specific types
-  if (!stricmp(ip->name, "Vauss"))
+  if (ip->name =="Vauss")
     ip->ammo_count = 5000;
-  if (!stricmp(ip->name, "Napalm"))
+  if (ip->name =="Napalm")
     ip->ammo_count = 500;
-  if (!stricmp(ip->name, "MassDriver"))
+  if (ip->name =="MassDriver")
     ip->ammo_count = 20;
 
-  if (!stricmp(ip->name, "Frag"))
+  if (ip->name =="Frag")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "ImpactMortar"))
+  if (ip->name =="ImpactMortar")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "NapalmRocket"))
+  if (ip->name =="NapalmRocket")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "Cyclone"))
+  if (ip->name =="Cyclone")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "BlackShark"))
+  if (ip->name =="BlackShark")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "Concussion"))
+  if (ip->name =="Concussion")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "Homing"))
+  if (ip->name =="Homing")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "Smart"))
+  if (ip->name =="Smart")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "Mega"))
+  if (ip->name =="Mega")
     ip->ammo_count = 1;
-  if (!stricmp(ip->name, "Guided"))
+  if (ip->name =="Guided")
     ip->ammo_count = 1;
 
-  if (!stricmp(ip->name, "4PackHoming"))
+  if (ip->name =="4PackHoming")
     ip->ammo_count = 4;
-  if (!stricmp(ip->name, "4PackConc"))
+  if (ip->name =="4PackConc")
     ip->ammo_count = 4;
-  if (!stricmp(ip->name, "4PackFrag"))
+  if (ip->name =="4PackFrag")
     ip->ammo_count = 4;
-  if (!stricmp(ip->name, "4PackGuided"))
+  if (ip->name =="4PackGuided")
     ip->ammo_count = 4;
 
-  if (!stricmp(ip->name, "Vauss clip"))
+  if (ip->name =="Vauss clip")
     ip->ammo_count = 1250;
-  if (!stricmp(ip->name, "MassDriverAmmo"))
+  if (ip->name =="MassDriverAmmo")
     ip->ammo_count = 5;
-  if (!stricmp(ip->name, "NapalmTank"))
+  if (ip->name =="NapalmTank")
     ip->ammo_count = 100;
 }
 
@@ -1090,12 +1090,12 @@ int mng_ReadNewGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
   genericpage->objinfo_struct.type = cf_ReadByte(infile);
 
   // Read object name
-  cf_ReadString(genericpage->objinfo_struct.name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(genericpage->objinfo_struct.name), PAGENAME_LEN, infile);
 
   // Read model names
-  cf_ReadString(genericpage->image_name, PAGENAME_LEN, infile);
-  cf_ReadString(genericpage->med_image_name, PAGENAME_LEN, infile);
-  cf_ReadString(genericpage->lo_image_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(genericpage->image_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(genericpage->med_image_name), PAGENAME_LEN, infile);
+  cf_ReadString(std::data(genericpage->lo_image_name), PAGENAME_LEN, infile);
 
   // Read out impact data
   genericpage->objinfo_struct.impact_size = cf_ReadFloat(infile);
@@ -1128,7 +1128,7 @@ int mng_ReadNewGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
   }
 
   if (version >= 19) {
-    cf_ReadString(genericpage->objinfo_struct.script_name_override, PAGENAME_LEN, infile);
+    cf_ReadString(std::data(genericpage->objinfo_struct.script_name_override), PAGENAME_LEN, infile);
   } else {
     genericpage->objinfo_struct.script_name_override[0] = '\0';
   }
@@ -1148,7 +1148,7 @@ int mng_ReadNewGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
     genericpage->objinfo_struct.description = NULL;
 
   // Read icon name
-  cf_ReadString(genericpage->objinfo_struct.icon_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(genericpage->objinfo_struct.icon_name), PAGENAME_LEN, infile);
 
   // Read LOD distances
   genericpage->objinfo_struct.med_lod_distance = cf_ReadFloat(infile);
@@ -1239,7 +1239,7 @@ int mng_ReadNewGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
     genericpage->objinfo_struct.dspew_number[i] = cf_ReadShort(infile);
 
     // Read spew name
-    cf_ReadString(genericpage->dspew_name[i], PAGENAME_LEN, infile);
+    cf_ReadString(std::data(genericpage->dspew_name[i]), PAGENAME_LEN, infile);
   }
 
   // Read out animation info
@@ -1267,29 +1267,29 @@ int mng_ReadNewGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
   // read weapon names
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (j = 0; j < MAX_WB_GUNPOINTS; j++)
-      cf_ReadString(genericpage->weapon_name[i][j], PAGENAME_LEN, infile);
+      cf_ReadString(std::data(genericpage->weapon_name[i][j]), PAGENAME_LEN, infile);
   }
 
   // read sounds
   ASSERT(MAX_OBJ_SOUNDS == 2);
   for (i = 0; i < MAX_OBJ_SOUNDS; i++)
-    cf_ReadString(genericpage->sound_name[i], PAGENAME_LEN, infile);
+    cf_ReadString(std::data(genericpage->sound_name[i]), PAGENAME_LEN, infile);
   if (version < 26) { // used to be three sounds
-    char temp_sound_name[PAGENAME_LEN];
-    cf_ReadString(temp_sound_name, PAGENAME_LEN, infile);
+    pagename_t temp_sound_name;
+    cf_ReadString(std::data(temp_sound_name), PAGENAME_LEN, infile);
   }
 
   for (i = 0; i < MAX_AI_SOUNDS; i++)
-    cf_ReadString(genericpage->ai_sound_name[i], PAGENAME_LEN, infile);
+    cf_ReadString(std::data(genericpage->ai_sound_name[i]), PAGENAME_LEN, infile);
 
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++)
-      cf_ReadString(genericpage->fire_sound_name[i][j], PAGENAME_LEN, infile);
+      cf_ReadString(std::data(genericpage->fire_sound_name[i][j]), PAGENAME_LEN, infile);
   }
 
   for (i = 0; i < NUM_MOVEMENT_CLASSES; i++) {
     for (j = 0; j < NUM_ANIMS_PER_CLASS; j++)
-      cf_ReadString(genericpage->anim_sound_name[i][j], PAGENAME_LEN, infile);
+      cf_ReadString(std::data(genericpage->anim_sound_name[i][j]), PAGENAME_LEN, infile);
   }
 
   // Read respawn scalar
@@ -1380,17 +1380,17 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
       cf_ReadString(genericpage->objinfo_struct.description, len + 1, infile);
       break;
     case GENERICPAGE_COMMAND_ICON_NAME:
-      cf_ReadString(genericpage->objinfo_struct.icon_name, len + 1, infile);
+      cf_ReadString(std::data(genericpage->objinfo_struct.icon_name), len + 1, infile);
       break;
     case GENERICPAGE_COMMAND_IMAGE_NAME: // the name of the generic model
-      cf_ReadString(genericpage->image_name, len + 1, infile);
+      cf_ReadString(std::data(genericpage->image_name), len + 1, infile);
       break;
     case GENERICPAGE_COMMAND_LOD_MODELS: // the name of the lower res models
-      cf_ReadString(genericpage->med_image_name, len + 1, infile);
-      cf_ReadString(genericpage->lo_image_name, len + 1, infile);
+      cf_ReadString(std::data(genericpage->med_image_name), len + 1, infile);
+      cf_ReadString(std::data(genericpage->lo_image_name), len + 1, infile);
       break;
     case GENERICPAGE_COMMAND_NAME:
-      cf_ReadString(genericpage->objinfo_struct.name, len + 1, infile);
+      cf_ReadString(std::data(genericpage->objinfo_struct.name), len + 1, infile);
       break;
     case GENERICPAGE_COMMAND_SIZE:
       genericpage->objinfo_struct.size = cf_ReadFloat(infile);
@@ -1406,7 +1406,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
       genericpage->objinfo_struct.f_dspew = cf_ReadByte(infile);
       genericpage->objinfo_struct.dspew_percent[i] = cf_ReadFloat(infile);
       genericpage->objinfo_struct.dspew_number[i] = cf_ReadShort(infile);
-      cf_ReadString(genericpage->dspew_name[i], len - 7, infile);
+      cf_ReadString(std::data(genericpage->dspew_name[i]), len - 7, infile);
     } break;
 
     case GENERICPAGE_COMMAND_WB_FLAGS: {
@@ -1550,7 +1550,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
 
       i = cf_ReadByte(infile);
       j = cf_ReadByte(infile);
-      cf_ReadString(genericpage->weapon_name[i][j], len - 1, infile);
+      cf_ReadString(std::data(genericpage->weapon_name[i][j]), len - 1, infile);
       break;
     }
     case GENERICPAGE_COMMAND_WB_FIRE_SOUND: {
@@ -1558,7 +1558,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
 
       i = cf_ReadByte(infile);
       j = cf_ReadByte(infile);
-      cf_ReadString(genericpage->fire_sound_name[i][j], len - 1, infile);
+      cf_ReadString(std::data(genericpage->fire_sound_name[i][j]), len - 1, infile);
       break;
     }
     case GENERICPAGE_COMMAND_ANIM_SOUND_NAME: {
@@ -1566,7 +1566,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
 
       i = cf_ReadByte(infile);
       j = cf_ReadByte(infile);
-      cf_ReadString(genericpage->anim_sound_name[i][j], len - 1, infile);
+      cf_ReadString(std::data(genericpage->anim_sound_name[i][j]), len - 1, infile);
       break;
     }
     case GENERICPAGE_COMMAND_SOUND_NAME: {
@@ -1574,7 +1574,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
 
       i = cf_ReadByte(infile);
 
-      cf_ReadString(genericpage->sound_name[i], len, infile);
+      cf_ReadString(std::data(genericpage->sound_name[i]), len, infile);
 
       break;
     }
@@ -1583,7 +1583,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
 
       i = cf_ReadByte(infile);
 
-      cf_ReadString(genericpage->ai_sound_name[i], len, infile);
+      cf_ReadString(std::data(genericpage->ai_sound_name[i]), len, infile);
 
       break;
     }
@@ -1712,37 +1712,37 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
       genericpage->ai_info.avoid_friends_distance = 4.0f;
   }
 
-  if (!strnicmp("INVALID", genericpage->med_image_name, 7))
-    strcpy(genericpage->med_image_name, "");
-  if (!strnicmp("INVALID", genericpage->lo_image_name, 7))
-    strcpy(genericpage->lo_image_name, "");
+  if (genericpage->med_image_name == "INVALID")
+    genericpage->med_image_name.clear();
+  if (genericpage->lo_image_name == "INVALID")
+    genericpage->lo_image_name.clear();
 
   for (i = 0; i < MAX_OBJ_SOUNDS; i++) {
-    if (!strnicmp("INVALID", genericpage->sound_name[i], 7))
-      strcpy(genericpage->sound_name[i], "");
+    if (genericpage->sound_name[i] == "INVALID")
+      genericpage->sound_name[i].clear();
   }
 
   for (i = 0; i < MAX_DSPEW_TYPES; i++) {
-    if (!strnicmp("INVALID", genericpage->dspew_name[i], 7))
-      strcpy(genericpage->dspew_name[i], "");
+    if (genericpage->dspew_name[i] == "INVALID")
+      genericpage->dspew_name[i].clear();
   }
 
   for (i = 0; i < MAX_AI_SOUNDS; i++) {
-    if (!strnicmp("INVALID", genericpage->ai_sound_name[i], 7))
-      strcpy(genericpage->ai_sound_name[i], "");
+    if (genericpage->ai_sound_name[i] == "INVALID")
+      genericpage->ai_sound_name[i].clear();
   }
 
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (t = 0; t < MAX_WB_FIRING_MASKS; t++) {
-      if (!strnicmp("INVALID", genericpage->fire_sound_name[i][t], 7))
-        strcpy(genericpage->fire_sound_name[i][t], "");
+      if (genericpage->fire_sound_name[i][t] == "INVALID")
+        genericpage->fire_sound_name[i][t].clear();
     }
   }
 
   for (i = 0; i < NUM_MOVEMENT_CLASSES; i++) {
     for (t = 0; t < NUM_ANIMS_PER_CLASS; t++) {
-      if (!strnicmp("INVALID", genericpage->anim_sound_name[i][t], 7))
-        strcpy(genericpage->anim_sound_name[i][t], "");
+      if (genericpage->anim_sound_name[i][t] == "INVALID")
+        genericpage->anim_sound_name[i][t].clear();
     }
   }
   return 1; // successfully read
@@ -1750,7 +1750,7 @@ int mng_ReadGenericPage(CFILE *infile, mngs_generic_page *genericpage) {
 
 // Reads in the generic named "name" into genericpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificGenericPage(char *name, mngs_generic_page *genericpage, int offset) {
+int mng_FindSpecificGenericPage(const pagename_t& name, mngs_generic_page *genericpage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -1811,7 +1811,7 @@ try_again:;
 
     mng_ReadNewGenericPage(infile, genericpage);
 
-    if (!stricmp(name, genericpage->objinfo_struct.name)) {
+    if (genericpage->objinfo_struct.name == name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -1914,7 +1914,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   //	memcpy (objinfopointer,&genericpage->objinfo_struct,sizeof(*objinfopointer));
   memcpy(objinfopointer, &genericpage->objinfo_struct,
          sizeof(*objinfopointer) - sizeof(anim_elem *) - sizeof(otype_wb_info *) - sizeof(t_ai_info *));
-  strcpy(objinfopointer->name, genericpage->objinfo_struct.name);
+  objinfopointer->name = genericpage->objinfo_struct.name;
   if (objinfopointer->anim)
     memcpy(objinfopointer->anim, &genericpage->anim, sizeof(genericpage->anim));
 
@@ -1929,7 +1929,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   // since the description pointer was just copied over, no need to malloc mem, copy and then free old, just move ptr
   genericpage->objinfo_struct.description = NULL;
 
-  strcpy(objinfopointer->icon_name, genericpage->objinfo_struct.icon_name);
+  objinfopointer->icon_name = genericpage->objinfo_struct.icon_name;
   // First see if our image differs from the one on the net
   // If it is, make a copy
   // If its a release version, don't do any of this
@@ -1939,30 +1939,30 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalModelsDir, genericpage->image_name, NULL);
-    ddio_MakePath(netstr, NetModelsDir, genericpage->image_name, NULL);
+    ddio_MakePath(str, LocalModelsDir, std::data(genericpage->image_name), NULL);
+    ddio_MakePath(netstr, NetModelsDir, std::data(genericpage->image_name), NULL);
 
-    UpdatePrimitive(str, netstr, genericpage->image_name, PAGETYPE_GENERIC, objinfopointer->name);
+    UpdatePrimitive(str, netstr, std::data(genericpage->image_name), PAGETYPE_GENERIC, std::data(objinfopointer->name));
 
-    if (stricmp(genericpage->med_image_name, "INVALID NAME") && genericpage->med_image_name[0] != 0) {
-      ddio_MakePath(str, LocalModelsDir, genericpage->med_image_name, NULL);
-      ddio_MakePath(netstr, NetModelsDir, genericpage->med_image_name, NULL);
+    if (genericpage->med_image_name != "INVALID NAME" && genericpage->med_image_name[0] != 0) {
+      ddio_MakePath(str, LocalModelsDir, std::data(genericpage->med_image_name), NULL);
+      ddio_MakePath(netstr, NetModelsDir, std::data(genericpage->med_image_name), NULL);
 
-      UpdatePrimitive(str, netstr, genericpage->med_image_name, PAGETYPE_GENERIC, objinfopointer->name);
+      UpdatePrimitive(str, netstr, std::data(genericpage->med_image_name), PAGETYPE_GENERIC, std::data(objinfopointer->name));
     }
 
-    if (stricmp(genericpage->lo_image_name, "INVALID NAME") && genericpage->lo_image_name[0] != 0) {
-      ddio_MakePath(str, LocalModelsDir, genericpage->lo_image_name, NULL);
-      ddio_MakePath(netstr, NetModelsDir, genericpage->lo_image_name, NULL);
+    if (genericpage->lo_image_name != "INVALID NAME" && genericpage->lo_image_name[0] != 0) {
+      ddio_MakePath(str, LocalModelsDir, std::data(genericpage->lo_image_name), NULL);
+      ddio_MakePath(netstr, NetModelsDir, std::data(genericpage->lo_image_name), NULL);
 
-      UpdatePrimitive(str, netstr, genericpage->lo_image_name, PAGETYPE_GENERIC, objinfopointer->name);
+      UpdatePrimitive(str, netstr, std::data(genericpage->lo_image_name), PAGETYPE_GENERIC, std::data(objinfopointer->name));
     }
   }
 #endif
 
   // Try and load our generic model from the disk
 
-  img_handle = LoadPolyModel(genericpage->image_name, 1);
+  img_handle = LoadPolyModel(std::data(genericpage->image_name), 1);
 
   if (img_handle < 0) {
     mprintf(0, "Couldn't load file '%s' in AssignGenericPage...\n", genericpage->image_name);
@@ -1971,8 +1971,8 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   } else
     objinfopointer->render_handle = img_handle;
 
-  if (stricmp(genericpage->med_image_name, "INVALID NAME") && genericpage->med_image_name[0] != 0) {
-    img_handle = LoadPolyModel(genericpage->med_image_name, 1);
+  if (genericpage->med_image_name != "INVALID NAME" && genericpage->med_image_name[0] != 0) {
+    img_handle = LoadPolyModel(std::data(genericpage->med_image_name), 1);
 
     if (img_handle < 0) {
       mprintf(0, "Couldn't load file '%s' in AssignGenericPage...\n", genericpage->med_image_name);
@@ -1983,8 +1983,8 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   } else
     objinfopointer->med_render_handle = -1;
 
-  if (stricmp(genericpage->lo_image_name, "INVALID NAME") && genericpage->lo_image_name[0] != 0) {
-    img_handle = LoadPolyModel(genericpage->lo_image_name, 1);
+  if (genericpage->lo_image_name != "INVALID NAME" && genericpage->lo_image_name[0] != 0) {
+    img_handle = LoadPolyModel(std::data(genericpage->lo_image_name), 1);
 
     if (img_handle < 0) {
       mprintf(0, "Couldn't load file '%s' in AssignGenericPage...\n", genericpage->lo_image_name);
@@ -1997,7 +1997,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
 
   // Try and load the various sounds
   for (i = 0; i < MAX_OBJ_SOUNDS; i++) {
-    if (stricmp(genericpage->sound_name[i], "INVALID NAME") && genericpage->sound_name[i][0] != 0) {
+    if (genericpage->sound_name[i] != "INVALID NAME" && genericpage->sound_name[i][0] != 0) {
       int sound_handle = mng_GetGuaranteedSoundPage(genericpage->sound_name[i]);
 
       if (sound_handle < 0) {
@@ -2012,7 +2012,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   }
 
   for (i = 0; i < MAX_DSPEW_TYPES; i++) {
-    if (genericpage->dspew_name[i][0] != '\0') {
+    if (!genericpage->dspew_name[i].empty()) {
       int obj_handle = mng_GetGuaranteedGenericPage(genericpage->dspew_name[i], infile);
 
       if (obj_handle < 0) {
@@ -2032,7 +2032,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   // Try and load the various sounds
   if (objinfopointer->ai_info) {
     for (i = 0; i < MAX_AI_SOUNDS; i++) {
-      if (stricmp(genericpage->ai_sound_name[i], "INVALID NAME") && genericpage->ai_sound_name[i][0] != 0) {
+      if (genericpage->ai_sound_name[i] != "INVALID NAME" && genericpage->ai_sound_name[i][0] != 0) {
         int sound_handle = mng_GetGuaranteedSoundPage(genericpage->ai_sound_name[i]);
 
         if (sound_handle < 0) {
@@ -2051,7 +2051,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   if (objinfopointer->static_wb) {
     for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
       for (j = 0; j < MAX_WB_GUNPOINTS; j++) {
-        if (genericpage->weapon_name[i][j][0] != '\0') {
+        if (!genericpage->weapon_name[i][j].empty()) {
           int weapon_handle = mng_GetGuaranteedWeaponPage(genericpage->weapon_name[i][j]);
 
           if (weapon_handle < 0) {
@@ -2069,7 +2069,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
     // Try and load the various wb sounds
     for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
       for (j = 0; j < MAX_WB_FIRING_MASKS; j++) {
-        if (genericpage->fire_sound_name[i][j][0] != '\0') {
+        if (!genericpage->fire_sound_name[i][j].empty()) {
           int fire_sound_handle = mng_GetGuaranteedSoundPage(genericpage->fire_sound_name[i][j]);
 
           if (fire_sound_handle < 0) {
@@ -2089,7 +2089,7 @@ int mng_AssignGenericPageToObjInfo(mngs_generic_page *genericpage, int n, CFILE 
   if (objinfopointer->anim) {
     for (i = 0; i < NUM_MOVEMENT_CLASSES; i++) {
       for (j = 0; j < NUM_ANIMS_PER_CLASS; j++) {
-        if (stricmp(genericpage->anim_sound_name[i][j], "INVALID NAME") && genericpage->anim_sound_name[i][j][0] != 0) {
+        if (genericpage->anim_sound_name[i][j] != "INVALID NAME" && genericpage->anim_sound_name[i][j][0] != 0) {
           int anim_sound_handle = mng_GetGuaranteedSoundPage(genericpage->anim_sound_name[i][j]);
 
           if (anim_sound_handle < 0) {
@@ -2117,7 +2117,7 @@ void mng_AssignObjInfoToGenericPage(int n, mngs_generic_page *genericpage) {
 
   // Assign the  values
   memcpy(&genericpage->objinfo_struct, objinfopointer, sizeof(*objinfopointer));
-  strcpy(genericpage->objinfo_struct.name, objinfopointer->name);
+  genericpage->objinfo_struct.name = objinfopointer->name;
 
   if (objinfopointer->anim)
     memcpy(&genericpage->anim, objinfopointer->anim, sizeof(genericpage->anim));
@@ -2136,68 +2136,68 @@ void mng_AssignObjInfoToGenericPage(int n, mngs_generic_page *genericpage) {
   } else
     genericpage->objinfo_struct.description = NULL;
 
-  strcpy(genericpage->objinfo_struct.icon_name, objinfopointer->icon_name);
+  genericpage->objinfo_struct.icon_name = objinfopointer->icon_name;
 
   if (objinfopointer->render_handle != -1)
-    strcpy(genericpage->image_name, Poly_models[objinfopointer->render_handle].name);
+    genericpage->image_name = Poly_models[objinfopointer->render_handle].name;
   else
-    strcpy(genericpage->image_name, "");
+    genericpage->image_name.clear();
 
   if (objinfopointer->med_render_handle != -1)
-    strcpy(genericpage->med_image_name, Poly_models[objinfopointer->med_render_handle].name);
+    genericpage->med_image_name = Poly_models[objinfopointer->med_render_handle].name;
   else
-    strcpy(genericpage->med_image_name, "");
+    genericpage->med_image_name.clear();
 
   if (objinfopointer->lo_render_handle != -1)
-    strcpy(genericpage->lo_image_name, Poly_models[objinfopointer->lo_render_handle].name);
+    genericpage->lo_image_name = Poly_models[objinfopointer->lo_render_handle].name;
   else
-    strcpy(genericpage->lo_image_name, "");
+    genericpage->lo_image_name.clear();
 
   for (i = 0; i < MAX_OBJ_SOUNDS; i++) {
     if (objinfopointer->sounds[i] != SOUND_NONE_INDEX)
-      strcpy(genericpage->sound_name[i], Sounds[objinfopointer->sounds[i]].name);
+      genericpage->sound_name[i] = Sounds[objinfopointer->sounds[i]].name;
     else
-      strcpy(genericpage->sound_name[i], "");
+      genericpage->sound_name[i].clear();
   }
 
   for (i = 0; i < MAX_DSPEW_TYPES; i++) {
     if ((objinfopointer->dspew[i] != -1) && Object_info[objinfopointer->dspew[i]].type != OBJ_NONE)
-      strcpy(genericpage->dspew_name[i], Object_info[objinfopointer->dspew[i]].name);
+      genericpage->dspew_name[i] = Object_info[objinfopointer->dspew[i]].name;
     else
-      strcpy(genericpage->dspew_name[i], "\0");
+      genericpage->dspew_name[i].clear();
   }
 
   for (i = 0; i < MAX_AI_SOUNDS; i++) {
     if (objinfopointer->ai_info && objinfopointer->ai_info->sound[i] != SOUND_NONE_INDEX)
-      strcpy(genericpage->ai_sound_name[i], Sounds[objinfopointer->ai_info->sound[i]].name);
+      genericpage->ai_sound_name[i] = Sounds[objinfopointer->ai_info->sound[i]].name;
     else
-      strcpy(genericpage->ai_sound_name[i], "");
+      genericpage->ai_sound_name[i].clear();
   }
 
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (j = 0; j < MAX_WB_FIRING_MASKS; j++) {
       if (objinfopointer->static_wb && objinfopointer->static_wb[i].fm_fire_sound_index[j] >= 0)
-        strcpy(genericpage->fire_sound_name[i][j], Sounds[objinfopointer->static_wb[i].fm_fire_sound_index[j]].name);
+        genericpage->fire_sound_name[i][j] = Sounds[objinfopointer->static_wb[i].fm_fire_sound_index[j]].name;
       else
-        strcpy(genericpage->fire_sound_name[i][j], "");
+        genericpage->fire_sound_name[i][j].clear();
     }
   }
 
   for (i = 0; i < NUM_MOVEMENT_CLASSES; i++) {
     for (j = 0; j < NUM_ANIMS_PER_CLASS; j++) {
       if (objinfopointer->anim && objinfopointer->anim[i].elem[j].anim_sound_index >= 0)
-        strcpy(genericpage->anim_sound_name[i][j], Sounds[objinfopointer->anim[i].elem[j].anim_sound_index].name);
+        genericpage->anim_sound_name[i][j] = Sounds[objinfopointer->anim[i].elem[j].anim_sound_index].name;
       else
-        strcpy(genericpage->anim_sound_name[i][j], "");
+        genericpage->anim_sound_name[i][j].clear();
     }
   }
 
   for (i = 0; i < MAX_WBS_PER_OBJ; i++) {
     for (j = 0; j < MAX_WB_GUNPOINTS; j++) {
       if (objinfopointer->static_wb && objinfopointer->static_wb[i].gp_weapon_index[j] >= 0)
-        strcpy(genericpage->weapon_name[i][j], Weapons[objinfopointer->static_wb[i].gp_weapon_index[j]].name);
+        genericpage->weapon_name[i][j] = Weapons[objinfopointer->static_wb[i].gp_weapon_index[j]].name;
       else
-        strcpy(genericpage->weapon_name[i][j], "Laser");
+        genericpage->weapon_name[i][j] = "Laser";
     }
   }
 }
@@ -2242,7 +2242,7 @@ void mng_LoadLocalGenericPage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, genericpage.objinfo_struct.name);
+      pl.name = genericpage.objinfo_struct.name;
       pl.pagetype = PAGETYPE_GENERIC;
 
       /*if (Network_up && Stand_alone==0)
@@ -2265,7 +2265,7 @@ void mng_LoadLocalGenericPage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_GENERIC &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, genericpage.objinfo_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == genericpage.objinfo_struct.name) {
             // found it!!
             mprintf(0, "GenericPage: %s previously loaded\n", genericpage.objinfo_struct.name);
             need_to_load_page = false;
@@ -2292,7 +2292,7 @@ void mng_LoadLocalGenericPage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_GENERIC &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, genericpage.objinfo_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == genericpage.objinfo_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;
@@ -2331,7 +2331,7 @@ void mng_LoadLocalGenericPage(CFILE *infile) {
 // First searches through the object index to see if the object is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of object found, -1 if not
-int mng_GetGuaranteedGenericPage(char *name, CFILE *infile) {
+int mng_GetGuaranteedGenericPage(const pagename_t& name, CFILE *infile) {
   int i;
   mngs_generic_page page;
 

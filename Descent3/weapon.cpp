@@ -545,13 +545,13 @@ int GetPrevWeapon(int n) {
 }
 // Searches thru all weapons for a specific name, returns -1 if not found
 // or index of weapon with name
-int FindWeaponName(const char *name) {
+int FindWeaponName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_WEAPONS; i++)
-    if (Weapons[i].used && !stricmp(name, Weapons[i].name))
+    if (Weapons[i].used && name == Weapons[i].name)
       return i;
 
   return -1;
@@ -657,7 +657,7 @@ int LoadWeaponFireImage(char *filename, int *type, int *anim, int pageable) {
 // Given a weapon name, assigns that weapon to a specific index into
 // the Weapons array.  Returns -1 if the named weapon is not found, 0 if the weapon
 // is already in its place, or 1 if successfully moved
-int MatchWeaponToIndex(char *name, int dest_index) {
+int MatchWeaponToIndex(const pagename_t& name, int dest_index) {
 
   ASSERT(dest_index >= 0 && dest_index < MAX_WEAPONS);
 
@@ -721,7 +721,7 @@ void RemapWeapons() {
     if (Weapons[i].used) {
       int match = -1;
       for (int t = 0; t < limit; t++)
-        if (!stricmp(Weapons[i].name, Static_weapon_names[t])) {
+        if (Weapons[i].name == Static_weapon_names[t]) {
           match = t;
           break;
         }
@@ -752,7 +752,7 @@ void RemapWeapons() {
     if (Weapons[i].used) {
       int match = -1;
       for (int t = 0; t < limit; t++)
-        if (!stricmp(Weapons[i].name, Static_weapon_names[t])) {
+        if (Weapons[i].name == Static_weapon_names[t]) {
           match = t;
           break;
         }

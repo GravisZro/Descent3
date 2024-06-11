@@ -268,7 +268,7 @@
 #define WSI_BOUNCE 4
 
 struct weapon {
-  char name[PAGENAME_LEN];
+  pagename_t name;
   float player_damage;             // how much damage a full impact causes a player
   float generic_damage;            // how much damage a full impact causes a robot
   float alpha;                     // What alpha to draw this weapon with
@@ -349,7 +349,7 @@ int GetPrevWeapon(int n);
 
 // Searches thru all weapons for a specific name, returns -1 if not found
 // or index of weapon with name
-int FindWeaponName(const char *name);
+int FindWeaponName(const pagename_t& name);
 
 // Given a filename, loads either the model or vclip found in that file.  If type
 // is not NULL, sets it to 1 if file is model, otherwise sets it to zero
@@ -368,7 +368,7 @@ int GetWeaponFireImage(int handle, int frame);
 // Given a weapon name, assigns that weapon to a specific index into
 // the Weapons array.  Returns -1 if the named weapon is not found, 0 if the weapon
 // is already in its place, or 1 if successfully moved
-int MatchWeaponToIndex(char *name, int dest_index);
+int MatchWeaponToIndex(const pagename_t& name, int dest_index);
 
 // Moves a weapon from a given index into a new one (above MAX_STATIC_POWERUPS)
 // returns new index

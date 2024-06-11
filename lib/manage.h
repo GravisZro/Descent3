@@ -58,8 +58,8 @@
 
 struct mngs_Pagelock {
   uint8_t pagetype; // of type PAGETYPE above
-  char name[PAGENAME_LEN];
-  char holder[PAGENAME_LEN];
+  pagename_t name;
+  pagename_t holder;
 };
 
 struct mngs_track_lock {
@@ -69,7 +69,7 @@ struct mngs_track_lock {
   uint8_t __pad;
   int stack_filepos; // file position of this page in the tablefile (the value we are
                      // pushing, for addon tables)
-  char name[PAGENAME_LEN];
+  pagename_t name;
 };
 
 // For addon data
@@ -92,10 +92,10 @@ void mng_ClearAddonTables();
 
 // Push the given table file as an addon table file
 // returns true on success
-bool mng_SetAddonTable(char *name);
+bool mng_SetAddonTable(const pagename_t& name);
 
 // Pushes an addon pack onto the stack so we can keep track of it
-void mng_PushAddonPage(int pagetype, char *name, int overlay);
+void mng_PushAddonPage(int pagetype, const pagename_t& name, int overlay);
 
 // Loads and allocs all pages found locally
 void mng_LoadAddonPages();
@@ -188,12 +188,12 @@ int mng_CheckIfPageOwned(mngs_Pagelock *, char *owner);
 
 // Given a pagelock, replaces the one already inside the lock file, or if not present, adds it to
 // the lock file.  Returns 0 on error, or 1 if successful.
-int mng_ReplacePagelock(char *, mngs_Pagelock *);
+bool mng_ReplacePagelock(const pagename_t& name, mngs_Pagelock *pl);
 
-int mng_GetListOfLocks(mngs_Pagelock *pl, int max, char *who);
+int mng_GetListOfLocks(mngs_Pagelock *pl, int max, const char *who);
 
 // Given a name and a pagetype, deletes the one already inside the lock file
-int mng_DeletePagelock(char *name, int pagetype);
+int mng_DeletePagelock(const pagename_t& name, int pagetype);
 
 // Call this before any chokepoint functions are executed.
 // Locks the whole table system for our exclusive use
@@ -201,7 +201,7 @@ int mng_DeletePagelock(char *name, int pagetype);
 int mng_MakeLocker();
 
 // Given a list of names and a pagetype, deletes the ones already inside the lock file
-int mng_DeletePagelockSeries(char *names[], int num, int pagetype);
+int mng_DeletePagelockSeries(const pagename_t names[], int num, int pagetype);
 
 // Simply erases the Lockerfile
 void mng_EraseLocker();
@@ -217,11 +217,11 @@ void mng_InitTrackLocks();
 
 // Given a name, returns the index of the tracklock with that name
 // -1 indicates that it wasn't found
-int mng_FindTrackLock(char *name, int pagetype);
+int mng_FindTrackLock(const pagename_t& name, int pagetype);
 
 // Searches through global array of tracklocks and returns first free one
 // returns -1 if none free
-int mng_AllocTrackLock(char *name, int pagetype);
+int mng_AllocTrackLock(const pagename_t& name, int pagetype);
 
 // Frees a tracklock
 void mng_FreeTrackLock(int n);
@@ -229,14 +229,14 @@ void mng_FreeTrackLock(int n);
 //----------------------------------------------------------------
 
 // Displays all the locks of "name"
-void mng_DisplayLockList(char *name);
+void mng_DisplayLockList(const pagename_t& name);
 
 // Renames a page on the network
-int mng_RenamePage(char *oldname, char *newname, int pagetype);
+bool mng_RenamePage(const pagename_t& oldname, const pagename_t& newname, int pagetype);
 
 // Removes a file, then renames another file to be the removed file. Get it?
 // Returns 1 on success, else 0 on fail
-int SwitcherooFiles(char *name, char *tempname);
+int SwitcherooFiles(const char* name, const char* tempname);
 
 // Returns true if the passed in pagelock is in the LockList, else false
 bool InLockList(mngs_Pagelock *pl);
@@ -245,7 +245,7 @@ bool InLockList(mngs_Pagelock *pl);
 void mng_OverrideToUnlocked(mngs_Pagelock *temp_pl);
 
 // Returns true if the passed in primitive is old (ie needs to be updated from the network)
-bool IsPrimitiveOld(char *name);
+bool IsPrimitiveOld(const pagename_t& name);
 
 // Updates a primitive if needed
 // Localname = local version of the primname (with path)
@@ -274,13 +274,14 @@ void mng_ReadWeaponBatteryChunk(otype_wb_info *static_wb, CFILE *infile, int ver
 // Given a texture handle, searches the table file and replaces the texture with the same name
 // If local=1, then does it to the users local copy
 // Returns 0 on error, else 1 if all is good
-int mng_ReplacePage(char *srcname, char *destname, int handle, int dest_pagetype, int local);
+bool mng_ReplacePage(const pagename_t& srcname, pagename_t& destname, int handle, int dest_pagetype, int local);
+
 
 // Given a texture name, finds it in the table file and deletes it
 // If local is 1, deletes from the local table file
 int mng_DeletePage(char *name, int dest_pagetype, int local);
 
-void mng_FreePagetypePrimitives(int pagetype, char *name, int freetype);
+void mng_FreePagetypePrimitives(int pagetype, const pagename_t& name, int freetype);
 
 extern int Old_table_method;
 

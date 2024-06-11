@@ -585,7 +585,7 @@ void CWorldObjectsPlayerDialog::OnKillfocusPshipNameEdit()
 {
 	CEdit *ebox;
 	int n=D3EditState.current_ship;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this ship locked, if not reset name and bail
@@ -632,7 +632,7 @@ void CWorldObjectsPlayerDialog::OnKillfocusPshipNameEdit()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Ships[n].name);
 		strcpy (Ships[n].name,name);
 		
@@ -1117,7 +1117,7 @@ void CWorldObjectsPlayerDialog::OnPshipCockpit()
 void CWorldObjectsPlayerDialog::OnKillfocusPshipCockpitEdit() 
 {
 	CEdit *ebox;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 
 	// Get the new name
 	ebox=(CEdit *) GetDlgItem (IDC_PSHIP_COCKPIT_EDIT);
@@ -1136,7 +1136,7 @@ void CWorldObjectsPlayerDialog::OnDestroy()
 void CWorldObjectsPlayerDialog::OnKillfocusShipArmorEdit() 
 {
 	CEdit *ebox;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 
 	// Get the new name
 	ebox=(CEdit *) GetDlgItem (IDC_SHIP_ARMOR_EDIT);

@@ -92,8 +92,8 @@ BOOL CLevelDialog::OnInitDialog()
 	cbox->AddString(NULL_NAME);
 	for (i = 0; i < Num_ambient_sound_patterns; i++)
 	{
-		if (Ambient_sound_patterns[i].name[0]){
-			cbox->AddString((LPCTSTR) AmbientSoundPatternName(i));
+                if (Ambient_sound_patterns[i].name[0]){
+            cbox->AddString((LPCTSTR) std::data(AmbientSoundPatternName(i)));
 		}
 
 	}
@@ -135,8 +135,8 @@ BOOL CLevelDialog::OnInitDialog()
 			cbox->SetCurSel(-1);
 		}
 	}
-	else {
-		((CComboBox *)GetDlgItem(IDC_AMBIENT_SOUND))->SelectString(-1, (Curroomp->ambient_sound == -1) ? NULL_NAME : AmbientSoundPatternName(Curroomp->ambient_sound));
+        else {
+          ((CComboBox *)GetDlgItem(IDC_AMBIENT_SOUND))->SelectString(-1, (Curroomp->ambient_sound == -1) ? NULL_NAME : std::data(AmbientSoundPatternName(Curroomp->ambient_sound)));
 		((CComboBox *)GetDlgItem(IDC_ENVAUD_LIST))->SelectString(-1, EnvAudio_PresetNames[(Curroomp->env_reverb < N_ENVAUDIO_PRESETS) ? Curroomp->env_reverb : 0]);
 	}
 

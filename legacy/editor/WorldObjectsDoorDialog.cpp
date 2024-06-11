@@ -709,7 +709,7 @@ try_again:
 void CWorldObjectsDoorDialog::OnDoorChangeName()
 {
 	int n=D3EditState.current_door;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this door locked, if not reset name and bail
@@ -742,7 +742,7 @@ void CWorldObjectsDoorDialog::OnDoorChangeName()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Doors[n].name);
 		strcpy (Doors[n].name,name);
 		mng_ReplacePage (oldname,Doors[n].name,n,PAGETYPE_DOOR,1);
