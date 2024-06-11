@@ -245,7 +245,7 @@ struct tCockpitInfo {
 static tCockpitInfo Cockpit_info;
 static float KeyframeAnimateCockpit();
 //	loads cockpit. model_name = NULL, then will not load in model name.
-static void LoadCockpitInfo(const char *ckt_file, tCockpitCfgInfo *info);
+static void LoadCockpitInfo(const pagename_t& ckt_file, tCockpitCfgInfo *info);
 //////////////////////////////////////////////////////////////////////////////
 //	Initializes the cockpit by loading it in and initializing all it's gauges.
 //	initialization of cockpit.
@@ -356,14 +356,14 @@ bool CockpitFileParse(const char *command, const char *operand, void *data) {
       strcpy(cfginf->invpulseimg, operand);
   } else if (!strcmp(command, "fullhudinf")) {
     if (cfginf)
-      strcpy(HUD_resources.hud_inf_name, operand);
+      HUD_resources.hud_inf_name = operand;
   } else {
     return false;
   }
   return true;
 }
 //	loads pertinent information about cockpit.
-void LoadCockpitInfo(const char *ckt_file, tCockpitCfgInfo *cfginfo) {
+void LoadCockpitInfo(const pagename_t& ckt_file, tCockpitCfgInfo *cfginfo) {
   //	clear out return values.
   if (cfginfo) {
     memset(cfginfo, 0, sizeof(tCockpitCfgInfo));
@@ -378,7 +378,7 @@ void LoadCockpitInfo(const char *ckt_file, tCockpitCfgInfo *cfginfo) {
     strcpy(cfginfo->energyimg, TBL_GAMEFILE("hudenergy.ogf"));
     strcpy(cfginfo->invpulseimg, TBL_GAMEFILE("shieldinv.ogf"));
   }
-  if (ckt_file[0] == 0)
+  if (ckt_file.empty())
     return;
 
   LoadHUDConfig(ckt_file, CockpitFileParse, cfginfo);

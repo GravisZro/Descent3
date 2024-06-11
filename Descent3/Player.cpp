@@ -1202,7 +1202,7 @@ void InitPlayers() {
 
     ASSERT(index >= 0);
     GameTextures[index].bm_handle = 0;
-    snprintf(GameTextures[index].name, sizeof(GameTextures[index].name), "Player %d texture", i);
+    snprintf(std::data(GameTextures[index].name), sizeof(GameTextures[index].name), "Player %d texture", i);
     Players[i].custom_texture_handle = index;
   }
   PlayerResetShipPermissions(-1, true);
@@ -2749,7 +2749,7 @@ void PlayerSpewGuidebot(object *parent, int type, int id) {
   int model_num = Object_info[ROBOT_GUIDEBOT].render_handle;
   float size;
 
-  if (stricmp(Ships[Players[parent->id].ship_index].name, "Black Pyro") == 0) {
+  if (Ships[Players[parent->id].ship_index].name == "Black Pyro") {
     // Only spew red GB if merc is installed
     extern bool MercInstalled();
     if (MercInstalled())
@@ -2881,14 +2881,22 @@ int PlayerSpewObject(object *parent, int type, int id, int timed, void *sinfo) {
 
 // This is a terrible hack -- it maps powerup to multi-pack versions
 // This mapping should really be on the powerup page
-const char *powerup_multipacks[] = {"Concussion", "4packConc",   "Frag",   "4packFrag",
-                              "Guided",     "4packGuided", "Homing", "4packHoming"};
+const char *powerup_multipacks[] = {
+    "Concussion",
+    "4packConc",
+    "Frag",
+    "4packFrag",
+    "Guided",
+    "4packGuided",
+    "Homing",
+    "4packHoming"
+};
 #define N_POWERUP_MULTIPACKS (sizeof(powerup_multipacks) / sizeof(*powerup_multipacks) / 2)
 
 // Returns the index of the multipack version of the specified powerup, or -1 if none
 int FindMultipackPowerup(int single_index) {
   for (int i = 0; i < N_POWERUP_MULTIPACKS; i++) {
-    if (stricmp(Object_info[single_index].name, powerup_multipacks[i * 2]) == 0)
+    if (Object_info[single_index].name == powerup_multipacks[i * 2])
       return FindObjectIDName(powerup_multipacks[i * 2 + 1]);
   }
 
@@ -3636,8 +3644,8 @@ int PlayerSetCustomTexture(int slot, char *filename) {
 //	Sets/Clears a permission for a ship on a given player
 //	if pnum is -1 then all players will be set, else player is the player number
 //	returns true on success
-bool PlayerSetShipPermission(int pnum, char *ship_name, bool allowed) {
-  ASSERT(ship_name);
+bool PlayerSetShipPermission(int pnum, const char *ship_name, bool allowed) {
+  ASSERT(ship_name != NULL);
 
   if (pnum < -1 || pnum >= MAX_PLAYERS) // illegal value
     return false;

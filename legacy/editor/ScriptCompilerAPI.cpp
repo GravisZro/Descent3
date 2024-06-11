@@ -369,7 +369,7 @@ bool ScriptCreateEmptyLevelScript(char *filename)
 	O(("#endif"));
 	O(("char	STDCALL InitializeDLL(tOSIRISModuleInit *func_list);"));
 	O(("void	STDCALL ShutdownDLL(void);"));
-	O(("int     STDCALL GetGOScriptID(const char *name,uint8_t is_door);"));
+	O(("int     STDCALL GetGOScriptID(const pagename_t& name,uint8_t is_door);"));
 	O(("void	STDCALLPTR CreateInstance(int id);"));
 	O(("void	STDCALL DestroyInstance(int id,void *ptr);"));
 	O(("int16_t	STDCALL CallInstanceEvent(int id,void *ptr,int event,tOSIRISEventInfo *data);"));
@@ -442,7 +442,7 @@ bool ScriptCreateEmptyLevelScript(char *filename)
 	O(("//	door, else it is a 0.  The return value is the unique identifier, else -1 if the script"));
 	O(("//	does not exist in the DLL."));
 	O(("//	The only reserved ID is 0, which must be used for the level script"));
-	O(("int STDCALL GetGOScriptID(const char *name,uint8_t isdoor)"));
+	O(("int STDCALL GetGOScriptID(const pagename_t& name,uint8_t isdoor)"));
 	O(("{"));
 	O(("	return -1;"));
 	O(("}"));
@@ -568,7 +568,7 @@ bool ScriptCreateEmptyGameScript(char *filename)
 	O(("#endif"));
 	O(("char	STDCALL InitializeDLL(tOSIRISModuleInit *func_list);"));
 	O(("void	STDCALL ShutdownDLL(void);"));
-	O(("int     STDCALL GetGOScriptID(const char *name,uint8_t isdoor);"));
+	O(("int     STDCALL GetGOScriptID(const pagename_t& name,uint8_t isdoor);"));
 	O(("void	STDCALLPTR CreateInstance(int id);"));
 	O(("void	STDCALL DestroyInstance(int id,void *ptr);"));
 	O(("int16_t	STDCALL CallInstanceEvent(int id,void *ptr,int event,tOSIRISEventInfo *data);"));
@@ -638,7 +638,7 @@ bool ScriptCreateEmptyGameScript(char *filename)
 	O(("//	or OBJ_ROBOT), therefore, a 1 is passed in for isdoor if the given object name refers to a"));
 	O(("//	door, else it is a 0.  The return value is the unique identifier, else -1 if the script"));
 	O(("//	does not exist in the DLL."));
-	O(("int STDCALL GetGOScriptID(const char *name,uint8_t isdoor)"));
+	O(("int STDCALL GetGOScriptID(const pagename_t& name,uint8_t isdoor)"));
 	O(("{"));
 	O(("	return -1;"));
 	O(("}"));

@@ -90,15 +90,15 @@ void mng_WriteMegacellPage(CFILE *outfile, mngs_megacell_page *megacellpage) {
   cf_WriteByte(outfile, PAGETYPE_MEGACELL);
 
   cf_WriteByte(outfile, MEGACELLPAGE_COMMAND_NAME); // write out megacell name
-  cf_WriteByte(outfile, strlen(megacellpage->megacell_struct.name) + 1);
-  cf_WriteString(outfile, megacellpage->megacell_struct.name);
+  cf_WriteByte(outfile, megacellpage->megacell_struct.name.size() + 1);
+  cf_WriteString(outfile, std::data(megacellpage->megacell_struct.name));
 
   // Write out its cell names
   for (i = 0; i < MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT; i++) {
     cf_WriteByte(outfile, MEGACELLPAGE_COMMAND_CELL_NAME); // get ready to write out name
-    cf_WriteByte(outfile, strlen(megacellpage->cellname[i]) + 2);
+    cf_WriteByte(outfile, megacellpage->cellname[i].size() + 2);
     cf_WriteByte(outfile, i);
-    cf_WriteString(outfile, megacellpage->cellname[i]);
+    cf_WriteString(outfile, std::data(megacellpage->cellname[i]));
   }
 
   cf_WriteByte(outfile, MEGACELLPAGE_COMMAND_WIDTH);
@@ -118,11 +118,11 @@ void mng_WriteNewMegacellPage(CFILE *outfile, mngs_megacell_page *megacellpage) 
   int offset = StartManagePage(outfile, PAGETYPE_MEGACELL);
   cf_WriteShort(outfile, MEGACELL_VERSION);
 
-  cf_WriteString(outfile, megacellpage->megacell_struct.name);
+  cf_WriteString(outfile, std::data(megacellpage->megacell_struct.name));
 
   // Write out its cell names
   for (i = 0; i < MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT; i++)
-    cf_WriteString(outfile, megacellpage->cellname[i]);
+    cf_WriteString(outfile, std::data(megacellpage->cellname[i]));
 
   cf_WriteByte(outfile, megacellpage->megacell_struct.width);
   cf_WriteByte(outfile, megacellpage->megacell_struct.height);
@@ -149,10 +149,10 @@ int mng_ReadMegacellPage(CFILE *infile, mngs_megacell_page *megacellpage) {
       break;
     case MEGACELLPAGE_COMMAND_CELL_NAME: // the name of the megacell model
       temp = cf_ReadByte(infile);
-      cf_ReadString(megacellpage->cellname[temp], PAGENAME_LEN, infile);
+      cf_ReadString(std::data(megacellpage->cellname[temp]), PAGENAME_LEN, infile);
       break;
     case MEGACELLPAGE_COMMAND_NAME:
-      cf_ReadString(megacellpage->megacell_struct.name, PAGENAME_LEN, infile);
+      cf_ReadString(std::data(megacellpage->megacell_struct.name), PAGENAME_LEN, infile);
       break;
     case MEGACELLPAGE_COMMAND_WIDTH:
       megacellpage->megacell_struct.width = cf_ReadByte(infile);
@@ -178,11 +178,11 @@ int mng_ReadNewMegacellPage(CFILE *infile, mngs_megacell_page *megacellpage) {
   memset(megacellpage, 0, sizeof(mngs_megacell_page));
   int version = cf_ReadShort(infile);
 
-  cf_ReadString(megacellpage->megacell_struct.name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(megacellpage->megacell_struct.name), PAGENAME_LEN, infile);
 
   // Write out its cell names
   for (i = 0; i < MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT; i++)
-    cf_ReadString(megacellpage->cellname[i], PAGENAME_LEN, infile);
+    cf_ReadString(std::data(megacellpage->cellname[i]), PAGENAME_LEN, infile);
 
   megacellpage->megacell_struct.width = cf_ReadByte(infile);
   megacellpage->megacell_struct.height = cf_ReadByte(infile);
@@ -192,7 +192,7 @@ int mng_ReadNewMegacellPage(CFILE *infile, mngs_megacell_page *megacellpage) {
 }
 // Reads in the megacell named "name" into megacellpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificMegacellPage(char *name, mngs_megacell_page *megacellpage, int local) {
+int mng_FindSpecificMegacellPage(const pagename_t& name, mngs_megacell_page *megacellpage, int local) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -222,7 +222,7 @@ int mng_FindSpecificMegacellPage(char *name, mngs_megacell_page *megacellpage, i
     }
     mng_ReadNewMegacellPage(infile, megacellpage);
 
-    if (!stricmp(name, megacellpage->megacell_struct.name)) {
+    if (name == megacellpage->megacell_struct.name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -253,10 +253,10 @@ int mng_AssignMegacellPageToMegacell(mngs_megacell_page *megacellpage, int n) {
   int img_handle, i;
   // copy our values
   memcpy(megacellpointer, &megacellpage->megacell_struct, sizeof(megacell));
-  strcpy(megacellpointer->name, megacellpage->megacell_struct.name);
+  megacellpointer->name = megacellpage->megacell_struct.name;
   // Try and load our megacell images from the disk
   for (i = 0; i < MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT; i++) {
-    if (!stricmp(megacellpage->cellname[i], "INVALID IMAGE NAME")) {
+    if (megacellpage->cellname[i] == "INVALID IMAGE NAME") {
       megacellpointer->texture_handles[i] = 0;
     } else {
       img_handle = mng_GetGuaranteedTexturePage(megacellpage->cellname[i]);
@@ -275,12 +275,12 @@ void mng_AssignMegacellToMegacellPage(int n, mngs_megacell_page *megacellpage) {
   // Assign the  values
   memcpy(&megacellpage->megacell_struct, megacellpointer, sizeof(megacell));
 
-  strcpy(megacellpage->megacell_struct.name, megacellpointer->name);
+  megacellpage->megacell_struct.name = megacellpointer->name;
   for (int i = 0; i < MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT; i++) {
     if (megacellpointer->texture_handles[i] != 0)
-      strcpy(megacellpage->cellname[i], GameTextures[megacellpointer->texture_handles[i]].name);
+      megacellpage->cellname[i] = GameTextures[megacellpointer->texture_handles[i]].name;
     else
-      strcpy(megacellpage->cellname[i], "INVALID IMAGE NAME");
+      megacellpage->cellname[i] = "INVALID IMAGE NAME";
   }
 }
 // Loads a megacell found in the net table file.  It then allocs a megacell and
@@ -310,7 +310,7 @@ void mng_LoadLocalMegacellPage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, megacellpage.megacell_struct.name);
+      pl.name = megacellpage.megacell_struct.name;
       pl.pagetype = PAGETYPE_MEGACELL;
 
       /*if (Network_up && Stand_alone==0)

@@ -224,7 +224,7 @@ int osipf_RayCast(int objhandle, vector *p0, vector *p1, int start_roomnum, floa
 
 // searches through GamePath index and returns index of path matching name
 // returns -1 if not found
-int osipf_AIGetPathID(char *string);
+int osipf_AIGetPathID(const char *string);
 vector osipf_AIFindHidePos(int hideobjhandle, int viewobjhandle, float time, int *hide_room);
 int osipf_AIFindObjOfType(int objhandle, int type, int id, bool f_ignore_init_room,
                           int parent_handle = OBJECT_HANDLE_NONE);

@@ -27,17 +27,17 @@
 
 struct mngs_weapon_page {
   weapon weapon_struct;
-  char hud_image_name[PAGENAME_LEN];
-  char fire_image_name[PAGENAME_LEN];
-  char explode_image_name[PAGENAME_LEN];
-  char smoke_image_name[PAGENAME_LEN];
-  char scorch_image_name[PAGENAME_LEN];
-  char icon_name[PAGENAME_LEN];
-  char spawn_name[PAGENAME_LEN];
-  char alternate_spawn_name[PAGENAME_LEN];
-  char particle_name[PAGENAME_LEN];
-  char robot_spawn_name[PAGENAME_LEN];
-  char sound_name[MAX_WEAPON_SOUNDS][PAGENAME_LEN];
+  pagename_t hud_image_name;
+  pagename_t fire_image_name;
+  pagename_t explode_image_name;
+  pagename_t smoke_image_name;
+  pagename_t scorch_image_name;
+  pagename_t icon_name;
+  pagename_t spawn_name;
+  pagename_t alternate_spawn_name;
+  pagename_t particle_name;
+  pagename_t robot_spawn_name;
+  pagename_t sound_name[MAX_WEAPON_SOUNDS];
 };
 
 // Weapon page functions
@@ -57,8 +57,8 @@ int mng_ReadNewWeaponPage(CFILE *infile, mngs_weapon_page *weaponpage);
 
 // Reads in the weaponpage named "name" into weaponpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificWeaponPage(char *name, mngs_weapon_page *weaponpage, int offset = 0);
-int mng_FindSpecificWeaponPage(char *name, mngs_weapon_page *weaponpage);
+int mng_FindSpecificWeaponPage(const pagename_t& name, mngs_weapon_page *weaponpage, int offset = 0);
+int mng_FindSpecificWeaponPage(const pagename_t& name, mngs_weapon_page *weaponpage);
 
 // Given a weapon page, allocs a weapon and calls AssignWeaponPageToWeapon to actually
 // load model and values. Rturns weapon handle on success, -1 if fail
@@ -79,6 +79,6 @@ void mng_LoadLocalWeaponPage(CFILE *);
 // Reads in a page off the net
 void mng_LoadNetWeaponPage(CFILE *, bool overlay = false);
 
-int mng_GetGuaranteedWeaponPage(char *name, CFILE *infile = NULL);
+int mng_GetGuaranteedWeaponPage(const pagename_t& name, CFILE *infile = NULL);
 
 #endif

@@ -228,13 +228,13 @@ struct
         //number of kills and number of times killed
         int kills,deaths;
         //name of ship model
-        char ship_model[PAGENAME_LEN];
+        pagename_t ship_model;
         //filename of custom texture
-        char ship_logo[PAGENAME_LEN];
+        pagename_t ship_logo;
         //filename of audio taunt 1 (including CRC)
-        char audio1_file[PAGENAME_LEN];
+        pagename_t audio1_file;
         //filename of audio taunt 2 (including CRC)
-        char audio2_file[PAGENAME_LEN];
+        pagename_t audio2_file;
         //difficulty setting (DIFFICULTY_*)
         char difficulty;
         //controller settings

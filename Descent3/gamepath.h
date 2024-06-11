@@ -74,7 +74,7 @@ public:
 
   node *pathnodes;
   int num_nodes;           // how many nodes in this path?
-  char name[PAGENAME_LEN]; // the name of this path
+  pagename_t name; // the name of this path
   uint8_t flags;             // special properties of this path
   bool used;               // if this path is in use
 };
@@ -86,6 +86,6 @@ void InitGamePaths();
 
 // searches through GamePath index and returns index of path matching name
 // returns -1 if not found
-int FindGamePathName(const char *name);
+int FindGamePathName(const pagename_t& name);
 
 #endif

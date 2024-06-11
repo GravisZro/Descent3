@@ -55,7 +55,7 @@ private:
 
 	// The page data
 	uint8_t type;					// stores the page type
-	char name[PAGENAME_LEN];	// stores the page name
+	pagename_t name;	// stores the page name
 
 	int flags;		// Stores whether file was added from level (or just added as extra)
 	int tag_count;	// Stores number of level files requiring this page
@@ -109,10 +109,10 @@ public:
 
 	void ClearList(void);
 	bool AddToList(PageDataNode *node);
-	bool AddToList(char *page_name, uint8_t page_type, int page_flags);
+        bool AddToList(const pagename_t& page_name, uint8_t page_type, int page_flags);
 	bool RemoveFromList(PageDataNode *goner_node);
-	bool RemoveFromList(char *page_name, uint8_t page_type);
-	PageDataNode *FindNode(char *page_name, uint8_t page_type);
+        bool RemoveFromList(const pagename_t& page_name, uint8_t page_type);
+        PageDataNode *FindNode(const pagename_t& page_name, uint8_t page_type);
 
 	bool LoadList(char *list_filename);
 	bool SaveList(char *list_filename);
@@ -131,9 +131,9 @@ public:
 	void AddDoorPage (int id,int process_type);
 	void AddShipPage (int id,int process_type);
 
-	bool AddPageFromUser(char *page_name, uint8_t page_type);
+        bool AddPageFromUser(const pagename_t& page_name, uint8_t page_type);
 	bool ProcessPagesInTextFile(char *filename, int process_type);
-	bool ProcessPageFromFile(char *page_name, uint8_t page_type, int process_type);
+        bool ProcessPageFromFile(const pagename_t& page_name, uint8_t page_type, int process_type);
 	uint8_t GetPageTypeFromString(char *text);
 
 	bool CreateNewTableFile(char *new_table_filename, char *src_table_filename);

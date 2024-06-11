@@ -546,7 +546,7 @@ bool osipf_CallTriggerEvent(int trignum, int event, tOSIRISEventInfo *ei) {
 
 // searches through GamePath index and returns index of path matching name
 // returns -1 if not found
-int osipf_AIGetPathID(char *string) {
+int osipf_AIGetPathID(const char *string) {
   //	extract string reference
   return FindGamePathName(string);
 }
@@ -728,7 +728,7 @@ void osipf_RoomValue(int roomnum, char op, char vtype, void *ptr, int index) {
 }
 
 void osipf_PlayerValue(int obj_handle, char op, char vhandle, void *ptr, int index) {
-  object *objp;
+  object *objp = nullptr;
   int id;
   bool extract_info = true;
 
@@ -2844,7 +2844,7 @@ void osipf_ObjGhost(int handle, bool f_ghost) {
     // BLACKPYROHACK - Chrishack for Mercenary
     if (!(Game_mode & GM_MULTI)) {
       if (obj->handle == Buddy_handle[0]) {
-        if (stricmp(Ships[Players[Player_object->id].ship_index].name, "Black Pyro") == 0) {
+        if (Ships[Players[Player_object->id].ship_index].name == "Black Pyro") {
           obj->id = ROBOT_GUIDEBOTRED;
           PageInPolymodel(Object_info[ROBOT_GUIDEBOTRED].render_handle, Object_info[ROBOT_GUIDEBOTRED].type,
                           &Object_info[ROBOT_GUIDEBOTRED].size);
@@ -3745,7 +3745,7 @@ void osipf_PathValue(int path_id, int node_id, char op, int changes, void *ptr) 
     }
 
     if (changes == PV_CS_NAME) {
-      strcpy((char *)ptr, cpath->name);
+      strcpy((char *)ptr, std::data(cpath->name));
       return;
     }
 

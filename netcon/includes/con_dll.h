@@ -566,7 +566,7 @@ SearchForLocalGamesIPX_fp DLLSearchForLocalGamesIPX;
 typedef void (*HotSpotSetStates_fp)(void *hotspot, void *texton, void *textoff);
 HotSpotSetStates_fp DLLHotSpotSetStates;
 
-typedef bool (*PlayerSetShipPermission_fp)(int pnum, char *ship_name, bool allowed);
+typedef bool (*PlayerSetShipPermission_fp)(int pnum, const char *ship_name, bool allowed);
 PlayerSetShipPermission_fp DLLPlayerSetShipPermission;
 
 typedef bool (*PlayerIsShipAllowed_fp)(int pnum, int ship_index);

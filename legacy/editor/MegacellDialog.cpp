@@ -412,12 +412,12 @@ void CMegacellDialog::OnDeleteMegacell()
 		}
 
 		int num_to_delete=0;
-		char *texnames[MAX_MEGACELL_WIDTH*MAX_MEGACELL_HEIGHT];
-		uint16_t texindices[MAX_MEGACELL_WIDTH*MAX_MEGACELL_HEIGHT];
+                pagename_t texnames[MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT];
+                uint16_t texindices[MAX_MEGACELL_WIDTH * MAX_MEGACELL_HEIGHT];
 
 		for (i=0;i<MAX_MEGACELL_WIDTH*MAX_MEGACELL_HEIGHT;i++)
 		{
-			texnames[i]=(char *)mem_malloc (PAGENAME_LEN);
+                        //texnames[i]=(char *)mem_malloc (PAGENAME_LEN);
 			ASSERT (texnames[i]);
 			if (!can_delete[i])
 				continue;
@@ -457,10 +457,7 @@ void CMegacellDialog::OnDeleteMegacell()
 				bm_FreeBitmap (GameTextures[texindices[i]].bm_handle);
 
 			FreeTexture(texindices[i]);
-		}	
-
-		for (i=0;i<MAX_MEGACELL_WIDTH*MAX_MEGACELL_HEIGHT;i++)
-			mem_free (texnames[i]);
+                }
 	}
 
 	AutoChecking=0;
@@ -487,10 +484,10 @@ void CMegacellDialog::OnPreviousMegacell()
 void CMegacellDialog::OnSelendokMegacellPulldown() 
 {
 	int i,cur;
-	char name[200];
+        pagename_t name;
 
-	cur=SendDlgItemMessage( IDC_MEGACELL_PULLDOWN, CB_GETCURSEL,0,0);
-	SendDlgItemMessage( IDC_MEGACELL_PULLDOWN, CB_GETLBTEXT,cur,(LPARAM) (LPCTSTR)name);
+        cur=SendDlgItemMessage( IDC_MEGACELL_PULLDOWN, CB_GETCURSEL,0,0);
+        SendDlgItemMessage( IDC_MEGACELL_PULLDOWN, CB_GETLBTEXT,cur,(LPARAM) (LPCTSTR)std::data(name));
 	
 	i=FindMegacellName (name);
 		
@@ -514,7 +511,7 @@ void CMegacellDialog::OnKillfocusMegacellNameEdit()
 {
 	CEdit *ebox;
 	int n=D3EditState.current_megacell;
-	char name[PAGENAME_LEN];
+	pagename_t name;
 	mngs_Pagelock pl;
 
 	// Make sure we have this megacell locked, if not reset name and bail
@@ -561,7 +558,7 @@ void CMegacellDialog::OnKillfocusMegacellNameEdit()
 	{
 		// This page has never been checked in, replace only local copy
 		
-		char oldname[PAGENAME_LEN];
+		pagename_t oldname;
 		strcpy (oldname,Megacells[n].name);
 		strcpy (Megacells[n].name,name);
 		

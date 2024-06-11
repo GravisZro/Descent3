@@ -122,7 +122,7 @@
 //	DOOR STRUCTURES
 
 struct door {
-  char name[PAGENAME_LEN]; // name of the door
+  pagename_t name; // name of the door
   uint8_t used;              // if this door is in use
   uint8_t flags;             // flags for this door
   uint8_t pad;               // keep alignment (pagename is 35 chars long)
@@ -159,7 +159,7 @@ int GetNextDoor(int n);
 int GetPrevDoor(int n);
 // Searches thru all doors for a specific name, returns -1 if not found
 // or index of door with name
-int FindDoorName(const char *name);
+int FindDoorName(const pagename_t& name);
 
 // Given a filename, loads the model found in that file
 int LoadDoorImage(const char *filename, int pageable = 1);

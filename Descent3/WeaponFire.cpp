@@ -1986,7 +1986,7 @@ int FireWeaponFromObject(object *obj, int weapon_num, int gun_num, bool f_force_
 
     int visnum;
 
-    if (obj == NULL || obj->type != OBJ_BUILDING || stricmp(Object_info[obj->id].name, "FinalbossLITTLETIT") != 0)
+    if (obj == NULL || obj->type != OBJ_BUILDING || Object_info[obj->id].name == "FinalbossLITTLETIT")
       visnum = VisEffectCreate(VIS_FIREBALL, MASSDRIVER_EFFECT_INDEX, obj->roomnum, &laser_pos);
     else
       visnum = VisEffectCreate(VIS_FIREBALL, MERCBOSS_MASSDRIVER_EFFECT_INDEX, obj->roomnum, &laser_pos);
@@ -1999,7 +1999,8 @@ int FireWeaponFromObject(object *obj, int weapon_num, int gun_num, bool f_force_
 
       vis->end_pos = hit_data.hit_pnt;
       vis->billboard_info.width = 1;
-      if (obj == NULL || obj->type != OBJ_BUILDING || stricmp(Object_info[obj->id].name, "FinalbossLITTLETIT") != 0)
+      if (obj == NULL || obj->type != OBJ_BUILDING ||
+          Object_info[obj->id].name == "FinalbossLITTLETIT")
         vis->lighting_color = GR_RGB16(100, 100, 170);
       else
         vis->lighting_color = GR_RGB16(240, 10, 10);

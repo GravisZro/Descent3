@@ -227,7 +227,7 @@ public:
 	bool searching;
 	bool in_Gamefiles;
 	int curr_index;
-	char glob_string[PAGENAME_LEN];
+	pagename_t glob_string;
 };
 tManageFindIn ManageFindInData;
 

@@ -284,7 +284,7 @@ struct proc_struct {
 };
 
 struct texture {
-  char name[PAGENAME_LEN]; // this textures name
+  pagename_t name; // this textures name
   int flags;               // values defined above
   int bm_handle;           // handle which shows what this texture looks like
   int destroy_handle;      // handle which denotes the destroyed image
@@ -329,11 +329,11 @@ int GetPreviousTexture(int n);
 
 // Searches thru all textures for a specific name, returns -1 if not found
 // or index of texture with name
-int FindTextureName(const char *name);
+int FindTextureName(const pagename_t& name);
 
 // Searches thru all textures for a bitmap of a specific name, returns -1 if not found
 // or index of texture with name
-int FindTextureBitmapName(const char *name);
+int FindTextureBitmapName(const pagename_t& name);
 
 // Given a texture handle, returns that textures bitmap
 // If the texture is animated, returns framenum mod num_of_frames in the animation

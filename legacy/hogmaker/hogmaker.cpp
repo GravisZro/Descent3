@@ -84,7 +84,7 @@ library *open_hogfile(char *hogname)
 	//copy disk index to our internal structure
 	for (i=0;i<hogfile->nfiles;i++) {
 
-		strcpy(hogfile->table[i].name, index[i].name);
+		hogfile->table[i].name = index[i].name;
 		hogfile->table[i].length = index[i].len;
 		hogfile->table[i].offset = offset;
 		offset += hogfile->table[i].length;

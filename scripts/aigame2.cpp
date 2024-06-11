@@ -33,7 +33,7 @@ extern "C" {
 #endif
 DLLEXPORT char STDCALL InitializeDLL(tOSIRISModuleInit *func_list);
 DLLEXPORT void STDCALL ShutdownDLL(void);
-DLLEXPORT int STDCALL GetGOScriptID(const char *name, uint8_t isdoor);
+DLLEXPORT int STDCALL GetGOScriptID(const pagename_t& name, uint8_t isdoor);
 DLLEXPORT void STDCALLPTR CreateInstance(int id);
 DLLEXPORT void STDCALL DestroyInstance(int id, void *ptr);
 DLLEXPORT int16_t STDCALL CallInstanceEvent(int id, void *ptr, int event, tOSIRISEventInfo *data);
@@ -70,8 +70,13 @@ const char *GetStringFromTable(int index) {
 ///////////////////////////////////////////////////////////////////////////////
 //	Script names
 
-static const char *const Script_names[NUM_IDS] = {"Samir's Pest", "StormTrooperBlack", "Creeper", "LukeTurret",
-                                                  "STBlackBarrel"};
+static const char *const Script_names[NUM_IDS] = {
+    "Samir's Pest",
+    "StormTrooperBlack",
+    "Creeper",
+    "LukeTurret",
+    "STBlackBarrel"
+};
 
 //	Class definitions
 
@@ -289,10 +294,10 @@ void STDCALL ShutdownDLL(void) {}
 //	or OBJ_ROBOT), therefore, a 1 is passed in for isdoor if the given object name refers to a
 //	door, else it is a 0.  The return value is the unique identifier, else -1 if the script
 //	does not exist in the DLL.
-int STDCALL GetGOScriptID(const char *name, uint8_t isdoor) {
+int STDCALL GetGOScriptID(const pagename_t& name, uint8_t isdoor) {
   int i;
   for (i = 0; i < NUM_IDS; i++) {
-    if (strcmp(name, Script_names[i]) == 0) {
+    if (name == Script_names[i]) {
       return (FIRST_ID + i);
     }
   }

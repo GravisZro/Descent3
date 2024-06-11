@@ -346,7 +346,7 @@ void ChangePolyModelName(const char *src, char *dest);
 
 // Searches thru all polymodels for a specific name, returns -1 if not found
 // or index of polymodel with name
-int FindPolyModelName(const char *name);
+int FindPolyModelName(const pagename_t& name);
 
 // Draws a polygon model to the viewport
 // Normalized_time is an array of floats from 0 to 1 that represent how far into

@@ -681,11 +681,11 @@ fireball Fireballs[NUM_FIREBALLS] = {
 void InitFireballs() {
   int i, num_fireballs = NUM_FIREBALLS;
   for (i = 0; i < num_fireballs; i++) {
-    if (!(stricmp(Fireballs[i].name, "NOIMAGE")))
+    if (Fireballs[i].name == "NOIMAGE")
       continue;
-    int bm_handle = LoadTextureImage(IGNORE_TABLE(Fireballs[i].name), NULL, Fireballs[i].tex_size, 0);
+    int bm_handle = LoadTextureImage(IGNORE_TABLE(std::data(Fireballs[i].name)), NULL, Fireballs[i].tex_size, 0);
     if (bm_handle < 0) {
-      Error("Couldn't load fireball %s in InitFireballs.", Fireballs[i].name);
+      Error("Couldn't load fireball %s in InitFireballs.", std::data(Fireballs[i].name));
       return;
     }
     ASSERT(bm_handle >= 0);
@@ -1331,7 +1331,7 @@ const char *dead_object_types[] = {
 void CreateDeadObject(object *objp) {
   if (objp->type == OBJ_ROBOT) {
     for (int i = 0; i < N_DEAD_OBJECT_TYPES; i++) {
-      if (stricmp(Object_info[objp->id].name, dead_object_types[i * 2]) == 0) {
+      if (Object_info[objp->id].name == dead_object_types[i * 2]) {
         int id = FindObjectIDName(dead_object_types[i * 2 + 1]);
         if (id != -1) {
           vector old_point, pos;

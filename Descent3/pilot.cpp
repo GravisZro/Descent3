@@ -878,10 +878,10 @@ void PilotListSelectChangeCallback(int index) {
   // Pilot has changed...reset all data to new pilot selected
   if (!PilotChooseDialogInfo.initial_call) {
     // save out old Pilot file so we can load up the new one
-    char filename[PAGENAME_LEN];
-    working_pilot.get_filename(filename);
+    pagename_t filename;
+    working_pilot.get_filename(std::data(filename));
 
-    if (cfexist(filename)) {
+    if (cfexist(std::data(filename))) {
       if (in_edit)
         PilotChooseDialogInfo.edit->sheet->UpdateReturnValues();
 
@@ -1032,9 +1032,9 @@ void PilotSelect(void) {
 
         PilotListSelectChangeCallback(index);
 
-        char filename[PAGENAME_LEN];
-        working_pilot.get_filename(filename);
-        Current_pilot.set_filename(filename);
+        pagename_t filename;
+        working_pilot.get_filename(std::data(filename));
+        Current_pilot.set_filename(std::data(filename));
         PltReadFile(&Current_pilot, true, true);
 
         char pname[PILOT_STRING_SIZE];
@@ -1471,7 +1471,7 @@ bool PilotChoose(pilot *Pilot, bool presets) {
 bool PilotCopy(pilot *Src,pilot *Dest)
 {
         char sname[PILOT_STRING_SIZE];
-        char sship[PAGENAME_LEN];
+        pagename_t sship;
         uint8_t sdiff;
 
         Src->get_name(sname);
@@ -2608,9 +2608,9 @@ void UpdateAudioTauntBoxes(tCustomListInfo *cust_snds, newuiComboBox *audio1_lis
 
   int count = 0;
 
-  char paudio1[PAGENAME_LEN], paudio2[PAGENAME_LEN];
-  char paudio3[PAGENAME_LEN], paudio4[PAGENAME_LEN];
-  Pilot->get_multiplayer_data(NULL, paudio1, paudio2, NULL, paudio3, paudio4);
+  pagename_t paudio1, paudio2, paudio3, paudio4;
+  Pilot->get_multiplayer_data(NULL, std::data(paudio1), std::data(paudio2),
+                              NULL, std::data(paudio3), std::data(paudio4));
 
   for (int i = 0; i < audio_count; i++) {
     char tfn[_MAX_PATH];
@@ -2622,19 +2622,19 @@ void UpdateAudioTauntBoxes(tCustomListInfo *cust_snds, newuiComboBox *audio1_lis
     audio3_list->AddItem((char *)(tfn));
     audio4_list->AddItem((char *)(tfn));
 
-    if (!stricmp(paudio1, &cust_snds->files[count])) {
+    if (paudio1 == &cust_snds->files[count]) {
       // set this as selected index for audio #1
       audio1_list->SetCurrentIndex(i + 1);
     }
-    if (!stricmp(paudio2, &cust_snds->files[count])) {
+    if (paudio2 == &cust_snds->files[count]) {
       // set this as selected index for audio #2
       audio2_list->SetCurrentIndex(i + 1);
     }
-    if (!stricmp(paudio3, &cust_snds->files[count])) {
+    if (paudio3 == &cust_snds->files[count]) {
       // set this as selected index for audio #1
       audio3_list->SetCurrentIndex(i + 1);
     }
-    if (!stricmp(paudio4, &cust_snds->files[count])) {
+    if (paudio4 == &cust_snds->files[count]) {
       // set this as selected index for audio #2
       audio4_list->SetCurrentIndex(i + 1);
     }
@@ -2883,6 +2883,7 @@ bool PltSelectShip(pilot *Pilot) {
   taunts_lists.taunt_c->SetSelectChangeCallback(audio3changecallback);
   taunts_lists.taunt_d->SetSelectChangeCallback(audio4changecallback);
 
+  try {
   int i;
   // get all the ship ids
   count = 0;
@@ -2892,39 +2893,31 @@ bool PltSelectShip(pilot *Pilot) {
   }
   ship_info.idlist = (int *)mem_malloc(sizeof(int) * count);
   if (!ship_info.idlist)
-    goto ship_id_err;
+    throw;
+    //goto ship_id_err;
 
   bool found_ship;
-  bool shipoktoadd;
 
   found_ship = false;
   count = 0;
-  char pship[PAGENAME_LEN];
+  pagename_t pship;
   Pilot->get_ship(pship);
 
   for (i = 0; i < MAX_SHIPS; i++) {
     if (Ships[i].used) {
       ship_info.idlist[count] = i;
 #ifdef DEMO
-      if (stricmp(Ships[i].name, DEFAULT_SHIP) == 0) {
+      if (Ships[i].name == DEFAULT_SHIP) {
 #endif
-	  // make sure they have mercenary in order to play with Black Pyro
-	  if (!stricmp(Ships[i].name, "Black Pyro")) {
-		shipoktoadd = false;
-		extern bool MercInstalled();
-		if (MercInstalled()) {
-		  shipoktoadd = true;
-		}
-	  }
-	  else
-		  shipoktoadd = true;
-        if (shipoktoadd)
-          ship_list->AddItem(Ships[i].name);
+        extern bool MercInstalled();
+        // make sure they have mercenary in order to play with Black Pyro
+        if (Ships[i].name != "Black Pyro" || MercInstalled())
+          ship_list->AddItem(std::data(Ships[i].name));
 #ifdef DEMO
       }
 #endif
 
-      if (!stricmp(pship, Ships[i].name)) {
+      if (pship == Ships[i].name) {
         ship_list->SetCurrentIndex(count);
         found_ship = true;
       }
@@ -2959,13 +2952,14 @@ bool PltSelectShip(pilot *Pilot) {
   }
 
   //	get a list of custom textures
-  char pshiplogo[PAGENAME_LEN];
-  Pilot->get_multiplayer_data(pshiplogo);
+  pagename_t pshiplogo;
+  Pilot->get_multiplayer_data(std::data(pshiplogo));
 
   DoWaitMessage(true);
 
-  if (!UpdateGraphicsListbox(&cust_bmps, custom_list, pshiplogo))
-    goto ship_id_err;
+  if (!UpdateGraphicsListbox(&cust_bmps, custom_list, std::data(pshiplogo)))
+    throw;
+    //goto ship_id_err;
 
   i = ship_list->GetCurrentIndex();
   ShipSelectCallBack(i);
@@ -3033,19 +3027,19 @@ bool PltSelectShip(pilot *Pilot) {
         }
       }
 
-      char tempn[PAGENAME_LEN];
+      pagename_t tempn;
 
-      Pilot->get_multiplayer_data(NULL, tempn);
-      mprintf(0, "Audio #1: '%s'\n", tempn);
+      Pilot->get_multiplayer_data(NULL, std::data(tempn));
+      mprintf(0, "Audio #1: '%s'\n", std::data(tempn));
 
-      Pilot->get_multiplayer_data(NULL, NULL, tempn);
-      mprintf(0, "Audio #2: '%s'\n", tempn);
+      Pilot->get_multiplayer_data(NULL, NULL, std::data(tempn));
+      mprintf(0, "Audio #2: '%s'\n", std::data(tempn));
 
-      Pilot->get_multiplayer_data(NULL, NULL, NULL, NULL, tempn);
-      mprintf(0, "Audio #3: '%s'\n", tempn);
+      Pilot->get_multiplayer_data(NULL, NULL, NULL, NULL, std::data(tempn));
+      mprintf(0, "Audio #3: '%s'\n", std::data(tempn));
 
-      Pilot->get_multiplayer_data(NULL, NULL, NULL, NULL, NULL, tempn);
-      mprintf(0, "Audio #4: '%s'\n", tempn);
+      Pilot->get_multiplayer_data(NULL, NULL, NULL, NULL, NULL, std::data(tempn));
+      mprintf(0, "Audio #4: '%s'\n", std::data(tempn));
 
       ret = true;
       exit_menu = true;
@@ -3067,7 +3061,8 @@ bool PltSelectShip(pilot *Pilot) {
         if (ImportGraphic(path, newf)) {
           // update the listbox
           if (!UpdateGraphicsListbox(&cust_bmps, custom_list, newf))
-            goto ship_id_err;
+            throw;
+          //goto ship_id_err;
         } else {
           DoMessageBox(TXT_ERROR, TXT_ERRORIMPORT, MSGBOX_OK);
         }
@@ -3119,7 +3114,8 @@ bool PltSelectShip(pilot *Pilot) {
 
           // update the listbox
           if (!UpdateGraphicsListbox(&cust_bmps, custom_list, newf))
-            goto ship_id_err;
+            throw;
+            //goto ship_id_err;
         }
       }
       ddio_SetWorkingDir(opath);
@@ -3283,8 +3279,12 @@ bool PltSelectShip(pilot *Pilot) {
     } break;
     }
   }
+  }
+  catch(...)
+  {
+  }
 
-ship_id_err:
+//ship_id_err:
 
   // no use for this since stream files will stop
   // Sound_system.StopAllSounds();

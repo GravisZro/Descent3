@@ -31,7 +31,7 @@ extern "C" {
 #endif
 DLLEXPORT char STDCALL InitializeDLL(tOSIRISModuleInit *func_list);
 DLLEXPORT void STDCALL ShutdownDLL(void);
-DLLEXPORT int STDCALL GetGOScriptID(const char *name, uint8_t isdoor);
+DLLEXPORT int STDCALL GetGOScriptID(const pagename_t& name, uint8_t isdoor);
 DLLEXPORT void STDCALLPTR CreateInstance(int id);
 DLLEXPORT void STDCALL DestroyInstance(int id, void *ptr);
 DLLEXPORT int16_t STDCALL CallInstanceEvent(int id, void *ptr, int event, tOSIRISEventInfo *data);
@@ -94,9 +94,9 @@ char STDCALL InitializeDLL(tOSIRISModuleInit *func_list) {
 
 void STDCALL ShutdownDLL(void) {}
 
-int STDCALL GetGOScriptID(const char *name, uint8_t isdoor) {
+int STDCALL GetGOScriptID(const pagename_t& name, uint8_t isdoor) {
   for (int i = 0; i < MAX_IDS; i++) {
-    if (!stricmp(name, ScriptInfo[i].name)) {
+    if (name == ScriptInfo[i].name) {
       return ScriptInfo[i].id;
     }
   }

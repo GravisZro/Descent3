@@ -319,7 +319,7 @@ void NewPyroPrimaryWeaponGauge(tGauge *gauge, tGaugePos *pos) {
   //@@//	do weapon name text.
   //@@	if (fade_state == 0) {
   //@@		int x,y,cx,cy;
-  //@@		char str[PAGENAME_LEN];
+  //@@		pagename_t str;
   //@@		GetCenterPoint(&cx, &cy, &pos->center);
   //@@
   //@@		START_TEXT_BLOCK_ALPHA(gauge_alpha)
@@ -398,7 +398,7 @@ void NewPyroSecondaryWeaponGauge(tGauge *gauge, tGaugePos *pos) {
   //@@//	do weapon name text.
   //@@	if (fade_state == 0) {
   //@@		int x,y,cx,cy;
-  //@@		char str[PAGENAME_LEN];
+  //@@		pagename_t str;
   //@@		GetCenterPoint(&cx, &cy, &pos->center);
   //@@
   //@@		START_TEXT_BLOCK_ALPHA(gauge_alpha)

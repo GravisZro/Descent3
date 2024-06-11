@@ -26,7 +26,7 @@
 
 struct mngs_sound_page {
   sound_info sound_struct;
-  char raw_name[PAGENAME_LEN];
+  pagename_t raw_name;
 };
 
 // Sound page functions
@@ -45,7 +45,7 @@ int mng_ReadNewSoundPage(CFILE *infile, mngs_sound_page *soundpage);
 
 // Reads in the soundpage named "name" into soundpage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificSoundPage(char *name, mngs_sound_page *soundpage, int offset = 0);
+int mng_FindSpecificSoundPage(const pagename_t& name, mngs_sound_page *soundpage, int offset = 0);
 
 // Given a sound page, allocs a sound and calls AssignSoundPageToSound to actually
 // load model and values. Rturns sound handle on success, -1 if fail
@@ -69,6 +69,6 @@ void mng_LoadNetSoundPage(CFILE *, bool overlay = false);
 // First searches through the sound index to see if the sound is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of sound if found, -1 if not
-int mng_GetGuaranteedSoundPage(char *name, CFILE *infile = NULL);
+int mng_GetGuaranteedSoundPage(const pagename_t& name, CFILE *infile = NULL);
 
 #endif

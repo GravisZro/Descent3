@@ -309,7 +309,7 @@ int InitTextures() {
 
   tex = AllocTexture();
   GameTextures[tex].bm_handle = BAD_BITMAP_HANDLE;
-  strcpy(GameTextures[tex].name, "SAMPLE TEXTURE");
+  GameTextures[tex].name = "SAMPLE TEXTURE";
 
   // Initialize procedural tables and such
   InitProcedurals();
@@ -352,16 +352,15 @@ int AllocTexture(void) {
 
 // Searches thru all textures for a specific name, returns -1 if not found
 // or index of texture with name
-int FindTextureName(const char *name) {
+int FindTextureName(const pagename_t& name) {
   int i, num_counted = 0;
-  ;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_TEXTURES && num_counted < Num_textures; i++) {
     if (GameTextures[i].used) {
       num_counted++;
-      if (!stricmp(name, GameTextures[i].name))
+      if (name == GameTextures[i].name)
         return i;
     }
   }
@@ -371,10 +370,10 @@ int FindTextureName(const char *name) {
 
 // Searches thru all textures for a bitmap of a specific name, returns -1 if not found
 // or index of texture with name
-int FindTextureBitmapName(const char *name) {
+int FindTextureBitmapName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_TEXTURES; i++) {
     if (GameTextures[i].used) {
@@ -391,13 +390,13 @@ int FindTextureBitmapName(const char *name) {
         int retval = -1;
 
         for (t = 0; t < vc->num_frames && retval == -1; t++)
-          if ((!stricmp(GameBitmaps[vc->frames[t]].name, name)))
+          if (GameBitmaps[vc->frames[t]].name == name)
             retval = i;
 
         if (retval != -1)
           return retval;
       } else {
-        if ((!stricmp(GameBitmaps[GameTextures[i].bm_handle].name, name)))
+        if (GameBitmaps[GameTextures[i].bm_handle].name == name)
           return i;
       }
     }
@@ -604,7 +603,7 @@ int LoadTextureImage(const char *filename, int *type, int texture_size, int mipp
       GameBitmaps[dest_bm].format = format;
 
       bm_ScaleBitmapToBitmap(dest_bm, bm_handle);
-      strcpy(GameBitmaps[dest_bm].name, GameBitmaps[bm_handle].name);
+      GameBitmaps[dest_bm].name = GameBitmaps[bm_handle].name;
       bm_FreeBitmap(bm_handle);
 
       bm_handle = dest_bm;
@@ -708,7 +707,7 @@ void PageInTexture(int n, bool resize) {
         GameBitmaps[dest_bm].format = GameBitmaps[bm_handle].format;
 
         bm_ScaleBitmapToBitmap(dest_bm, bm_handle);
-        strcpy(GameBitmaps[dest_bm].name, GameBitmaps[bm_handle].name);
+        GameBitmaps[dest_bm].name = GameBitmaps[bm_handle].name;
         bm_FreeBitmap(bm_handle);
 
         texp->bm_handle = dest_bm;

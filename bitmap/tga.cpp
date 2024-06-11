@@ -323,7 +323,7 @@ int bm_tga_read_outrage_compressed16(CFILE *infile, int n, int num_mips, int typ
 }
 
 // Loads a tga or ogf file into a bitmap...returns handle to bm or -1 on error
-int bm_tga_alloc_file(CFILE *infile, char *name, int format) {
+int bm_tga_alloc_file(CFILE *infile, pagename_t& name, int format) {
   uint8_t image_id_len, color_map_type, image_type, pixsize, descriptor;
   uint8_t upside_down = 0;
   uint16_t width, height;
@@ -354,7 +354,7 @@ int bm_tga_alloc_file(CFILE *infile, char *name, int format) {
       image_type == OUTRAGE_COMPRESSED_OGF_8BIT) {
     if (image_type == OUTRAGE_4444_COMPRESSED_MIPPED || image_type == OUTRAGE_NEW_COMPRESSED_MIPPED ||
         image_type == OUTRAGE_1555_COMPRESSED_MIPPED) {
-      cf_ReadString(name, BITMAP_NAME_LEN - 1, infile);
+      cf_ReadString(std::data(name), BITMAP_NAME_LEN - 1, infile);
     } else {
       for (i = 0; i < BITMAP_NAME_LEN; i++)
         name[i] = cf_ReadByte(infile);
@@ -396,7 +396,7 @@ int bm_tga_alloc_file(CFILE *infile, char *name, int format) {
     GameBitmaps[n].format = BITMAP_FORMAT_4444;
 
   // Copy the name
-  strcpy(GameBitmaps[n].name, name);
+  GameBitmaps[n].name = name;
 
   if (mipped)
     GameBitmaps[n].flags |= BF_MIPMAPPED;
@@ -543,14 +543,14 @@ int bm_page_in_file(int n) {
   int i, data8bit = 0, savepos;
   int mipped = 0, file_mipped = 0;
   int num_mips = 1;
-  char name[BITMAP_NAME_LEN];
+  pagename_t name;
   CFILE *infile;
 
   ASSERT((GameBitmaps[n].flags & BF_NOT_RESIDENT));
 
-  infile = (CFILE *)cfopen(GameBitmaps[n].name, "rb");
+  infile = (CFILE *)cfopen(std::data(GameBitmaps[n].name), "rb");
   if (!infile) {
-    mprintf(0, "Couldn't page in bitmap %s!\n", GameBitmaps[n].name);
+    mprintf(0, "Couldn't page in bitmap %s!\n", std::data(GameBitmaps[n].name));
     return 0;
   }
   // Used for progress bar when loading the level
@@ -577,7 +577,7 @@ int bm_page_in_file(int n) {
       image_type == OUTRAGE_COMPRESSED_OGF_8BIT) {
     if (image_type == OUTRAGE_4444_COMPRESSED_MIPPED || image_type == OUTRAGE_1555_COMPRESSED_MIPPED ||
         image_type == OUTRAGE_NEW_COMPRESSED_MIPPED) {
-      cf_ReadString(name, BITMAP_NAME_LEN - 1, infile);
+      cf_ReadString(std::data(name), BITMAP_NAME_LEN - 1, infile);
     } else {
       for (i = 0; i < BITMAP_NAME_LEN; i++)
         name[i] = cf_ReadByte(infile);
@@ -638,9 +638,9 @@ int bm_page_in_file(int n) {
   //	if ((stricmp(GameBitmaps[n].name,name)))
   //			Int3(); //Get Jason!
 
-  strcpy(GameBitmaps[n].name, name);
+  GameBitmaps[n].name = name;
 
-  mprintf(0, "Paging in bitmap %s!\n", GameBitmaps[n].name);
+  mprintf(0, "Paging in bitmap %s!\n", std::data(GameBitmaps[n].name));
 
   if (file_mipped)
     GameBitmaps[n].flags |= BF_MIPMAPPED;

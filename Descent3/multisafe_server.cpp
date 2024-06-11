@@ -554,7 +554,7 @@ void MultiSendMSafeFunction(uint8_t type, msafe_struct *mstruct) {
     MultiAddFloat(mstruct->pos2.y, data, &count);
     MultiAddFloat(mstruct->pos2.z, data, &count);
 
-    MultiAddString(GameTextures[mstruct->texnum].name, data, &count);
+    MultiAddString(std::data(GameTextures[mstruct->texnum].name), data, &count);
     MultiAddUshort(mstruct->color, data, &count);
     MultiAddByte(mstruct->size, data, &count);
     MultiAddByte(mstruct->state, data, &count);
@@ -578,7 +578,7 @@ void MultiSendMSafeFunction(uint8_t type, msafe_struct *mstruct) {
     sequence = NETSEQ_WORLD;
     MultiAddShort(mstruct->roomnum, data, &count);
     MultiAddShort(mstruct->facenum, data, &count);
-    MultiAddString(GameTextures[mstruct->index].name, data, &count);
+    MultiAddString(std::data(GameTextures[mstruct->index].name), data, &count);
     break;
   case MSAFE_ROOM_WIND:
     sequence = NETSEQ_WORLD;

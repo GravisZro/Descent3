@@ -3663,7 +3663,7 @@ int TCSSCollectInfo(void) {
     if (Ships[i].used && PlayerIsShipAllowed(Player_num, i)) {
 #endif
       for (j = 0; j < MAX_NUM_SHIPS; j++) {
-        if (!stricmp(Ships[i].name, AllowedShips[j])) {
+        if (Ships[i].name == AllowedShips[j]) {
           // found the ship
           SSShips[j].found = true;
           SSShips[j].ship_index = i;
@@ -3804,8 +3804,8 @@ void TCSSSCallback(void) {
   grtext_SetFont(BIG_BRIEFING_FONT);
   grtext_SetColor(GR_WHITE);
 
-  char *name = Ships[SSShips[TCShipSelect.CurrentSelectID].ship_index].name;
-  int line_length = grtext_GetTextLineWidth(name);
+  pagename_t name = Ships[SSShips[TCShipSelect.CurrentSelectID].ship_index].name;
+  int line_length = grtext_GetTextLineWidth(std::data(name));
   int line_height = grfont_GetHeight(BIG_BRIEFING_FONT);
   int bar_width = 177;
   int bar_height = 34;
@@ -3816,7 +3816,7 @@ void TCSSSCallback(void) {
   x = bar_x + ((bar_width / 2) - (line_length / 2));
   y = bar_y + ((bar_height / 2) - (line_height / 2));
 
-  grtext_Printf(x, y, name);
+  grtext_Printf(x, y, std::data(name));
 
   // write ship descriptions
   tShipInfo *si = &TCSSInfo[TCShipSelect.CurrentSelectID];

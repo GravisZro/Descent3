@@ -360,7 +360,7 @@ int CHogEditDoc::LoadHog(const char *pathname)
 			return FALSE;
 		}
 		strcpy(lib_entry.path, "N/A");
-		strcpy(lib_entry.name, file_entry.name);
+		lib_entry.name = file_entry.name;
 		lib_entry.length=file_entry.len;
 		lib_entry.timestamp=file_entry.timestamp;
 		lib_entry.flags=file_entry.flags;

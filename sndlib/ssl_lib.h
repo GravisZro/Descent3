@@ -309,7 +309,7 @@ struct play_information {
 };
 
 struct sound_file_info {
-  char name[PAGENAME_LEN];
+  pagename_t name;
   char used;
   int use_count; // how many buffers does this sound take up.
 
@@ -322,7 +322,7 @@ struct sound_file_info {
 };
 
 struct sound_info {
-  char name[PAGENAME_LEN];
+  pagename_t name;
   char used;
 
   int sample_index;

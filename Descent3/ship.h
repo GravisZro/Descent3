@@ -143,7 +143,7 @@
 #define SF_DEFAULT_ALLOW 1 // Allowed by default
 
 struct ship {
-  char name[PAGENAME_LEN];
+  pagename_t name;
   float size;
   physics_info phys_info; // the physics data for this obj type.
   int model_handle;       //  a polygon model
@@ -164,8 +164,8 @@ struct ship {
 
   int spew_powerup[MAX_PLAYER_WEAPONS]; // which powerup to spew for each weapon
 
-  char cockpit_name[PAGENAME_LEN];    // name of cockpit.inf file
-  char hud_config_name[PAGENAME_LEN]; // name of hud configuration file
+  pagename_t cockpit_name;    // name of cockpit.inf file
+  pagename_t hud_config_name; // name of hud configuration file
 
   float armor_scalar;
 
@@ -176,7 +176,7 @@ struct ship {
 extern int Num_ships;
 extern ship Ships[MAX_SHIPS];
 
-extern const char *AllowedShips[];
+extern std::array<pagename_t, MAX_SHIPS> AllowedShips;
 
 // Sets all ships to unused
 void InitShips();
@@ -195,7 +195,7 @@ int GetPrevShip(int n);
 
 // Searches thru all ships for a specific name, returns -1 if not found
 // or index of ship with name
-int FindShipName(const char *name);
+int FindShipName(const pagename_t& name);
 
 // Given a filename, loads either the model or vclip found in that file.  If type
 // is not NULL, sets it to 1 if file is model, otherwise sets it to zero

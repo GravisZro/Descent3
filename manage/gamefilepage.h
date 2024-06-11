@@ -45,7 +45,7 @@ int mng_ReadNewGamefilePage(CFILE *infile, mngs_gamefile_page *gamefilepage);
 
 // Reads in the gamefilepage named "name" into gamefilepage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificGamefilePage(char *name, mngs_gamefile_page *gamefilepage, int offset = 0);
+int mng_FindSpecificGamefilePage(const pagename_t& name, mngs_gamefile_page *gamefilepage, int offset = 0);
 
 // Given a gamefile page, allocs a gamefile and calls AssignGamefilePageToGamefile to actually
 // load bitmaps and values. Rturns gamefile handle on success, -1 if fail
@@ -69,6 +69,6 @@ void mng_LoadNetGamefilePage(CFILE *, bool overlay = false);
 // First searches through the gamefile index to see if the gamefile is already
 // loaded.  If not, searches in the table file and loads it.
 // Returns index of gamefile if found, -1 if not
-int mng_GetGuaranteedGamefilePage(char *name, CFILE *infile = NULL);
+int mng_GetGuaranteedGamefilePage(const pagename_t& name, CFILE *infile = NULL);
 
 #endif

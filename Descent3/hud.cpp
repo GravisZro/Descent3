@@ -527,7 +527,7 @@ void InitHUD() {
   HUD_resources.dot_bmp = -1;
   HUD_resources.antigrav_bmp[0] = -1;
   HUD_resources.antigrav_bmp[1] = -1;
-  strcpy(HUD_resources.hud_inf_name, "hud.inf");
+  HUD_resources.hud_inf_name = "hud.inf";
 
   strcpy(Reticle_prefix, "ret");
   Ret_x_off = 0;
@@ -1062,7 +1062,7 @@ void InitDefaultHUDItems() {
 }
 
 //	loads in hud configuration file, adds hud items.
-void LoadHUDConfig(const char *filename, bool (*fn)(const char *, const char *, void *), void *ext_data) {
+void LoadHUDConfig(const pagename_t& name, bool (*fn)(const char *, const char *, void *), void *ext_data) {
   CFILE *fp;
   char srcline[128];     // One line of mission source
   bool text_pos = false; // text position defined?
@@ -1072,7 +1072,7 @@ void LoadHUDConfig(const char *filename, bool (*fn)(const char *, const char *, 
   InitDefaultHUDItems();
 
   //	open file
-  fp = cfopen(filename, "rt");
+  fp = cfopen(std::data(name), "rt");
   if (!fp) {
     mprintf(0, "Unable to find hud.inf file.\n");
     return;

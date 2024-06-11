@@ -25,8 +25,8 @@
 #define MAX_GAMEFILES 1500
 
 struct gamefile {
-  char name[PAGENAME_LEN];
-  char dir_name[PAGENAME_LEN];
+  pagename_t name;
+  pagename_t dir_name;
   uint8_t used;
 };
 
@@ -50,6 +50,6 @@ int GetPrevGamefile(int n);
 
 // Searches thru all gamefile for a specific name, returns -1 if not found
 // or index of gamefile with name
-int FindGamefileName(char *name);
+int FindGamefileName(const pagename_t& name);
 
 #endif

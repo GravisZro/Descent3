@@ -2465,7 +2465,7 @@ bool HandleInventoryPowerups(char *pname, msafe_struct *mstruct, uint8_t *pickup
 // Does whatever magic needs to be done to get the default powerups to work
 void msafe_DoPowerup(msafe_struct *mstruct) {
   char pname[255];
-  strcpy(pname, Object_info[MOBJ->id].name);
+  strcpy(pname, std::data(Object_info[MOBJ->id].name));
   ASSERT(MOBJ->type == OBJ_POWERUP);
   ASSERT(IOBJ->type == OBJ_PLAYER);
   uint8_t pickup = 0;

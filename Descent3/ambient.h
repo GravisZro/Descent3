@@ -54,7 +54,7 @@ struct ase {
 
 // An Ambient Sound Element, one part of an Ambient Sound Pattern (ASP)
 struct asp {
-  char name[PAGENAME_LEN];    // the name of this pattern
+  pagename_t name;    // the name of this pattern
   float min_delay, max_delay; // delay time between sounds
   int num_sounds;             // how many sounds in this pattern
   ase *sounds;                // array of sounds
@@ -80,10 +80,10 @@ void InitAmbientSounds();
 
 // Return the index of a named ambient sound pattern
 // Returns number, or -1 if can't find
-int FindAmbientSoundPattern(char *aspname);
+int FindAmbientSoundPattern(const pagename_t& aspname);
 
 // Returns a pointer to the name of the specified ambient sound pattern
-char *AmbientSoundPatternName(int n);
+const pagename_t& AmbientSoundPatternName(int n);
 
 // Reads data from the ambient sound data file
 void ReadAmbientData();

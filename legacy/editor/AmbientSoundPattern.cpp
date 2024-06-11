@@ -153,11 +153,11 @@ void CAmbientSoundPattern::UpdateDialog()
 
 void CAmbientSoundPattern::OnSelendokASPList() 
 {
-	char name[200];
+        pagename_t name;
 
 	CComboBox *asplist = (CComboBox *) GetDlgItem(IDC_ASP_LIST);
 
-	asplist->GetLBText(asplist->GetCurSel(), name);
+        asplist->GetLBText(asplist->GetCurSel(), std::data(name));
 	m_current_asp = FindAmbientSoundPattern(name);
 
 	if (Ambient_sound_patterns[m_current_asp].num_sounds)
@@ -186,7 +186,8 @@ void CAmbientSoundPattern::OnSelchangeASPElementList()
 
 void CAmbientSoundPattern::OnASPDelete() 
 {
-	if (OutrageMessageBox(MBOX_YESNO,"Do you really want to delete the ambient sound pattern '%s'?",AmbientSoundPatternName(m_current_asp)) == IDYES) {
+        if (OutrageMessageBox(MBOX_YESNO,"Do you really want to delete the ambient sound pattern '%s'?",
+                        std::data(AmbientSoundPatternName(m_current_asp))) == IDYES) {
 		asp *asp = &Ambient_sound_patterns[m_current_asp];
 
 		asp->name[0] = 0;			//null string for name

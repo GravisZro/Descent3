@@ -327,7 +327,6 @@ uint8_t Bitmaps_initted = 0;
 /* modify these lines to establish data type */
 typedef bms_bitmap *bm_T;      /* type of item to be stored */
 typedef int bm_hashTableIndex; /* index into hash table */
-#define compEQ(a, b) (stricmp((a)->name, (b)->name) == 0)
 struct bm_Node {
   struct bm_Node *next; /* next bm_Node */
   bm_T data;             /* data stored in bm_Node */
@@ -373,7 +372,7 @@ bm_hashTableIndex bm_hash(bm_T data) {
   /***********************************
    *  hash function applied to data  *
    ***********************************/
-  char *p = data->name;
+  char *p = std::data(data->name);
   uint32_t hval = strlen(p);
 
   while (*p) {
@@ -410,7 +409,7 @@ void bm_deleteNode(bm_T data) {
   p0 = 0;
   bucket = bm_hash(data);
   p = bm_hashTable[bucket];
-  while (p && !compEQ(p->data, data)) {
+  while (p && p->data->name != data->name) {
     p0 = p;
     p = p->next;
   }
@@ -433,7 +432,7 @@ bm_Node *bm_findNode(bm_T data) {
    *  find bm_Node containing data  *
    *******************************/
   p = bm_hashTable[bm_hash(data)];
-  while (p && !compEQ(p->data, data))
+  while (p && p->data->name != data->name)
     p = p->next;
   return p;
 }
@@ -575,11 +574,11 @@ int bm_AllocNoMemBitmap(int w, int h) {
 }
 // Searches thru all bitmaps for a specific name, returns -1 if not found
 // or index of bitmap with name
-int bm_FindBitmapName(const char *name) {
+int bm_FindBitmapName(const pagename_t& name) {
   int num_counted = 0;
 
   bms_bitmap fbmp;
-  strcpy(fbmp.name, name);
+  fbmp.name = name;
   bm_Node *fnode = bm_findNode(&fbmp);
   if (fnode) {
     // mprintf(0,"Hash table found bitmap %d\n",fnode->data - GameBitmaps);
@@ -646,7 +645,8 @@ int bm_TestName(const char *src) {
 
   // Now, make sure there are no other bitmaps with this name
   strcat(namedest, ".ogf");
-  if ((i = bm_FindBitmapName(namedest)) == -1)
+  pagename_t namefinal(namedest);
+  if ((i = bm_FindBitmapName(namefinal)) == -1)
     return -1;
   return i;
 }
@@ -669,7 +669,8 @@ Start:
     strcpy(namedest, filename);
   // Now, make sure there are no other bitmaps with this name
   strcat(namedest, ".ogf");
-  if ((i = bm_FindBitmapName(namedest)) != -1) {
+  pagename_t namefinal(namedest);
+  if ((i = bm_FindBitmapName(namefinal)) != -1) {
     curnum++;
     // This name is already taken.  Try same name with different number
     // appended
@@ -707,7 +708,7 @@ int bm_AllocLoadFileBitmap(const char *fname, int mipped, int format) {
     return -1;
   }
 
-  char name[BITMAP_NAME_LEN];
+  pagename_t name;
   int n, src_bm = 0;
   int old_used;
   int overlay = 0;
@@ -745,11 +746,11 @@ int bm_AllocLoadFileBitmap(const char *fname, int mipped, int format) {
     overlay = 1;
   }
   if (!overlay)
-    bm_ChangeEndName(filename, name);
+    bm_ChangeEndName(filename, std::data(name));
   else {
-    strcpy(name, GameBitmaps[n].name);
+    name = GameBitmaps[n].name;
   }
-  if (strlen(name) > 33) {
+  if (name.size() > 33) {
     mprintf(0, "ERROR!! This bitmaps name is too long, try shortening it and retry!\n");
     return -1;
   }
@@ -854,7 +855,7 @@ int bm_AllocLoadFileBitmap(const char *fname, int mipped, int format) {
     }
   }
 
-  strcpy(GameBitmaps[n].name, name);
+  GameBitmaps[n].name = name;
 
   // Insert into the hash table!
   bm_insertNode(&GameBitmaps[n]);
@@ -870,7 +871,7 @@ int bm_AllocLoadFileNoMemBitmap(const char *fname, int mipped, int format) {
     return -1;
   }
 
-  char name[BITMAP_NAME_LEN];
+  pagename_t name;
   int n;
   char *filename = (char *)fname;
 
@@ -901,13 +902,13 @@ int bm_AllocLoadFileNoMemBitmap(const char *fname, int mipped, int format) {
     return n;
   }
 
-  bm_ChangeEndName(filename, name);
-  if (strlen(name) > 33) {
+  bm_ChangeEndName(filename, std::data(name));
+  if (name.size() > 33) {
     mprintf(0, "ERROR!! This bitmaps name is too long, try shortening it and retry!\n");
     return -1;
   }
   n = bm_AllocNoMemBitmap(1, 1);
-  strcpy(GameBitmaps[n].name, name);
+  GameBitmaps[n].name = name;
   if (mipped)
     GameBitmaps[n].flags |= BF_WANTS_MIP;
   if (format == BITMAP_FORMAT_4444)
@@ -920,7 +921,7 @@ int bm_AllocLoadFileNoMemBitmap(const char *fname, int mipped, int format) {
 // Returns -1 if something is wrong
 // If mipped is non-zero, allocs extra space for mips and computes them
 int bm_AllocLoadBitmap(CFILE *infile, int mipped, int format) {
-  char name[BITMAP_NAME_LEN];
+  pagename_t name;
   int n, src_bm;
   if (!Bitmaps_initted) {
     Int3();
@@ -972,7 +973,7 @@ int bm_AllocLoadBitmap(CFILE *infile, int mipped, int format) {
       bm_FreeBitmap(src_bm);
     }
   }
-  strcpy(GameBitmaps[n].name, name);
+  GameBitmaps[n].name = name;
   return n; // We made it!
 }
 // Given a handle, makes a big random shape to let you know you are screwed.
@@ -1021,7 +1022,7 @@ int bm_SaveBitmap(CFILE *fp, int handle) {
   cf_WriteByte(fp, dumbbyte);
   cf_WriteByte(fp, dumbbyte);
   cf_WriteByte(fp, image_type);
-  cf_WriteString(fp, GameBitmaps[handle].name);
+  cf_WriteString(fp, std::data(GameBitmaps[handle].name));
 
   if ((bm_mipped(handle)))
     num_mips = bm_miplevels(handle);

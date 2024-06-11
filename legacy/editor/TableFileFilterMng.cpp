@@ -405,7 +405,7 @@ UpdateControls:
 
 
 // Creates a new node and adds it to the list (if not already in it)
-bool PageDataList::AddToList(char *page_name, uint8_t page_type, int page_flags) 
+bool PageDataList::AddToList(const pagename_t& page_name, uint8_t page_type, int page_flags)
 {
 	PageDataNode *new_node, *found_node;
 	CWaitCursor wc;
@@ -451,7 +451,7 @@ bool PageDataList::AddToList(char *page_name, uint8_t page_type, int page_flags)
 
 
 // Searches for and removes matching node from the list 
-bool PageDataList::RemoveFromList(char *page_name, uint8_t page_type) 
+bool PageDataList::RemoveFromList(const pagename_t& page_name, uint8_t page_type)
 {
 	int index;
 	LVFINDINFO find_info;
@@ -666,7 +666,7 @@ bool PageDataList::SaveList(char *list_filename)
 
 // Scans the list for a certain page, and returns a pointer to the
 // matching data node (or NULL if not found)
-PageDataNode *PageDataList::FindNode(char *page_name, uint8_t page_type)
+PageDataNode *PageDataList::FindNode(const pagename_t& page_name, uint8_t page_type)
 {
 	PageDataNode *node, *found_node;
 
@@ -820,7 +820,7 @@ bool PageDataList::ProcessPagesForLevel(char *level_filename, int process_type)
 
 
 // Either adds the given level page to the list, or removes it
-bool PageDataList::ProcessPage(char *page_name, uint8_t page_type, int process_type, int flags)
+bool PageDataList::ProcessPage(const pagename_t& page_name, uint8_t page_type, int process_type, int flags)
 {
 	CWaitCursor wc;
 
@@ -1169,7 +1169,8 @@ void PageDataList::AddGenericPage (int id,int process_type)
 	}
 }
 
-extern const char *Static_sound_names[];
+extern std::array<pagename_t, NUM_STATIC_SOUNDS> Static_sound_names;
+
 bool PageDataList::DetermineRequiredPages(int process_type)
 {
 	CWaitCursor wc;
@@ -1387,7 +1388,7 @@ bool PageDataList::DetermineRequiredPages(int process_type)
 	// Get static fireballs
 	for (i=0;i<NUM_FIREBALLS;i++)
 	{
-		char name[PAGENAME_LEN];
+		pagename_t name;
 		strcpy (name,Fireballs[i].name);
 
 		name[strlen(name)-4]=0;
@@ -1863,7 +1864,7 @@ void PageDataList::SetTitleString(void)
 
 
 // Adds a page specified by the "Add Page" button
-bool PageDataList::AddPageFromUser(char *page_name, uint8_t page_type)
+bool PageDataList::AddPageFromUser(const pagename_t& page_name, uint8_t page_type)
 {
 	int id;
 	switch(page_type) {
@@ -1945,7 +1946,7 @@ uint8_t PageDataList::GetPageTypeFromString(char *text)
 
 
 // Processes a page read in from text file
-bool PageDataList::ProcessPageFromFile(char *page_name, uint8_t page_type, int process_type)
+bool PageDataList::ProcessPageFromFile(const pagename_t& page_name, uint8_t page_type, int process_type)
 {
 	char ext[12];
 	int id;

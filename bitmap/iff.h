@@ -20,6 +20,7 @@
 #define _IFF_H
 
 #include "cfile.h"
+#include "manage_external.h"
 
 // Error codes for read & write routines
 
@@ -45,7 +46,7 @@
 int bm_iff_alloc_file(CFILE *);
 
 // Loads a tga or ogf file into a bitmap...returns handle to bm or -1 on error
-int bm_tga_alloc_file(CFILE *infile, char *name, int format = 0);
+int bm_tga_alloc_file(CFILE *infile, pagename_t& name, int format = 0);
 
 // Loads a pcx file and converts it to 16 bit.  Returns bitmap handle or -1 on error
 int bm_pcx_alloc_file(CFILE *infile);

@@ -38,7 +38,7 @@ int GetPrevSoundFile(int n);
 
 // Searches thru all sounds for a specific name, returns -1 if not found
 // or index of sound with name
-int FindSoundFileName(const char *name);
+int FindSoundFileName(const pagename_t& name);
 
 // Given a filename, loads the sound file.
 int LoadSoundFile(const char *filename, float import_volume, bool f_get_data = false);
@@ -60,10 +60,10 @@ int GetPrevSound(int n);
 
 // Searches thru all sounds for a specific name, returns -1 if not found
 // or index of sound with name
-int FindSoundName(const char *name);
+int FindSoundName(const pagename_t& name);
 
 // Given a filename, loads the sound.
-int LoadSound(const char *filename);
+int LoadSound(const pagename_t& name);
 
 // This is a very confusing function.  It takes all the sounds that we have loaded
 // and remaps then into their proper places (if they are static).

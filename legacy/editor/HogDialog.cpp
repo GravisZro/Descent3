@@ -135,7 +135,7 @@ hog_library *open_hogfile(char *hogname)
 			entry.path[strlen(entry.path)-1] = 0;	// get rid of newline, if there
 
 	// create library entry from index entry.
-		strcpy(entry.name, index[i].name);
+                entry.name = index[i].name;
 		entry.length = index[i].len;
 		entry.offset = offset;
 	#if LIB_HAS_DATE

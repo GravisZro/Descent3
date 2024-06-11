@@ -19,6 +19,9 @@
 #ifndef PSBITMAP_H
 #define PSBITMAP_H
 
+#include <array>
+
+#include "manage_external.h"
 #include "pstypes.h"
 #include "cfile.h"
 
@@ -65,7 +68,7 @@ struct bms_bitmap {
   uint8_t flags;
 
   uint8_t format;               // See bitmap format types above
-  char name[BITMAP_NAME_LEN]; // Whats the name of this bitmap? (ie SteelWall)
+  pagename_t name; // Whats the name of this bitmap? (ie SteelWall)
 };
 
 struct chunked_bitmap {
@@ -101,7 +104,7 @@ int bm_AllocLoadBitmap(CFILE *infile, int mipped, int format = BITMAP_FORMAT_155
 void bm_MakeBad(int handle);
 // Searches thru all bitmaps for a specific name, returns -1 if not found
 // or index of bitmap with name
-int bm_FindBitmapName(const char *name);
+int bm_FindBitmapName(const pagename_t& name);
 // Saves a bitmap as an OUTRAGE_TGA_TYPE to an open file
 // Returns -1 if something is wrong.
 int bm_SaveBitmap(CFILE *fp, int handle);

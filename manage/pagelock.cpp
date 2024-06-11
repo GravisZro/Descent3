@@ -211,8 +211,8 @@ void mng_InitPagelocks() {
       return;
     }
     testlock.pagetype = PAGETYPE_UNKNOWN;
-    strcpy(testlock.name, "DUMMY PAGE");
-    strcpy(testlock.holder, "NOT HELD AT ALL");
+    strcpy(std::data(testlock.name), "DUMMY PAGE");
+    strcpy(std::data(testlock.holder), "NOT HELD AT ALL");
     mng_WritePagelock(outfile, &testlock);
 
     cfclose(outfile);
@@ -378,19 +378,19 @@ int mng_CheckIfPageLocked(mngs_Pagelock *pl) {
       done = 1;
       r = 2;
     } else {
-      if (!stricmp(pl->name, testlock.name)) {
+      if (!stricmp(std::data(pl->name), std::data(testlock.name))) {
         int test = 0;
         if (pl->pagetype == testlock.pagetype) {
-          if (!stricmp(testlock.holder, "UNLOCKED"))
+          if (!stricmp(std::data(testlock.holder), "UNLOCKED"))
             r = 0;
           else {
-            snprintf(InfoString, sizeof(InfoString), "User %s already has this page locked.", testlock.holder);
-            if (!stricmp(testlock.holder, TableUser))
+            snprintf(InfoString, sizeof(InfoString), "User %s already has this page locked.", std::data(testlock.holder));
+            if (!stricmp(std::data(testlock.holder), TableUser))
               r = 0;
             else
               r = 1;
           }
-          strcpy(pl->holder, testlock.holder);
+          pl->holder = testlock.holder;
           done = 1;
         }
       }
@@ -423,8 +423,8 @@ int mng_CheckIfPageOwned(mngs_Pagelock *pl, char *owner) {
       done = 1;
       r = 2;
     } else {
-      if (!stricmp(pl->name, testlock.name) && pl->pagetype == testlock.pagetype) {
-        if (!stricmp(testlock.holder, owner))
+      if (pl->name == testlock.name && pl->pagetype == testlock.pagetype) {
+        if (testlock.holder == owner)
           r = 1;
         else {
           snprintf(InfoString, sizeof(InfoString), "User %s does not have this page locked.", owner);
@@ -477,7 +477,7 @@ int mng_ReadPagelock(CFILE *fp, mngs_Pagelock *pl) {
   return 1;
 }
 
-int mng_ReplacePagelock(char *name, mngs_Pagelock *pl) {
+bool mng_ReplacePagelock(const pagename_t& name, mngs_Pagelock *pl) {
   // Given a pagelock, replaces the one already inside the lock file, or if not present, adds it to
   // the lock file.  Returns 0 on error, or 1 if successful.
 
@@ -491,19 +491,19 @@ int mng_ReplacePagelock(char *name, mngs_Pagelock *pl) {
   if (!infile) {
     strcpy(ErrorString, "Couldn't open Table lock file!");
     Int3(); // Get Jason
-    return 0;
+    return false;
   }
   outfile = (CFILE *)cfopen(TempTableLockFilename, "wb");
   if (!outfile) {
     cfclose(infile);
     strcpy(ErrorString, "Couldn't open temporary table lock file!");
     Int3(); // Get Jason
-    return 0;
+    return false;
   }
 
   while (!done) {
     if (mng_ReadPagelock(infile, &temp_pl)) {
-      if (!stricmp(temp_pl.name, name) && pl->pagetype == temp_pl.pagetype) {
+      if (temp_pl.name == name && pl->pagetype == temp_pl.pagetype) {
         // This is the page we want to replace, so write the new one out.
         mng_WritePagelock(outfile, pl);
         replaced = 1;
@@ -526,7 +526,7 @@ int mng_ReplacePagelock(char *name, mngs_Pagelock *pl) {
 
   if (!SwitcherooFiles(TableLockFilename, TempTableLockFilename)) {
     Int3();
-    return 0;
+    return false;
   }
 
 // Log this change
@@ -540,18 +540,18 @@ int mng_ReplacePagelock(char *name, mngs_Pagelock *pl) {
     time_t t;
     t = time(NULL);
     strftime(date, 254, "[%a %m/%d/%y %H:%M:%S]", localtime(&t));
-    snprintf(str, sizeof(str), "%s Page %s (%s) last touched by %s\n", date, name, PageNames[pl->pagetype], TableUser);
+    snprintf(str, sizeof(str), "%s Page %s (%s) last touched by %s\n", date, std::data(name), PageNames[pl->pagetype], TableUser);
     fwrite(str, 1, strlen(str), logfile);
     fflush(logfile);
     fclose(logfile);
   }
 #endif
 
-  return 1; // successful!
+  return true; // successful!
 }
 
 // Given a name and a pagetype, deletes the one already inside the lock file
-int mng_DeletePagelock(char *name, int pagetype) {
+int mng_DeletePagelock(const pagename_t& name, int pagetype) {
   CFILE *infile, *outfile;
   int done = 0, deleted = 0;
   mngs_Pagelock temp_pl;
@@ -572,7 +572,7 @@ int mng_DeletePagelock(char *name, int pagetype) {
 
   while (!done) {
     if (mng_ReadPagelock(infile, &temp_pl)) {
-      if (!stricmp(temp_pl.name, name) && pagetype == temp_pl.pagetype)
+      if (temp_pl.name == name && pagetype == temp_pl.pagetype)
         deleted = 1;
       else
         mng_WritePagelock(outfile, &temp_pl);
@@ -600,7 +600,7 @@ int mng_DeletePagelock(char *name, int pagetype) {
 }
 
 // Given a list of names and a pagetype, deletes the ones already inside the lock file
-int mng_DeletePagelockSeries(char *names[], int num, int pagetype) {
+int mng_DeletePagelockSeries(const pagename_t names[], int num, int pagetype) {
   CFILE *infile, *outfile;
   int done = 0, deleted = 0;
   mngs_Pagelock temp_pl;
@@ -623,7 +623,7 @@ int mng_DeletePagelockSeries(char *names[], int num, int pagetype) {
         int found = -1;
 
         for (int i = 0; i < num && found == -1; i++) {
-          if (!stricmp(names[i], temp_pl.name)) {
+          if (names[i] == temp_pl.name) {
             found = i;
           }
         }
@@ -681,7 +681,8 @@ int mng_DeleteDuplicatePagelocks() {
     if (mng_ReadPagelock(infile, &temp_pl)) {
       int found = -1;
       for (i = 0; i < num; i++) {
-        if (temp_pl.pagetype == already_read[i].pagetype && !stricmp(temp_pl.name, already_read[i].name)) {
+        if (temp_pl.pagetype == already_read[i].pagetype &&
+            temp_pl.name == already_read[i].name) {
           mprintf(0, "Found duplicated %s\n", temp_pl.name);
           found = i;
           duplicates++;
@@ -690,7 +691,7 @@ int mng_DeleteDuplicatePagelocks() {
 
       if (found == -1) {
         // Hurray, a new entry
-        strcpy(already_read[num].name, temp_pl.name);
+        already_read[num].name = temp_pl.name;
         already_read[num].pagetype = temp_pl.pagetype;
         num++;
         ASSERT(num < 8000);
@@ -720,7 +721,7 @@ int mng_DeleteDuplicatePagelocks() {
 }
 
 // Given a list of names and a pagetype, unlocks the ones already inside the lock file
-int mng_UnlockPagelockSeries(const char *names[], int *pagetypes, int num) {
+int mng_UnlockPagelockSeries(const pagename_t names[], int *pagetypes, int num) {
   ASSERT(num < 500);
 
   uint8_t already_done[500];
@@ -747,7 +748,7 @@ int mng_UnlockPagelockSeries(const char *names[], int *pagetypes, int num) {
     if (mng_ReadPagelock(infile, &temp_pl)) {
       int found = -1;
       for (int i = 0; i < num && found == -1; i++) {
-        if (!stricmp(names[i], temp_pl.name)) {
+        if (names[i] == temp_pl.name) {
           found = i;
         }
       }
@@ -760,7 +761,7 @@ int mng_UnlockPagelockSeries(const char *names[], int *pagetypes, int num) {
             mprintf(0, "Found duplicate=%s\n", names[found]);
           } else {
             mprintf(0, "Replacing pagelock %s to UNLOCKED.\n", names[found]);
-            strcpy(temp_pl.holder, "UNLOCKED");
+            temp_pl.holder = "UNLOCKED";
             mng_WritePagelock(outfile, &temp_pl);
             total++;
             already_done[found] = 1;
@@ -806,7 +807,7 @@ void mng_WritePagelock(CFILE *fp, mngs_Pagelock *pl) {
     cf_WriteByte(fp, pl->holder[i]);
 }
 
-int mng_GetListOfLocks(mngs_Pagelock *pl, int max, char *who) {
+int mng_GetListOfLocks(mngs_Pagelock *pl, int max, const char *who) {
   // Given a list of pagelocks, a max number allowed, and a specified user "who", fills in the
   // given pagelocks with all the pages that are locked by "who".
 
@@ -824,8 +825,8 @@ int mng_GetListOfLocks(mngs_Pagelock *pl, int max, char *who) {
     // Read in a page, compare it with the owner we're searching for.  If found, make a copy of it.
 
     if (mng_ReadPagelock(infile, &temp_pl)) {
-      if (((who == NULL) && stricmp(temp_pl.holder, "UNLOCKED")) ||
-          ((who != NULL) && (!stricmp(temp_pl.holder, who)))) {
+      if (((who == NULL) && !(temp_pl.holder == "UNLOCKED")) ||
+          ((who != NULL) && temp_pl.holder == who)) {
         pl[num] = temp_pl;
         num++;
         if (num >= max)
@@ -864,7 +865,7 @@ void mng_OverrideToUnlocked(mngs_Pagelock *temp_pl) {
   if (!mng_MakeLocker())
     return;
 
-  strcpy(temp_pl->holder, "UNLOCKED");
+  temp_pl->holder = "UNLOCKED";
 
   if (answer == IDNO) {
     if (!mng_ReplacePagelock(temp_pl->name, temp_pl))

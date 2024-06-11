@@ -291,12 +291,12 @@ void PageInVClip(int vcnum) {
   if (vc->flags & VCF_WANTS_MIPPED)
     mipped = 1;
 
-  CFILE *infile = (CFILE *)cfopen(vc->name, "rb");
+  CFILE *infile = (CFILE *)cfopen(std::data(vc->name), "rb");
   if (!infile) {
     // due to a bug in some 3rd party tablefile editors, full paths might
     // have been used when they shouldn't have been
-    char *end_ptr, *start_ptr;
-    start_ptr = vc->name;
+    const char *end_ptr, *start_ptr;
+    start_ptr = std::data(vc->name);
     end_ptr = start_ptr + strlen(start_ptr) - 1;
     while ((end_ptr >= start_ptr) && (*end_ptr != '\\'))
       end_ptr--;
@@ -388,7 +388,7 @@ void PageInVClip(int vcnum) {
       GameBitmaps[dest_bm].format = GameBitmaps[n].format;
 
       bm_ScaleBitmapToBitmap(dest_bm, n);
-      strcpy(GameBitmaps[dest_bm].name, GameBitmaps[n].name);
+      GameBitmaps[dest_bm].name = GameBitmaps[n].name;
       bm_FreeBitmap(n);
 
       n = dest_bm;
@@ -406,7 +406,7 @@ void PageInVClip(int vcnum) {
 // Allocs and loads a vclip from the file named "filename"
 // Returns -1 on error, index into GameVClip array on success
 int AllocLoadVClip(const char *filename, int texture_size, int mipped, int pageable, int format) {
-  char name[PAGENAME_LEN];
+  pagename_t name;
   int i;
 
   ASSERT(filename != NULL);
@@ -420,7 +420,7 @@ int AllocLoadVClip(const char *filename, int texture_size, int mipped, int pagea
     Int3(); // Get Jason
             // return AllocLoadIFFAnimClip(filename,);
 
-  ChangeVClipName(filename, name);
+  ChangeVClipName(filename, std::data(name));
 
   // Check to see if this vclip already exists in memory
   if ((i = FindVClipName(IGNORE_TABLE(name))) != -1) {
@@ -433,7 +433,7 @@ int AllocLoadVClip(const char *filename, int texture_size, int mipped, int pagea
   int vcnum = AllocVClip();
 
   ASSERT(vcnum >= 0);
-  strncpy(GameVClips[vcnum].name, name, PAGENAME_LEN);
+  GameVClips[vcnum].name = name;
 
   if (mipped)
     GameVClips[vcnum].flags |= VCF_WANTS_MIPPED;
@@ -459,12 +459,12 @@ int AllocLoadVClip(const char *filename, int texture_size, int mipped, int pagea
 // needs to have an 8bit version
 int AllocLoadIFLVClip(const char *filename, int texture_size, int mipped, int format) {
   CFILE *infile;
-  char name[PAGENAME_LEN];
+  pagename_t name;
   uint32_t i, done = 0;
 
   ASSERT(filename != NULL);
 
-  ChangeVClipName(filename, name);
+  ChangeVClipName(filename, std::data(name));
 
   // Check to see if this vclip already exists in memory
   if ((i = FindVClipName(IGNORE_TABLE(name))) != -1) {
@@ -581,7 +581,7 @@ int AllocLoadIFLVClip(const char *filename, int texture_size, int mipped, int fo
         GameBitmaps[dest_bm].format = GameBitmaps[bm].format;
 
         bm_ScaleBitmapToBitmap(dest_bm, bm);
-        strcpy(GameBitmaps[dest_bm].name, GameBitmaps[bm].name);
+        GameBitmaps[dest_bm].name = GameBitmaps[bm].name;
         bm_FreeBitmap(bm);
 
         bm = dest_bm;
@@ -600,7 +600,7 @@ int AllocLoadIFLVClip(const char *filename, int texture_size, int mipped, int fo
     return -1;
   }
 
-  strcpy(vc->name, name);
+  vc->name = name;
   return vcnum;
 }
 
@@ -620,11 +620,11 @@ void ChangeVClipName(const char *src, char *dest) {
 }
 // Searches thru all vclips for a specific name, returns -1 if not found
 // or index of vclip with name
-int FindVClipName(const char *name) {
+int FindVClipName(const pagename_t& name) {
   int i;
 
   for (i = 0; i < MAX_VCLIPS; i++)
-    if (GameVClips[i].used && !stricmp(GameVClips[i].name, name))
+    if (GameVClips[i].used && GameVClips[i].name == name)
       return i;
 
   return -1;

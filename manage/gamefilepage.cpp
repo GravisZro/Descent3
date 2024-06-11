@@ -46,12 +46,12 @@ void mng_WriteGamefilePage(CFILE *outfile, mngs_gamefile_page *gamefilepage) {
   cf_WriteByte(outfile, PAGETYPE_GAMEFILE);
 
   cf_WriteByte(outfile, GAMEFILEPAGE_COMMAND_NAME); // write out gamefile name
-  cf_WriteByte(outfile, strlen(gamefilepage->gamefile_struct.name) + 1);
-  cf_WriteString(outfile, gamefilepage->gamefile_struct.name);
+  cf_WriteByte(outfile, gamefilepage->gamefile_struct.name.size() + 1);
+  cf_WriteString(outfile, std::data(gamefilepage->gamefile_struct.name));
 
   cf_WriteByte(outfile, GAMEFILEPAGE_COMMAND_DIR_NAME); // write out gamefile name
-  cf_WriteByte(outfile, strlen(gamefilepage->gamefile_struct.dir_name) + 1);
-  cf_WriteString(outfile, gamefilepage->gamefile_struct.dir_name);
+  cf_WriteByte(outfile, gamefilepage->gamefile_struct.dir_name.size() + 1);
+  cf_WriteString(outfile, std::data(gamefilepage->gamefile_struct.dir_name));
 
   cf_WriteByte(outfile, GAMEFILEPAGE_COMMAND_END); // we're all done
   cf_WriteByte(outfile, 0);
@@ -65,8 +65,8 @@ void mng_WriteNewGamefilePage(CFILE *outfile, mngs_gamefile_page *gamefilepage) 
 
   cf_WriteShort(outfile, GAMEFILE_VERSION);
 
-  cf_WriteString(outfile, gamefilepage->gamefile_struct.name);
-  cf_WriteString(outfile, gamefilepage->gamefile_struct.dir_name);
+  cf_WriteString(outfile, std::data(gamefilepage->gamefile_struct.name));
+  cf_WriteString(outfile, std::data(gamefilepage->gamefile_struct.dir_name));
 
   EndManagePage(outfile, offset);
 }
@@ -78,8 +78,10 @@ int mng_ReadNewGamefilePage(CFILE *infile, mngs_gamefile_page *gamefilepage) {
 
   int version = cf_ReadShort(infile);
 
-  cf_ReadString(gamefilepage->gamefile_struct.name, PAGENAME_LEN, infile);
-  cf_ReadString(gamefilepage->gamefile_struct.dir_name, PAGENAME_LEN, infile);
+  cf_ReadString(std::data(gamefilepage->gamefile_struct.name),
+                sizeof(gamefilepage->gamefile_struct.name), infile);
+  cf_ReadString(std::data(gamefilepage->gamefile_struct.dir_name),
+                sizeof(gamefilepage->gamefile_struct.dir_name), infile);
 
   // This is a valid new page
   gamefilepage->gamefile_struct.used = 1;
@@ -111,10 +113,10 @@ int mng_ReadGamefilePage(CFILE *infile, mngs_gamefile_page *gamefilepage) {
       done = 1;
       break;
     case GAMEFILEPAGE_COMMAND_NAME: // the name of the gamefile model
-      cf_ReadString(gamefilepage->gamefile_struct.name, len + 1, infile);
+      cf_ReadString(std::data(gamefilepage->gamefile_struct.name), len + 1, infile);
       break;
     case GAMEFILEPAGE_COMMAND_DIR_NAME:
-      cf_ReadString(gamefilepage->gamefile_struct.dir_name, len + 1, infile);
+      cf_ReadString(std::data(gamefilepage->gamefile_struct.dir_name), len + 1, infile);
       break;
     default:
       // Ignore the ones we don't know
@@ -132,7 +134,7 @@ int mng_ReadGamefilePage(CFILE *infile, mngs_gamefile_page *gamefilepage) {
 
 // Reads in the gamefile named "name" into gamefilepage struct
 // Returns 0 on error or couldn't find, else 1 if all is good
-int mng_FindSpecificGamefilePage(char *name, mngs_gamefile_page *gamefilepage, int offset) {
+int mng_FindSpecificGamefilePage(const pagename_t& name, mngs_gamefile_page *gamefilepage, int offset) {
   CFILE *infile;
   uint8_t pagetype;
   int done = 0, found = 0;
@@ -183,7 +185,7 @@ int mng_FindSpecificGamefilePage(char *name, mngs_gamefile_page *gamefilepage, i
 
     mng_ReadNewGamefilePage(infile, gamefilepage);
 
-    if (!stricmp(name, gamefilepage->gamefile_struct.name)) {
+    if (name == gamefilepage->gamefile_struct.name) {
       // This is the page we want
       found = 1;
       done = 1;
@@ -217,8 +219,8 @@ int mng_AssignGamefilePageToGamefile(mngs_gamefile_page *gamefilepage, int n) {
 
   // copy our values
   memcpy(gamefilepointer, &gamefilepage->gamefile_struct, sizeof(gamefile));
-  strcpy(gamefilepointer->name, gamefilepage->gamefile_struct.name);
-  strcpy(gamefilepointer->dir_name, gamefilepage->gamefile_struct.dir_name);
+  gamefilepointer->name = gamefilepage->gamefile_struct.name;
+  gamefilepointer->dir_name = gamefilepage->gamefile_struct.dir_name;
 
   // First see if our image differs from the one on the net
   // If it is, make a copy
@@ -229,17 +231,17 @@ int mng_AssignGamefilePageToGamefile(mngs_gamefile_page *gamefilepage, int n) {
     char str[200];
     char netstr[200];
 
-    ddio_MakePath(str, LocalD3Dir, "data", gamefilepointer->dir_name, gamefilepointer->name, NULL);
-    ddio_MakePath(netstr, NetD3Dir, "data", gamefilepointer->dir_name, gamefilepointer->name, NULL);
+    ddio_MakePath(str, LocalD3Dir, "data", std::data(gamefilepointer->dir_name), std::data(gamefilepointer->name), NULL);
+    ddio_MakePath(netstr, NetD3Dir, "data", std::data(gamefilepointer->dir_name), std::data(gamefilepointer->name), NULL);
 
-    UpdatePrimitive(str, netstr, gamefilepointer->name, PAGETYPE_GAMEFILE, gamefilepointer->name);
+    UpdatePrimitive(str, netstr, std::data(gamefilepointer->name), PAGETYPE_GAMEFILE, std::data(gamefilepointer->name));
 
     if (!Starting_editor) {
       if (cf_Diff(str, netstr)) {
         ASSERT(1); // Get Jason Immediately...versions between local and net don't match!
 
         // Do it again so we can trace to see what is wrong
-        UpdatePrimitive(str, netstr, gamefilepointer->name, PAGETYPE_GAMEFILE, gamefilepointer->name);
+        UpdatePrimitive(str, netstr, std::data(gamefilepointer->name), PAGETYPE_GAMEFILE, std::data(gamefilepointer->name));
       }
     }
   }
@@ -255,8 +257,8 @@ void mng_AssignGamefileToGamefilePage(int n, mngs_gamefile_page *gamefilepage) {
   // Assign the  values
   memcpy(&gamefilepage->gamefile_struct, gamefilepointer, sizeof(gamefile));
 
-  strcpy(gamefilepage->gamefile_struct.name, gamefilepointer->name);
-  strcpy(gamefilepage->gamefile_struct.dir_name, gamefilepointer->dir_name);
+  gamefilepage->gamefile_struct.name = gamefilepointer->name;
+  gamefilepage->gamefile_struct.dir_name = gamefilepointer->dir_name;
 }
 
 // Loads a gamefile found in the net table file.  It then allocs a gamefile and
@@ -299,7 +301,7 @@ void mng_LoadLocalGamefilePage(CFILE *infile) {
       // Make sure we really have this page checked out
       mngs_Pagelock pl;
 
-      strcpy(pl.name, gamefilepage.gamefile_struct.name);
+      pl.name = gamefilepage.gamefile_struct.name;
       pl.pagetype = PAGETYPE_GAMEFILE;
 
       /*if (Network_up && Stand_alone==0)
@@ -322,7 +324,7 @@ void mng_LoadLocalGamefilePage(CFILE *infile) {
         addon = &AddOnDataTables[Loading_addon_table];
         for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
           if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_GAMEFILE &&
-              !stricmp(addon->Addon_tracklocks[tidx].name, gamefilepage.gamefile_struct.name)) {
+              addon->Addon_tracklocks[tidx].name == gamefilepage.gamefile_struct.name) {
             // found it!!
             mprintf(0, "GamefilePage: %s previously loaded\n", gamefilepage.gamefile_struct.name);
             need_to_load_page = false;
@@ -349,7 +351,7 @@ void mng_LoadLocalGamefilePage(CFILE *infile) {
             // look for the page in this table file
             for (tidx = 0; tidx < addon->Num_addon_tracklocks; tidx++) {
               if (addon->Addon_tracklocks[tidx].pagetype == PAGETYPE_GAMEFILE &&
-                  !stricmp(addon->Addon_tracklocks[tidx].name, gamefilepage.gamefile_struct.name)) {
+                  addon->Addon_tracklocks[tidx].name == gamefilepage.gamefile_struct.name) {
                 // found it!!
                 found = true;
                 overlay = addidx + 2;

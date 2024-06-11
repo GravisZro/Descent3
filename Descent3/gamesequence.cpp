@@ -1536,12 +1536,12 @@ void StartLevel() {
   int ship_index;
 
   if (Game_mode & GM_MULTI) {
-    char ship_model[PAGENAME_LEN];
+    pagename_t ship_model;
     Current_pilot.get_ship(ship_model);
     ship_index = FindShipName(ship_model);
     ASSERT(ship_index != -1); // DAJ -1FIX
     if (Netgame.local_role == LR_SERVER) {
-      if (PlayerIsShipAllowed(Player_num, ship_model)) {
+      if (PlayerIsShipAllowed(Player_num, std::data(ship_model))) {
         Players[Player_num].ship_index = FindShipName(ship_model);
         ASSERT(Players[Player_num].ship_index != -1); // DAJ -1FIX
       } else {
@@ -2532,7 +2532,7 @@ void PageInGeneric(int id) {
   }
 }
 
-extern const char *Static_sound_names[];
+extern std::array<pagename_t, NUM_STATIC_SOUNDS> Static_sound_names;
 
 void PageInAllData() {
   int i;
@@ -2569,10 +2569,9 @@ void PageInAllData() {
 
   // Get static fireballs
   for (i = 0; i < NUM_FIREBALLS; i++) {
-    char name[PAGENAME_LEN];
-    strcpy(name, Fireballs[i].name);
+    pagename_t name = Fireballs[i].name;
 
-    name[strlen(name) - 4] = 0;
+    name[name.size() - 4] = 0;
     int id = FindTextureName(name);
     if (id != -1)
       PageInLevelTexture(id);

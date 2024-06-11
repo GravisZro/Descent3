@@ -871,7 +871,7 @@ int MainMenu() {
       mprintf(0, "Making all ships available\n");
       for (int i = 0; i < MAX_SHIPS; i++) {
         if (Ships[i].used)
-          PlayerSetShipPermission(-1, Ships[i].name, true);
+          PlayerSetShipPermission(-1, std::data(Ships[i].name), true);
       }
       if (MainMultiplayerMenu()) {
         exit_menu = 1;

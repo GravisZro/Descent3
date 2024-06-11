@@ -3563,8 +3563,8 @@ void DMFCBase::EnableOnScreenMenuBackground(bool enable) {
 //	Displays information about the Netgame that is currently being played
 //	on to the screen.
 void DMFCBase::DisplayNetGameInfo(int background_bmp, bool dedicated_server) {
-  // char server_config_name[PAGENAME_LEN];
-  // char connection_name[PAGENAME_LEN];
+  // pagename_t server_config_name;
+  // pagename_t connection_name;
   DLLgrtext_SetFont(Game_fonts[HUD_FONT_INDEX]);
 
   int height = DLLgrfont_GetHeight(Game_fonts[HUD_FONT_INDEX]) + 1;

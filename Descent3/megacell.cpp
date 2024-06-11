@@ -131,13 +131,13 @@ int GetPrevMegacell(int n) {
 }
 // Searches thru all megacells for a specific name, returns -1 if not found
 // or index of megacell with name
-int FindMegacellName(char *name) {
+int FindMegacellName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_MEGACELLS; i++)
-    if (Megacells[i].used && !stricmp(name, Megacells[i].name))
+    if (Megacells[i].used && name == Megacells[i].name)
       return i;
 
   return -1;

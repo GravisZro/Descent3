@@ -54,7 +54,11 @@ int Num_object_ids[MAX_OBJECT_TYPES];
 // #ifdef _WIN32
 // char *Static_object_names[]={TBL_GENERIC("GuideBot"),TBL_GENERIC("ChaffChunk"),TBL_GENERIC("GuideBotRed")};
 // #else
-const char *Static_object_names[] = {TBL_GENERIC("GuideBot"), TBL_GENERIC("ChaffChunk"),TBL_GENERIC("GuideBotRed")};
+const pagename_t Static_object_names[] = {
+  TBL_GENERIC("GuideBot"),
+  TBL_GENERIC("ChaffChunk"),
+  TBL_GENERIC("GuideBotRed")
+};
 // #endif
 
 #define NUM_STATIC_OBJECTS (sizeof(Static_object_names) / sizeof(*Static_object_names))
@@ -297,13 +301,13 @@ int GetPrevObjectID(int n) {
 
 // Searches thru all object ids for a specific name
 // Returns the found id, or -1 if not found
-int FindObjectIDName(const char *name) {
+int FindObjectIDName(const pagename_t& name) {
   int i;
 
-  ASSERT(name != NULL);
+  //ASSERT(!name.empty());
 
   for (i = 0; i < MAX_OBJECT_IDS; i++)
-    if ((Object_info[i].type != OBJ_NONE) && !stricmp(name, Object_info[i].name))
+    if ((Object_info[i].type != OBJ_NONE) && name == Object_info[i].name)
       return i;
 
   return -1;

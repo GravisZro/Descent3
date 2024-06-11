@@ -144,7 +144,7 @@ void ambient_life::SaveData(CFILE *fp) {
     int type = m_type[i];
 
     if (type >= 0) {
-      len = strlen(Object_info[type].name) + 1; // Accounts for NULL charactor
+      len = Object_info[type].name.size() + 1; // Accounts for NULL charactor
       cf_WriteShort(fp, len);
       for (j = 0; j < len; j++) {
         cf_WriteByte(fp, Object_info[type].name[j]);
@@ -175,7 +175,7 @@ void ambient_life::LoadData(CFILE *fp) {
   int version = cf_ReadInt(fp);
   int i, j;
   int len;
-  char temp_name[256];
+  pagename_t temp_name;
 
   if (version < 1)
     return;

@@ -181,6 +181,7 @@
 #ifndef __INVENTORY_H__
 #define __INVENTORY_H__
 
+#include "manage_external.h"
 #include "pstypes.h"
 #include "cfile.h"
 
@@ -204,7 +205,7 @@ struct object;
 
 struct tInvenList {
   bool selectable;
-  char *hud_name;
+  pagename_t hud_name;
   int amount;
 };
 
@@ -233,8 +234,8 @@ struct inven_item {
   int count; // how many of this type/id (not INVF_OBJECT)
 
   char *description;
-  char *icon_name;
-  char *name;
+  pagename_t icon_name;
+  pagename_t name;
 
   uint16_t iflags; // Inventory item flags
 
