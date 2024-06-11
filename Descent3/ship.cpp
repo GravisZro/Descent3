@@ -229,7 +229,7 @@ int GetPrevShip(int n) {
 int FindShipName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_SHIPS; i++)
     if (Ships[i].used && name == Ships[i].name)

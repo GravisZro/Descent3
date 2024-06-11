@@ -109,7 +109,7 @@ int GetPrevGamefile(int n) {
 int FindGamefileName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_GAMEFILES; i++)
     if (Gamefiles[i].used && name == Gamefiles[i].name)

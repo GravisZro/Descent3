@@ -134,7 +134,7 @@ int GetPrevMegacell(int n) {
 int FindMegacellName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_MEGACELLS; i++)
     if (Megacells[i].used && name == Megacells[i].name)

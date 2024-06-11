@@ -304,7 +304,7 @@ int GetPrevObjectID(int n) {
 int FindObjectIDName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_OBJECT_IDS; i++)
     if ((Object_info[i].type != OBJ_NONE) && name == Object_info[i].name)

@@ -1775,7 +1775,7 @@ $$TABLE_GAMEFILE "mag_pr5b.ogf"
 //		column 1 = on bitmap (if any).
 //		column 2 = left, center or right aligned bitmap.
 const char *Reticle_image_names[MAX_RETICLE_ELEMS][3] = {
-    {"_pr0a.ogf", "_pr0b.ogf", "c"},
+    {NULL, NULL, "l"},
     {"_pr13a.ogf", "_pr1b.ogf", "l"}, // gp1
     {"_pr24a.ogf", "_pr2b.ogf", "r"}, // gp2
     {"_pr13a.ogf", "_pr3b.ogf", "l"}, // since off version is same as gp1

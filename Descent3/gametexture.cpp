@@ -355,7 +355,7 @@ int AllocTexture(void) {
 int FindTextureName(const pagename_t& name) {
   int i, num_counted = 0;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_TEXTURES && num_counted < Num_textures; i++) {
     if (GameTextures[i].used) {
@@ -373,7 +373,7 @@ int FindTextureName(const pagename_t& name) {
 int FindTextureBitmapName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_TEXTURES; i++) {
     if (GameTextures[i].used) {

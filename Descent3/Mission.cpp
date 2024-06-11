@@ -1663,7 +1663,7 @@ void DoMissionMovie(const char *movie) {
   if (movie && *movie) {
     char mpath[_MAX_PATH];
     ddio_MakePath(mpath, LocalD3Dir, "movies", movie, NULL);
-    PlayMovie(mpath);
+    //PlayMovie(mpath);
   }
   // PlayMovie(movie);
 }

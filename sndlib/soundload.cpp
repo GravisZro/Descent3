@@ -380,7 +380,7 @@ int GetPrevSoundFile(int n) {
 int FindSoundFileName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_SOUND_FILES; i++)
     if (SoundFiles[i].used && SoundFiles[i].name == name)
@@ -558,7 +558,7 @@ int GetPrevSound(int n) {
 int FindSoundName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_SOUNDS; i++)
     if (Sounds[i].used && name == Sounds[i].name)

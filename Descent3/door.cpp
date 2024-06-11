@@ -220,7 +220,7 @@ int GetPrevDoor(int n) {
 int FindDoorName(const pagename_t& name) {
   int i;
 
-  //ASSERT(!name.empty());
+  ASSERT(!name.empty());
 
   for (i = 0; i < MAX_DOORS; i++)
     if (Doors[i].used && name == Doors[i].name)
